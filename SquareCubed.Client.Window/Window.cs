@@ -1,5 +1,7 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace SquareCubed.Client.Window
 {
@@ -10,8 +12,29 @@ namespace SquareCubed.Client.Window
 	public class Window : GameWindow
 	{
 		public Window()
-			: base(800, 600, new GraphicsMode(32, 0, 0, 4))
+			: base(1024, 768, new GraphicsMode(32, 0, 0, 4), "SquareCubed Engine")
 		{
 		}
+
+		#region Event Callbacks
+
+		protected override void OnLoad(EventArgs e)
+		{
+			TargetRenderFrequency = 60;
+			TargetUpdateFrequency = 60;
+			VSync = VSyncMode.Adaptive;
+			WindowBorder = WindowBorder.Fixed;
+
+			base.OnLoad(e);
+		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			GL.Viewport(0, 0, Width, Height);
+
+			base.OnResize(e);
+		}
+
+		#endregion
 	}
 }

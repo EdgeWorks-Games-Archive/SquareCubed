@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK;
 
 namespace SquareCubed.Client
 {
@@ -30,6 +31,10 @@ namespace SquareCubed.Client
 			// If caller doens't provide a window, create our own
 			Window = window ?? new Window.Window();
 			_disposeWindow = disposeWindow;
+
+			// Hook Game Loop Events
+			Window.UpdateFrame += OnUpdateFrame;
+			Window.RenderFrame += OnRenderFrame;
 		}
 
 		public void Dispose()
@@ -52,8 +57,24 @@ namespace SquareCubed.Client
 
 		#endregion
 
+		#region Game Loop
+
+		/// <summary>
+		///     Runs this instance.
+		/// </summary>
 		public void Run()
 		{
+			Window.Run();
 		}
+
+		private void OnUpdateFrame(object sender, FrameEventArgs e)
+		{
+		}
+
+		private void OnRenderFrame(object sender, FrameEventArgs e)
+		{
+		}
+
+		#endregion
 	}
 }
