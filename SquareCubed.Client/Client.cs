@@ -18,6 +18,8 @@ namespace SquareCubed.Client
 
 		#region Initialization and Cleanup
 
+		private bool _disposed;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Client" /> class.
 		/// </summary>
@@ -32,7 +34,20 @@ namespace SquareCubed.Client
 
 		public void Dispose()
 		{
-			if (_disposeWindow) Window.Dispose();
+			Dispose(true);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			// Prevent Double Disposing
+			if (_disposed) return;
+
+			if (disposing)
+			{
+				if (_disposeWindow) Window.Dispose();
+			}
+
+			_disposed = true;
 		}
 
 		#endregion
