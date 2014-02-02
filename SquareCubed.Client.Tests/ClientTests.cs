@@ -3,44 +3,70 @@ using Xunit;
 
 namespace SquareCubed.Client.Tests
 {
-	public class ClientTests
+	public class ClientTestsBase
+	{
+		protected readonly Mock<Graphics.Graphics> GraphicsMock = new Mock<Graphics.Graphics>();
+		protected readonly Mock<Window.Window> WindowMock = new Mock<Window.Window>();
+	}
+
+	public class ClientTests : ClientTestsBase
 	{
 		[Fact]
 		public void InitializesAndDisposes()
 		{
-			// Set Up
-			var window = new Mock<Window.Window>();
 			Client client = null;
-
-			Assert.DoesNotThrow(() => client = new Client(window.Object));
+			Assert.DoesNotThrow(() => client = new Client(WindowMock.Object,
+				graphics: GraphicsMock.Object));
 			Assert.DoesNotThrow(client.Dispose);
+		}
+
+		[Fact]
+		public void CallsGraphicsInCorrectOrder()
+		{
+			var begin = false;
+			var endAfterBegin = false;
+			GraphicsMock.Setup(g => g.BeginRender()).Callback(() => begin = true);
+			GraphicsMock.Setup(g => g.EndRender()).Callback(() => endAfterBegin = begin);
+
+			var client = new Client(WindowMock.Object,
+				graphics: GraphicsMock.Object);
+			client.ForceImmediateRender();
+
+			Assert.True(begin, "Client did not call Begin Render.");
+			Assert.True(endAfterBegin, "Client did not call Begin and End Render in the correct order.");
 		}
 	}
 
-	public class ClientDisposeTests
+	public class ClientDisposeTests : ClientTestsBase
 	{
-		private readonly Mock<Window.Window> _windowMock = new Mock<Window.Window>();
-		private bool _disposed;
+		private bool _graphicsDisposed;
+		private bool _windowDisposed;
 
 		public ClientDisposeTests()
 		{
-			_windowMock.Setup(w => w.Dispose()).Callback(() => _disposed = true);
+			WindowMock.Setup(w => w.Dispose()).Callback(() => _windowDisposed = true);
+			GraphicsMock.Setup(g => g.Dispose()).Callback(() => _graphicsDisposed = true);
 		}
 
 		[Fact]
-		public void GameWindowDisposes()
+		public void ModulesDispose()
 		{
-			var client = new Client(_windowMock.Object);
+			var client = new Client(WindowMock.Object,
+				graphics: GraphicsMock.Object);
 			client.Dispose();
-			Assert.True(_disposed, "GameWindow was not disposed.");
+
+			Assert.True(_windowDisposed, "Window was not disposed.");
+			Assert.True(_graphicsDisposed, "Graphics was not disposed.");
 		}
 
 		[Fact]
-		public void GameWindowDoesntDispose()
+		public void ModulesDoNotDispose()
 		{
-			var client = new Client(_windowMock.Object, false);
+			var client = new Client(WindowMock.Object, false, GraphicsMock.Object, false);
 			client.Dispose();
-			Assert.False(_disposed, "GameWindow was disposed.");
+
+			Assert.False(_windowDisposed, "Window was disposed.");
+			Assert.False(_graphicsDisposed, "Graphics was disposed.");
 		}
 	}
 }

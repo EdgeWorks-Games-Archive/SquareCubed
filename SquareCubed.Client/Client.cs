@@ -8,9 +8,11 @@ namespace SquareCubed.Client
 		#region Engine Modules
 
 		public Window.Window Window { get; private set; }
+		public Graphics.Graphics Graphics { get; private set; }
 
 		#region MetaData
 
+		private readonly bool _disposeGraphics;
 		private readonly bool _disposeWindow;
 
 		#endregion
@@ -26,18 +28,25 @@ namespace SquareCubed.Client
 		/// </summary>
 		/// <param name="window">If not null, use this existing window.</param>
 		/// <param name="disposeWindow">If false, doesn't dispose the window.</param>
-		public Client(Window.Window window = null, bool disposeWindow = true)
+		/// <param name="graphics">If not null, use this existing graphics module.</param>
+		/// <param name="disposeGraphics">If false, doesn't dispose the graphics module.</param>
+		public Client(Window.Window window = null, bool disposeWindow = true,
+			Graphics.Graphics graphics = null, bool disposeGraphics = true)
 		{
-			// If caller doens't provide a window, create our own
+			// If caller doesn't provide a window, create our own
 			Window = window ?? new Window.Window();
 			_disposeWindow = disposeWindow;
 
+			// Same for graphics
+			Graphics = graphics ?? new Graphics.Graphics(Window);
+			_disposeGraphics = disposeGraphics;
+
 			// Hook Game Loop Events
-			Window.UpdateFrame += OnUpdateFrame;
-			Window.RenderFrame += OnRenderFrame;
+			Window.UpdateFrame += (s, e) => Update(e);
+			Window.RenderFrame += (s, e) => Render(e);
 		}
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			Dispose(true);
 		}
@@ -50,6 +59,7 @@ namespace SquareCubed.Client
 			if (disposing)
 			{
 				if (_disposeWindow) Window.Dispose();
+				if (_disposeGraphics) Graphics.Dispose();
 			}
 
 			_disposed = true;
@@ -67,12 +77,19 @@ namespace SquareCubed.Client
 			Window.Run();
 		}
 
-		private void OnUpdateFrame(object sender, FrameEventArgs e)
+		public void ForceImmediateRender()
+		{
+			Render(new FrameEventArgs());
+		}
+
+		private void Update(FrameEventArgs e)
 		{
 		}
 
-		private void OnRenderFrame(object sender, FrameEventArgs e)
+		private void Render(FrameEventArgs e)
 		{
+			Graphics.BeginRender();
+			Graphics.EndRender();
 		}
 
 		#endregion
