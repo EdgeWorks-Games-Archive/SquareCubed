@@ -3,11 +3,15 @@
 namespace SquareCubed.Server.Tests
 {
 	public class ServerTests
-    {
+	{
 		[Fact]
-		public void InitializesWithoutExceptions()
+		public void InitializesAndDisposes()
 		{
-			Assert.DoesNotThrow(() => new Server());
+			// Set Up
+			Server server = null;
+
+			Assert.DoesNotThrow(() => server = new Server());
+			Assert.DoesNotThrow(server.Dispose);
 		}
-    }
+	}
 }

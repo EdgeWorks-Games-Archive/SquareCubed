@@ -4,12 +4,22 @@ namespace SquareCubed.Client
 {
 	public class Client : IDisposable
 	{
+		#region Engine Modules
+
 		public Window.Window Window { get; private set; }
+
+		#region MetaData
 
 		private readonly bool _disposeWindow;
 
+		#endregion
+
+		#endregion
+
+		#region Initialization and Cleanup
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Client"/> class.
+		///     Initializes a new instance of the <see cref="Client" /> class.
 		/// </summary>
 		/// <param name="window">If not null, use this existing window.</param>
 		/// <param name="disposeWindow">If false, doesn't dispose the window.</param>
@@ -20,14 +30,15 @@ namespace SquareCubed.Client
 			_disposeWindow = disposeWindow;
 		}
 
-		public void Run()
-		{
-			
-		}
-
 		public void Dispose()
 		{
-			if(_disposeWindow) Window.Dispose();
+			if (_disposeWindow) Window.Dispose();
+		}
+
+		#endregion
+
+		public void Run()
+		{
 		}
 	}
 }

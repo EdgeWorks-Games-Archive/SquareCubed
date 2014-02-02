@@ -6,18 +6,15 @@ namespace SquareCubed.Client.Tests
 	public class ClientTests
 	{
 		[Fact]
-		public void InitializesWithoutExceptions()
+		public void InitializesAndDisposes()
 		{
 			// Set Up
 			var window = new Mock<Window.Window>();
 			Client client = null;
 
 			Assert.DoesNotThrow(() => client = new Client(window.Object));
-
-			// Clean Up
-			client.Dispose();
+			Assert.DoesNotThrow(client.Dispose);
 		}
-
 	}
 
 	public class ClientDisposeTests

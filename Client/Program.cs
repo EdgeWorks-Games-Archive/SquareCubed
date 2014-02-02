@@ -1,8 +1,8 @@
 ﻿namespace Client
 {
-	static class Program
+	internal static class Program
 	{
-		static void Main()
+		private static void Main()
 		{
 			using (var client = new SquareCubed.Client.Client())
 			{

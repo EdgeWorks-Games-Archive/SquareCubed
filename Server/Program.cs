@@ -1,8 +1,8 @@
 ﻿namespace Server
 {
-	static class Program
+	internal static class Program
 	{
-		static void Main()
+		private static void Main()
 		{
 			var server = new SquareCubed.Server.Server();
 			server.Run();
