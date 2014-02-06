@@ -5,8 +5,14 @@ namespace SquareCubed.Client.Tests
 {
 	public class ClientTestsBase
 	{
-		protected readonly Mock<Graphics.Graphics> GraphicsMock = new Mock<Graphics.Graphics>();
-		protected readonly Mock<Window.Window> WindowMock = new Mock<Window.Window>();
+		protected readonly Mock<Window.Window> WindowMock;
+		protected readonly Mock<Graphics.Graphics> GraphicsMock;
+
+		protected ClientTestsBase()
+		{
+			WindowMock = new Mock<Window.Window>();
+			GraphicsMock = new Mock<Graphics.Graphics>(WindowMock.Object);
+		}
 	}
 
 	public class ClientTests : ClientTestsBase

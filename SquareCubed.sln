@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareCubed.Client.Graphics
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareCubed.Client.Graphics.Tests", "SquareCubed.Client.Graphics.Tests\SquareCubed.Client.Graphics.Tests.csproj", "{66067FB5-1E26-4F65-94FC-9C39549F4B96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareCubed.Utils", "SquareCubed.Utils\SquareCubed.Utils.csproj", "{15F93D85-E905-4C84-87E8-C63262AA80A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{66067FB5-1E26-4F65-94FC-9C39549F4B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66067FB5-1E26-4F65-94FC-9C39549F4B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66067FB5-1E26-4F65-94FC-9C39549F4B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F93D85-E905-4C84-87E8-C63262AA80A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F93D85-E905-4C84-87E8-C63262AA80A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F93D85-E905-4C84-87E8-C63262AA80A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F93D85-E905-4C84-87E8-C63262AA80A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,5 +111,6 @@ Global
 		{4C25B3C3-244F-434B-91DE-F4B932C4D3F1} = {348D41ED-E9AA-44C2-B05B-D951A664011E}
 		{66067FB5-1E26-4F65-94FC-9C39549F4B96} = {348D41ED-E9AA-44C2-B05B-D951A664011E}
 		{CCDF741E-92DC-4E8E-8022-408AF12C8B51} = {80060A86-3CF2-43C3-BD06-0A403D15F7A9}
+		{15F93D85-E905-4C84-87E8-C63262AA80A3} = {F5FBF0AE-A8C3-4BAC-BBC9-3B88F3CEDE1D}
 	EndGlobalSection
 EndGlobal

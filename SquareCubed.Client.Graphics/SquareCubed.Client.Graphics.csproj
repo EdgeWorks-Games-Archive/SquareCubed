@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
       <Project>{75b2d35b-1e51-47fd-9d67-749217b033ac}</Project>
       <Name>SquareCubed.Client.Window</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
+      <Project>{15F93D85-E905-4C84-87E8-C63262AA80A3}</Project>
+      <Name>SquareCubed.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

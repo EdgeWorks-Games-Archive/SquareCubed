@@ -24,7 +24,7 @@ namespace SquareCubed.Client.Window
 			TargetUpdateFrequency = 60;
 			VSync = VSyncMode.Adaptive;
 			WindowBorder = WindowBorder.Fixed;
-
+			
 			base.OnLoad(e);
 		}
 
