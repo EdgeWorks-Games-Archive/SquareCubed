@@ -8,7 +8,13 @@ namespace SquareCubed.Client.Graphics
 	{
 		#region External Modules
 
-		private Window.Window _window;
+		private readonly Window.Window _window;
+
+		#endregion
+
+		#region Camera
+
+		public Camera Camera { get; private set; }
 
 		#endregion
 
@@ -17,6 +23,7 @@ namespace SquareCubed.Client.Graphics
 		public Graphics(Window.Window window)
 		{
 			_window = window;
+			Camera = new Camera(_window.Size);
 		}
 
 		private bool _disposed;
@@ -48,9 +55,7 @@ namespace SquareCubed.Client.Graphics
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			// Initialize Camera
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
+			Camera.SetProjectionMatrix();
 
 			// Render Test Triangle
 			GL.Begin(PrimitiveType.Triangles);

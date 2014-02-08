@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK;
+using SquareCubed.PluginLoader;
 
 namespace SquareCubed.Client
 {
@@ -7,12 +8,14 @@ namespace SquareCubed.Client
 	{
 		#region Engine Modules
 
-		public Window.Window Window { get; private set; }
 		public Graphics.Graphics Graphics { get; private set; }
+		public PluginLoader<IClientPlugin> PluginLoader { get; private set; }
+		public Window.Window Window { get; private set; }
 
 		#region MetaData
 
 		private readonly bool _disposeGraphics;
+		private readonly bool _disposePluginLoader;
 		private readonly bool _disposeWindow;
 
 		#endregion
@@ -30,8 +33,11 @@ namespace SquareCubed.Client
 		/// <param name="disposeWindow">If false, doesn't dispose the window.</param>
 		/// <param name="graphics">If not null, use this existing graphics module.</param>
 		/// <param name="disposeGraphics">If false, doesn't dispose the graphics module.</param>
+		/// <param name="pluginLoader">If not null, use this existing plugin loader module.</param>
+		/// <param name="disposePluginLoader">If false, doesn't dispose the plugin loader module.</param>
 		public Client(Window.Window window = null, bool disposeWindow = true,
-			Graphics.Graphics graphics = null, bool disposeGraphics = true)
+			Graphics.Graphics graphics = null, bool disposeGraphics = true,
+			PluginLoader<IClientPlugin> pluginLoader = null, bool disposePluginLoader = true)
 		{
 			// If caller doesn't provide a window, create our own
 			Window = window ?? new Window.Window();
@@ -40,6 +46,10 @@ namespace SquareCubed.Client
 			// Same for graphics
 			Graphics = graphics ?? new Graphics.Graphics(Window);
 			_disposeGraphics = disposeGraphics;
+
+			// And for the Plugin Loader
+			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin>();
+			_disposePluginLoader = disposePluginLoader;
 
 			// Hook Game Loop Events
 			Window.UpdateFrame += (s, e) => Update(e);
@@ -60,6 +70,7 @@ namespace SquareCubed.Client
 			{
 				if (_disposeWindow) Window.Dispose();
 				if (_disposeGraphics) Graphics.Dispose();
+				if (_disposePluginLoader) PluginLoader.Dispose();
 			}
 
 			_disposed = true;

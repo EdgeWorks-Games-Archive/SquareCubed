@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SquareCubed.Client.Window.Tests")]
+[assembly: AssemblyTitle("SquareCubed.PluginLoader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SquareCubed.Client.Window.Tests")]
+[assembly: AssemblyProduct("SquareCubed.PluginLoader")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6db61438-9760-458c-8e80-bf9b8b1d0662")]
+[assembly: Guid("71612843-cf43-4b05-a713-9fa9b2059fcd")]
 
 // Version information for an assembly consists of the following four values:
 //

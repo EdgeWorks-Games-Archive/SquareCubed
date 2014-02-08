@@ -69,6 +69,10 @@
       <Project>{af82fe81-b664-4632-bdf6-4fa51f07586c}</Project>
       <Name>SquareCubed.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
+      <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>
+      <Name>SquareCubed.PluginLoader</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
