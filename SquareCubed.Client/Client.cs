@@ -1,11 +1,14 @@
 ﻿using System;
 using OpenTK;
 using SquareCubed.PluginLoader;
+using SquareCubed.Utils.Logging;
 
 namespace SquareCubed.Client
 {
 	public class Client : IDisposable
 	{
+		private readonly Logger _logger;
+
 		#region Engine Modules
 
 		public Graphics.Graphics Graphics { get; private set; }
@@ -39,6 +42,10 @@ namespace SquareCubed.Client
 			Graphics.Graphics graphics = null, bool disposeGraphics = true,
 			PluginLoader<IClientPlugin> pluginLoader = null, bool disposePluginLoader = true)
 		{
+			// Create a Logger and Log the start of Initialization
+			_logger = new Logger("Client");
+			_logger.LogInfo("Initializing engine...");
+
 			// If caller doesn't provide a window, create our own
 			Window = window ?? new Window.Window();
 			_disposeWindow = disposeWindow;
@@ -47,13 +54,19 @@ namespace SquareCubed.Client
 			Graphics = graphics ?? new Graphics.Graphics(Window);
 			_disposeGraphics = disposeGraphics;
 
-			// And for the Plugin Loader
+			// And the Plugin Loader
 			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin>();
 			_disposePluginLoader = disposePluginLoader;
 
 			// Hook Game Loop Events
 			Window.UpdateFrame += (s, e) => Update(e);
 			Window.RenderFrame += (s, e) => Render(e);
+
+			// Done initializing, let's log it
+			_logger.LogInfo("Finished initializing engine!");
+
+			// And detect the installed plugins
+			PluginLoader.DetectPlugins();
 		}
 
 		public virtual void Dispose()
@@ -85,7 +98,9 @@ namespace SquareCubed.Client
 		/// </summary>
 		public void Run()
 		{
+			_logger.LogInfo("Started running...");
 			Window.Run();
+			_logger.LogInfo("Finished running!");
 		}
 
 		public void ForceImmediateRender()

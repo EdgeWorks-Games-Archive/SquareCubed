@@ -61,6 +61,10 @@
       <Project>{CE026967-4F68-4808-A8E1-5187AEF415CF}</Project>
       <Name>SquareCubed.PluginLoader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
+      <Project>{15f93d85-e905-4c84-87e8-c63262aa80a3}</Project>
+      <Name>SquareCubed.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

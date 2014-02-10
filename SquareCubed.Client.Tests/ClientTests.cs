@@ -24,16 +24,18 @@ namespace SquareCubed.Client.Tests
 		public void InitializesAndDisposes()
 		{
 			Client client = null;
-			Assert.DoesNotThrow(() => client = new Client(WindowMock.Object,
-				graphics: GraphicsMock.Object));
+			Assert.DoesNotThrow(() => client = new Client(
+				WindowMock.Object, true,
+				GraphicsMock.Object, true,
+				PluginLoaderMock.Object));
 			Assert.DoesNotThrow(client.Dispose);
 		}
 
 		[Fact]
 		public void CallsGraphicsInCorrectOrder()
 		{
-			bool begin = false;
-			bool endAfterBegin = false;
+			var begin = false;
+			var endAfterBegin = false;
 			GraphicsMock.Setup(g => g.BeginRender()).Callback(() => begin = true);
 			GraphicsMock.Setup(g => g.EndRender()).Callback(() => endAfterBegin = begin);
 
@@ -78,7 +80,10 @@ namespace SquareCubed.Client.Tests
 		[Fact]
 		public void ModulesDoNotDispose()
 		{
-			var client = new Client(WindowMock.Object, false, GraphicsMock.Object, false);
+			var client = new Client(
+				WindowMock.Object, false,
+				GraphicsMock.Object, false,
+				PluginLoaderMock.Object, false);
 			client.Dispose();
 
 			Assert.False(_windowDisposed, "Window was disposed.");
