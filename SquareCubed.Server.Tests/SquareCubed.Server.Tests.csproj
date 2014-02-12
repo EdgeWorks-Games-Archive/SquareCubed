@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
+      <Project>{CE026967-4F68-4808-A8E1-5187AEF415CF}</Project>
+      <Name>SquareCubed.PluginLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Server\SquareCubed.Server.csproj">
       <Project>{c1a5b668-8d3a-40b4-9334-ac2f257b75ee}</Project>
       <Name>SquareCubed.Server</Name>

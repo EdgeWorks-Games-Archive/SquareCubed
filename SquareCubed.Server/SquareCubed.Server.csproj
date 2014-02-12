@@ -39,8 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServerPlugin.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
+      <Project>{CE026967-4F68-4808-A8E1-5187AEF415CF}</Project>
+      <Name>SquareCubed.PluginLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
+      <Project>{15F93D85-E905-4C84-87E8-C63262AA80A3}</Project>
+      <Name>SquareCubed.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

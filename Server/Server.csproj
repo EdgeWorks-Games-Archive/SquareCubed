@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
+      <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>
+      <Name>SquareCubed.PluginLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Server\SquareCubed.Server.csproj">
       <Project>{c1a5b668-8d3a-40b4-9334-ac2f257b75ee}</Project>
       <Name>SquareCubed.Server</Name>

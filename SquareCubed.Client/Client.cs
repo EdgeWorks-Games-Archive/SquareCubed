@@ -42,9 +42,9 @@ namespace SquareCubed.Client
 			Graphics.Graphics graphics = null, bool disposeGraphics = true,
 			PluginLoader<IClientPlugin> pluginLoader = null, bool disposePluginLoader = true)
 		{
-			// Create a Logger and Log the start of Initialization
+			// Create a Logger and log the start of Initialization
 			_logger = new Logger("Client");
-			_logger.LogInfo("Initializing engine...");
+			_logger.LogInfo("Initializing client...");
 
 			// If caller doesn't provide a window, create our own
 			Window = window ?? new Window.Window();
