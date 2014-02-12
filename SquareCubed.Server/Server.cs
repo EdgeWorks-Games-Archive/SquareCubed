@@ -11,10 +11,12 @@ namespace SquareCubed.Server
 
 		#region Engine Modules
 
+		public Network.Network Network { get; private set; }
 		public PluginLoader<IServerPlugin> PluginLoader { get; private set; }
 
 		#region MetaData
 
+		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
 
 		#endregion
@@ -25,11 +27,16 @@ namespace SquareCubed.Server
 
 		private bool _disposed;
 
-		public Server(PluginLoader<IServerPlugin> pluginLoader = null, bool disposePluginLoader = true)
+		public Server(Network.Network network = null, bool disposeNetwork = true,
+			PluginLoader<IServerPlugin> pluginLoader = null, bool disposePluginLoader = true)
 		{
 			// Create a Logger and log the start of Initialization
 			_logger = new Logger("Server");
 			_logger.LogInfo("Initializing server...");
+
+			// Yada yada
+			Network = network ?? new Network.Network();
+			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
 			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin>();
@@ -49,15 +56,13 @@ namespace SquareCubed.Server
 
 		protected virtual void Dispose(bool disposing)
 		{
-			// Prevent Double Disposing
-			if (_disposed) return;
-
-			if (disposing)
-			{
-				if (_disposePluginLoader) PluginLoader.Dispose();
-			}
-
+			// Prevent double disposing and don't dispose if we're told not to
+			if (_disposed || !disposing) return;
 			_disposed = true;
+
+			// Actually dispose modules
+			if (_disposeNetwork) Network.Dispose();
+			if (_disposePluginLoader) PluginLoader.Dispose();
 		}
 
 		#endregion

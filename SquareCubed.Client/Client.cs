@@ -12,12 +12,14 @@ namespace SquareCubed.Client
 		#region Engine Modules
 
 		public Graphics.Graphics Graphics { get; private set; }
+		public Network.Network Network { get; private set; }
 		public PluginLoader<IClientPlugin> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
 
 		#region MetaData
 
 		private readonly bool _disposeGraphics;
+		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
 		private readonly bool _disposeWindow;
 
@@ -40,6 +42,7 @@ namespace SquareCubed.Client
 		/// <param name="disposePluginLoader">If false, doesn't dispose the plugin loader module.</param>
 		public Client(Window.Window window = null, bool disposeWindow = true,
 			Graphics.Graphics graphics = null, bool disposeGraphics = true,
+			Network.Network network = null, bool disposeNetwork = true,
 			PluginLoader<IClientPlugin> pluginLoader = null, bool disposePluginLoader = true)
 		{
 			// Create a Logger and log the start of Initialization
@@ -53,6 +56,10 @@ namespace SquareCubed.Client
 			// Same for graphics
 			Graphics = graphics ?? new Graphics.Graphics(Window);
 			_disposeGraphics = disposeGraphics;
+
+			// The network
+			Network = network ?? new Network.Network();
+			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
 			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin>();
@@ -83,6 +90,7 @@ namespace SquareCubed.Client
 			{
 				if (_disposeWindow) Window.Dispose();
 				if (_disposeGraphics) Graphics.Dispose();
+				if (_disposeNetwork) Network.Dispose();
 				if (_disposePluginLoader) PluginLoader.Dispose();
 			}
 

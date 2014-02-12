@@ -48,15 +48,11 @@ namespace SquareCubed.PluginLoader
 
 		protected virtual void Dispose(bool disposing)
 		{
-			// Prevent Double Disposing
-			if (_disposed) return;
-
-			if (disposing)
-			{
-				// Clean Up Plugins Here
-			}
-
+			// Prevent double disposing and don't dispose if we're told not to
+			if (_disposed || !disposing) return;
 			_disposed = true;
+
+			// Clean Up Plugins Here
 		}
 
 		#endregion

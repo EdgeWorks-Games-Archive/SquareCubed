@@ -7,6 +7,7 @@ namespace SquareCubed.Client.Tests
 	public class ClientTestsBase
 	{
 		protected readonly Mock<Graphics.Graphics> GraphicsMock;
+		protected readonly Mock<Network.Network> NetworkMock;
 		protected readonly Mock<PluginLoader<IClientPlugin>> PluginLoaderMock;
 		protected readonly Mock<Window.Window> WindowMock;
 
@@ -14,6 +15,7 @@ namespace SquareCubed.Client.Tests
 		{
 			WindowMock = new Mock<Window.Window>();
 			GraphicsMock = new Mock<Graphics.Graphics>(WindowMock.Object);
+			NetworkMock = new Mock<Network.Network>();
 			PluginLoaderMock = new Mock<PluginLoader<IClientPlugin>>();
 		}
 	}
@@ -27,6 +29,7 @@ namespace SquareCubed.Client.Tests
 			Assert.DoesNotThrow(() => client = new Client(
 				WindowMock.Object, true,
 				GraphicsMock.Object, true,
+				NetworkMock.Object, true,
 				PluginLoaderMock.Object));
 			Assert.DoesNotThrow(client.Dispose);
 		}
@@ -42,6 +45,7 @@ namespace SquareCubed.Client.Tests
 			var client = new Client(
 				WindowMock.Object, true,
 				GraphicsMock.Object, true,
+				NetworkMock.Object, true,
 				PluginLoaderMock.Object);
 			client.ForceImmediateRender();
 
@@ -53,6 +57,7 @@ namespace SquareCubed.Client.Tests
 	public class ClientDisposeTests : ClientTestsBase
 	{
 		private bool _graphicsDisposed;
+		private bool _networkDisposed;
 		private bool _pluginLoaderDisposed;
 		private bool _windowDisposed;
 
@@ -60,6 +65,7 @@ namespace SquareCubed.Client.Tests
 		{
 			WindowMock.Setup(w => w.Dispose()).Callback(() => _windowDisposed = true);
 			GraphicsMock.Setup(g => g.Dispose()).Callback(() => _graphicsDisposed = true);
+			NetworkMock.Setup(n => n.Dispose()).Callback(() => _networkDisposed = true);
 			PluginLoaderMock.Setup(p => p.Dispose()).Callback(() => _pluginLoaderDisposed = true);
 		}
 
@@ -69,11 +75,13 @@ namespace SquareCubed.Client.Tests
 			var client = new Client(
 				WindowMock.Object, true,
 				GraphicsMock.Object, true,
+				NetworkMock.Object, true,
 				PluginLoaderMock.Object);
 			client.Dispose();
 
 			Assert.True(_windowDisposed, "Window was not disposed.");
 			Assert.True(_graphicsDisposed, "Graphics was not disposed.");
+			Assert.True(_networkDisposed, "Network was not disposed.");
 			Assert.True(_pluginLoaderDisposed, "Plugin Loader was not disposed.");
 		}
 
@@ -83,11 +91,13 @@ namespace SquareCubed.Client.Tests
 			var client = new Client(
 				WindowMock.Object, false,
 				GraphicsMock.Object, false,
+				NetworkMock.Object, false,
 				PluginLoaderMock.Object, false);
 			client.Dispose();
 
 			Assert.False(_windowDisposed, "Window was disposed.");
 			Assert.False(_graphicsDisposed, "Graphics was disposed.");
+			Assert.False(_networkDisposed, "Network was disposed.");
 			Assert.False(_pluginLoaderDisposed, "Plugin Loader was disposed.");
 		}
 	}

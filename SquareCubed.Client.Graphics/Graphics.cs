@@ -35,15 +35,11 @@ namespace SquareCubed.Client.Graphics
 
 		protected virtual void Dispose(bool disposing)
 		{
-			// Prevent Double Disposing
-			if (_disposed) return;
-
-			if (disposing)
-			{
-				// Nothing to do yet
-			}
-
+			// Prevent double disposing and don't dispose if we're told not to
+			if (_disposed || !disposing) return;
 			_disposed = true;
+
+			// Nothing to do yet
 		}
 
 		#endregion

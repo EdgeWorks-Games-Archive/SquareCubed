@@ -44,6 +44,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
+      <Project>{1f3ca083-84be-4d55-b878-d3a3be508ef1}</Project>
+      <Name>SquareCubed.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
       <Project>{CE026967-4F68-4808-A8E1-5187AEF415CF}</Project>
       <Name>SquareCubed.PluginLoader</Name>
