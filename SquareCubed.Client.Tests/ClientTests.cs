@@ -15,7 +15,7 @@ namespace SquareCubed.Client.Tests
 		{
 			WindowMock = new Mock<Window.Window>();
 			GraphicsMock = new Mock<Graphics.Graphics>(WindowMock.Object);
-			NetworkMock = new Mock<Network.Network>();
+			NetworkMock = new Mock<Network.Network>("TestCubed");
 			PluginLoaderMock = new Mock<PluginLoader<IClientPlugin>>();
 		}
 	}

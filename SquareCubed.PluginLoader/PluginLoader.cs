@@ -119,5 +119,17 @@ namespace SquareCubed.PluginLoader
 		}
 
 		#endregion
+
+		#region Game Loop
+
+	    public void UpdatePlugins(float delta)
+	    {
+	    }
+
+		public void RenderPlugins(float delta)
+	    {
+	    }
+
+	    #endregion
 	}
 }

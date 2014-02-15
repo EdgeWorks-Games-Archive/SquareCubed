@@ -11,7 +11,7 @@ namespace SquareCubed.Server.Tests
 
 		protected ServerTestsBase()
 		{
-			NetworkMock = new Mock<Network.Network>();
+			NetworkMock = new Mock<Network.Network>("TestCubed");
 			PluginLoaderMock = new Mock<PluginLoader<IServerPlugin>>();
 		}
 	}

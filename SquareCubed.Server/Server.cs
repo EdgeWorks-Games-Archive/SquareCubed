@@ -9,6 +9,8 @@ namespace SquareCubed.Server
 	{
 		private readonly Logger _logger;
 
+		public bool KeepRunning { get; set; }
+
 		#region Engine Modules
 
 		public Network.Network Network { get; private set; }
@@ -35,7 +37,7 @@ namespace SquareCubed.Server
 			_logger.LogInfo("Initializing server...");
 
 			// Yada yada
-			Network = network ?? new Network.Network();
+			Network = network ?? new Network.Network("SquareCubed");
 			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
@@ -69,9 +71,17 @@ namespace SquareCubed.Server
 
 		public void Run()
 		{
+			// Start up Network
+			Network.StartServer();
+
 			_logger.LogInfo("Started running...");
-			while (true)
+			KeepRunning = true;
+			while (KeepRunning)
 			{
+				// Handle all queued up packets
+				Network.HandlePackets();
+
+				// Fixed interval for now
 				Thread.Sleep(200);
 			}
 			_logger.LogInfo("Finished running!");

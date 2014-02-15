@@ -38,6 +38,8 @@ namespace SquareCubed.Client
 		/// <param name="disposeWindow">If false, doesn't dispose the window.</param>
 		/// <param name="graphics">If not null, use this existing graphics module.</param>
 		/// <param name="disposeGraphics">If false, doesn't dispose the graphics module.</param>
+		/// <param name="network">If not null, use this existing network module.</param>
+		/// <param name="disposeNetwork">If false, doesn't dispose the network module.</param>
 		/// <param name="pluginLoader">If not null, use this existing plugin loader module.</param>
 		/// <param name="disposePluginLoader">If false, doesn't dispose the plugin loader module.</param>
 		public Client(Window.Window window = null, bool disposeWindow = true,
@@ -58,7 +60,7 @@ namespace SquareCubed.Client
 			_disposeGraphics = disposeGraphics;
 
 			// The network
-			Network = network ?? new Network.Network();
+			Network = network ?? new Network.Network("SquareCubed");
 			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
@@ -74,6 +76,9 @@ namespace SquareCubed.Client
 
 			// And detect the installed plugins
 			PluginLoader.DetectPlugins();
+
+			// TODO: Move to connect input form
+			Network.Connect("127.0.0.1");
 		}
 
 		public virtual void Dispose()
@@ -118,11 +123,14 @@ namespace SquareCubed.Client
 
 		private void Update(FrameEventArgs e)
 		{
+			Network.HandlePackets();
+			PluginLoader.UpdatePlugins((float) e.Time);
 		}
 
 		private void Render(FrameEventArgs e)
 		{
 			Graphics.BeginRender();
+			PluginLoader.RenderPlugins((float) e.Time);
 			Graphics.EndRender();
 		}
 
