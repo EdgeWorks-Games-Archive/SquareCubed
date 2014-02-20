@@ -14,7 +14,7 @@ namespace SquareCubed.Server
 		#region Engine Modules
 
 		public Network.Network Network { get; private set; }
-		public PluginLoader<IServerPlugin> PluginLoader { get; private set; }
+		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
 
 		#region MetaData
 
@@ -30,7 +30,7 @@ namespace SquareCubed.Server
 		private bool _disposed;
 
 		public Server(Network.Network network = null, bool disposeNetwork = true,
-			PluginLoader<IServerPlugin> pluginLoader = null, bool disposePluginLoader = true)
+			PluginLoader<IServerPlugin, Server> pluginLoader = null, bool disposePluginLoader = true)
 		{
 			// Create a Logger and log the start of Initialization
 			_logger = new Logger("Server");
@@ -41,14 +41,11 @@ namespace SquareCubed.Server
 			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
-			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin>();
+			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin, Server>();
 			_disposePluginLoader = disposePluginLoader;
 
 			// Done initializing, let's log it
 			_logger.LogInfo("Finished initializing engine!");
-
-			// And detect the installed plugins
-			PluginLoader.DetectPlugins();
 		}
 
 		public void Dispose()
@@ -69,8 +66,23 @@ namespace SquareCubed.Server
 
 		#endregion
 
+		#region Game Loop
+
+		#region Game Loop Events
+
+		public event EventHandler<float> UpdateTick;
+
+		#endregion
+
 		public void Run()
 		{
+			_logger.LogInfo("Preparing to run...");
+
+			// Detect all installed plugins and start them
+			// The server uses all plugins available, the client activates them on the fly.
+			PluginLoader.DetectPlugins();
+			PluginLoader.LoadAllPlugins(this);
+
 			// Start up Network
 			Network.StartServer();
 
@@ -81,10 +93,16 @@ namespace SquareCubed.Server
 				// Handle all queued up packets
 				Network.HandlePackets();
 
+				// Run the update event
+				var updateTick = UpdateTick;
+				if (updateTick != null) updateTick(this, 0.050f);
+
 				// Fixed interval for now
-				Thread.Sleep(200);
+				Thread.Sleep(50);
 			}
 			_logger.LogInfo("Finished running!");
 		}
+
+		#endregion
 	}
 }

@@ -6,13 +6,13 @@ namespace SquareCubed.Server.Tests
 {
 	public class ServerTestsBase
 	{
-		protected readonly Mock<PluginLoader<IServerPlugin>> PluginLoaderMock;
+		protected readonly Mock<PluginLoader<IServerPlugin, Server>> PluginLoaderMock;
 		protected readonly Mock<Network.Network> NetworkMock;
 
 		protected ServerTestsBase()
 		{
 			NetworkMock = new Mock<Network.Network>("TestCubed");
-			PluginLoaderMock = new Mock<PluginLoader<IServerPlugin>>();
+			PluginLoaderMock = new Mock<PluginLoader<IServerPlugin, Server>>();
 		}
 	}
 

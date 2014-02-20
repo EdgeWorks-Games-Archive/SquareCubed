@@ -8,7 +8,7 @@ namespace SquareCubed.Client.Tests
 	{
 		protected readonly Mock<Graphics.Graphics> GraphicsMock;
 		protected readonly Mock<Network.Network> NetworkMock;
-		protected readonly Mock<PluginLoader<IClientPlugin>> PluginLoaderMock;
+		protected readonly Mock<PluginLoader<IClientPlugin, Client>> PluginLoaderMock;
 		protected readonly Mock<Window.Window> WindowMock;
 
 		protected ClientTestsBase()
@@ -16,7 +16,7 @@ namespace SquareCubed.Client.Tests
 			WindowMock = new Mock<Window.Window>();
 			GraphicsMock = new Mock<Graphics.Graphics>(WindowMock.Object);
 			NetworkMock = new Mock<Network.Network>("TestCubed");
-			PluginLoaderMock = new Mock<PluginLoader<IClientPlugin>>();
+			PluginLoaderMock = new Mock<PluginLoader<IClientPlugin, Client>>();
 		}
 	}
 

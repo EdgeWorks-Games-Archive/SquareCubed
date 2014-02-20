@@ -55,6 +55,10 @@
       <Project>{c1a5b668-8d3a-40b4-9334-ac2f257b75ee}</Project>
       <Name>SquareCubed.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
+      <Project>{15f93d85-e905-4c84-87e8-c63262aa80a3}</Project>
+      <Name>SquareCubed.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

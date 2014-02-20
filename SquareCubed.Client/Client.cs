@@ -13,7 +13,7 @@ namespace SquareCubed.Client
 
 		public Graphics.Graphics Graphics { get; private set; }
 		public Network.Network Network { get; private set; }
-		public PluginLoader<IClientPlugin> PluginLoader { get; private set; }
+		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
 
 		#region MetaData
@@ -45,7 +45,7 @@ namespace SquareCubed.Client
 		public Client(Window.Window window = null, bool disposeWindow = true,
 			Graphics.Graphics graphics = null, bool disposeGraphics = true,
 			Network.Network network = null, bool disposeNetwork = true,
-			PluginLoader<IClientPlugin> pluginLoader = null, bool disposePluginLoader = true)
+			PluginLoader<IClientPlugin, Client> pluginLoader = null, bool disposePluginLoader = true)
 		{
 			// Create a Logger and log the start of Initialization
 			_logger = new Logger("Client");
@@ -64,7 +64,7 @@ namespace SquareCubed.Client
 			_disposeNetwork = disposeNetwork;
 
 			// And the Plugin Loader
-			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin>();
+			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin, Client>();
 			_disposePluginLoader = disposePluginLoader;
 
 			// Hook Game Loop Events
@@ -73,12 +73,6 @@ namespace SquareCubed.Client
 
 			// Done initializing, let's log it
 			_logger.LogInfo("Finished initializing engine!");
-
-			// And detect the installed plugins
-			PluginLoader.DetectPlugins();
-
-			// TODO: Move to connect input form
-			Network.Connect("127.0.0.1");
 		}
 
 		public virtual void Dispose()
@@ -106,11 +100,26 @@ namespace SquareCubed.Client
 
 		#region Game Loop
 
+		#region Game Loop Events
+
+		public event EventHandler<float> UpdateTick;
+		public event EventHandler<float> RenderTick;
+
+		#endregion
+
 		/// <summary>
 		///     Runs this instance.
 		/// </summary>
 		public void Run()
 		{
+			_logger.LogInfo("Preparing to run...");
+
+			// Detect all installed plugins
+			PluginLoader.DetectPlugins();
+
+			// TODO: Move to connect input form
+			Network.Connect("127.0.0.1");
+
 			_logger.LogInfo("Started running...");
 			Window.Run();
 			_logger.LogInfo("Finished running!");
@@ -123,14 +132,22 @@ namespace SquareCubed.Client
 
 		private void Update(FrameEventArgs e)
 		{
+			// Handle all queued up packets
 			Network.HandlePackets();
-			PluginLoader.UpdatePlugins((float) e.Time);
+
+			// Run the update event
+			var updateTick = UpdateTick;
+			if (updateTick != null) updateTick(this, (float) e.Time);
 		}
 
 		private void Render(FrameEventArgs e)
 		{
 			Graphics.BeginRender();
-			PluginLoader.RenderPlugins((float) e.Time);
+
+			// Run the render event
+			var renderTick = RenderTick;
+			if (renderTick != null) renderTick(this, (float)e.Time);
+
 			Graphics.EndRender();
 		}
 

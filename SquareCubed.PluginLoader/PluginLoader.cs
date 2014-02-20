@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using SquareCubed.Utils.Logging;
 
 namespace SquareCubed.PluginLoader
 {
-    public class PluginLoader<TPlugin> : IDisposable
+	public class PluginLoader<TPlugin, TConstParam> : IDisposable
 	{
 		private readonly Logger _logger;
 
 		#region Plugin Type Entries
 
-		class PluginEntry
-	    {
-		    public Dictionary<Version, Type> Versions { get; private set; }
+		private Dictionary<string, PluginEntry> PluginTypes { get; set; }
 
+		private class PluginEntry
+		{
 			public PluginEntry()
 			{
 				Versions = new Dictionary<Version, Type>();
 			}
-	    }
 
-		private Dictionary<string, PluginEntry> Plugins { get; set; }
+			public Dictionary<Version, Type> Versions { get; private set; }
+		}
+
+		#endregion
+
+		#region Plugin Entries
+
+		public List<TPlugin> LoadedPlugins { get; set; }
 
 		#endregion
 
@@ -31,12 +37,13 @@ namespace SquareCubed.PluginLoader
 
 		private bool _disposed;
 
-        public PluginLoader()
-        {
+		public PluginLoader()
+		{
 			_logger = new Logger("Plugins");
 			_logger.LogInfo("Initializing plugin loader...");
 
-			Plugins = new Dictionary<string, PluginEntry>();
+			PluginTypes = new Dictionary<string, PluginEntry>();
+			LoadedPlugins = new List<TPlugin>();
 
 			_logger.LogInfo("Finished initializing plugin loader!");
 		}
@@ -79,7 +86,7 @@ namespace SquareCubed.PluginLoader
 					// Filter out interfaces and abstract classes
 					.Where(type => !type.IsInterface && !type.IsAbstract)
 					// Filter by classes that implement the plugin interface
-					.Where(type => type.GetInterface(typeof(TPlugin).FullName) != null)))
+					.Where(type => type.GetInterface(typeof (TPlugin).FullName) != null)))
 			{
 				// Retrieve plugin info
 				var attr = pluginType.GetCustomAttribute<PluginAttribute>();
@@ -93,15 +100,15 @@ namespace SquareCubed.PluginLoader
 
 				// Check if plugin ID already added
 				PluginEntry entry;
-				if (!Plugins.TryGetValue(attr.Id, out entry))
+				if (!PluginTypes.TryGetValue(attr.Id, out entry))
 				{
 					// Not found, add a new entry
 					entry = new PluginEntry();
-					Plugins.Add(attr.Id, entry);
+					PluginTypes.Add(attr.Id, entry);
 
 					_logger.LogInfo("Added new plugin: " + attr.Name);
 				}
-				
+
 				// Check if version already added
 				if (entry.Versions.ContainsKey(attr.Version))
 				{
@@ -118,18 +125,25 @@ namespace SquareCubed.PluginLoader
 			_logger.LogInfo("Finished detecting plugins!");
 		}
 
+		public void LoadAllPlugins(TConstParam param)
+		{
+			if (!TryLoadAllPlugins(param))
+				throw new Exception("Multiple versions of one plugin detected!");
+		}
+
+		public bool TryLoadAllPlugins(TConstParam param)
+		{
+			foreach (var pluginType in PluginTypes.Values)
+			{
+				if (pluginType.Versions.Count != 1)
+					return false;
+
+				var plugin = (TPlugin) Activator.CreateInstance(pluginType.Versions.Values.First(), param);
+				LoadedPlugins.Add(plugin);
+			}
+			return true;
+		}
+
 		#endregion
-
-		#region Game Loop
-
-	    public void UpdatePlugins(float delta)
-	    {
-	    }
-
-		public void RenderPlugins(float delta)
-	    {
-	    }
-
-	    #endregion
 	}
 }
