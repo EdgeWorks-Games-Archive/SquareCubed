@@ -46,9 +46,14 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="IClientPlugin.cs" />
+    <Compile Include="Meta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client.Graphics\SquareCubed.Client.Graphics.csproj">
       <Project>{6b5dcc57-0e0c-422a-ba16-0d3b3dbd3a45}</Project>
       <Name>SquareCubed.Client.Graphics</Name>

@@ -5,15 +5,17 @@ namespace SQCore.Client
 {
 	public class ClientPlugin : CommonPlugin, IClientPlugin
 	{
-		private SquareCubed.Client.Client _client;
-
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
 			Logger.LogInfo("Initializing core plugin...");
 
-			_client = client;
+			client.UpdateTick += OnUpdate;
 
 			Logger.LogInfo("Finished initializing core plugin!");
+		}
+
+		private void OnUpdate(object sender, float delta)
+		{
 		}
 	}
 }

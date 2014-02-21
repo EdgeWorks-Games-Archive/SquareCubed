@@ -7,7 +7,7 @@ namespace SquareCubed.Network
 {
 	public class Network : IDisposable
 	{
-		private readonly Logger _logger;
+		private readonly Logger _logger = new Logger("Network");
 
 		#region Network Properties
 
@@ -22,8 +22,6 @@ namespace SquareCubed.Network
 		public Network(string appIdentifier)
 		{
 			_appIdentifier = appIdentifier;
-
-			_logger = new Logger("Network");
 		}
 
 		public virtual void Dispose()
@@ -85,6 +83,35 @@ namespace SquareCubed.Network
 
 		#region Packet Handling
 
+		#region Events
+
+		public event EventHandler<NetIncomingMessage> NewConnection;
+		private readonly PacketType[] _packetHandlers = new PacketType[10];
+
+		private class PacketType
+		{
+			public event EventHandler<NetIncomingMessage> Handler;
+
+			public void Invoke(object sender, NetIncomingMessage msg)
+			{
+				Handler(sender, msg);
+			}
+		}
+
+		// TODO: Change to use key instead of number
+		public void BindPacketHandler(short type, EventHandler<NetIncomingMessage> e)
+		{
+			if (_packetHandlers[type] == null)
+			{
+				_packetHandlers[type] = new PacketType();
+				_packetHandlers[type].Handler += e;
+			}
+			else
+				throw new Exception("Packet handler already bound to this type!");
+		}
+
+		#endregion
+
 		public void HandlePackets()
 		{
 			// If not connected, do nothing
@@ -105,6 +132,19 @@ namespace SquareCubed.Network
 					case NetIncomingMessageType.StatusChanged:
 						var status = (NetConnectionStatus) msg.ReadByte();
 						_logger.LogInfo("Status changed to {0}: {1}", status.ToString(), msg.ReadString());
+						
+						// Fire new connection event
+						if (status == NetConnectionStatus.Connected)
+						{
+							var newConnection = NewConnection;
+							if (newConnection != null) NewConnection(this, msg);
+						}
+
+						break;
+					case NetIncomingMessageType.Data:
+						var type = msg.ReadInt16();
+						if (_packetHandlers[type] != null)
+							_packetHandlers[type].Invoke(this, msg);
 						break;
 					default:
 						_logger.LogInfo("Unhandled message: " + msg.MessageType);

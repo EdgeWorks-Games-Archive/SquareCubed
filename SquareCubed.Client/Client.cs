@@ -7,7 +7,7 @@ namespace SquareCubed.Client
 {
 	public class Client : IDisposable
 	{
-		private readonly Logger _logger;
+		private readonly Logger _logger = new Logger("Client");
 
 		#region Engine Modules
 
@@ -22,6 +22,12 @@ namespace SquareCubed.Client
 		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
 		private readonly bool _disposeWindow;
+
+		#endregion
+
+		#region Private Modules
+
+		private Meta _meta;
 
 		#endregion
 
@@ -47,8 +53,7 @@ namespace SquareCubed.Client
 			Network.Network network = null, bool disposeNetwork = true,
 			PluginLoader<IClientPlugin, Client> pluginLoader = null, bool disposePluginLoader = true)
 		{
-			// Create a Logger and log the start of Initialization
-			_logger = new Logger("Client");
+			// Log the start of Initialization
 			_logger.LogInfo("Initializing client...");
 
 			// If caller doesn't provide a window, create our own
@@ -66,6 +71,9 @@ namespace SquareCubed.Client
 			// And the Plugin Loader
 			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin, Client>();
 			_disposePluginLoader = disposePluginLoader;
+
+			// Initialize the Meta Manager
+			_meta = new Meta(this);
 
 			// Hook Game Loop Events
 			Window.UpdateFrame += (s, e) => Update(e);
@@ -103,7 +111,7 @@ namespace SquareCubed.Client
 		#region Game Loop Events
 
 		public event EventHandler<float> UpdateTick;
-		public event EventHandler<float> RenderTick;
+		public event EventHandler<float> BackgroundRenderTick;
 
 		#endregion
 
@@ -145,8 +153,8 @@ namespace SquareCubed.Client
 			Graphics.BeginRender();
 
 			// Run the render event
-			var renderTick = RenderTick;
-			if (renderTick != null) renderTick(this, (float)e.Time);
+			var backgroundRenderTick = BackgroundRenderTick;
+			if (backgroundRenderTick != null) backgroundRenderTick(this, (float)e.Time);
 
 			Graphics.EndRender();
 		}

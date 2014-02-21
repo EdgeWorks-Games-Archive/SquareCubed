@@ -9,26 +9,11 @@ namespace SquareCubed.PluginLoader
 {
 	public class PluginLoader<TPlugin, TConstParam> : IDisposable
 	{
-		private readonly Logger _logger;
-
-		#region Plugin Type Entries
-
-		private Dictionary<string, PluginEntry> PluginTypes { get; set; }
-
-		private class PluginEntry
-		{
-			public PluginEntry()
-			{
-				Versions = new Dictionary<Version, Type>();
-			}
-
-			public Dictionary<Version, Type> Versions { get; private set; }
-		}
-
-		#endregion
+		private readonly Logger _logger = new Logger("Plugins");
 
 		#region Plugin Entries
 
+		public Dictionary<string, PluginEntry> PluginTypes { get; private set; }
 		public List<TPlugin> LoadedPlugins { get; set; }
 
 		#endregion
@@ -39,7 +24,6 @@ namespace SquareCubed.PluginLoader
 
 		public PluginLoader()
 		{
-			_logger = new Logger("Plugins");
 			_logger.LogInfo("Initializing plugin loader...");
 
 			PluginTypes = new Dictionary<string, PluginEntry>();
@@ -142,6 +126,12 @@ namespace SquareCubed.PluginLoader
 				LoadedPlugins.Add(plugin);
 			}
 			return true;
+		}
+
+		public void LoadPlugin(string id, Version version, TConstParam param)
+		{
+			var plugin = (TPlugin) Activator.CreateInstance(PluginTypes[id].Versions[version], param);
+			LoadedPlugins.Add(plugin);
 		}
 
 		#endregion

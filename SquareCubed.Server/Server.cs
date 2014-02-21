@@ -7,19 +7,23 @@ namespace SquareCubed.Server
 {
 	public class Server : IDisposable
 	{
-		private readonly Logger _logger;
-
-		public bool KeepRunning { get; set; }
+		private readonly Logger _logger = new Logger("Server");
 
 		#region Engine Modules
 
 		public Network.Network Network { get; private set; }
 		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
-
+		
 		#region MetaData
 
 		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
+
+		#endregion
+
+		#region Private Modules
+
+		private Meta _meta;
 
 		#endregion
 
@@ -32,8 +36,7 @@ namespace SquareCubed.Server
 		public Server(Network.Network network = null, bool disposeNetwork = true,
 			PluginLoader<IServerPlugin, Server> pluginLoader = null, bool disposePluginLoader = true)
 		{
-			// Create a Logger and log the start of Initialization
-			_logger = new Logger("Server");
+			// Log the start of Initialization
 			_logger.LogInfo("Initializing server...");
 
 			// Yada yada
@@ -43,6 +46,9 @@ namespace SquareCubed.Server
 			// And the Plugin Loader
 			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin, Server>();
 			_disposePluginLoader = disposePluginLoader;
+
+			// Initialize the Meta Manager
+			_meta = new Meta(this);
 
 			// Done initializing, let's log it
 			_logger.LogInfo("Finished initializing engine!");
@@ -73,6 +79,8 @@ namespace SquareCubed.Server
 		public event EventHandler<float> UpdateTick;
 
 		#endregion
+
+		public bool KeepRunning { get; set; }
 
 		public void Run()
 		{
