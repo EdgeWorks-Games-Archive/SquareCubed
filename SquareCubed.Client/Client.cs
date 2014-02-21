@@ -15,6 +15,7 @@ namespace SquareCubed.Client
 		public Network.Network Network { get; private set; }
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
+		public Input.Input Input { get; private set; }
 
 		#region MetaData
 
@@ -64,7 +65,10 @@ namespace SquareCubed.Client
 			Graphics = graphics ?? new Graphics.Graphics(Window);
 			_disposeGraphics = disposeGraphics;
 
-			// The network
+			// The Input
+			Input = new Input.Input();
+
+			// The Network
 			Network = network ?? new Network.Network("SquareCubed");
 			_disposeNetwork = disposeNetwork;
 
@@ -112,6 +116,7 @@ namespace SquareCubed.Client
 
 		public event EventHandler<float> UpdateTick;
 		public event EventHandler<float> BackgroundRenderTick;
+		public event EventHandler<float> UnitRenderTick;
 
 		#endregion
 
@@ -152,9 +157,13 @@ namespace SquareCubed.Client
 		{
 			Graphics.BeginRender();
 
-			// Run the render event
+			// Run the background render event
 			var backgroundRenderTick = BackgroundRenderTick;
-			if (backgroundRenderTick != null) backgroundRenderTick(this, (float)e.Time);
+			if (backgroundRenderTick != null) backgroundRenderTick(this, (float) e.Time);
+
+			// Run the unit render event
+			var unitRenderTick = UnitRenderTick;
+			if (unitRenderTick != null) unitRenderTick(this, (float) e.Time);
 
 			Graphics.EndRender();
 		}

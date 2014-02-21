@@ -58,6 +58,10 @@
       <Project>{6b5dcc57-0e0c-422a-ba16-0d3b3dbd3a45}</Project>
       <Name>SquareCubed.Client.Graphics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Client.Input\SquareCubed.Client.Input.csproj">
+      <Project>{5EE689B2-5078-4329-84C8-606A7434EE9B}</Project>
+      <Name>SquareCubed.Client.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
       <Project>{75b2d35b-1e51-47fd-9d67-749217b033ac}</Project>
       <Name>SquareCubed.Client.Window</Name>

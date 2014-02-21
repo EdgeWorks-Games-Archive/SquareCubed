@@ -52,18 +52,6 @@ namespace SquareCubed.Client.Graphics
 
 			// Initialize Camera
 			Camera.SetProjectionMatrix();
-
-			// Render Test Triangle
-			GL.Begin(PrimitiveType.Triangles);
-
-			GL.Color3(Color.Red);
-			GL.Vertex2(-1.0f, 1.0f); // top left
-			GL.Color3(Color.Lime);
-			GL.Vertex2(0.0f, -1.0f);
-			GL.Color3(Color.Blue);
-			GL.Vertex2(1.0f, 1.0f);
-
-			GL.End();
 		}
 
 		public virtual void EndRender()

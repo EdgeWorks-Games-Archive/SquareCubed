@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3FC17A94-5463-43E1-B54C-90886AE00CE8}</ProjectGuid>
+    <ProjectGuid>{5EE689B2-5078-4329-84C8-606A7434EE9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQCore.Client</RootNamespace>
-    <AssemblyName>SQCore.Client</AssemblyName>
+    <RootNamespace>SquareCubed.Client.Input</RootNamespace>
+    <AssemblyName>SquareCubed.Client.Input</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,13 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenTK">
       <HintPath>..\packages\OpenTK.1.1.1508.5724\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,39 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientPlugin.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SQCore.Common\SQCore.Common.csproj">
-      <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
-      <Name>SQCore.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Input\SquareCubed.Client.Input.csproj">
-      <Project>{5ee689b2-5078-4329-84c8-606a7434ee9b}</Project>
-      <Name>SquareCubed.Client.Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
-      <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
-      <Name>SquareCubed.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
-      <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>
-      <Name>SquareCubed.PluginLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
-      <Project>{15f93d85-e905-4c84-87e8-c63262aa80a3}</Project>
-      <Name>SquareCubed.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetPath)" "$(SolutionDir)Client\bin\$(ConfigurationName)\Plugins\SQCore\" /Y</PostBuildEvent>
-  </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
