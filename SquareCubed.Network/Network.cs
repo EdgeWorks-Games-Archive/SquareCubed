@@ -34,8 +34,8 @@ namespace SquareCubed.Network
 			// side of a mod, but these are used by core parts
 			// of the engine.
 			PacketHandlers.RegisterTypeId("meta", 0);
-			PacketHandlers.RegisterTypeId("unit.physics", 1);
-			PacketHandlers.RegisterTypeId("unit.data", 2);
+			PacketHandlers.RegisterTypeId("units.physics", 1);
+			PacketHandlers.RegisterTypeId("units.data", 2);
 			PacketHandlers.RegisterTypeId("players.data", 3);
 		}
 

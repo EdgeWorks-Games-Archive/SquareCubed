@@ -55,11 +55,12 @@ namespace SquareCubed.Network
 
 			public string Id { get; private set; }
 			public ushort Num { get; private set; }
+			public bool IsBound { get { return Handler != null; } }
 			public event EventHandler<NetIncomingMessage> Handler;
 
 			public void Invoke(object sender, NetIncomingMessage msg)
 			{
-				if(Handler != null) Handler(sender, msg);
+				if (Handler != null) Handler(sender, msg);
 			}
 		}
 
@@ -97,9 +98,14 @@ namespace SquareCubed.Network
 
 		public ushort ResolveType(string id)
 		{
-			var type = _packetHandlers.First(h => h != null && h.Id == id);
-			if (type != null) return type.Num;
-			throw new Exception("Packet type not registered.");
+			try
+			{
+				return _packetHandlers.First(h => h != null && h.Id == id).Num;
+			}
+			catch
+			{
+				throw new Exception("Packet type not registered.");
+			}
 		}
 
 		#endregion
@@ -108,16 +114,30 @@ namespace SquareCubed.Network
 
 		public void Bind(string id, EventHandler<NetIncomingMessage> handler)
 		{
-			var type = _packetHandlers.First(h => h.Id == id);
-			if (type == null) throw new Exception("Packet type not registered.");
-			type.Handler += handler;
+			try
+			{
+				var type = _packetHandlers.First(h => h != null && h.Id == id);
+				if (type.IsBound) throw new Exception();
+				type.Handler += handler;
+			}
+			catch
+			{
+				throw new Exception("Packet type not registered or already bound.");
+			}
 		}
 
 		public void Bind(ushort num, EventHandler<NetIncomingMessage> handler)
 		{
-			var type = _packetHandlers.First(h => h.Num == num);
-			if (type == null) throw new Exception("Packet type not registered.");
-			type.Handler += handler;
+			try
+			{
+				var type = _packetHandlers.First(h => h != null && h.Num == num);
+				if (type.IsBound) throw new Exception();
+				type.Handler += handler;
+			}
+			catch
+			{
+				throw new Exception("Packet type not registered or already bound.");
+			}
 		}
 
 		#endregion

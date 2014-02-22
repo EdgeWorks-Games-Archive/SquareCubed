@@ -6,10 +6,12 @@ namespace SquareCubed.Server.Players
 	internal class PlayersNetwork
 	{
 		private readonly Server _server;
+		private readonly ushort _packetType;
 
 		public PlayersNetwork(Server server)
 		{
 			_server = server;
+			_packetType = _server.Network.PacketHandlers.ResolveType("players.data");
 		}
 
 		public void SendPlayerData(Player player)
@@ -17,8 +19,7 @@ namespace SquareCubed.Server.Players
 			var msg = _server.Network.Peer.CreateMessage();
 
 			// Add the packet type Id
-			// TODO: loop up what the Id actually is instead of having it set here
-			msg.Write((ushort)1);
+			msg.Write(_packetType);
 			msg.WritePadBits();
 
 			// Send over unit Id so client can link it to the player

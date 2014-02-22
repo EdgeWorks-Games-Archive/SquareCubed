@@ -1,6 +1,4 @@
-﻿using Lidgren.Network;
-using SquareCubed.Network;
-using SquareCubed.Utils;
+﻿using SquareCubed.Utils;
 
 namespace SquareCubed.Server.Units
 {
@@ -27,18 +25,7 @@ namespace SquareCubed.Server.Units
 			// Send out physics update packets
 			foreach (var unitEntry in _units)
 			{
-				// Write data for packet
-				var msg = _server.Network.Peer.CreateMessage();
-				msg.Write((ushort)2);
-				msg.WritePadBits();
-				msg.Write(unitEntry.Key);
-				unitEntry.Value.WritePositionData(msg); // TODO: Change to write physics data instead of just position
-
-				// Send data to appropriate players
-				unitEntry.Value.World.SendToAllPlayers(
-					msg,
-					NetDeliveryMethod.UnreliableSequenced,
-					(int) SequenceChannels.UnitPhysics);
+				_network.SendUnitPhysics(unitEntry.Value);
 			}
 		}
 	}

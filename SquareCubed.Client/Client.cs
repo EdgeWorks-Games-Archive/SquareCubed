@@ -18,6 +18,7 @@ namespace SquareCubed.Client
 		public Input.Input Input { get; private set; }
 		public Player.Player Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
+		public Units.Units Units { get; private set; }
 
 		#region MetaData
 
@@ -72,9 +73,8 @@ namespace SquareCubed.Client
 			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin, Client>();
 			_disposePluginLoader = disposePluginLoader;
 
-			// Initialize the Meta Manager
 			Meta = new Meta.Meta(this);
-
+			Units = new Units.Units(this);
 			Player = new Player.Player(this);
 
 			// Hook Game Loop Events

@@ -15,11 +15,5 @@ namespace SquareCubed.Server.Units
 			World = world;
 			Position = position;
 		}
-
-		public void WritePositionData(NetOutgoingMessage msg)
-		{
-			msg.Write(Position.X);
-			msg.Write(Position.Y);
-		}
 	}
 }
