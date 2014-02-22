@@ -13,17 +13,15 @@ namespace SquareCubed.Server
 
 		public Network.Network Network { get; private set; }
 		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
-		
+		public Worlds.Worlds Worlds { get; private set; }
+		public Players.Players Players { get; private set; }
+		public Units.Units Units { get; private set; }
+		public Meta.Meta Meta { get; private set; }
+
 		#region MetaData
 
 		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
-
-		#endregion
-
-		#region Private Modules
-
-		private Meta _meta;
 
 		#endregion
 
@@ -47,8 +45,10 @@ namespace SquareCubed.Server
 			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin, Server>();
 			_disposePluginLoader = disposePluginLoader;
 
-			// Initialize the Meta Manager
-			_meta = new Meta(this);
+			Meta = new Meta.Meta(this);
+			Worlds = new Worlds.Worlds(this);
+			Units = new Units.Units(this);
+			Players = new Players.Players(this);
 
 			// Done initializing, let's log it
 			_logger.LogInfo("Finished initializing engine!");
@@ -85,7 +85,7 @@ namespace SquareCubed.Server
 		public void Run()
 		{
 			_logger.LogInfo("Preparing to run...");
-
+			
 			// Detect all installed plugins and start them
 			// The server uses all plugins available, the client activates them on the fly.
 			PluginLoader.DetectPlugins();
@@ -96,14 +96,17 @@ namespace SquareCubed.Server
 
 			_logger.LogInfo("Started running...");
 			KeepRunning = true;
+			const float delta = 0.05f;
 			while (KeepRunning)
 			{
 				// Handle all queued up packets
 				Network.HandlePackets();
 
+				// Update all units (AI and send packets)
+				Units.Update(delta);
+				
 				// Run the update event
-				var updateTick = UpdateTick;
-				if (updateTick != null) updateTick(this, 0.050f);
+				if (UpdateTick != null) UpdateTick(this, delta);
 
 				// Fixed interval for now
 				Thread.Sleep(50);

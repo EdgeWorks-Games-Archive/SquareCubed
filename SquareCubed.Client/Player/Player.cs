@@ -2,21 +2,22 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace SQCore.Client
+namespace SquareCubed.Client.Player
 {
-	internal class Player
+	public class Player
 	{
-		private readonly SquareCubed.Client.Client _client;
+		private const float Speed = 2;
+		private readonly Client _client;
 		private Vector2 _position;
 
-		public Player(SquareCubed.Client.Client client)
+		public Player(Client client)
 		{
 			_client = client;
 		}
-		
+
 		public void Update(float delta)
 		{
-			_position += _client.Input.GetAxis()*delta;
+			_position += _client.Input.Axes*delta*Speed;
 		}
 
 		public void Render(float delta)

@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +47,9 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="IClientPlugin.cs" />
-    <Compile Include="Meta.cs" />
+    <Compile Include="Input\Input.cs" />
+    <Compile Include="Meta\Meta.cs" />
+    <Compile Include="Player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,10 +60,6 @@
     <ProjectReference Include="..\SquareCubed.Client.Graphics\SquareCubed.Client.Graphics.csproj">
       <Project>{6b5dcc57-0e0c-422a-ba16-0d3b3dbd3a45}</Project>
       <Name>SquareCubed.Client.Graphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Input\SquareCubed.Client.Input.csproj">
-      <Project>{5EE689B2-5078-4329-84C8-606A7434EE9B}</Project>
-      <Name>SquareCubed.Client.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
       <Project>{75b2d35b-1e51-47fd-9d67-749217b033ac}</Project>

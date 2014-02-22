@@ -1,14 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Utils.Logging;
 
-namespace SquareCubed.Server
+namespace SquareCubed.Server.Meta
 {
 	public class Meta
 	{
 		private readonly Logger _logger = new Logger("Meta");
-		private readonly short _packetType;
+		private readonly ushort _packetType;
 		private readonly Server _server;
+
+		public event EventHandler<NetConnection> ClientDataReceived;
 
 		public Meta(Server server)
 		{
@@ -17,6 +20,7 @@ namespace SquareCubed.Server
 
 			// TODO: Change to read packet type from Network module
 			_packetType = 0;
+			_server.Network.BindPacketHandler(_packetType, OnMetaPacket);
 		}
 
 		private void OnNewConnection(object sender, NetIncomingMessage msg)
@@ -32,7 +36,7 @@ namespace SquareCubed.Server
 			// Write packet type mapping data
 
 			// Write mod data
-			outMsg.Write((short) _server.PluginLoader.PluginTypes.Count);
+			outMsg.Write((ushort) _server.PluginLoader.PluginTypes.Count);
 			outMsg.WritePadBits();
 			foreach (var type in _server.PluginLoader.PluginTypes)
 			{
@@ -44,6 +48,11 @@ namespace SquareCubed.Server
 
 			// Send out the message
 			msg.SenderConnection.SendMessage(outMsg, NetDeliveryMethod.ReliableUnordered, 0);
+		}
+
+		private void OnMetaPacket(object sender, NetIncomingMessage msg)
+		{
+			ClientDataReceived(this, msg.SenderConnection);
 		}
 	}
 }

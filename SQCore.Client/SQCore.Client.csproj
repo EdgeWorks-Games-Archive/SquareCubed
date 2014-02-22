@@ -47,17 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientPlugin.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQCore.Common\SQCore.Common.csproj">
       <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
       <Name>SQCore.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Input\SquareCubed.Client.Input.csproj">
-      <Project>{5ee689b2-5078-4329-84c8-606a7434ee9b}</Project>
-      <Name>SquareCubed.Client.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>

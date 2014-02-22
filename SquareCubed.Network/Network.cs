@@ -13,6 +13,10 @@ namespace SquareCubed.Network
 
 		private readonly string _appIdentifier;
 
+		public NetPeer Peer { get; private set; }
+
+		private bool _isServer;
+
 		#endregion
 
 		#region Initialization and Cleanup
@@ -36,15 +40,13 @@ namespace SquareCubed.Network
 			_disposed = true;
 
 			// Dispose stuff here
-			if (_peer != null && _peer.Status != NetPeerStatus.NotRunning)
-				_peer.Shutdown("Network object disposed!");
+			if (Peer != null && Peer.Status != NetPeerStatus.NotRunning)
+				Peer.Shutdown("Network object disposed!");
 		}
 
 		#endregion
 
 		#region Connection Management
-
-		private NetPeer _peer;
 
 		private void Start<T>(int port = -1) where T : NetPeer
 		{
@@ -52,31 +54,33 @@ namespace SquareCubed.Network
 			_logger.LogInfo("Starting new {0}...", typeof (T).Name);
 
 			// Make sure the peer is not already in use
-			if (_peer != null) throw new Exception("Network peer already in use.");
+			if (Peer != null) throw new Exception("Network peer already in use.");
 
 			// Configure peer
 			var config = new NetPeerConfiguration(_appIdentifier);
 			if (port > 0) config.Port = port;
 
 			// Start peer
-			_peer = (T) Activator.CreateInstance(typeof (T), config);
-			_peer.Start();
+			Peer = (T) Activator.CreateInstance(typeof (T), config);
+			Peer.Start();
 		}
 
 		public void StartServer(int port = 12321)
 		{
 			// Configure and start server peer
 			Start<NetServer>(port);
+			_isServer = true;
 		}
 
 		public void Connect(string host, int port = 12321)
 		{
 			// Configure and start client peer
 			Start<NetClient>();
+			_isServer = false;
 
 			// Attempt to connect to server
-			Debug.Assert(_peer != null);
-			_peer.Connect(host, port);
+			Debug.Assert(Peer != null);
+			Peer.Connect(host, port);
 		}
 
 		#endregion
@@ -99,7 +103,7 @@ namespace SquareCubed.Network
 		}
 
 		// TODO: Change to use key instead of number
-		public void BindPacketHandler(short type, EventHandler<NetIncomingMessage> e)
+		public void BindPacketHandler(ushort type, EventHandler<NetIncomingMessage> e)
 		{
 			if (_packetHandlers[type] == null)
 			{
@@ -115,10 +119,10 @@ namespace SquareCubed.Network
 		public void HandlePackets()
 		{
 			// If not connected, do nothing
-			if (_peer == null) return;
+			if (Peer == null) return;
 
 			NetIncomingMessage msg;
-			while ((msg = _peer.ReadMessage()) != null)
+			while ((msg = Peer.ReadMessage()) != null)
 			{
 				switch (msg.MessageType)
 				{
@@ -142,15 +146,39 @@ namespace SquareCubed.Network
 
 						break;
 					case NetIncomingMessageType.Data:
-						var type = msg.ReadInt16();
-						if (_packetHandlers[type] != null)
-							_packetHandlers[type].Invoke(this, msg);
+						try
+						{
+							// Read the packet type
+							var type = msg.ReadUInt16();
+
+							// If we have a packet handler on this type, invoke it, if not throw to drop client
+							if (_packetHandlers[type] != null)
+								_packetHandlers[type].Invoke(this, msg);
+							else
+							{
+								if (_isServer)
+									throw new Exception(string.Format("Connection sent invalid packet type {0}!", type));
+								_logger.LogInfo("Connection sent invalid packet type {0}!", type);
+							}
+						}
+						catch (Exception e)
+						{
+							// Assume client is doing something wrong, drop them to be sure
+							// Be very careful if you're changing this behavior, an exception in the packet handling
+							// means there's something wrong with the packet the client is sending or the server's code
+							// that's handling the packet. Exceptions are slow to process and if you don't drop the client
+							// this could be a DoS vulnerability. Sure it might be a server issue but it's less of a
+							// problem to drop a legit client then it is to have a server go down.
+							_logger.LogInfo("Exception occurred during packet handling: " + e.Message);
+							_logger.LogInfo("Dropping client {0}!", msg.SenderConnection.RemoteUniqueIdentifier);
+							msg.SenderConnection.Disconnect(e.Message);
+						}
 						break;
 					default:
 						_logger.LogInfo("Unhandled message: " + msg.MessageType);
 						break;
 				}
-				_peer.Recycle(msg);
+				Peer.Recycle(msg);
 			}
 		}
 

@@ -16,6 +16,8 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
 		public Input.Input Input { get; private set; }
+		public Player.Player Player { get; private set; }
+		public Meta.Meta Meta { get; private set; }
 
 		#region MetaData
 
@@ -23,12 +25,6 @@ namespace SquareCubed.Client
 		private readonly bool _disposeNetwork;
 		private readonly bool _disposePluginLoader;
 		private readonly bool _disposeWindow;
-
-		#endregion
-
-		#region Private Modules
-
-		private Meta _meta;
 
 		#endregion
 
@@ -66,7 +62,7 @@ namespace SquareCubed.Client
 			_disposeGraphics = disposeGraphics;
 
 			// The Input
-			Input = new Input.Input();
+			Input = new Input.Input(Window);
 
 			// The Network
 			Network = network ?? new Network.Network("SquareCubed");
@@ -77,7 +73,9 @@ namespace SquareCubed.Client
 			_disposePluginLoader = disposePluginLoader;
 
 			// Initialize the Meta Manager
-			_meta = new Meta(this);
+			Meta = new Meta.Meta(this);
+
+			Player = new Player.Player(this);
 
 			// Hook Game Loop Events
 			Window.UpdateFrame += (s, e) => Update(e);
@@ -148,9 +146,13 @@ namespace SquareCubed.Client
 			// Handle all queued up packets
 			Network.HandlePackets();
 
+			// Update the axises before updating
+			Input.UpdateAxes();
+
+			Player.Update((float) e.Time);
+
 			// Run the update event
-			var updateTick = UpdateTick;
-			if (updateTick != null) updateTick(this, (float) e.Time);
+			if (UpdateTick != null) UpdateTick(this, (float) e.Time);
 		}
 
 		private void Render(FrameEventArgs e)
@@ -158,12 +160,12 @@ namespace SquareCubed.Client
 			Graphics.BeginRender();
 
 			// Run the background render event
-			var backgroundRenderTick = BackgroundRenderTick;
-			if (backgroundRenderTick != null) backgroundRenderTick(this, (float) e.Time);
+			if (BackgroundRenderTick != null) BackgroundRenderTick(this, (float) e.Time);
 
 			// Run the unit render event
-			var unitRenderTick = UnitRenderTick;
-			if (unitRenderTick != null) unitRenderTick(this, (float) e.Time);
+			if (UnitRenderTick != null) UnitRenderTick(this, (float) e.Time);
+
+			Player.Render((float) e.Time);
 
 			Graphics.EndRender();
 		}
