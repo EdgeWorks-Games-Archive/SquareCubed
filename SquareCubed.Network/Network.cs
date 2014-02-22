@@ -14,6 +14,7 @@ namespace SquareCubed.Network
 		private readonly string _appIdentifier;
 
 		public NetPeer Peer { get; private set; }
+		public PacketHandlers PacketHandlers { get; set; }
 
 		private bool _isServer;
 
@@ -26,6 +27,16 @@ namespace SquareCubed.Network
 		public Network(string appIdentifier)
 		{
 			_appIdentifier = appIdentifier;
+			PacketHandlers = new PacketHandlers();
+
+			// Register common packet Ids that never change.
+			// Usually you would only do this on the server
+			// side of a mod, but these are used by core parts
+			// of the engine.
+			PacketHandlers.RegisterTypeId("meta", 0);
+			PacketHandlers.RegisterTypeId("unit.physics", 1);
+			PacketHandlers.RegisterTypeId("unit.data", 2);
+			PacketHandlers.RegisterTypeId("players.data", 3);
 		}
 
 		public virtual void Dispose()
@@ -87,34 +98,8 @@ namespace SquareCubed.Network
 
 		#region Packet Handling
 
-		#region Events
-
 		public event EventHandler<NetIncomingMessage> NewConnection;
-		private readonly PacketType[] _packetHandlers = new PacketType[10];
-
-		private class PacketType
-		{
-			public event EventHandler<NetIncomingMessage> Handler;
-
-			public void Invoke(object sender, NetIncomingMessage msg)
-			{
-				Handler(sender, msg);
-			}
-		}
-
-		// TODO: Change to use key instead of number
-		public void BindPacketHandler(ushort type, EventHandler<NetIncomingMessage> e)
-		{
-			if (_packetHandlers[type] == null)
-			{
-				_packetHandlers[type] = new PacketType();
-				_packetHandlers[type].Handler += e;
-			}
-			else
-				throw new Exception("Packet handler already bound to this type!");
-		}
-
-		#endregion
+		
 
 		public void HandlePackets()
 		{
@@ -146,33 +131,7 @@ namespace SquareCubed.Network
 
 						break;
 					case NetIncomingMessageType.Data:
-						try
-						{
-							// Read the packet type
-							var type = msg.ReadUInt16();
-
-							// If we have a packet handler on this type, invoke it, if not throw to drop client
-							if (_packetHandlers[type] != null)
-								_packetHandlers[type].Invoke(this, msg);
-							else
-							{
-								if (_isServer)
-									throw new Exception(string.Format("Connection sent invalid packet type {0}!", type));
-								_logger.LogInfo("Connection sent invalid packet type {0}!", type);
-							}
-						}
-						catch (Exception e)
-						{
-							// Assume client is doing something wrong, drop them to be sure
-							// Be very careful if you're changing this behavior, an exception in the packet handling
-							// means there's something wrong with the packet the client is sending or the server's code
-							// that's handling the packet. Exceptions are slow to process and if you don't drop the client
-							// this could be a DoS vulnerability. Sure it might be a server issue but it's less of a
-							// problem to drop a legit client then it is to have a server go down.
-							_logger.LogInfo("Exception occurred during packet handling: " + e.Message);
-							_logger.LogInfo("Dropping client {0}!", msg.SenderConnection.RemoteUniqueIdentifier);
-							msg.SenderConnection.Disconnect(e.Message);
-						}
+						PacketHandlers.HandlePacket(msg, _isServer);
 						break;
 					default:
 						_logger.LogInfo("Unhandled message: " + msg.MessageType);

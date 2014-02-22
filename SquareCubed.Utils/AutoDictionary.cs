@@ -23,7 +23,11 @@ namespace SquareCubed.Utils
 
 		public new void Add(uint key, TValue value)
 		{
-			throw new Exception("Regular Add method not supported by AutoDictionary!");
+			base.Add(key, value);
+
+			// Increment next key if needed
+			if (key >= _nextKey)
+				_nextKey = key + 1;
 		}
 	}
 }

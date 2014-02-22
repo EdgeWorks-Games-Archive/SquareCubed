@@ -18,9 +18,9 @@ namespace SquareCubed.Server.Meta
 			_server = server;
 			_server.Network.NewConnection += OnNewConnection;
 
-			// TODO: Change to read packet type from Network module
-			_packetType = 0;
-			_server.Network.BindPacketHandler(_packetType, OnMetaPacket);
+			// Resolve packet type num and bind handler
+			_packetType = _server.Network.PacketHandlers.ResolveType("meta");
+			_server.Network.PacketHandlers.Bind(_packetType, OnMetaPacket);
 		}
 
 		private void OnNewConnection(object sender, NetIncomingMessage msg)

@@ -14,9 +14,9 @@ namespace SquareCubed.Client.Meta
 		{
 			_client = client;
 
-			// TODO: Change to read packet type from Network module
-			_packetType = 0;
-			_client.Network.BindPacketHandler(_packetType, OnMetaPacket);
+			// Resolve packet type num and bind handler
+			_packetType = _client.Network.PacketHandlers.ResolveType("meta");
+			_client.Network.PacketHandlers.Bind(_packetType, OnMetaPacket);
 		}
 
 		private void OnMetaPacket(object sender, NetIncomingMessage msg)
@@ -26,11 +26,14 @@ namespace SquareCubed.Client.Meta
 
 			_logger.LogInfo("Received MetaData!");
 
+			// Skip Initial Type
+			msg.ReadUInt16();
+
 			// Read packet type mapping data
 
 			// Read mod data
 			var count = msg.ReadUInt16();
-			msg.ReadPadBits(); // TODO: replace with skipadbits? right now trying to fix bug
+			msg.SkipPadBits();
 			for (var i = 0; i < count; i++)
 			{
 				var id = msg.ReadString();
