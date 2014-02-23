@@ -12,11 +12,15 @@ namespace SquareCubed.Network
 		#region Network Properties
 
 		private readonly string _appIdentifier;
-
 		public NetPeer Peer { get; private set; }
 		public PacketHandlers PacketHandlers { get; set; }
 
+		#region Client/Server Specific Data
+
 		private bool _isServer;
+		public NetConnection Server { get; set; }
+
+		#endregion
 
 		#endregion
 
@@ -99,7 +103,6 @@ namespace SquareCubed.Network
 		#region Packet Handling
 
 		public event EventHandler<NetIncomingMessage> NewConnection;
-		
 
 		public void HandlePackets()
 		{
@@ -121,12 +124,12 @@ namespace SquareCubed.Network
 					case NetIncomingMessageType.StatusChanged:
 						var status = (NetConnectionStatus) msg.ReadByte();
 						_logger.LogInfo("Status changed to {0}: {1}", status.ToString(), msg.ReadString());
-						
+
 						// Fire new connection event
 						if (status == NetConnectionStatus.Connected)
 						{
-							var newConnection = NewConnection;
-							if (newConnection != null) NewConnection(this, msg);
+							if (!_isServer) Server = msg.SenderConnection;
+							if (NewConnection != null) NewConnection(this, msg);
 						}
 
 						break;
@@ -139,6 +142,21 @@ namespace SquareCubed.Network
 				}
 				Peer.Recycle(msg);
 			}
+		}
+
+		#endregion
+
+		#region Packet Sending
+
+		public void SendToServer(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
+		{
+			if (_isServer) throw new Exception("Can't send to server, we are the server!");
+
+			Peer.SendMessage(
+				msg,
+				Server,
+				method,
+				sequenceChannel);
 		}
 
 		#endregion

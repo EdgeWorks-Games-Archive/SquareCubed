@@ -48,6 +48,9 @@ namespace SquareCubed.Client.Graphics
 
 		public virtual void BeginRender()
 		{
+			// Ensure settings are set correctly
+			GL.Disable(EnableCap.DepthTest);
+
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			// Initialize Camera

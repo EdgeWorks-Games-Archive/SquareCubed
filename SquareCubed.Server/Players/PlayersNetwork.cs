@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using OpenTK;
 using SquareCubed.Network;
 
 namespace SquareCubed.Server.Players
@@ -7,11 +8,29 @@ namespace SquareCubed.Server.Players
 	{
 		private readonly Server _server;
 		private readonly ushort _packetType;
+		private readonly Players _callback;
 
-		public PlayersNetwork(Server server)
+		public PlayersNetwork(Server server, Players callback)
 		{
 			_server = server;
+			_callback = callback;
 			_packetType = _server.Network.PacketHandlers.ResolveType("players.data");
+			_server.Network.PacketHandlers.Bind(_packetType, OnPlayerPhysics);
+		}
+
+		private void OnPlayerPhysics(object s, NetIncomingMessage msg)
+		{
+			// Skip the packet type Id
+			msg.ReadUInt16();
+			msg.SkipPadBits();
+
+			// Read the data
+			var position = new Vector2(
+				msg.ReadFloat(),
+				msg.ReadFloat());
+
+			// Pass the data on
+			_callback.OnPlayerPhysics(msg.SenderConnection, position);
 		}
 
 		public void SendPlayerData(Player player)

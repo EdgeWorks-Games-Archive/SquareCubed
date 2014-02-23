@@ -1,4 +1,5 @@
-﻿using SquareCubed.Utils;
+﻿using SquareCubed.Server.Players;
+using SquareCubed.Utils;
 
 namespace SquareCubed.Server.Units
 {
@@ -18,6 +19,12 @@ namespace SquareCubed.Server.Units
 		{
 			unit.Id = _units.Add(unit);
 			_network.SendUnitData(unit);
+		}
+
+		public void SendUnitDataFor(Player player)
+		{
+			foreach (var unit in player.Unit.World.Units)
+				_network.SendUnitData(unit);
 		}
 
 		public void Update(float delta)

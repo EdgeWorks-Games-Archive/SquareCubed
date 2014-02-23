@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK;
 
 namespace SquareCubed.Client.Units
@@ -7,6 +8,7 @@ namespace SquareCubed.Client.Units
 	public class Units
 	{
 		private readonly UnitsNetwork _network;
+		private readonly UnitsRenderer _renderer = new UnitsRenderer();
 		private readonly Dictionary<uint, Unit> _units = new Dictionary<uint, Unit>();
 
 		public Units(Client client)
@@ -24,7 +26,7 @@ namespace SquareCubed.Client.Units
 			if (!_units.TryGetValue(key, out unit)) return;
 
 			// Set the data
-			unit.Position = position;
+			unit.ProcessPhysicsPacketData(position);
 		}
 
 		public void OnUnitData(uint key)
@@ -34,11 +36,41 @@ namespace SquareCubed.Client.Units
 			// Try to get the unit, if we can't we need to add it
 			if (!_units.TryGetValue(key, out unit))
 			{
-				unit = new Unit(key);
-				_units.Add(key, unit);
+				Add(new Unit(key));
 			}
 
 			// Set data here once we got data to set
+		}
+
+		#endregion
+
+		#region Utilitiy Functions
+
+		public void Add(Unit unit)
+		{
+			_units.Add(unit.Id, unit);
+		}
+
+		public Unit GetAndRemove(uint key)
+		{
+			Unit unit;
+
+			// Try to get the unit, if we can't we throw an exception
+			if (!_units.TryGetValue(key, out unit))
+				throw new Exception("Cannot remove because it doesn't exist.");
+
+			// Remove and return
+			_units.Remove(key);
+			return unit;
+		}
+
+		#endregion
+
+		#region Game Loop
+
+		public void Render()
+		{
+			_renderer.RenderUnits(_units.Select(u => u.Value));
 		}
 
 		#endregion

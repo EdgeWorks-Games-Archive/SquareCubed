@@ -1,5 +1,4 @@
-﻿using System;
-using Lidgren.Network;
+﻿using Lidgren.Network;
 using OpenTK;
 
 namespace SquareCubed.Client.Units

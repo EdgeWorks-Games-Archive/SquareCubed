@@ -16,24 +16,32 @@ namespace SquareCubed.Server.Players
 		public Players(Server server)
 		{
 			_server = server;
-			_network = new PlayersNetwork(_server);
+			_network = new PlayersNetwork(_server, this);
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
 		}
 
 		private void OnClientDataReceived(object sender, NetConnection con)
 		{
-			// Create the Data and Objects we'll need
+			// Create the Player and the Player Unit we'll need
 			var unit = new PlayerUnit(_server.Worlds.TestWorld, new Vector2(0, 0));
 			var name = "Player " + _iterator++;
 			var player = new Player(con, name, unit);
 
-			// Add the objects to their collections and send the data
+			// Make sure the player knows the existing units
+			_server.Units.SendUnitDataFor(player);
+
+			// Add the Player and the Player Unit to their collections and send the data
 			_server.Units.Add(unit);
 			_players.Add(con, player);
 			_network.SendPlayerData(player);
 
 			// And log it
 			_logger.LogInfo("New player \"{0}\" added!", name);
+		}
+
+		public void OnPlayerPhysics(NetConnection con, Vector2 position)
+		{
+			_players[con].Unit.Position = position;
 		}
 	}
 }

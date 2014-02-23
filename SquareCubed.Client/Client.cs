@@ -165,7 +165,7 @@ namespace SquareCubed.Client
 			// Run the unit render event
 			if (UnitRenderTick != null) UnitRenderTick(this, (float) e.Time);
 
-			Player.Render((float) e.Time);
+			Units.Render();
 
 			Graphics.EndRender();
 		}
