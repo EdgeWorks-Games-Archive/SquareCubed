@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SquareCubed.Utils;
+﻿using SquareCubed.Utils;
 
 namespace SquareCubed.Server.Worlds
 {

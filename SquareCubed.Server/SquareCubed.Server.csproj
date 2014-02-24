@@ -52,6 +52,8 @@
     <Compile Include="Players\PlayerUnit.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\Structure.cs" />
+    <Compile Include="Structures\Structures.cs" />
     <Compile Include="Units\Unit.cs" />
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Data\SquareCubed.Data.csproj">
+      <Project>{F2815C16-787D-40AD-AB5F-65059C82E11C}</Project>
+      <Name>SquareCubed.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
       <Project>{1f3ca083-84be-4d55-b878-d3a3be508ef1}</Project>
