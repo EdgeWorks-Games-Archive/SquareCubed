@@ -2,20 +2,25 @@
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Server.Players;
+using SquareCubed.Server.Structures;
 using SquareCubed.Server.Units;
 
 namespace SquareCubed.Server.Worlds
 {
 	public class World
 	{
-		private readonly List<Player> _players = new List<Player>();
 		private readonly Server _server;
-		private readonly List<Unit> _units = new List<Unit>();
 
 		public World(Server server)
 		{
 			_server = server;
 		}
+
+		#region Quick Lookup Collections
+
+		private readonly List<Player> _players = new List<Player>();
+		private readonly List<Structure> _structures = new List<Structure>();
+		private readonly List<Unit> _units = new List<Unit>();
 
 		public IEnumerable<Player> Players
 		{
@@ -27,24 +32,42 @@ namespace SquareCubed.Server.Worlds
 			get { return _units.AsReadOnly(); }
 		}
 
+		public IEnumerable<Structure> Structures
+		{
+			get { return _structures.AsReadOnly(); }
+		}
+
+		private void UpdateEntry<T>(ICollection<T> list, T entry, World newWorld)
+		{
+			if (newWorld == this && !list.Contains(entry))
+				list.Add(entry);
+			else
+				list.Remove(entry);
+		}
+
 		public void UpdatePlayerEntry(Player player)
 		{
-			if (player.Unit.World == this && !_players.Contains(player))
-				_players.Add(player);
-			else
-				_players.Remove(player);
+			UpdateEntry(_players, player, player.Unit.World);
 		}
 
 		public void UpdateUnitEntry(Unit unit)
 		{
-			if (unit.World == this && !_units.Contains(unit))
-				_units.Add(unit);
-			else
-				_units.Remove(unit);
+			UpdateEntry(_units, unit, unit.World);
 		}
+
+		public void UpdateStructureEntry(Structure structure)
+		{
+			UpdateEntry(_structures, structure, structure.World);
+		}
+
+		#endregion
 
 		public void SendToAllPlayers(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
 		{
+			// If no players, don't bother at all
+			if (_players.Count == 0) return;
+
+			// Otherwise, send the data
 			_server.Network.Peer.SendMessage(
 				msg,
 				Players.Select(p => p.Connection).ToList(),

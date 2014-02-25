@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using SquareCubed.Network;
+using SquareCubed.Server.Players;
 
 namespace SquareCubed.Server.Units
 {
@@ -33,7 +34,7 @@ namespace SquareCubed.Server.Units
 			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
 		}
 
-		public void SendUnitData(Unit unit)
+		public void SendUnitData(Unit unit, Player player = null)
 		{
 			var msg = _server.Network.Peer.CreateMessage();
 
@@ -44,8 +45,16 @@ namespace SquareCubed.Server.Units
 			// The client knows what unit to update using the Id
 			msg.Write(unit.Id);
 
-			// Send the data to all players in the world the unit is in
-			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+			if (player != null)
+			{
+				// Send the data to the player
+				player.Send(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+			}
+			else
+			{
+				// Send the data to all players in the world the unit is in
+				unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+			}
 		}
 	}
 }

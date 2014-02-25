@@ -1,34 +1,29 @@
-﻿using OpenTK;
-using SquareCubed.Data;
+﻿using SquareCubed.Server.Players;
 using SquareCubed.Utils;
 
 namespace SquareCubed.Server.Structures
 {
-	class Structures
+	public class Structures
 	{
+		private readonly StructuresNetwork _network;
 		private readonly AutoDictionary<Structure> _structures = new AutoDictionary<Structure>();
 
-		public Structures()
+		public Structures(Server server)
 		{
-			// Create a test ship
-			var str = new Structure
-			{
-				Position = new Vector2(-5.5f, -5.5f)
-			};
-
-			// Add a single chunk with a single tile
-			var chunk = new Chunk();
-			chunk.Tiles[5][5].Type = 1;
-			str.Chunks.Add(chunk);
-
-			// And add the ship to the collection
-			Add(str);
+			_network = new StructuresNetwork(server);
 		}
 
 		public void Add(Structure structure)
 		{
 			structure.Id = _structures.Add(structure);
-			// TODO: _network.SendStructureData(structure);
+			_network.SendStructureData(structure);
+		}
+
+		public void SendStructureDataFor(Player player)
+		{
+			// Send structure data for all structures to the player
+			foreach (var structure in player.Unit.World.Structures)
+				_network.SendStructureData(structure, player);
 		}
 	}
 }

@@ -3,6 +3,8 @@
 	public enum SequenceChannels
 	{
 		UnitPhysics,
-		UnitData
+		UnitData,
+		StructurePhysics,
+		StructureData
 	}
 }

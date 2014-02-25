@@ -14,7 +14,7 @@ namespace SquareCubed.Server.Players
 			set
 			{
 				var oldWorld = value;
-				base.World = value;
+				base.World = value; // Will also update unit world entries
 
 				// If player has been set, update the
 				// world references to the player.
@@ -22,10 +22,6 @@ namespace SquareCubed.Server.Players
 				oldWorld.UpdatePlayerEntry(Player);
 				base.World.UpdatePlayerEntry(Player);
 			}
-		}
-
-		public PlayerUnit(World world, Vector2 position) : base(world, position)
-		{
 		}
 	}
 }

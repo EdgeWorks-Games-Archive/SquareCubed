@@ -14,6 +14,7 @@ namespace SquareCubed.Server
 		public Network.Network Network { get; private set; }
 		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
 		public Worlds.Worlds Worlds { get; private set; }
+		public Structures.Structures Structures { get; private set; }
 		public Players.Players Players { get; private set; }
 		public Units.Units Units { get; private set; }
 		public Meta.Meta Meta { get; private set; }
@@ -47,6 +48,7 @@ namespace SquareCubed.Server
 
 			Meta = new Meta.Meta(this);
 			Worlds = new Worlds.Worlds(this);
+			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
 			Players = new Players.Players(this);
 
@@ -85,14 +87,14 @@ namespace SquareCubed.Server
 		public void Run()
 		{
 			_logger.LogInfo("Preparing to run...");
-			
+
+			// Start up Network
+			Network.StartServer();
+
 			// Detect all installed plugins and start them
 			// The server uses all plugins available, the client activates them on the fly.
 			PluginLoader.DetectPlugins();
 			PluginLoader.LoadAllPlugins(this);
-
-			// Start up Network
-			Network.StartServer();
 
 			_logger.LogInfo("Started running...");
 			KeepRunning = true;
@@ -104,7 +106,7 @@ namespace SquareCubed.Server
 
 				// Update all units (AI and send packets)
 				Units.Update(delta);
-				
+
 				// Run the update event
 				if (UpdateTick != null) UpdateTick(this, delta);
 

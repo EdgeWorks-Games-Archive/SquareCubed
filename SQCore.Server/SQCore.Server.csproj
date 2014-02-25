@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenTK.1.1.1508.5724\lib\NET40\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +51,10 @@
       <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
       <Name>SQCore.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Data\SquareCubed.Data.csproj">
+      <Project>{F2815C16-787D-40AD-AB5F-65059C82E11C}</Project>
+      <Name>SquareCubed.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
       <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>
       <Name>SquareCubed.PluginLoader</Name>
@@ -59,6 +67,9 @@
       <Project>{15f93d85-e905-4c84-87e8-c63262aa80a3}</Project>
       <Name>SquareCubed.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

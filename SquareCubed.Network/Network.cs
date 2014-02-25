@@ -35,12 +35,15 @@ namespace SquareCubed.Network
 
 			// Register common packet Ids that never change.
 			// Usually you would only do this on the server
-			// side of a mod, but these are used by core parts
-			// of the engine.
+			// side of a mod and let the engine decide what
+			// numeric value to use, but these are used by
+			// core parts of the engine.
 			PacketHandlers.RegisterTypeId("meta", 0);
 			PacketHandlers.RegisterTypeId("units.physics", 1);
 			PacketHandlers.RegisterTypeId("units.data", 2);
 			PacketHandlers.RegisterTypeId("players.data", 3);
+			PacketHandlers.RegisterTypeId("structures.physics", 4);
+			PacketHandlers.RegisterTypeId("structures.data", 5);
 		}
 
 		public virtual void Dispose()

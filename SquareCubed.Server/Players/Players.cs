@@ -23,11 +23,16 @@ namespace SquareCubed.Server.Players
 		private void OnClientDataReceived(object sender, NetConnection con)
 		{
 			// Create the Player and the Player Unit we'll need
-			var unit = new PlayerUnit(_server.Worlds.TestWorld, new Vector2(0, 0));
+			var unit = new PlayerUnit
+			{
+				World = _server.Worlds.TestWorld,
+				Position = new Vector2(0, 0)
+			};
 			var name = "Player " + _iterator++;
 			var player = new Player(con, name, unit);
 
-			// Make sure the player knows the existing units
+			// Make sure the player knows the existing structures and units
+			_server.Structures.SendStructureDataFor(player);
 			_server.Units.SendUnitDataFor(player);
 
 			// Add the Player and the Player Unit to their collections and send the data

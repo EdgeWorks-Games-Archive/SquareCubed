@@ -5,14 +5,12 @@ namespace SquareCubed.Server.Units
 {
 	public class Units
 	{
-		private readonly Server _server;
 		private readonly AutoDictionary<Unit> _units = new AutoDictionary<Unit>();
 		private readonly UnitsNetwork _network;
 
 		public Units(Server server)
 		{
-			_server = server;
-			_network = new UnitsNetwork(_server);
+			_network = new UnitsNetwork(server);
 		}
 
 		public void Add(Unit unit)
@@ -23,17 +21,16 @@ namespace SquareCubed.Server.Units
 
 		public void SendUnitDataFor(Player player)
 		{
+			// Send unit data for all units to the player
 			foreach (var unit in player.Unit.World.Units)
-				_network.SendUnitData(unit);
+				_network.SendUnitData(unit, player);
 		}
 
 		public void Update(float delta)
 		{
 			// Send out physics update packets
 			foreach (var unitEntry in _units)
-			{
 				_network.SendUnitPhysics(unitEntry.Value);
-			}
 		}
 	}
 }

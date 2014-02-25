@@ -7,15 +7,6 @@ namespace SquareCubed.Server.Units
 	{
 		private World _world;
 
-		public Unit(World world, Vector2 position)
-		{
-			_world = world;
-			Position = position;
-
-			// Set and Configure Unit Data
-			World.UpdateUnitEntry(this);
-		}
-
 		public uint Id { get; set; }
 
 		public virtual World World
@@ -26,8 +17,10 @@ namespace SquareCubed.Server.Units
 				var oldWorld = value;
 				_world = value;
 
-				oldWorld.UpdateUnitEntry(this);
-				_world.UpdateUnitEntry(this);
+				if(oldWorld != null)
+					oldWorld.UpdateUnitEntry(this);
+				if(_world != null)
+					_world.UpdateUnitEntry(this);
 			}
 		}
 
