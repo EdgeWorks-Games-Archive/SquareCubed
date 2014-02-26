@@ -23,16 +23,13 @@ namespace SquareCubed.Server.Structures
 			msg.Write(_packetType);
 			msg.WritePadBits();
 
-			// The client knows what structure to update using the Id
-			msg.Write(structure.Id);
-
 			// And add the data
 			msg.Write(structure);
 
 			if (player != null)
 			{
 				// Send the data to the player
-				player.Send(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.UnitData);
+				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.UnitData);
 			}
 			else
 			{

@@ -48,7 +48,7 @@ namespace SquareCubed.Server.Units
 			if (player != null)
 			{
 				// Send the data to the player
-				player.Send(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
 			}
 			else
 			{

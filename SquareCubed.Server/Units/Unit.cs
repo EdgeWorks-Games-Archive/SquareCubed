@@ -14,6 +14,9 @@ namespace SquareCubed.Server.Units
 			get { return _world; }
 			set
 			{
+				// If already this, don't do anything
+				if (value == _world) return;
+
 				var oldWorld = value;
 				_world = value;
 

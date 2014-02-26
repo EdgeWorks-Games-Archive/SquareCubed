@@ -38,14 +38,29 @@ namespace SquareCubed.Data
 					{
 						msg.Write(true);
 						msg.WritePadBits();
-						msg.Write(x);
-						msg.Write(y);
 						msg.Write(chunk.Tiles[x][y]);
 					}
 					else
 						msg.Write(false);
 				}
 			}
+		}
+
+		public static Chunk ReadChunk(this NetIncomingMessage msg)
+		{
+			var chunk = new Chunk();
+			for (var x = 0; x < chunk.Tiles.Length; x++)
+			{
+				for (var y = 0; y < chunk.Tiles[x].Length; y++)
+				{
+					// False means no tile, so ignore it
+					if (!msg.ReadBoolean()) continue;
+
+					msg.ReadPadBits();
+					chunk.Tiles[x][y] = msg.ReadTile();
+				}
+			}
+			return chunk;
 		}
 	}
 }

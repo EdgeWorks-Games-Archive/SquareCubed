@@ -18,10 +18,5 @@ namespace SquareCubed.Server.Players
 			Unit.Player = this;
 			Unit.World.UpdatePlayerEntry(this);
 		}
-
-		public void Send(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
-		{
-			Connection.SendMessage(msg, method, sequenceChannel);
-		}
 	}
 }

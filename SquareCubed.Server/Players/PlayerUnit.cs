@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using SquareCubed.Server.Units;
+﻿using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
 
 namespace SquareCubed.Server.Players
@@ -13,6 +12,9 @@ namespace SquareCubed.Server.Players
 			get { return base.World; }
 			set
 			{
+				// If already this, don't do anything
+				if (value == base.World) return;
+
 				var oldWorld = value;
 				base.World = value; // Will also update unit world entries
 

@@ -39,8 +39,13 @@ namespace SquareCubed.Server.Worlds
 
 		private void UpdateEntry<T>(ICollection<T> list, T entry, World newWorld)
 		{
-			if (newWorld == this && !list.Contains(entry))
-				list.Add(entry);
+			// If this world, add, if not, remove
+			if (newWorld == this)
+			{
+				// Make sure it's not already in this world before adding
+				if (!list.Contains(entry))
+					list.Add(entry);
+			}
 			else
 				list.Remove(entry);
 		}

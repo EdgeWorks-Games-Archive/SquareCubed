@@ -29,5 +29,14 @@ namespace SquareCubed.Data
 			foreach (var type in tile.WallTypes)
 				msg.Write(type);
 		}
+
+		public static Tile ReadTile(this NetIncomingMessage msg)
+		{
+			var tile = new Tile { Type = msg.ReadUInt32() };
+			for (var i = 0; i < tile.WallTypes.Length; i++)
+				tile.WallTypes[i] = msg.ReadUInt32();
+
+			return tile;
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Text;
 using OpenTK;
 using SquareCubed.PluginLoader;
 using SquareCubed.Utils.Logging;
@@ -19,6 +20,7 @@ namespace SquareCubed.Client
 		public Player.Player Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
+		public Structures.Structures Structures { get; private set; }
 
 		#region MetaData
 
@@ -74,6 +76,7 @@ namespace SquareCubed.Client
 			_disposePluginLoader = disposePluginLoader;
 
 			Meta = new Meta.Meta(this);
+			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
 			Player = new Player.Player(this);
 
