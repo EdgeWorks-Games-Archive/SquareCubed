@@ -31,13 +31,14 @@ namespace SquareCubed.Client.Units
 
 		public void OnUnitData(uint key)
 		{
+			// Note: This bit of code isn't entirely following coding standards
+			// look at the structure data receive system for how to correctly
+			// handle this. Change once we finally start receiving data.
 			Unit unit;
 
 			// Try to get the unit, if we can't we need to add it
 			if (!_units.TryGetValue(key, out unit))
-			{
 				Add(new Unit(key));
-			}
 
 			// Set data here once we got data to set
 		}

@@ -165,10 +165,12 @@ namespace SquareCubed.Client
 			// Run the background render event
 			if (BackgroundRenderTick != null) BackgroundRenderTick(this, (float) e.Time);
 
-			// Run the unit render event
-			if (UnitRenderTick != null) UnitRenderTick(this, (float) e.Time);
+			Structures.Render();
 
 			Units.Render();
+
+			// Run the unit render event
+			if (UnitRenderTick != null) UnitRenderTick(this, (float)e.Time);
 
 			Graphics.EndRender();
 		}

@@ -30,9 +30,9 @@ namespace SquareCubed.Data
 	{
 		public static void Write(this NetOutgoingMessage msg, Chunk chunk)
 		{
-			for (var x = 0; x < chunk.Tiles.Length; x++)
+			for (var x = 0; x < Chunk.ChunkSize; x++)
 			{
-				for (var y = 0; y < chunk.Tiles[x].Length; y++)
+				for (var y = 0; y < Chunk.ChunkSize; y++)
 				{
 					if (chunk.Tiles[x][y] != null)
 					{
@@ -49,9 +49,9 @@ namespace SquareCubed.Data
 		public static Chunk ReadChunk(this NetIncomingMessage msg)
 		{
 			var chunk = new Chunk();
-			for (var x = 0; x < chunk.Tiles.Length; x++)
+			for (var x = 0; x < Chunk.ChunkSize; x++)
 			{
-				for (var y = 0; y < chunk.Tiles[x].Length; y++)
+				for (var y = 0; y < Chunk.ChunkSize; y++)
 				{
 					// False means no tile, so ignore it
 					if (!msg.ReadBoolean()) continue;
