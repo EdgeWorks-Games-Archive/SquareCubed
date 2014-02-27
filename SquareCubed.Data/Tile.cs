@@ -5,20 +5,18 @@ namespace SquareCubed.Data
 	public enum WallSides
 	{
 		Top,
-		Right,
-		Bottom,
-		Left
+		Right
 	}
 
 	public class Tile
 	{
 		public Tile()
 		{
-			WallTypes = new uint[4];
+			WallTypes = new uint[2];
 		}
 
 		public uint Type { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for docking)
-		public uint[] WallTypes { get; set; } // Reserved types: 0 = None
+		public uint[] WallTypes { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for doors)
 	}
 
 	public static class TileExtensions
