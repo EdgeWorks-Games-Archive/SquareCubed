@@ -74,60 +74,23 @@ namespace SquareCubed.Client.Structures
 							GL.Begin(PrimitiveType.Quads);
 
 							// Walls are rendered all exactly the same except rotated.
-							var drawCorner = false;
+							// Walls overlap in the corners but since they're solid grey that doesn't matter
 							GL.Color3(Color.FromArgb(64, 64, 64));
 
 							// If the wall's type is set to 0 (means no wall) or 1 (means invisible), ignore it
 							if (tile.WallTypes[(int)WallSides.Top] >= 2)
 							{
-								GL.Vertex2(x + 0.1f, y + 1.1f); // Left Top
-								GL.Vertex2(x + 0.1f, y + 0.9f); // Left Bottom
-								GL.Vertex2(x + 0.9f, y + 0.9f); // Right Bottom
-								GL.Vertex2(x + 0.9f, y + 1.1f); // Right Top
-								drawCorner = true;
-
-								// Find the bordering tile
-								Tile borderTile;
-
-								// If it's within the chunk
-								if (x > 0) borderTile = chunk.Tiles[x-1][y];
-								else
-								{
-									// Try to find the bordering chunk
-									var borderChunk = structure.Chunks.Find(c => c.X == chunk.X - 1 && c.Y == chunk.Y);
-
-									// If chunk exists set to tile in the bordering position, otherwise default to null
-									borderTile = borderChunk != null ? borderChunk.Tiles[Chunk.ChunkSize][y] : null;
-								}
-
-								// If we found a tile that's null or without (visible) walls
-								if (borderTile == null || (borderTile.WallTypes[0] >= 2 && borderTile.WallTypes[1] >= 2))
-								{
-									// Draw a corner
-									GL.Vertex2(x - 0.1f, y + 1.1f); // Left Top
-									GL.Vertex2(x - 0.1f, y + 0.9f); // Left Bottom
-									GL.Vertex2(x + 0.1f, y + 0.9f); // Right Bottom
-									GL.Vertex2(x + 0.1f, y + 1.1f); // Right Top
-								}
+								GL.Vertex2(x - 0.1f, y + 1.1f); // Left Top
+								GL.Vertex2(x - 0.1f, y + 0.9f); // Left Bottom
+								GL.Vertex2(x + 1.1f, y + 0.9f); // Right Bottom
+								GL.Vertex2(x + 1.1f, y + 1.1f); // Right Top
 							}
 							if (tile.WallTypes[(int)WallSides.Right] >= 2)
 							{
-								GL.Vertex2(x + 1.1f, y + 0.9f); // Left Top
-								GL.Vertex2(x + 0.9f, y + 0.9f); // Left Bottom
+								GL.Vertex2(x + 1.1f, y + 1.1f); // Left Top
+								GL.Vertex2(x + 0.9f, y + 1.1f); // Left Bottom
 								GL.Vertex2(x + 0.9f, y + 0.1f); // Right Bottom
 								GL.Vertex2(x + 1.1f, y + 0.1f); // Right Top
-								drawCorner = true;
-
-								// TODO: Draw corner here as well, remember to make sure to not double draw
-							}
-
-							// And add a corner if needed
-							if (drawCorner)
-							{
-								GL.Vertex2(x + 0.9f, y + 1.1f); // Left Top
-								GL.Vertex2(x + 0.9f, y + 0.9f); // Left Bottom
-								GL.Vertex2(x + 1.1f, y + 0.9f); // Right Bottom
-								GL.Vertex2(x + 1.1f, y + 1.1f); // Right Top
 							}
 
 							GL.End();
