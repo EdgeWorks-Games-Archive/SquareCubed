@@ -17,14 +17,11 @@ namespace SquareCubed.Client.Units
 				// Render Test Quad to represent Player Position
 				GL.Begin(PrimitiveType.Quads);
 
-				GL.Color3(Color.Red);
-				GL.Vertex2(-0.4f, 0.4f); // Left Top
-				GL.Color3(Color.Lime);
-				GL.Vertex2(-0.4f, -0.4f); // Left Bottom
-				GL.Color3(Color.Blue);
-				GL.Vertex2(0.4f, -0.4f); // Right Bottom
-				GL.Color3(Color.Yellow);
-				GL.Vertex2(0.4f, 0.4f); // Right Top
+				GL.Color3(Color.WhiteSmoke);
+				GL.Vertex2(-0.3f, 0.3f); // Left Top
+				GL.Vertex2(-0.3f, -0.3f); // Left Bottom
+				GL.Vertex2(0.3f, -0.3f); // Right Bottom
+				GL.Vertex2(0.3f, 0.3f); // Right Top
 
 				GL.End();
 

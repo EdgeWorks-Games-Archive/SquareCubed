@@ -2,16 +2,16 @@
 
 namespace SquareCubed.Data
 {
+	public enum WallSides
+	{
+		Top,
+		Right,
+		Bottom,
+		Left
+	}
+
 	public class Tile
 	{
-		public enum WallSides
-		{
-			Top,
-			Right,
-			Bottom,
-			Left
-		}
-
 		public Tile()
 		{
 			WallTypes = new uint[4];
@@ -32,7 +32,7 @@ namespace SquareCubed.Data
 
 		public static Tile ReadTile(this NetIncomingMessage msg)
 		{
-			var tile = new Tile { Type = msg.ReadUInt32() };
+			var tile = new Tile {Type = msg.ReadUInt32()};
 			for (var i = 0; i < tile.WallTypes.Length; i++)
 				tile.WallTypes[i] = msg.ReadUInt32();
 

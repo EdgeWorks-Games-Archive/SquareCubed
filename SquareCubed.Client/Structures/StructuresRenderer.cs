@@ -29,7 +29,8 @@ namespace SquareCubed.Client.Structures
 						for (var y = 0; y < Chunk.ChunkSize; y++)
 						{
 							// If the tile is null, ignore it
-							if (chunk.Tiles[x][y] == null) continue;
+							var tile = chunk.Tiles[x][y];
+							if (tile == null) continue;
 
 							// Else, let's draw it (test grey tile for now)
 							GL.Begin(PrimitiveType.Quads);
@@ -39,6 +40,15 @@ namespace SquareCubed.Client.Structures
 							GL.Vertex2(0 + x, 0 + y); // Left Bottom
 							GL.Vertex2(1 + x, 0 + y); // Right Bottom
 							GL.Vertex2(1 + x, 1 + y); // Right Top
+
+							GL.Color3(Color.FromArgb(64, 64, 64));
+							if (tile.WallTypes[(int) WallSides.Top] != 0)
+							{
+								GL.Vertex2(0 + x, 1 + y); // Left Top
+								GL.Vertex2(0 + x, 0.9f + y); // Left Bottom
+								GL.Vertex2(1 + x, 0.9f + y); // Right Bottom
+								GL.Vertex2(1 + x, 1 + y); // Right Top
+							}
 
 							GL.End();
 						}

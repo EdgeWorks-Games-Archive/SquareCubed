@@ -19,12 +19,20 @@ namespace SQCore.Server
 				Position = new Vector2(-5.5f, -5.5f)
 			};
 
-			// Add a single chunk with a single tile
+			// Add a chunk for the test ship
 			var chunk = new Chunk();
-			chunk.Tiles[5][5] = new Tile
-			{
-				Type = 2
-			};
+
+			// Top Left
+			chunk.Tiles[5][6] = new Tile {Type = 2};
+			chunk.Tiles[5][6].WallTypes[(int)WallSides.Top] = 1;
+			chunk.Tiles[5][6].WallTypes[(int)WallSides.Left] = 1;
+
+			chunk.Tiles[6][6] = new Tile {Type = 2}; // Top Right
+			chunk.Tiles[5][5] = new Tile {Type = 2}; // Middle Left
+			chunk.Tiles[6][5] = new Tile {Type = 2}; // Middle Right
+			chunk.Tiles[5][4] = new Tile {Type = 2}; // Bottom Left
+			chunk.Tiles[6][4] = new Tile {Type = 2}; // Bottom Right
+
 			str.Chunks.Add(chunk);
 
 			// And add the ship to the collection
