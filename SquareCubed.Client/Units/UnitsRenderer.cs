@@ -17,7 +17,7 @@ namespace SquareCubed.Client.Units
 				// Render Test Quad to represent Player Position
 				GL.Begin(PrimitiveType.Quads);
 
-				GL.Color3(Color.WhiteSmoke);
+				GL.Color3(Color.White);
 				GL.Vertex2(-0.3f, 0.3f); // Left Top
 				GL.Vertex2(-0.3f, -0.3f); // Left Bottom
 				GL.Vertex2(0.3f, -0.3f); // Right Bottom

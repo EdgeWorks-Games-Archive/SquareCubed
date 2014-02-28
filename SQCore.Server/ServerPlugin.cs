@@ -23,14 +23,14 @@ namespace SQCore.Server
 			var chunk = new Chunk();
 
 			// Cockpit
-			chunk.Tiles[6][7] = new Tile {Type = 2};
+			chunk.Tiles[6][7] = new Tile {Type = 3};
 			chunk.Tiles[6][7].WallTypes[(int) WallSides.Top] = 2;
 			chunk.Tiles[6][7].WallTypes[(int) WallSides.Right] = 2;
 			chunk.Tiles[5][7] = new Tile {Type = 0};
 			chunk.Tiles[5][7].WallTypes[(int) WallSides.Right] = 2;
 
 			// Top Left
-			chunk.Tiles[5][6] = new Tile {Type = 2};
+			chunk.Tiles[5][6] = new Tile {Type = 3};
 			chunk.Tiles[5][6].WallTypes[(int) WallSides.Top] = 2;
 
 			// Top Right
@@ -38,7 +38,7 @@ namespace SQCore.Server
 			chunk.Tiles[6][6].WallTypes[(int) WallSides.Right] = 2;
 
 			// Middle Left
-			chunk.Tiles[5][5] = new Tile {Type = 2};
+			chunk.Tiles[5][5] = new Tile {Type = 3};
 			chunk.Tiles[5][5].WallTypes[(int) WallSides.Top] = 2;
 			chunk.Tiles[4][5] = new Tile {Type = 0};
 			chunk.Tiles[4][5].WallTypes[(int) WallSides.Right] = 2;
@@ -48,7 +48,7 @@ namespace SQCore.Server
 			chunk.Tiles[6][5].WallTypes[(int) WallSides.Right] = 2;
 
 			// Bottom Left
-			chunk.Tiles[5][4] = new Tile {Type = 2};
+			chunk.Tiles[5][4] = new Tile {Type = 3};
 			chunk.Tiles[5][4].WallTypes[(int) WallSides.Right] = 2;
 			chunk.Tiles[4][4] = new Tile {Type = 0};
 			chunk.Tiles[4][4].WallTypes[(int) WallSides.Right] = 2;

@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System;
 
 namespace SquareCubed.Client.Graphics
@@ -50,6 +49,7 @@ namespace SquareCubed.Client.Graphics
 		{
 			// Ensure settings are set correctly
 			GL.Disable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.Texture2D);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 

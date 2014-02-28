@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SquareCubed.Client.Graphics;
 using SquareCubed.Data;
 
 namespace SquareCubed.Client.Structures
 {
 	class StructuresRenderer
 	{
+		private readonly Texture2D _texture = new Texture2D("./Graphics/Tiles/Corridor.png");
+		private readonly Vector2 _size = new Vector2(1, 1);
+
 		public void RenderStructures(IEnumerable<Structure> structures)
 		{
 			GL.MatrixMode(MatrixMode.Modelview);
@@ -35,16 +40,20 @@ namespace SquareCubed.Client.Structures
 							// If the tile's ground is set to 0 (means no ground) or 1 (means invisible), ignore it as well
 							if (tile.Type < 2) continue;
 
-							// Else, let's draw it (test grey tile for now)
-							GL.Begin(PrimitiveType.Quads);
-
-							GL.Color3(Color.Gray);
-							GL.Vertex2(x + 0, y + 1); // Left Top
-							GL.Vertex2(x + 0, y + 0); // Left Bottom
-							GL.Vertex2(x + 1, y + 0); // Right Bottom
-							GL.Vertex2(x + 1, y + 1); // Right Top
-
-							GL.End();
+							// Special case test tile
+							if (tile.Type == 2)
+								_texture.Render(new Vector2(x, y), _size);
+							else
+							{
+								// Else, test grey tile for now
+								GL.Begin(PrimitiveType.Quads);
+								GL.Color3(Color.Gray);
+								GL.Vertex2(x + 0, y + 1); // Left Top
+								GL.Vertex2(x + 0, y + 0); // Left Bottom
+								GL.Vertex2(x + 1, y + 0); // Right Bottom
+								GL.Vertex2(x + 1, y + 1); // Right Top
+								GL.End();
+							}
 						}
 					}
 
