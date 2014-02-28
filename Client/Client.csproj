@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Graphics\Tiles\Corridor.psd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

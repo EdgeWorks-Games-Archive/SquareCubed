@@ -48,11 +48,16 @@
   <ItemGroup>
     <Compile Include="ClientPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stars\StarsBackground.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQCore.Common\SQCore.Common.csproj">
       <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
       <Name>SQCore.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
+      <Project>{75B2D35B-1E51-47FD-9D67-749217B033AC}</Project>
+      <Name>SquareCubed.Client.Window</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
