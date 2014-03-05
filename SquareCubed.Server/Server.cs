@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using SquareCubed.PluginLoader;
+using SquareCubed.Server.Structures;
 using SquareCubed.Utils.Logging;
 
 namespace SquareCubed.Server
@@ -103,6 +104,9 @@ namespace SquareCubed.Server
 			{
 				// Handle all queued up packets
 				Network.HandlePackets();
+
+				// Update all structures (objects and send packets)
+				Structures.Update(delta);
 
 				// Update all units (AI and send packets)
 				Units.Update(delta);

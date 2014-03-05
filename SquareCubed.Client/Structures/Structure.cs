@@ -10,6 +10,8 @@ namespace SquareCubed.Client.Structures
 		public uint Id { get; set; }
 		public List<Chunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
+		public float Rotation { get; set; }
+		public Vector2 Center { get; set; }
 	}
 
 	public static class StructureExtensions
@@ -30,6 +32,8 @@ namespace SquareCubed.Client.Structures
 			{
 				Id = msg.ReadUInt32(),
 				Position = msg.ReadVector2(),
+				Rotation = msg.ReadFloat(),
+				Center = msg.ReadVector2(),
 				Chunks = msg.ReadChunks()
 			};
 		}

@@ -6,13 +6,35 @@ namespace SquareCubed.Server.Structures
 {
 	class StructuresNetwork
 	{
-		private readonly ushort _packetType;
+		private readonly ushort _physicsPacketType;
+		private readonly ushort _dataPacketType;
 		private readonly Server _server;
 
 		public StructuresNetwork(Server server)
 		{
 			_server = server;
-			_packetType = _server.Network.PacketHandlers.ResolveType("structures.data");
+			_physicsPacketType = _server.Network.PacketHandlers.ResolveType("structures.physics");
+			_dataPacketType = _server.Network.PacketHandlers.ResolveType("structures.data");
+		}
+
+		public void SendStructurePhysics(Structure structure)
+		{
+			var msg = _server.Network.Peer.CreateMessage();
+
+			// Add the packet type Id
+			msg.Write(_physicsPacketType);
+			msg.WritePadBits();
+
+			// Add data
+			msg.Write(structure.Id);
+			msg.Write(structure.Position.X);
+			msg.Write(structure.Position.Y);
+			msg.Write(structure.Rotation);
+			msg.Write(structure.Center.X);
+			msg.Write(structure.Center.Y);
+
+			// Send data to appropriate players
+			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int)SequenceChannels.UnitPhysics);
 		}
 
 		public void SendStructureData(Structure structure, Player player = null)
@@ -20,7 +42,7 @@ namespace SquareCubed.Server.Structures
 			var msg = _server.Network.Peer.CreateMessage();
 
 			// Add the packet type Id
-			msg.Write(_packetType);
+			msg.Write(_dataPacketType);
 			msg.WritePadBits();
 
 			// And add the data
@@ -33,7 +55,7 @@ namespace SquareCubed.Server.Structures
 			}
 			else
 			{
-				// Send the data to all players in the world the unit is in
+				// Send the data to all players in the world the structure is in
 				structure.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.UnitData);
 			}
 		}

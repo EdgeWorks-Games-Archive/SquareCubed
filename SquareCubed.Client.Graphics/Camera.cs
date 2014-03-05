@@ -30,7 +30,7 @@ namespace SquareCubed.Client.Graphics
 			_res = resolution;
 
 			// Set Default Size
-			SetHeight(16);
+			SetHeight(14);
 		}
 
 

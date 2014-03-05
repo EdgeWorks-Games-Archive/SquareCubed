@@ -6,12 +6,13 @@ namespace SquareCubed.Client.Structures
 	public class Structures
 	{
 		private readonly StructuresNetwork _network;
-		private readonly StructuresRenderer _renderer = new StructuresRenderer();
+		private readonly StructuresRenderer _renderer;
 		private readonly Dictionary<uint, Structure> _structures = new Dictionary<uint, Structure>();
 
 		public Structures(Client client)
 		{
 			_network = new StructuresNetwork(client, this);
+			_renderer = new StructuresRenderer(client);
 		}
 
 		public void OnStructureData(Structure structure)

@@ -25,5 +25,12 @@ namespace SquareCubed.Server.Structures
 			foreach (var structure in player.Unit.World.Structures)
 				_network.SendStructureData(structure, player);
 		}
+
+		public void Update(float delta)
+		{
+			// Send out physics update packets
+			foreach (var structureEntry in _structures)
+				_network.SendStructurePhysics(structureEntry.Value);
+		}
 	}
 }

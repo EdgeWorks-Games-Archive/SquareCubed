@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing.Text;
 using OpenTK;
 using SquareCubed.PluginLoader;
 using SquareCubed.Utils.Logging;
@@ -17,6 +16,7 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
 		public Input.Input Input { get; private set; }
+		public Tiles.Tiles Tiles { get; private set; }
 		public Player.Player Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
@@ -76,6 +76,7 @@ namespace SquareCubed.Client
 			_disposePluginLoader = disposePluginLoader;
 
 			Meta = new Meta.Meta(this);
+			Tiles = new Tiles.Tiles();
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
 			Player = new Player.Player(this);
@@ -170,7 +171,7 @@ namespace SquareCubed.Client
 			Units.Render();
 
 			// Run the unit render event
-			if (UnitRenderTick != null) UnitRenderTick(this, (float)e.Time);
+			if (UnitRenderTick != null) UnitRenderTick(this, (float) e.Time);
 
 			Graphics.EndRender();
 		}

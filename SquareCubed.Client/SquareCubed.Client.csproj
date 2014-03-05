@@ -58,6 +58,9 @@
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />
     <Compile Include="Structures\StructuresRenderer.cs" />
+    <Compile Include="Tiles\InvisibleTileType.cs" />
+    <Compile Include="Tiles\Tiles.cs" />
+    <Compile Include="Tiles\TileType.cs" />
     <Compile Include="Units\Unit.cs" />
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />

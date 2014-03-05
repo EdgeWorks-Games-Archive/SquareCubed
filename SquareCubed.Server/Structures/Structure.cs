@@ -34,6 +34,13 @@ namespace SquareCubed.Server.Structures
 		public uint Id { get; set; }
 		public List<Chunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
+		public float Rotation { get; set; }
+
+		/// <summary>
+		///     The location in the chunk data where the center of the structure is.
+		///     This is the axis the structure rotates around and thus is the center of mass.
+		/// </summary>
+		public Vector2 Center { get; set; }
 	}
 
 	public static class StructureExtensions
@@ -43,6 +50,8 @@ namespace SquareCubed.Server.Structures
 			// Add metadata and position
 			msg.Write(structure.Id);
 			msg.Write(structure.Position);
+			msg.Write(structure.Rotation);
+			msg.Write(structure.Center);
 
 			// Add structure chunk data
 			msg.Write(structure.Chunks.Count);

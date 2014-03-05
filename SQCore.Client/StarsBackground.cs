@@ -4,13 +4,13 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace SQCore.Client.Stars
+namespace SQCore.Client
 {
 	internal class StarsBackground
 	{
-		private readonly List<StarData> _starData = new List<StarData>();
 		private readonly Random _random = new Random();
 		private readonly Vector2 _resolution;
+		private readonly List<StarData> _starData = new List<StarData>();
 
 		public StarsBackground(SquareCubed.Client.Client client)
 		{
@@ -23,10 +23,10 @@ namespace SQCore.Client.Stars
 				_starData.Add(new StarData
 				{
 					Position = new Vector2(
-						(float)_random.NextDouble() * _resolution.X,
-						(float)_random.NextDouble() * _resolution.Y),
-					Rotation = (float)_random.NextDouble() * 360.0f,
-					Scale = (float)_random.NextDouble() * 1.0f + 0.5f
+						(float) _random.NextDouble()*_resolution.X,
+						(float) _random.NextDouble()*_resolution.Y),
+					Rotation = (float) _random.NextDouble()*360.0f,
+					Scale = (float) _random.NextDouble()*1.0f + 0.5f
 				});
 			}
 
