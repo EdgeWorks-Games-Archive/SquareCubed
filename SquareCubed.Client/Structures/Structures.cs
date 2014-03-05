@@ -28,7 +28,7 @@ namespace SquareCubed.Client.Structures
 
 		public void Render()
 		{
-			_renderer.RenderStructures(_structures.Select(s => s.Value));
+			_renderer.RenderStructures(_structures.Values);
 		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System;
+using System.Diagnostics.Contracts;
+using OpenTK;
 using SquareCubed.Server.Worlds;
 
 namespace SquareCubed.Server.Units
@@ -14,10 +16,13 @@ namespace SquareCubed.Server.Units
 			get { return _world; }
 			set
 			{
+				// Unit must always be in a world
+				Contract.Requires<ArgumentNullException>(value != null);
+
 				// If already this, don't do anything
 				if (value == _world) return;
 
-				var oldWorld = value;
+				var oldWorld = _world;
 				_world = value;
 
 				if(oldWorld != null)

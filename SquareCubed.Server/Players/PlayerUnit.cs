@@ -15,14 +15,16 @@ namespace SquareCubed.Server.Players
 				// If already this, don't do anything
 				if (value == base.World) return;
 
-				var oldWorld = value;
+				var oldWorld = base.World;
 				base.World = value; // Will also update unit world entries
 
-				// If player has been set, update the
-				// world references to the player.
+				// If player has not been set, don't update world references yet
 				if (Player == null) return;
-				oldWorld.UpdatePlayerEntry(Player);
-				base.World.UpdatePlayerEntry(Player);
+
+				if (oldWorld != null)
+					oldWorld.UpdatePlayerEntry(Player);
+				if (base.World != null)
+					base.World.UpdatePlayerEntry(Player);
 			}
 		}
 	}

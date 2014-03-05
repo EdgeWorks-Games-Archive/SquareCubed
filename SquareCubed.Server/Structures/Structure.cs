@@ -20,7 +20,7 @@ namespace SquareCubed.Server.Structures
 			get { return _world; }
 			set
 			{
-				var oldWorld = value;
+				var oldWorld = _world;
 				_world = value;
 
 				// Update links in worlds

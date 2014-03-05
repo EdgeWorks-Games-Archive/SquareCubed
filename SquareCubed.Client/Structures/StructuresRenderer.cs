@@ -20,9 +20,19 @@ namespace SquareCubed.Client.Structures
 			GL.MatrixMode(MatrixMode.Modelview);
 			foreach (var structure in structures)
 			{
-				// Translate to the ship position
+				// Move and rotate to the structure center
 				GL.PushMatrix();
-				GL.Translate(structure.Position.X, structure.Position.Y, 0);
+				GL.Translate(
+					structure.Position.X,
+					structure.Position.Y,
+					0);
+				GL.Rotate(-structure.Rotation, 0, 0, 1);
+
+				// Move to the chunk origin (translate negative center)
+				GL.Translate(
+					-structure.Center.X,
+					-structure.Center.Y,
+					0);
 
 				// Iterate through chunks to render the Ground
 				foreach (var chunk in structure.Chunks)

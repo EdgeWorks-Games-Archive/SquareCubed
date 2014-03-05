@@ -16,9 +16,9 @@ namespace SQCore.Server
 			var str = new Structure
 			{
 				World = server.Worlds.TestWorld,
-				Position = new Vector2(-5.5f, -5.5f),
-				Rotation = 1.0f,
-				Center = new Vector2(5.5f, 5.5f)
+				Position = new Vector2(0, 0),
+				Rotation = 21.0f,
+				Center = new Vector2(6.0f, 6.0f)
 			};
 			
 			// Add a chunk for the test ship
