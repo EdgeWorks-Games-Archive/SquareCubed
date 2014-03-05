@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Utils.Logging;
@@ -15,6 +16,8 @@ namespace SquareCubed.Server.Meta
 
 		public Meta(Server server)
 		{
+			Contract.Requires(server != null);
+
 			_server = server;
 			_server.Network.NewConnection += OnNewConnection;
 

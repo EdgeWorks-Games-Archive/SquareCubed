@@ -22,13 +22,13 @@ namespace SquareCubed.Server.Units
 				// If already this, don't do anything
 				if (value == _world) return;
 
+				// Flip around the reference and keep a copy
 				var oldWorld = _world;
 				_world = value;
 
-				if(oldWorld != null)
-					oldWorld.UpdateUnitEntry(this);
-				if(_world != null)
-					_world.UpdateUnitEntry(this);
+				// Update the entries in the worlds
+				if (oldWorld != null) oldWorld.UpdateUnitEntry(this);
+				_world.UpdateUnitEntry(this);
 			}
 		}
 

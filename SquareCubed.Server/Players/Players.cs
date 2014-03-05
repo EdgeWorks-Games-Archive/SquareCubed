@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Utils.Logging;
@@ -15,6 +17,8 @@ namespace SquareCubed.Server.Players
 
 		public Players(Server server)
 		{
+			Contract.Requires<ArgumentNullException>(server != null);
+
 			_server = server;
 			_network = new PlayersNetwork(_server, this);
 			_server.Meta.ClientDataReceived += OnClientDataReceived;

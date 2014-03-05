@@ -1,4 +1,6 @@
-﻿using Lidgren.Network;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Lidgren.Network;
 
 namespace SquareCubed.Server.Players
 {
@@ -10,6 +12,8 @@ namespace SquareCubed.Server.Players
 
 		public Player(NetConnection connection, string name, PlayerUnit unit)
 		{
+			Contract.Requires<ArgumentNullException>(unit != null);
+
 			Connection = connection;
 			Name = name;
 

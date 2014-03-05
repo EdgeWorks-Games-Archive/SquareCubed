@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Server.Players;
@@ -52,16 +54,19 @@ namespace SquareCubed.Server.Worlds
 
 		public void UpdatePlayerEntry(Player player)
 		{
+			Contract.Requires<ArgumentNullException>(player != null);
 			UpdateEntry(_players, player, player.Unit.World);
 		}
 
 		public void UpdateUnitEntry(Unit unit)
 		{
+			Contract.Requires<ArgumentNullException>(unit != null);
 			UpdateEntry(_units, unit, unit.World);
 		}
 
 		public void UpdateStructureEntry(Structure structure)
 		{
+			Contract.Requires<ArgumentNullException>(structure != null);
 			UpdateEntry(_structures, structure, structure.World);
 		}
 

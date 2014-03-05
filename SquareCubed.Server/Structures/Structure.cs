@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Data;
@@ -47,6 +49,9 @@ namespace SquareCubed.Server.Structures
 	{
 		public static void Write(this NetOutgoingMessage msg, Structure structure)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+			Contract.Requires<ArgumentNullException>(structure != null);
+
 			// Add metadata and position
 			msg.Write(structure.Id);
 			msg.Write(structure.Position);
