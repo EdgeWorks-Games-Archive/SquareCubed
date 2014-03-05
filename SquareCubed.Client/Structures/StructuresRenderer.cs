@@ -41,7 +41,7 @@ namespace SquareCubed.Client.Structures
 					GL.PushMatrix();
 					GL.Translate(chunk.X * Chunk.ChunkSize, chunk.Y * Chunk.ChunkSize, 0);
 
-					// Iterate through all Tiles
+					// Iterate through all TileTypes
 					for (var x = 0; x < Chunk.ChunkSize; x++)
 					{
 						for (var y = 0; y < Chunk.ChunkSize; y++)
@@ -51,7 +51,7 @@ namespace SquareCubed.Client.Structures
 							if (tile == null || tile.Type == 0) continue;
 
 							// Get tile tile type and render it
-							_client.Tiles.TileList[tile.Type].RenderTile(new Vector2(x, y));
+							_client.Structures.TileTypes.TypeList[tile.Type].RenderTile(new Vector2(x, y));
 						}
 					}
 
@@ -68,7 +68,7 @@ namespace SquareCubed.Client.Structures
 					GL.PushMatrix();
 					GL.Translate(chunk.X * Chunk.ChunkSize, chunk.Y * Chunk.ChunkSize, 0);
 
-					// Iterate through all Tiles to render the Walls
+					// Iterate through all TileTypes to render the Walls
 					for (var x = 0; x < Chunk.ChunkSize; x++)
 					{
 						for (var y = 0; y < Chunk.ChunkSize; y++)

@@ -50,6 +50,7 @@ namespace SquareCubed.Client.Graphics
 			// Ensure settings are set correctly
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
+			GL.Enable(EnableCap.Multisample);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 

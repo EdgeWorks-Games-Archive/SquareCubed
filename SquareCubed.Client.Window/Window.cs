@@ -12,7 +12,7 @@ namespace SquareCubed.Client.Window
 	public class Window : GameWindow
 	{
 		public Window()
-			: base(1024, 768, new GraphicsMode(32, 0, 0, 4), "SquareCubed Engine")
+			: base(1024, 768, new GraphicsMode(32, 0, 0, 16), "SquareCubed Engine")
 		{
 		}
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace SquareCubed.Client.Structures
 {
@@ -9,8 +8,11 @@ namespace SquareCubed.Client.Structures
 		private readonly StructuresRenderer _renderer;
 		private readonly Dictionary<uint, Structure> _structures = new Dictionary<uint, Structure>();
 
+		public Tiles.TileTypes TileTypes { get; private set; }
+
 		public Structures(Client client)
 		{
+			TileTypes = new Tiles.TileTypes();
 			_network = new StructuresNetwork(client, this);
 			_renderer = new StructuresRenderer(client);
 		}

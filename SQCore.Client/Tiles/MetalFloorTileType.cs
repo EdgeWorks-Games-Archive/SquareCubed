@@ -1,14 +1,14 @@
 ﻿using SquareCubed.Client.Graphics;
-using SquareCubed.Client.Tiles;
+using SquareCubed.Client.Structures.Tiles;
 
 namespace SQCore.Client.Tiles
 {
 	class MetalFloorTileType : TileType
 	{
-		public MetalFloorTileType(SquareCubed.Client.Tiles.Tiles tiles)
+		public MetalFloorTileType(TileTypes tileTypes)
 		{
 			Texture = new Texture2D("./Graphics/Tiles/MetalFloor.png");
-			tiles.RegisterType(this, 3);
+			tileTypes.RegisterType(this, 3);
 		}
 	}
 }

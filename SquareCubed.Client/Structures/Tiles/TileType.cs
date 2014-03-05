@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using SquareCubed.Client.Graphics;
 
-namespace SquareCubed.Client.Tiles
+namespace SquareCubed.Client.Structures.Tiles
 {
 	public abstract class TileType
 	{

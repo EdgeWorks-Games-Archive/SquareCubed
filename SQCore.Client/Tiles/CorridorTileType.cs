@@ -1,14 +1,14 @@
 ﻿using SquareCubed.Client.Graphics;
-using SquareCubed.Client.Tiles;
+using SquareCubed.Client.Structures.Tiles;
 
 namespace SQCore.Client.Tiles
 {
 	class CorridorTileType : TileType
 	{
-		public CorridorTileType(SquareCubed.Client.Tiles.Tiles tiles)
+		public CorridorTileType(TileTypes tileTypes)
 		{
 			Texture = new Texture2D("./Graphics/Tiles/Corridor.png");
-			tiles.RegisterType(this, 2);
+			tileTypes.RegisterType(this, 2);
 		}
 	}
 }

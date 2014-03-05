@@ -16,8 +16,8 @@ namespace SQCore.Client
 			Logger.LogInfo("Initializing core plugin...");
 
 			_stars = new StarsBackground(client);
-			_corridorTile = new CorridorTileType(client.Tiles);
-			_metalFloorTile = new MetalFloorTileType(client.Tiles);
+			_corridorTile = new CorridorTileType(client.Structures.TileTypes);
+			_metalFloorTile = new MetalFloorTileType(client.Structures.TileTypes);
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}
