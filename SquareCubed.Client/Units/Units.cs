@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using OpenTK;
+using SquareCubed.Client.Structures;
 
 namespace SquareCubed.Client.Units
 {
@@ -31,13 +33,23 @@ namespace SquareCubed.Client.Units
 
 		public void OnUnitData(Unit unit)
 		{
-			Unit oldUnit;
+			Contract.Requires<ArgumentNullException>(unit != null);
 
 			// Try to get the unit, if we can't we need to add it, otherwise overwrite it
-			if (!_units.TryGetValue(unit.Id, out oldUnit))
+			if (!_units.ContainsKey(unit.Id))
 				_units.Add(unit.Id, unit);
 			else
-				_units[unit.Id] = unit;
+			{
+				// Update the unit manually, we can't replace it because
+				// there's derived types of Unit for player units.
+				var oldUnit = _units[unit.Id];
+				oldUnit.Position = unit.Position;
+				oldUnit.Structure = unit.Structure;
+				
+				// Unlink the newly created unit from the structure so it gets garbage collected
+				// TODO: This seriously needs improvements in how this works...
+				unit.Structure = null;
+			}
 		}
 
 		#endregion
@@ -46,6 +58,8 @@ namespace SquareCubed.Client.Units
 
 		public void Add(Unit unit)
 		{
+			Contract.Requires<ArgumentNullException>(unit != null);
+
 			_units.Add(unit.Id, unit);
 		}
 
@@ -66,9 +80,11 @@ namespace SquareCubed.Client.Units
 
 		#region Game Loop
 
-		public void Render()
+		public void RenderFor(Structure structure)
 		{
-			_renderer.RenderUnits(_units.Select(u => u.Value));
+			Contract.Requires<ArgumentNullException>(structure != null);
+
+			_renderer.RenderUnits(structure.Units);
 		}
 
 		#endregion

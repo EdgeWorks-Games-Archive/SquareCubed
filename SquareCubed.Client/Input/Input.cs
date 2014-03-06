@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using OpenTK;
 using OpenTK.Input;
 
@@ -10,6 +12,8 @@ namespace SquareCubed.Client.Input
 
 		public Input(Window.Window window)
 		{
+			Contract.Requires<ArgumentNullException>(window != null);
+
 			window.KeyDown += (s, e) => OnKeyChange(e, true);
 			window.KeyUp += (s, e) => OnKeyChange(e, false);
 

@@ -6,10 +6,10 @@ using SquareCubed.Utils.Logging;
 
 namespace SQCore.Server
 {
-	class SpawnProvider : ISpawnProvider
+	internal class SpawnProvider : ISpawnProvider
 	{
-		private SquareCubed.Server.Server _server;
-		private Logger _logger;
+		private readonly Logger _logger;
+		private readonly SquareCubed.Server.Server _server;
 
 		public SpawnProvider(SquareCubed.Server.Server server, Logger logger)
 		{
@@ -70,7 +70,7 @@ namespace SQCore.Server
 			// Now actually create the struct to describe where the player is
 			return new SpawnPoint
 			{
-				Position = new Vector2(0.5f, 0.0f),
+				Position = new Vector2(6.5f, 6.0f),
 				Structure = str
 			};
 		}

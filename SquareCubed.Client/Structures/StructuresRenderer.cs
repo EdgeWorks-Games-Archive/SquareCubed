@@ -58,6 +58,9 @@ namespace SquareCubed.Client.Structures
 					GL.PopMatrix();
 				}
 
+				// Units are rendered below walls but above tiles
+				_client.Units.RenderFor(structure);
+
 				// Iterate through chunks to render the Walls
 				// Walls have to be done after all the ground of all
 				// chunks is done, which is why this is a separate

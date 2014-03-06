@@ -10,6 +10,17 @@ namespace SquareCubed.Client.Structures
 
 		public Tiles.TileTypes TileTypes { get; private set; }
 
+		public IEnumerable<Structure> List
+		{
+			get { return _structures.Values; }
+		}
+
+		public Structure GetOrNull(uint id)
+		{
+			Structure structure;
+			return _structures.TryGetValue(id, out structure) ? structure : null;
+		}
+
 		public Structures(Client client)
 		{
 			TileTypes = new Tiles.TileTypes();
@@ -19,10 +30,8 @@ namespace SquareCubed.Client.Structures
 
 		public void OnStructureData(Structure structure)
 		{
-			Structure oldStructure;
-
 			// Try to get the unit, if we can't we need to add it, otherwise overwrite it
-			if (!_structures.TryGetValue(structure.Id, out oldStructure))
+			if (!_structures.ContainsKey(structure.Id))
 				_structures.Add(structure.Id, structure);
 			else
 				_structures[structure.Id] = structure;

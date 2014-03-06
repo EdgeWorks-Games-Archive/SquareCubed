@@ -18,6 +18,10 @@
 			var unit = _client.Units.GetAndRemove(id);
 			_playerUnit = new PlayerUnit(unit);
 			_client.Units.Add(_playerUnit);
+
+			// Update the old unit's structure entry so it isn't kept alive by the structure
+			// TODO: Improve this to be done better somehow
+			unit.Structure = null;
 		}
 
 		public void Update(float delta)

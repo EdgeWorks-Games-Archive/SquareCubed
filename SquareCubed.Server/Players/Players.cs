@@ -12,9 +12,9 @@ namespace SquareCubed.Server.Players
 		private readonly Logger _logger = new Logger("Players");
 		private readonly PlayersNetwork _network;
 		private readonly Dictionary<NetConnection, Player> _players = new Dictionary<NetConnection, Player>();
+		private readonly Random _random = new Random();
 		private readonly Server _server;
 		private readonly List<ISpawnProvider> _spawnProviders = new List<ISpawnProvider>();
-		private readonly Random _random = new Random();
 		private uint _iterator = 1;
 
 		public Players(Server server)
@@ -49,6 +49,7 @@ namespace SquareCubed.Server.Players
 			var unit = new PlayerUnit
 			{
 				World = spawn.Structure.World,
+				Structure = spawn.Structure,
 				Position = spawn.Position
 			};
 			var name = "Player " + _iterator++;

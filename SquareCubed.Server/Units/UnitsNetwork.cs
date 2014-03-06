@@ -31,6 +31,7 @@ namespace SquareCubed.Server.Units
 			// Add data
 			msg.Write(unit.Position.X);
 			msg.Write(unit.Position.Y);
+			// TODO: Add structure data to physics updates
 
 			// Send data to appropriate players
 			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
@@ -50,6 +51,7 @@ namespace SquareCubed.Server.Units
 			// Add data
 			msg.Write(unit.Position.X);
 			msg.Write(unit.Position.Y);
+			msg.Write(unit.Structure.Id);
 
 			if (player != null)
 			{

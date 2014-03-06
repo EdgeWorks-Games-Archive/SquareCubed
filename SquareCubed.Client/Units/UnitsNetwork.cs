@@ -7,9 +7,11 @@ namespace SquareCubed.Client.Units
 	internal class UnitsNetwork
 	{
 		private readonly Units _callback;
+		private readonly Client _client;
 
 		public UnitsNetwork(Client client, Units callback)
 		{
+			_client = client;
 			_callback = callback;
 			client.Network.PacketHandlers.Bind("units.physics", OnUnitPhysics);
 			client.Network.PacketHandlers.Bind("units.data", OnUnitData);
@@ -40,7 +42,8 @@ namespace SquareCubed.Client.Units
 			// Read the data
 			var unit = new Unit(msg.ReadUInt32())
 			{
-				Position = msg.ReadVector2()
+				Position = msg.ReadVector2(),
+				Structure = _client.Structures.GetOrNull(msg.ReadUInt32())
 			};
 
 			// Pass the data on

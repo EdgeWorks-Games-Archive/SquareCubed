@@ -4,12 +4,14 @@ using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Data;
+using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
 
 namespace SquareCubed.Server.Structures
 {
 	public class Structure
 	{
+		private readonly List<Unit> _units = new List<Unit>();
 		private World _world;
 
 		public Structure()
@@ -43,6 +45,30 @@ namespace SquareCubed.Server.Structures
 		///     This is the axis the structure rotates around and thus is the center of mass.
 		/// </summary>
 		public Vector2 Center { get; set; }
+
+		public IEnumerable<Unit> Units
+		{
+			get { return _units.AsReadOnly(); }
+		}
+
+		private void UpdateEntry<T>(ICollection<T> list, T entry, Structure newStructure)
+		{
+			// If this world, add, if not, remove
+			if (newStructure == this)
+			{
+				// Make sure it's not already in this world before adding
+				if (!list.Contains(entry))
+					list.Add(entry);
+			}
+			else
+				list.Remove(entry);
+		}
+
+		public void UpdateUnitEntry(Unit unit)
+		{
+			Contract.Requires<ArgumentNullException>(unit != null);
+			UpdateEntry(_units, unit, unit.Structure);
+		}
 	}
 
 	public static class StructureExtensions

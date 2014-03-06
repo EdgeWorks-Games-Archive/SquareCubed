@@ -6,9 +6,9 @@ namespace SquareCubed.Server.Players
 {
 	internal class PlayersNetwork
 	{
-		private readonly Server _server;
-		private readonly ushort _packetType;
 		private readonly Players _callback;
+		private readonly ushort _packetType;
+		private readonly Server _server;
 
 		public PlayersNetwork(Server server, Players callback)
 		{
