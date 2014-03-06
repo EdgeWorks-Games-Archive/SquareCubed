@@ -5,6 +5,7 @@ using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace SquareCubed.Client.Graphics
 {
@@ -12,7 +13,13 @@ namespace SquareCubed.Client.Graphics
 	{
 		private readonly uint _textureId;
 
-		public Texture2D(string path)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Texture2D"/> class.
+		/// </summary>
+		/// <param name="path">The path to the image file to use for this Texture2D.</param>
+		/// <param name="useAlpha">If set to <c>true</c>, use alpha channel. UNTESTED!</param>
+		/// <exception cref="System.Exception">Can't find the image file!</exception>
+		public Texture2D(string path, bool useAlpha = false)
 		{
 			// If the file doesn't exist, we can't do anything
 			if (!File.Exists(path)) throw new Exception("Can't find file \"" + path + "\"!");
@@ -22,7 +29,7 @@ namespace SquareCubed.Client.Graphics
 			var textureData = textureBitmap.LockBits(
 				new Rectangle(0, 0, textureBitmap.Width, textureBitmap.Height),
 				ImageLockMode.ReadOnly,
-				PixelFormat.Format24bppRgb);
+				useAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 
 			// Generate and bind a new OpenGL texture
 			GL.GenTextures(1, out _textureId);
@@ -43,7 +50,7 @@ namespace SquareCubed.Client.Graphics
 				PixelInternalFormat.Three,
 				textureBitmap.Width, textureBitmap.Height,
 				0, // border
-				OpenTK.Graphics.OpenGL.PixelFormat.Rgb,
+				useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb,
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 

@@ -24,6 +24,58 @@ namespace SquareCubed.Data
 		public int Y { get; set; }
 
 		#endregion
+
+		#region Helper Functions
+
+		public void SetTile(uint x, uint y, uint type)
+		{
+			if (Tiles[x][y] == null)
+				Tiles[x][y] = new Tile {Type = type};
+			else
+				Tiles[x][y].Type = type;
+		}
+
+		public void SetTopWall(uint x, uint y, uint type)
+		{
+			if (Tiles[x][y] == null)
+				Tiles[x][y] = new Tile {Type = 0};
+
+			Tiles[x][y].WallTypes[(int) WallSides.Top] = type;
+		}
+
+		public void SetRightWall(uint x, uint y, uint type)
+		{
+			if (Tiles[x][y] == null)
+				Tiles[x][y] = new Tile {Type = 0};
+
+			Tiles[x][y].WallTypes[(int) WallSides.Right] = type;
+		}
+
+		public void SetBottomWall(uint x, uint y, uint type)
+		{
+			if (Tiles[x][y - 1] == null)
+				Tiles[x][y - 1] = new Tile {Type = 0};
+
+			Tiles[x][y - 1].WallTypes[(int) WallSides.Top] = type;
+		}
+
+		public void SetLeftWall(uint x, uint y, uint type)
+		{
+			if (Tiles[x - 1][y] == null)
+				Tiles[x - 1][y] = new Tile {Type = 0};
+
+			Tiles[x - 1][y].WallTypes[(int) WallSides.Right] = type;
+		}
+
+		public void SetWalls(uint x, uint y, uint top, uint right, uint bottom, uint left)
+		{
+			SetTopWall(x, y, top);
+			SetRightWall(x, y, right);
+			SetBottomWall(x, y, bottom);
+			SetLeftWall(x, y, left);
+		}
+
+		#endregion
 	}
 
 	public static class ChunkExtensions

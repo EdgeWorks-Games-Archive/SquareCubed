@@ -25,43 +25,33 @@ namespace SQCore.Server
 			var chunk = new Chunk();
 
 			// Cockpit
-			chunk.Tiles[6][7] = new Tile {Type = 3};
-			chunk.Tiles[6][7].WallTypes[(int) WallSides.Top] = 2;
-			chunk.Tiles[6][7].WallTypes[(int) WallSides.Right] = 2;
-			chunk.Tiles[5][7] = new Tile {Type = 0};
-			chunk.Tiles[5][7].WallTypes[(int) WallSides.Right] = 2;
+			chunk.SetTile(6, 7, 3);
+			chunk.SetWalls(6, 7, 2, 2, 0, 2);
 
-			// Top Left
-			chunk.Tiles[5][6] = new Tile {Type = 3};
-			chunk.Tiles[5][6].WallTypes[(int) WallSides.Top] = 2;
+			// Airlock
+			chunk.SetTile(5, 6, 3);
+			chunk.SetTopWall(5, 6, 2);
+			chunk.SetBottomWall(5, 6, 2);
 
-			// Top Right
-			chunk.Tiles[6][6] = new Tile {Type = 2};
-			chunk.Tiles[6][6].WallTypes[(int) WallSides.Right] = 2;
+			// Hallway
+			chunk.SetTile(6, 6, 2);
+			chunk.SetRightWall(6, 6, 2);
 
-			// Middle Left
-			chunk.Tiles[5][5] = new Tile {Type = 3};
-			chunk.Tiles[5][5].WallTypes[(int) WallSides.Top] = 2;
-			chunk.Tiles[4][5] = new Tile {Type = 0};
-			chunk.Tiles[4][5].WallTypes[(int) WallSides.Right] = 2;
+			chunk.SetTile(6, 5, 2);
+			chunk.SetRightWall(6, 5, 2);
 
-			// Middle Right
-			chunk.Tiles[6][5] = new Tile {Type = 2};
-			chunk.Tiles[6][5].WallTypes[(int) WallSides.Right] = 2;
+			chunk.SetTile(6, 4, 2);
+			chunk.SetRightWall(6, 4, 2);
+			chunk.SetBottomWall(6, 4, 2);
 
-			// Bottom Left
-			chunk.Tiles[5][4] = new Tile {Type = 3};
-			chunk.Tiles[5][4].WallTypes[(int) WallSides.Right] = 2;
-			chunk.Tiles[4][4] = new Tile {Type = 0};
-			chunk.Tiles[4][4].WallTypes[(int) WallSides.Right] = 2;
-			chunk.Tiles[5][3] = new Tile {Type = 0};
-			chunk.Tiles[5][3].WallTypes[(int) WallSides.Top] = 2;
+			// Cargo Space
+			chunk.SetTile(5, 5, 3);
+			chunk.SetLeftWall(5, 5, 2);
 
-			// Bottom Right
-			chunk.Tiles[6][4] = new Tile {Type = 2};
-			chunk.Tiles[6][4].WallTypes[(int) WallSides.Right] = 2;
-			chunk.Tiles[6][3] = new Tile {Type = 0};
-			chunk.Tiles[6][3].WallTypes[(int) WallSides.Top] = 2;
+			chunk.SetTile(5, 4, 3);
+			chunk.SetLeftWall(5, 4, 2);
+			chunk.SetBottomWall(5, 4, 2);
+			chunk.SetRightWall(5, 4, 2);
 
 			str.Chunks.Add(chunk);
 
