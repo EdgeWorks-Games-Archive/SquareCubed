@@ -11,7 +11,7 @@ namespace SquareCubed.Client.Player
 		}
 
 		public PlayerUnit(Unit oldUnit)
-			: base(oldUnit.Id)
+			: base(oldUnit)
 		{
 		}
 	}

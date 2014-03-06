@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpawnProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQCore.Common\SQCore.Common.csproj">

@@ -29,18 +29,15 @@ namespace SquareCubed.Client.Units
 			unit.ProcessPhysicsPacketData(position);
 		}
 
-		public void OnUnitData(uint key)
+		public void OnUnitData(Unit unit)
 		{
-			// Note: This bit of code isn't entirely following coding standards
-			// look at the structure data receive system for how to correctly
-			// handle this. Change once we finally start receiving data.
-			Unit unit;
+			Unit oldUnit;
 
-			// Try to get the unit, if we can't we need to add it
-			if (!_units.TryGetValue(key, out unit))
-				Add(new Unit(key));
-
-			// Set data here once we got data to set
+			// Try to get the unit, if we can't we need to add it, otherwise overwrite it
+			if (!_units.TryGetValue(unit.Id, out oldUnit))
+				_units.Add(unit.Id, unit);
+			else
+				_units[unit.Id] = unit;
 		}
 
 		#endregion

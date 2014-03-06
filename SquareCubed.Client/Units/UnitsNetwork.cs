@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using OpenTK;
+using SquareCubed.Data;
 
 namespace SquareCubed.Client.Units
 {
@@ -37,10 +38,13 @@ namespace SquareCubed.Client.Units
 			msg.SkipPadBits();
 
 			// Read the data
-			var key = msg.ReadUInt32();
+			var unit = new Unit(msg.ReadUInt32())
+			{
+				Position = msg.ReadVector2()
+			};
 
 			// Pass the data on
-			_callback.OnUnitData(key);
+			_callback.OnUnitData(unit);
 		}
 	}
 }

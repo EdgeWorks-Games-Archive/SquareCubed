@@ -13,6 +13,8 @@ namespace SquareCubed.Server.Players
 		private readonly PlayersNetwork _network;
 		private readonly Dictionary<NetConnection, Player> _players = new Dictionary<NetConnection, Player>();
 		private readonly Server _server;
+		private readonly List<ISpawnProvider> _spawnProviders = new List<ISpawnProvider>();
+		private readonly Random _random = new Random();
 		private uint _iterator = 1;
 
 		public Players(Server server)
@@ -21,16 +23,33 @@ namespace SquareCubed.Server.Players
 
 			_server = server;
 			_network = new PlayersNetwork(_server, this);
+
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
+		}
+
+		/// <summary>
+		///     Adds a new spawn provider. Spawn providers provide points
+		///     for players to spawn at. A spawn provider might give the
+		///     player a starting home in a station, or a starting ship.
+		///     A spawn provider is randomly picked from the list when a
+		///     new player connects to the server.
+		/// </summary>
+		/// <param name="provider">The provider.</param>
+		public void AddSpawnProvider(ISpawnProvider provider)
+		{
+			_spawnProviders.Add(provider);
 		}
 
 		private void OnClientDataReceived(object sender, NetConnection con)
 		{
+			// Make a random spawn provider provide us with a spawn
+			var spawn = _spawnProviders[_random.Next(0, _spawnProviders.Count - 1)].GetNewSpawn();
+
 			// Create the Player and the Player Unit we'll need
 			var unit = new PlayerUnit
 			{
-				World = _server.Worlds.TestWorld,
-				Position = new Vector2(0, 0)
+				World = spawn.Structure.World,
+				Position = spawn.Position
 			};
 			var name = "Player " + _iterator++;
 			var player = new Player(con, name, unit);

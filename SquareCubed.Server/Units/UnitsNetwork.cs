@@ -25,8 +25,10 @@ namespace SquareCubed.Server.Units
 			msg.Write(_physicsPacketType);
 			msg.WritePadBits();
 
-			// Add data
+			// The client knows what unit to update/create using the Id
 			msg.Write(unit.Id);
+
+			// Add data
 			msg.Write(unit.Position.X);
 			msg.Write(unit.Position.Y);
 
@@ -44,6 +46,10 @@ namespace SquareCubed.Server.Units
 
 			// The client knows what unit to update using the Id
 			msg.Write(unit.Id);
+
+			// Add data
+			msg.Write(unit.Position.X);
+			msg.Write(unit.Position.Y);
 
 			if (player != null)
 			{

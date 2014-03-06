@@ -17,5 +17,11 @@ namespace SquareCubed.Client.Units
 		{
 			Id = id;
 		}
+
+		protected Unit(Unit oldUnit)
+		{
+			Id = oldUnit.Id;
+			Position = oldUnit.Position;
+		}
 	}
 }
