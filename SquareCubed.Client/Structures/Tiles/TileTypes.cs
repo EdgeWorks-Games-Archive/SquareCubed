@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace SquareCubed.Client.Structures.Tiles
 {
@@ -14,6 +15,10 @@ namespace SquareCubed.Client.Structures.Tiles
 
 		public void RegisterType(TileType type, uint id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(
+				id < TypeList.Length,
+				"Type Id is bigger than the amount of allocated type Id slots.");
+
 			if (TypeList[id] != null)
 				throw new Exception("Tile type already registered!");
 

@@ -57,6 +57,8 @@ namespace SquareCubed.Client.Structures
 
 		public static Structure ReadStructure(this NetIncomingMessage msg)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+
 			return new Structure
 			{
 				Id = msg.ReadUInt32(),

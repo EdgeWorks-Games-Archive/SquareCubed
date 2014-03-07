@@ -57,14 +57,6 @@
       <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
       <Name>SQCore.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Graphics\SquareCubed.Client.Graphics.csproj">
-      <Project>{6B5DCC57-0E0C-422A-BA16-0D3B3DBD3A45}</Project>
-      <Name>SquareCubed.Client.Graphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
-      <Project>{75B2D35B-1E51-47FD-9D67-749217B033AC}</Project>
-      <Name>SquareCubed.Client.Window</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
       <Name>SquareCubed.Client</Name>

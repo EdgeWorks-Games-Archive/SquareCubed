@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace SquareCubed.Client.Structures
 {
@@ -30,6 +32,8 @@ namespace SquareCubed.Client.Structures
 
 		public void OnStructureData(Structure structure)
 		{
+			Contract.Requires<ArgumentNullException>(structure != null);
+
 			// Try to get the unit, if we can't we need to add it, otherwise overwrite it
 			if (!_structures.ContainsKey(structure.Id))
 				_structures.Add(structure.Id, structure);

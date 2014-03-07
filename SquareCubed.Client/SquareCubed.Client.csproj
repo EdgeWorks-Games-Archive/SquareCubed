@@ -116,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Meta\Meta.cs" />
@@ -134,19 +137,12 @@
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />
     <Compile Include="Units\UnitsRenderer.cs" />
+    <Compile Include="Window\Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
       <Project>{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}</Project>
       <Name>Lidgren.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Graphics\SquareCubed.Client.Graphics.csproj">
-      <Project>{6b5dcc57-0e0c-422a-ba16-0d3b3dbd3a45}</Project>
-      <Name>SquareCubed.Client.Graphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Client.Window\SquareCubed.Client.Window.csproj">
-      <Project>{75b2d35b-1e51-47fd-9d67-749217b033ac}</Project>
-      <Name>SquareCubed.Client.Window</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Data\SquareCubed.Data.csproj">
       <Project>{F2815C16-787D-40AD-AB5F-65059C82E11C}</Project>
