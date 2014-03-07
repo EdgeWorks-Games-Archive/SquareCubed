@@ -8,20 +8,21 @@ using SquareCubed.Data;
 
 namespace SquareCubed.Client.Structures
 {
-	public class Structure
+	public class Structure : IParentable
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 
 		public uint Id { get; set; }
 		public List<Chunk> Chunks { get; set; }
-		public Vector2 Position { get; set; }
-		public float Rotation { get; set; }
-		public Vector2 Center { get; set; }
 
 		public IEnumerable<Unit> Units
 		{
 			get { return _units.AsReadOnly(); }
 		}
+
+		public Vector2 Position { get; set; }
+		public float Rotation { get; set; }
+		public Vector2 Center { get; set; }
 
 		private void UpdateEntry<T>(ICollection<T> list, T entry, Structure newStructure)
 		{

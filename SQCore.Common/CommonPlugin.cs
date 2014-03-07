@@ -4,12 +4,12 @@ using SquareCubed.Utils.Logging;
 namespace SQCore.Common
 {
 	[Plugin(
-		"SquareCubed.Core",
-		"SquareCubed Core",
-		0, 1)
+		"Blink.Core",
+		"Blink Core",
+		"0.1")
 	]
-    public class CommonPlugin
+    public abstract class CommonPlugin
     {
-		protected readonly Logger Logger = new Logger("SQCore");
+		protected readonly Logger Logger = new Logger("Blink");
     }
 }

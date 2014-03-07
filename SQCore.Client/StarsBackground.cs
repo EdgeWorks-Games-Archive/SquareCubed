@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SquareCubed.Client.Graphics;
 
 namespace SQCore.Client
 {
@@ -10,21 +11,30 @@ namespace SQCore.Client
 	{
 		private readonly Random _random = new Random();
 		private readonly Vector2 _resolution;
+		private readonly float _fieldSize;
+		private readonly Camera _camera;
 		private readonly List<StarData> _starData = new List<StarData>();
-
+		
 		public StarsBackground(SquareCubed.Client.Client client)
 		{
 			_resolution = new Vector2(client.Window.Width, client.Window.Height);
+			_camera = client.Graphics.Camera;
+
+			// Calculate the size of the star field (so we can rotate freely)
+			// It's only a float and not a vector because the field will always be square
+			var max = Math.Max(_resolution.X, _resolution.Y);
+			var min = Math.Min(_resolution.X, _resolution.Y);
+			_fieldSize = (float)Math.Sqrt((max * max) + (min * min));
 
 			// Generate star data
-			for (var i = 0; i < 200; i++)
+			for (var i = 0; i < 300; i++)
 			{
 				// Generate a new star
 				_starData.Add(new StarData
 				{
 					Position = new Vector2(
-						(float) _random.NextDouble()*_resolution.X,
-						(float) _random.NextDouble()*_resolution.Y),
+						(float)_random.NextDouble() * _fieldSize,
+						(float)_random.NextDouble() * _fieldSize),
 					Rotation = (float) _random.NextDouble()*360.0f,
 					Scale = (float) _random.NextDouble()*1.0f + 0.5f
 				});
@@ -41,9 +51,16 @@ namespace SQCore.Client
 			GL.PushMatrix();
 			GL.LoadIdentity();
 			GL.Ortho(
-				0, _resolution.X,
-				0, _resolution.Y,
+				-(_resolution.X / 2.0f), _resolution.X / 2.0f,
+				-(_resolution.Y / 2.0f), _resolution.Y / 2.0f,
 				0.0, 4.0);
+
+			// Offset it so it's in the middle of the field
+			if (_camera.Parent != null) GL.Rotate(_camera.Parent.Rotation, 0, 0, 1);
+			GL.Translate(
+				-(_fieldSize / 2.0f),
+				-(_fieldSize / 2.0f),
+				0.0f);
 
 			// Draw all the stars
 			GL.MatrixMode(MatrixMode.Modelview);

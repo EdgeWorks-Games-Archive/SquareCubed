@@ -1,4 +1,6 @@
-﻿namespace SquareCubed.Client.Player
+﻿using OpenTK;
+
+namespace SquareCubed.Client.Player
 {
 	public class Player
 	{
@@ -27,6 +29,9 @@
 		public void Update(float delta)
 		{
 			if (_playerUnit == null) return;
+
+			// Make sure the camera is parented correctly
+			_client.Graphics.Camera.Parent = _playerUnit.Structure;
 
 			_playerUnit.Position += _client.Input.Axes*delta*Speed;
 			_network.SendPlayerPhysics(_playerUnit);

@@ -33,6 +33,10 @@ namespace SquareCubed.Client.Meta
 
 			// Read packet type mapping data
 
+			// Read tile type mapping data
+			
+			// Read wall type mapping data
+
 			// Read mod data
 			var count = msg.ReadUInt16();
 			msg.SkipPadBits();

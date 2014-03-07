@@ -15,5 +15,12 @@ namespace SquareCubed.PluginLoader
 			Name = name;
 			Version = new Version(versionMajor, versionMinor);
 		}
+
+		public PluginAttribute(string id, string name, string version)
+		{
+			Id = id;
+			Name = name;
+			Version = new Version(version);
+		}
 	}
 }

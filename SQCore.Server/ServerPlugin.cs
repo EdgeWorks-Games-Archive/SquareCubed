@@ -1,5 +1,8 @@
-﻿using SQCore.Common;
+﻿using OpenTK;
+using SQCore.Common;
+using SquareCubed.Data;
 using SquareCubed.Server;
+using SquareCubed.Server.Structures;
 
 namespace SQCore.Server
 {
@@ -11,6 +14,26 @@ namespace SQCore.Server
 
 			// Add the default spawn provider
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));
+
+			// Add a little test structure
+			var str = new Structure
+			{
+				World = server.Worlds.TestWorld,
+				Position = new Vector2(3, 2),
+				Rotation = 20.0f,
+				Center = new Vector2(5.5f, 5.5f)
+			};
+
+			// Add a chunk for the test ship
+			var chunk = new Chunk();
+
+			// Cockpit
+			chunk.SetTile(5, 5, 3);
+			chunk.SetWalls(5, 5, 2, 2, 2, 2);
+			str.Chunks.Add(chunk);
+
+			// And add the ship to the collection
+			server.Structures.Add(str);
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}
