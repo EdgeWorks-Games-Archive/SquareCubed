@@ -41,10 +41,7 @@ namespace SquareCubed.Server.Units
 
 			// Send unit data for all units to the player
 			foreach (var unit in player.Unit.World.Units)
-			{
-				Console.WriteLine("Unit Sent");
 				_network.SendUnitData(unit, player);
-			}
 		}
 
 		public void Update(float delta)

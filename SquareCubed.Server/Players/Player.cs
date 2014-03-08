@@ -20,7 +20,7 @@ namespace SquareCubed.Server.Players
 			// Set and Configure Unit Data
 			Unit = unit;
 			Unit.Player = this;
-			Unit.World.UpdatePlayerEntry(this);
+			if (Unit.World != null) Unit.World.UpdatePlayerEntry(this);
 		}
 	}
 }

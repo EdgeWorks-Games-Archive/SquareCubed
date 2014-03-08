@@ -43,6 +43,13 @@ namespace SquareCubed.Server.Players
 
 		private void OnClientDataReceived(object sender, NetConnection con)
 		{
+			// TODO: This entire function is filled with hidden traps in which order stuff has to be done, do something about that
+			// For example, if you send the unit data before doing _server.Units.Add(unit),
+			// the client will somehow attach the unit to the wrong structure. This is probably
+			// because of the weird way the units are set up to join worlds and structures.
+			// We need to make sure they only join world and structure lists if they're in the
+			// master list, to avoid them being linked without us wanting to.
+
 			// Make a random spawn provider provide us with a spawn
 			var spawn = _spawnProviders[_random.Next(0, _spawnProviders.Count - 1)].GetNewSpawn();
 
@@ -56,14 +63,16 @@ namespace SquareCubed.Server.Players
 			var name = "Player " + _iterator++;
 			var player = new Player(con, name, unit);
 
-			// Make sure the player knows the existing structures and units
+			// Make sure the player knows the existing structures
 			_server.Structures.SendStructureDataFor(player);
-			_server.Units.SendUnitDataFor(player);
 
 			// Add the Player and the Player Unit to their collections and send the data
 			_server.Units.Add(unit);
 			_players.Add(con, player);
 			_network.SendPlayerData(player);
+
+			// Make sure the player knows the existing units
+			_server.Units.SendUnitDataFor(player);
 
 			// And log it
 			_logger.LogInfo("New player \"{0}\" added!", name);

@@ -129,16 +129,17 @@ namespace SquareCubed.Network
 						var status = (NetConnectionStatus) msg.ReadByte();
 						_logger.LogInfo("Status changed to {0}: {1}", status.ToString(), msg.ReadString());
 
-						// Fire new connection event
-						if (status == NetConnectionStatus.Connected)
+						// Fire connection events
+						switch (status)
 						{
-							if (!_isServer) Server = msg.SenderConnection;
-							if (NewConnection != null) NewConnection(this, msg);
-						}
-						else if (status == NetConnectionStatus.Disconnected)
-						{
-							if (!_isServer) Server = null;
-							if (LostConnection != null) LostConnection(this, msg);
+							case NetConnectionStatus.Connected:
+								if (!_isServer) Server = msg.SenderConnection;
+								if (NewConnection != null) NewConnection(this, msg);
+								break;
+							case NetConnectionStatus.Disconnected:
+								if (!_isServer) Server = null;
+								if (LostConnection != null) LostConnection(this, msg);
+								break;
 						}
 
 						break;

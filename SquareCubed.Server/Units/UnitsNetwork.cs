@@ -1,4 +1,5 @@
-﻿using Lidgren.Network;
+﻿using System;
+using Lidgren.Network;
 using SquareCubed.Network;
 using SquareCubed.Server.Players;
 
@@ -31,7 +32,6 @@ namespace SquareCubed.Server.Units
 			// Add data
 			msg.Write(unit.Position.X);
 			msg.Write(unit.Position.Y);
-			// TODO: Add structure data to physics updates
 
 			// Send data to appropriate players
 			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
