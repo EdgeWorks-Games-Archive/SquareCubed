@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using System;
 
@@ -55,6 +56,7 @@ namespace SquareCubed.Client.Graphics
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Multisample);
 
+			GL.ClearColor(Color.FromArgb(5, 5, 10));
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			// Initialize Camera

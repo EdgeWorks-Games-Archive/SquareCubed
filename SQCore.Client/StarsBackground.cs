@@ -26,8 +26,12 @@ namespace SQCore.Client
 			var min = Math.Min(_resolution.X, _resolution.Y);
 			_fieldSize = (float) Math.Sqrt((max*max) + (min*min));
 
+			// Calculate volume and with that amount of stars
+			var volume = _fieldSize*_fieldSize;
+			var starCount = volume/2500.0f; // Per 100 volume, 1 star
+
 			// Generate star data
-			for (var i = 0; i < 300; i++)
+			for (var i = 0; i < starCount; i++)
 			{
 				// Generate a new star
 				_starData.Add(new StarData
@@ -36,7 +40,9 @@ namespace SQCore.Client
 						(float) _random.NextDouble()*_fieldSize,
 						(float) _random.NextDouble()*_fieldSize),
 					Rotation = (float) _random.NextDouble()*360.0f,
-					Scale = (float) _random.NextDouble()*1.0f + 0.5f
+					Scale = (float) _random.NextDouble()*1.0f + 0.5f,
+					ColorShiftDirection = (ColorShiftDirection) _random.Next(0, 4),
+					ColorShiftMagnitude = (float) _random.NextDouble()*0.2f
 				});
 			}
 
@@ -79,7 +85,22 @@ namespace SQCore.Client
 
 				// Draw a white square
 				GL.Begin(PrimitiveType.Quads);
-				GL.Color3(Color.White);
+				if (star.ColorShiftDirection == ColorShiftDirection.White || star.ColorShiftDirection == ColorShiftDirection.White2)
+					GL.Color3(Color.White);
+				else if (star.ColorShiftDirection == ColorShiftDirection.Red)
+				{
+					GL.Color3(
+						0.80f + star.ColorShiftMagnitude,
+						0.70f,
+						0.60f);
+				}
+				else
+				{
+					GL.Color3(
+						0.60f,
+						0.70f,
+						0.80f + star.ColorShiftMagnitude);
+				}
 
 				GL.Vertex2(-1, -1); // Left Bottom
 				GL.Vertex2(1, -1); // Right Bottom
@@ -99,11 +120,21 @@ namespace SQCore.Client
 			GL.PopMatrix();
 		}
 
+		private enum ColorShiftDirection
+		{
+			White,
+			White2,
+			Red,
+			Blue
+		}
+
 		private class StarData
 		{
 			public Vector2 Position { get; set; }
 			public float Rotation { get; set; }
 			public float Scale { get; set; }
+			public ColorShiftDirection ColorShiftDirection { get; set; }
+			public float ColorShiftMagnitude { get; set; }
 		}
 	}
 }
