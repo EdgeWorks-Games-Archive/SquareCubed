@@ -1,6 +1,4 @@
-﻿using OpenTK;
-
-namespace SquareCubed.Client.Player
+﻿namespace SquareCubed.Client.Player
 {
 	public class Player
 	{

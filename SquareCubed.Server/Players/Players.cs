@@ -25,6 +25,7 @@ namespace SquareCubed.Server.Players
 			_network = new PlayersNetwork(_server, this);
 
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
+			_server.Network.LostConnection += OnLostConnection;
 		}
 
 		/// <summary>
@@ -71,6 +72,20 @@ namespace SquareCubed.Server.Players
 		public void OnPlayerPhysics(NetConnection con, Vector2 position)
 		{
 			_players[con].Unit.Position = position;
+		}
+
+		private void OnLostConnection(object sender, NetIncomingMessage msg)
+		{
+			// If it wasn't even a player, don't bother doing anything
+			if (!_players.ContainsKey(msg.SenderConnection)) return;
+
+			// Clean up Player Data
+			var player = _players[msg.SenderConnection];
+			_server.Units.Remove(player.Unit);
+
+			// Remove and Log
+			_players.Remove(msg.SenderConnection);
+			_logger.LogInfo("Player \"{0}\" removed!", player.Name);
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace SQCore.Server
 	{
 		private readonly Logger _logger;
 		private readonly SquareCubed.Server.Server _server;
+		private float _nextPosition;
 
 		public SpawnProvider(SquareCubed.Server.Server server, Logger logger)
 		{
@@ -23,10 +24,11 @@ namespace SQCore.Server
 			var str = new Structure
 			{
 				World = _server.Worlds.TestWorld,
-				Position = new Vector2(0, 0),
+				Position = new Vector2(_nextPosition, 0),
 				Rotation = 20.0f,
 				Center = new Vector2(6.0f, 6.0f)
 			};
+			_nextPosition += 4.0f;
 
 			// Add a chunk for the test ship
 			var chunk = new Chunk();

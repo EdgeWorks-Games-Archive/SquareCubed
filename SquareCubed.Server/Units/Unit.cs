@@ -18,9 +18,6 @@ namespace SquareCubed.Server.Units
 			get { return _world; }
 			set
 			{
-				// Unit must always be in a world
-				Contract.Requires<ArgumentNullException>(value != null);
-
 				// If already this, don't do anything
 				if (value == _world) return;
 
@@ -30,7 +27,7 @@ namespace SquareCubed.Server.Units
 
 				// Update the entries in the worlds
 				if (oldWorld != null) oldWorld.UpdateUnitEntry(this);
-				_world.UpdateUnitEntry(this);
+				if (_world != null) _world.UpdateUnitEntry(this);
 			}
 		}
 
@@ -39,9 +36,6 @@ namespace SquareCubed.Server.Units
 			get { return _structure; }
 			set
 			{
-				// Unit must always be in a structure
-				Contract.Requires<ArgumentNullException>(value != null);
-
 				// If already this, don't do anything
 				if (value == _structure) return;
 
@@ -51,7 +45,7 @@ namespace SquareCubed.Server.Units
 
 				// Update the entries in the worlds
 				if (oldStructure != null) oldStructure.UpdateUnitEntry(this);
-				_structure.UpdateUnitEntry(this);
+				if (_structure != null) _structure.UpdateUnitEntry(this);
 			}
 		}
 

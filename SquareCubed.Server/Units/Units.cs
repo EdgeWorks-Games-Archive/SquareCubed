@@ -23,13 +23,28 @@ namespace SquareCubed.Server.Units
 			_network.SendUnitData(unit);
 		}
 
+		public void Remove(Unit unit)
+		{
+			Contract.Requires<ArgumentNullException>(unit != null);
+			
+			// Clean up the linked stuff
+			unit.Structure = null;
+			unit.World = null;
+
+			// Actually remove it
+			_units.Remove(unit.Id);
+		}
+
 		public void SendUnitDataFor(Player player)
 		{
 			Contract.Requires<ArgumentNullException>(player != null);
 
 			// Send unit data for all units to the player
 			foreach (var unit in player.Unit.World.Units)
+			{
+				Console.WriteLine("Unit Sent");
 				_network.SendUnitData(unit, player);
+			}
 		}
 
 		public void Update(float delta)
