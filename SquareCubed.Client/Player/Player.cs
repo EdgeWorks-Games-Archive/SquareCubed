@@ -32,6 +32,7 @@ namespace SquareCubed.Client.Player
 
 			// Make sure the camera is parented correctly
 			_client.Graphics.Camera.Parent = _playerUnit.Structure;
+			_client.Graphics.Camera.Position = _playerUnit.Position;
 
 			_playerUnit.Position += _client.Input.Axes*delta*Speed;
 			_network.SendPlayerPhysics(_playerUnit);

@@ -20,7 +20,7 @@ namespace SQCore.Server
 			{
 				World = server.Worlds.TestWorld,
 				Position = new Vector2(3, 2),
-				Rotation = 20.0f,
+				Rotation = 0.0f,
 				Center = new Vector2(5.5f, 5.5f)
 			};
 

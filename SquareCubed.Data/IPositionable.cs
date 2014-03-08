@@ -2,7 +2,7 @@
 
 namespace SquareCubed.Data
 {
-	public interface IParentable
+	public interface IPositionable
 	{
 		Vector2 Center { get; }
 		Vector2 Position { get; }

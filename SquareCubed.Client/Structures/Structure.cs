@@ -8,7 +8,7 @@ using SquareCubed.Data;
 
 namespace SquareCubed.Client.Structures
 {
-	public class Structure : IParentable
+	public class Structure : IPositionable
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 

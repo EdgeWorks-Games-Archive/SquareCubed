@@ -58,7 +58,7 @@ namespace SquareCubed.Client.Graphics
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			// Initialize Camera
-			Camera.SetProjectionMatrix();
+			Camera.SetMatrices();
 		}
 
 		public virtual void EndRender()

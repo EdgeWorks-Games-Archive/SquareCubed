@@ -9,12 +9,12 @@ namespace SQCore.Client
 {
 	internal class StarsBackground
 	{
+		private readonly Camera _camera;
+		private readonly float _fieldSize;
 		private readonly Random _random = new Random();
 		private readonly Vector2 _resolution;
-		private readonly float _fieldSize;
-		private readonly Camera _camera;
 		private readonly List<StarData> _starData = new List<StarData>();
-		
+
 		public StarsBackground(SquareCubed.Client.Client client)
 		{
 			_resolution = new Vector2(client.Window.Width, client.Window.Height);
@@ -24,7 +24,7 @@ namespace SQCore.Client
 			// It's only a float and not a vector because the field will always be square
 			var max = Math.Max(_resolution.X, _resolution.Y);
 			var min = Math.Min(_resolution.X, _resolution.Y);
-			_fieldSize = (float)Math.Sqrt((max * max) + (min * min));
+			_fieldSize = (float) Math.Sqrt((max*max) + (min*min));
 
 			// Generate star data
 			for (var i = 0; i < 300; i++)
@@ -33,8 +33,8 @@ namespace SQCore.Client
 				_starData.Add(new StarData
 				{
 					Position = new Vector2(
-						(float)_random.NextDouble() * _fieldSize,
-						(float)_random.NextDouble() * _fieldSize),
+						(float) _random.NextDouble()*_fieldSize,
+						(float) _random.NextDouble()*_fieldSize),
 					Rotation = (float) _random.NextDouble()*360.0f,
 					Scale = (float) _random.NextDouble()*1.0f + 0.5f
 				});
@@ -51,19 +51,23 @@ namespace SQCore.Client
 			GL.PushMatrix();
 			GL.LoadIdentity();
 			GL.Ortho(
-				-(_resolution.X / 2.0f), _resolution.X / 2.0f,
-				-(_resolution.Y / 2.0f), _resolution.Y / 2.0f,
+				-(_resolution.X/2.0f), _resolution.X/2.0f,
+				-(_resolution.Y/2.0f), _resolution.Y/2.0f,
 				0.0, 4.0);
 
 			// Offset it so it's in the middle of the field
 			if (_camera.Parent != null) GL.Rotate(_camera.Parent.Rotation, 0, 0, 1);
 			GL.Translate(
-				-(_fieldSize / 2.0f),
-				-(_fieldSize / 2.0f),
+				-(_fieldSize/2.0f),
+				-(_fieldSize/2.0f),
 				0.0f);
 
-			// Draw all the stars
+			// Reset ModelView to default
 			GL.MatrixMode(MatrixMode.Modelview);
+			GL.PushMatrix();
+			GL.LoadIdentity();
+
+			// Draw all the stars
 			foreach (var star in _starData)
 			{
 				GL.PushMatrix();
@@ -86,6 +90,9 @@ namespace SQCore.Client
 
 				GL.PopMatrix();
 			}
+
+			// Restore ModelView
+			GL.PopMatrix();
 
 			// Reset the resolution
 			GL.MatrixMode(MatrixMode.Projection);
