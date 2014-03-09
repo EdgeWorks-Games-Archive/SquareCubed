@@ -85,21 +85,26 @@ namespace SQCore.Client
 
 				// Draw a white square
 				GL.Begin(PrimitiveType.Quads);
-				if (star.ColorShiftDirection == ColorShiftDirection.White || star.ColorShiftDirection == ColorShiftDirection.White2)
-					GL.Color3(Color.White);
-				else if (star.ColorShiftDirection == ColorShiftDirection.Red)
+				switch (star.ColorShiftDirection)
 				{
-					GL.Color3(
-						0.80f + star.ColorShiftMagnitude,
-						0.70f,
-						0.60f);
-				}
-				else
-				{
-					GL.Color3(
-						0.60f,
-						0.70f,
-						0.80f + star.ColorShiftMagnitude);
+					case ColorShiftDirection.White2:
+					case ColorShiftDirection.White:
+						GL.Color3(Color.White);
+						break;
+					case ColorShiftDirection.Red:
+						GL.Color3(
+							0.80f + star.ColorShiftMagnitude,
+							0.70f,
+							0.60f);
+						break;
+					case ColorShiftDirection.Blue:
+						GL.Color3(
+							0.60f,
+							0.70f,
+							0.80f + star.ColorShiftMagnitude);
+						break;
+					default:
+						throw new Exception("Unknown star color shift direction!");
 				}
 
 				GL.Vertex2(-1, -1); // Left Bottom

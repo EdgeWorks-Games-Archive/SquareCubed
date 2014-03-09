@@ -56,7 +56,7 @@ namespace SquareCubed.Client.Graphics
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Multisample);
 
-			GL.ClearColor(Color.FromArgb(5, 5, 10));
+			GL.ClearColor(Color.FromArgb(5, 5, 8));
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			// Initialize Camera

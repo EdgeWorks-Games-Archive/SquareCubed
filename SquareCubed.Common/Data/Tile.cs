@@ -1,6 +1,8 @@
-﻿using Lidgren.Network;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Lidgren.Network;
 
-namespace SquareCubed.Data
+namespace SquareCubed.Common.Data
 {
 	public enum WallSides
 	{
@@ -23,6 +25,9 @@ namespace SquareCubed.Data
 	{
 		public static void Write(this NetOutgoingMessage msg, Tile tile)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+			Contract.Requires<ArgumentNullException>(tile != null);
+
 			msg.Write(tile.Type);
 			foreach (var type in tile.WallTypes)
 				msg.Write(type);
@@ -30,6 +35,9 @@ namespace SquareCubed.Data
 
 		public static Tile ReadTile(this NetIncomingMessage msg)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+			Contract.Ensures(Contract.Result<Tile>() != null);
+
 			var tile = new Tile {Type = msg.ReadUInt32()};
 			for (var i = 0; i < tile.WallTypes.Length; i++)
 				tile.WallTypes[i] = msg.ReadUInt32();

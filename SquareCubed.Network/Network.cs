@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Lidgren.Network;
-using SquareCubed.Utils.Logging;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Network
 {

@@ -137,9 +137,9 @@
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Data\SquareCubed.Data.csproj">
-      <Project>{F2815C16-787D-40AD-AB5F-65059C82E11C}</Project>
-      <Name>SquareCubed.Data</Name>
+    <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
+      <Project>{17F0BADE-60BB-4B9A-B358-26047EF85BEB}</Project>
+      <Name>SquareCubed.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
       <Project>{1f3ca083-84be-4d55-b878-d3a3be508ef1}</Project>
@@ -148,10 +148,6 @@
     <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
       <Project>{CE026967-4F68-4808-A8E1-5187AEF415CF}</Project>
       <Name>SquareCubed.PluginLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
-      <Project>{15F93D85-E905-4C84-87E8-C63262AA80A3}</Project>
-      <Name>SquareCubed.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

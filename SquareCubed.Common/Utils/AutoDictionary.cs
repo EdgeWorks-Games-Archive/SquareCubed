@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SquareCubed.Utils
+namespace SquareCubed.Common.Utils
 {
 	/// <summary>
-	/// Functions just like a regular dictionary but maintains
-	/// an internal counter to automatically assign keys.
+	///     Functions just like a regular dictionary but maintains
+	///     an internal counter to automatically assign keys.
 	/// </summary>
 	/// <typeparam name="TValue">Value to map in dictionary.</typeparam>
 	public class AutoDictionary<TValue> : Dictionary<uint, TValue>

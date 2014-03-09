@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace SquareCubed.Data
+namespace SquareCubed.Common.Data
 {
 	public interface IPositionable
 	{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
-using SquareCubed.Utils.Logging;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Server.Players
 {

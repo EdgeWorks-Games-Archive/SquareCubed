@@ -1,5 +1,5 @@
-﻿using SquareCubed.PluginLoader;
-using SquareCubed.Utils.Logging;
+﻿using SquareCubed.Common.Utils;
+using SquareCubed.PluginLoader;
 
 namespace SQCore.Common
 {

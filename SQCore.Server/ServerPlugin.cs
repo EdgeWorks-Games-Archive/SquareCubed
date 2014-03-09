@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 using SQCore.Common;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
 using SquareCubed.Server;
 using SquareCubed.Server.Structures;
 

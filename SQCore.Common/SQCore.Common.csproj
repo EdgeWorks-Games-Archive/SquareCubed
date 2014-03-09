@@ -43,13 +43,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
+      <Project>{17F0BADE-60BB-4B9A-B358-26047EF85BEB}</Project>
+      <Name>SquareCubed.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
       <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>
       <Name>SquareCubed.PluginLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
-      <Project>{15f93d85-e905-4c84-87e8-c63262aa80a3}</Project>
-      <Name>SquareCubed.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

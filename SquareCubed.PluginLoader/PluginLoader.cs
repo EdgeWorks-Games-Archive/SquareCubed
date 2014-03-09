@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SquareCubed.Utils.Logging;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.PluginLoader
 {

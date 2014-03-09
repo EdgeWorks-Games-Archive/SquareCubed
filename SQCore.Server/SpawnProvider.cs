@@ -1,8 +1,8 @@
 ﻿using OpenTK;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
+using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
 using SquareCubed.Server.Structures;
-using SquareCubed.Utils.Logging;
 
 namespace SQCore.Server
 {

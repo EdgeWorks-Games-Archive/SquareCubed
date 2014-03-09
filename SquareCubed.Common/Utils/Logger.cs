@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 
-namespace SquareCubed.Utils.Logging
+namespace SquareCubed.Common.Utils
 {
 	public class Logger
 	{
@@ -16,6 +17,9 @@ namespace SquareCubed.Utils.Logging
 
 		public void LogInfo(string format, params object[] args)
 		{
+			Contract.Requires<ArgumentNullException>(format != null);
+			Contract.Requires<ArgumentNullException>(args != null);
+
 			var text = string.Format(format, args);
 			LogInfo(text);
 		}

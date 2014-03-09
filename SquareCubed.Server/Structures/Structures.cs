@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
-using SquareCubed.Utils;
 
 namespace SquareCubed.Server.Structures
 {

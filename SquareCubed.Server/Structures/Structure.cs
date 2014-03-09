@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
 using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
 

@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Client.Units;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures
 {

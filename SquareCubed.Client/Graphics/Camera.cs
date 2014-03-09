@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SquareCubed.Data;
-using SquareCubed.Utils;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Graphics
 {

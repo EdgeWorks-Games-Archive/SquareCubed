@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace SquareCubed.Utils
+namespace SquareCubed.Common.Data
 {
 	public static class SizeExtensions
 	{

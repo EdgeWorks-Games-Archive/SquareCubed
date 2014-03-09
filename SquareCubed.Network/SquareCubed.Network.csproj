@@ -118,9 +118,9 @@
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquareCubed.Utils\SquareCubed.Utils.csproj">
-      <Project>{15F93D85-E905-4C84-87E8-C63262AA80A3}</Project>
-      <Name>SquareCubed.Utils</Name>
+    <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
+      <Project>{17F0BADE-60BB-4B9A-B358-26047EF85BEB}</Project>
+      <Name>SquareCubed.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

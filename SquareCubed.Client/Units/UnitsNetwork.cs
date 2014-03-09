@@ -1,7 +1,7 @@
 ﻿using System;
 using Lidgren.Network;
 using OpenTK;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Units
 {

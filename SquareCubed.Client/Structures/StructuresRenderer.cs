@@ -2,7 +2,7 @@
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SquareCubed.Data;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures
 {

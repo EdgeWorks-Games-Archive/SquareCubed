@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
+using SquareCubed.Common.Utils;
 using SquareCubed.PluginLoader;
 using SquareCubed.Server.Structures;
-using SquareCubed.Utils.Logging;
 
 namespace SquareCubed.Server
 {

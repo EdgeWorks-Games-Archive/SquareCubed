@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
+using SquareCubed.Common.Utils;
 using SquareCubed.PluginLoader;
-using SquareCubed.Utils.Logging;
 
 namespace SquareCubed.Client
 {

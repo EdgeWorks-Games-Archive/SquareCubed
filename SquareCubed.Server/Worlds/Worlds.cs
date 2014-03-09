@@ -1,4 +1,4 @@
-﻿using SquareCubed.Utils;
+﻿using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Server.Worlds
 {

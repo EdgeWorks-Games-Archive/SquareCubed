@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Lidgren.Network;
-using SquareCubed.Utils.Logging;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Server.Meta
 {

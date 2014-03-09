@@ -1,6 +1,8 @@
-﻿using Lidgren.Network;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Lidgren.Network;
 
-namespace SquareCubed.Data
+namespace SquareCubed.Common.Data
 {
 	public class Chunk
 	{
@@ -29,6 +31,9 @@ namespace SquareCubed.Data
 
 		public void SetTile(uint x, uint y, uint type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = type};
 			else
@@ -37,6 +42,9 @@ namespace SquareCubed.Data
 
 		public void SetTopWall(uint x, uint y, uint type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = 0};
 
@@ -45,6 +53,9 @@ namespace SquareCubed.Data
 
 		public void SetRightWall(uint x, uint y, uint type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = 0};
 
@@ -53,6 +64,9 @@ namespace SquareCubed.Data
 
 		public void SetBottomWall(uint x, uint y, uint type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			if (Tiles[x][y - 1] == null)
 				Tiles[x][y - 1] = new Tile {Type = 0};
 
@@ -61,6 +75,9 @@ namespace SquareCubed.Data
 
 		public void SetLeftWall(uint x, uint y, uint type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			if (Tiles[x - 1][y] == null)
 				Tiles[x - 1][y] = new Tile {Type = 0};
 
@@ -82,6 +99,9 @@ namespace SquareCubed.Data
 	{
 		public static void Write(this NetOutgoingMessage msg, Chunk chunk)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+			Contract.Requires<ArgumentNullException>(chunk != null);
+
 			for (var x = 0; x < Chunk.ChunkSize; x++)
 			{
 				for (var y = 0; y < Chunk.ChunkSize; y++)
@@ -100,6 +120,9 @@ namespace SquareCubed.Data
 
 		public static Chunk ReadChunk(this NetIncomingMessage msg)
 		{
+			Contract.Requires<ArgumentNullException>(msg != null);
+			Contract.Ensures(Contract.Result<Chunk>() != null);
+
 			var chunk = new Chunk();
 			for (var x = 0; x < Chunk.ChunkSize; x++)
 			{
