@@ -65,6 +65,13 @@ namespace SquareCubed.Client.Player
 							CenterDistance = 0.3f
 						};
 
+						// Get all the sides that are collidable on the Y axis (which won't change)
+						var sides = colliders.Select(c => c.Right).Where(s =>
+							// Only include where the player's highest point is above the lowest point of the side
+							(playerSide.Position.Y + playerSide.Length > s.Position.Y) &&
+							// Only include where the player's lowest point is below the highest point of the side
+							(playerSide.Position.Y < s.Position.Y + s.Length));
+
 						// ReSharper disable PossibleMultipleEnumeration
 						while(true)
 						{
@@ -72,11 +79,7 @@ namespace SquareCubed.Client.Player
 							playerSide.Position = newPosition - new Vector2(0.3f, 0.3f);
 
 							// Find the first side that meets the collision requirements
-							var side = colliders.Select(c => c.Right).FirstOrDefault(s =>
-								// Only include where the player's highest point is above the lowest point of the side
-								(playerSide.Position.Y + playerSide.Length > s.Position.Y) &&
-								// Only include where the player's lowest point is below the highest point of the side
-								(playerSide.Position.Y < s.Position.Y + s.Length) &&
+							var side = sides.FirstOrDefault(s =>
 								// Only include where the player's left side side is left of the side
 								(playerSide.Position.X < s.Position.X) &&
 								// Only include where the player's left side + center distance is right of the side - center distance
@@ -87,8 +90,8 @@ namespace SquareCubed.Client.Player
 								// Calculate difference in target position needed to resolve collision
 								var diffVel = playerSide.Position.X - side.Position.X;
 								
-								// Apply difference to velocity and update new position
-								velocity.X += diffVel;
+								// Remove difference from velocity and update new position
+								velocity.X -= diffVel;
 								newPosition.X = position.X + velocity.X;
 							}
 							else break;
