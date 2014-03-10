@@ -99,7 +99,7 @@ namespace SquareCubed.Server
 
 			_logger.LogInfo("Started running...");
 			KeepRunning = true;
-			const float delta = 0.05f;
+			const float delta = 0.05f; // < 20 Ticks per Second
 			while (KeepRunning)
 			{
 				// Handle all queued up packets

@@ -112,10 +112,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AaBb.cs" />
+    <Compile Include="Data\AaSide.cs" />
     <Compile Include="Data\Chunk.cs" />
     <Compile Include="Data\IPositionable.cs" />
     <Compile Include="Data\SizeExtensions.cs" />
     <Compile Include="Data\Tile.cs" />
+    <Compile Include="Data\Vector2i.cs" />
     <Compile Include="Data\VectorExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AutoDictionary.cs" />

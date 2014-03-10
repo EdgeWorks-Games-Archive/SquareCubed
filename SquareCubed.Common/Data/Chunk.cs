@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Lidgren.Network;
+using OpenTK;
 
 namespace SquareCubed.Common.Data
 {
@@ -17,17 +20,9 @@ namespace SquareCubed.Common.Data
 		}
 
 		public Tile[][] Tiles { get; private set; }
+		public Vector2i Position { get; set; }
 
-		#region Position
-
-		// OpenTK doesn't have an int version of Vector2
-
-		public int X { get; set; }
-		public int Y { get; set; }
-
-		#endregion
-
-		#region Helper Functions
+		#region Tile Editing Functions
 
 		public void SetTile(uint x, uint y, uint type)
 		{
@@ -93,6 +88,27 @@ namespace SquareCubed.Common.Data
 		}
 
 		#endregion
+
+		#region Collider Helper Functions
+
+		public void UpdateColliders()
+		{
+			for (var x = 0; x < ChunkSize; x++)
+			{
+				for (var y = 0; y < ChunkSize; y++)
+				{
+					if(Tiles[x][y] != null)
+						Tiles[x][y].UpdateColliders(new Vector2(Position.X * (int)ChunkSize + x, Position.Y * (int)ChunkSize + y));
+				}
+			}
+		}
+
+		public IEnumerable<AaBb> GetColliders()
+		{
+			return (from tileRow in Tiles from tile in tileRow where tile != null select tile).SelectMany(t => t.WallColliders);
+		}
+
+		#endregion
 	}
 
 	public static class ChunkExtensions
@@ -135,6 +151,7 @@ namespace SquareCubed.Common.Data
 					chunk.Tiles[x][y] = msg.ReadTile();
 				}
 			}
+			chunk.UpdateColliders();
 			return chunk;
 		}
 	}

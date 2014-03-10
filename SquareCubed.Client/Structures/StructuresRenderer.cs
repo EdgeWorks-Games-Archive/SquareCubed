@@ -39,7 +39,7 @@ namespace SquareCubed.Client.Structures
 				{
 					// Translate to the chunk position
 					GL.PushMatrix();
-					GL.Translate(chunk.X * Chunk.ChunkSize, chunk.Y * Chunk.ChunkSize, 0);
+					GL.Translate(chunk.Position.X * Chunk.ChunkSize, chunk.Position.Y * Chunk.ChunkSize, 0);
 
 					// Iterate through all TileTypes
 					for (var x = 0; x < Chunk.ChunkSize; x++)
@@ -69,7 +69,7 @@ namespace SquareCubed.Client.Structures
 				{
 					// Translate to the chunk position
 					GL.PushMatrix();
-					GL.Translate(chunk.X * Chunk.ChunkSize, chunk.Y * Chunk.ChunkSize, 0);
+					GL.Translate(chunk.Position.X * Chunk.ChunkSize, chunk.Position.Y * Chunk.ChunkSize, 0);
 
 					// Iterate through all TileTypes to render the Walls
 					for (var x = 0; x < Chunk.ChunkSize; x++)

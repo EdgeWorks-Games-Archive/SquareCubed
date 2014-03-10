@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Lidgren.Network;
+using OpenTK;
 
 namespace SquareCubed.Common.Data
 {
@@ -17,8 +19,40 @@ namespace SquareCubed.Common.Data
 			WallTypes = new uint[2];
 		}
 
+		/// <summary>
+		/// Updates the wall colliders for this tile.
+		/// </summary>
+		/// <param name="tilePosition">The tile's position (bottom left of the tile) relative to the structure.</param>
+		public void UpdateColliders(Vector2 tilePosition)
+		{
+			_wallColliders = new List<AaBb>();
+
+			if (WallTypes[(int) WallSides.Top] != 0)
+			{
+				_wallColliders.Add(new AaBb
+				{
+					Position = tilePosition + new Vector2(-0.1f, 0.9f),
+					Size = new Vector2(1.2f, 0.2f)
+				});
+			}
+			if (WallTypes[(int) WallSides.Right] != 0)
+			{
+				_wallColliders.Add(new AaBb
+				{
+					Position = tilePosition + new Vector2(0.9f, -0.1f),
+					Size = new Vector2(0.2f, 1.2f)
+				});
+			}
+		}
+
+		private List<AaBb> _wallColliders;
+
 		public uint Type { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for docking)
 		public uint[] WallTypes { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for doors)
+		public IEnumerable<AaBb> WallColliders
+		{
+			get { return _wallColliders.AsReadOnly(); }
+		}
 	}
 
 	public static class TileExtensions

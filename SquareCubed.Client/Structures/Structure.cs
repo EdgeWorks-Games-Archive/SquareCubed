@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Client.Units;
@@ -41,6 +42,13 @@ namespace SquareCubed.Client.Structures
 		{
 			Contract.Requires<ArgumentNullException>(unit != null);
 			UpdateEntry(_units, unit, unit.Structure);
+		}
+
+		public IEnumerable<Chunk> GetChunksWithin(Vector2i centerChunkPos, int maxDistance)
+		{
+			return Chunks.Where(c =>
+				(c.Position.X <= centerChunkPos.X + maxDistance) && (c.Position.X >= centerChunkPos.X - maxDistance) &&
+				(c.Position.Y <= centerChunkPos.Y + maxDistance) && (c.Position.Y >= centerChunkPos.Y - maxDistance));
 		}
 	}
 
