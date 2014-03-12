@@ -1,6 +1,4 @@
-﻿using OpenTK;
-
-namespace SquareCubed.Common.Data
+﻿namespace SquareCubed.Common.Data
 {
 	/// <summary>
 	///     Axis Aligned Line
@@ -8,15 +6,23 @@ namespace SquareCubed.Common.Data
 	public class AaSide
 	{
 		/// <summary>
-		///     The bottom/left position of the line.
+		///     The start position of this side on the axis it is aligned to.
 		/// </summary>
-		public Vector2 Position { get; set; }
-
-		public float Length { get; set; }
+		public float Start { get; set; }
 
 		/// <summary>
-		///     Distance this side is from the center of the AaBb.
+		///     The end position of this side on the axis it is aligned to.
 		/// </summary>
-		public float CenterDistance { get; set; }
+		public float End { get; set; }
+
+		/// <summary>
+		///     The position of this side on the axis tangential to the axis it is aligned to.
+		/// </summary>
+		public float Tangent { get; set; }
+
+		/// <summary>
+		///     The position of the AaBb's center on the axis tangential to the axis this side is aligned to.
+		/// </summary>
+		public float CenterTangent { get; set; }
 	}
 }

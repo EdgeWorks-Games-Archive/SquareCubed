@@ -145,29 +145,35 @@ namespace SquareCubed.Client
 
 		private void Update(FrameEventArgs e)
 		{
+			// Clamp tick data to prevent long frame stutters from messing stuff up
+			var delta = e.Time > 0.1f ? 0.1f : (float)e.Time;
+
 			// Handle all queued up packets
 			Network.HandlePackets();
 
 			// Update the axises before updating
 			Input.UpdateAxes();
 
-			Player.Update((float) e.Time);
+			Player.Update(delta);
 
 			// Run the update event
-			if (UpdateTick != null) UpdateTick(this, (float) e.Time);
+			if (UpdateTick != null) UpdateTick(this, delta);
 		}
 
 		private void Render(FrameEventArgs e)
 		{
+			// Clamp tick data to prevent long frame stutters from messing stuff up
+			var delta = e.Time > 0.1f ? 0.1f : (float)e.Time;
+
 			Graphics.BeginRender();
 
 			// Run the background render event
-			if (BackgroundRenderTick != null) BackgroundRenderTick(this, (float) e.Time);
+			if (BackgroundRenderTick != null) BackgroundRenderTick(this, delta);
 
 			Structures.Render();
 
 			// Run the unit render event
-			if (UnitRenderTick != null) UnitRenderTick(this, (float) e.Time);
+			if (UnitRenderTick != null) UnitRenderTick(this, delta);
 
 			// Render some test stuff in player
 			Player.Render();

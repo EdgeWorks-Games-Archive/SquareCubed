@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Player
@@ -37,84 +35,129 @@ namespace SquareCubed.Client.Player
 			if (_playerUnit == null) return;
 			if (_playerUnit.Structure == null) return;
 
-			// Calculate movement data before doing anything
-			var velocity = _client.Input.Axes*delta*Speed;
+			// Calculate total movement data requested
+			var velocity = _client.Input.Axes * delta * Speed;
+			
+			// Check if there is movement data
 			var xHasVel = (Math.Abs(velocity.X) > 0.001);
 			var yHasVel = (Math.Abs(velocity.Y) > 0.001);
-
+				
 			// If there's velocity, we need to do stuff
 			if (xHasVel || yHasVel)
 			{
-				// Calculate additional movement data
-				var position = _playerUnit.Position;
-				var newPosition = position + velocity;
-
 				// Get the collider data we'll need to detect collisions
-				var colliders = _playerUnit.Structure.GetChunksWithin(newPosition.GetChunkPosition(), 1).SelectMany(c => c.GetColliders());
+				var statics = _playerUnit.Structure
+					.GetChunksWithin(_playerUnit.Position.GetChunkPosition(), 1)
+					.SelectMany(c => c.GetColliders()).ToArray();
 
 				// If there's vertical movement
 				if (xHasVel)
 				{
-					// If the player is going left
-					if (velocity.X < 0)
+					if (velocity.X > 0) // If the player is going right
 					{
-						// Create the player's left side
-						var playerSide = new AaSide
-						{
-							Length = 0.6f,
-							CenterDistance = 0.3f
-						};
-
-						// Get all the sides that are collidable on the Y axis (which won't change)
-						var sides = colliders.Select(c => c.Right).Where(s =>
-							// Only include where the player's highest point is above the lowest point of the side
-							(playerSide.Position.Y + playerSide.Length > s.Position.Y) &&
-							// Only include where the player's lowest point is below the highest point of the side
-							(playerSide.Position.Y < s.Position.Y + s.Length));
-
-						// ReSharper disable PossibleMultipleEnumeration
-						while(true)
-						{
-							// Update the position in the player side
-							playerSide.Position = newPosition - new Vector2(0.3f, 0.3f);
-
-							// Find the first side that meets the collision requirements
-							var side = sides.FirstOrDefault(s =>
-								// Only include where the player's left side side is left of the side
-								(playerSide.Position.X < s.Position.X) &&
-								// Only include where the player's left side + center distance is right of the side - center distance
-								(playerSide.Position.X + playerSide.CenterDistance > s.Position.X - s.CenterDistance));
-
-							if (side != null)
-							{
-								// Calculate difference in target position needed to resolve collision
-								var diffVel = playerSide.Position.X - side.Position.X;
-								
-								// Remove difference from velocity and update new position
-								velocity.X -= diffVel;
-								newPosition.X = position.X + velocity.X;
-							}
-							else break;
-						}
-						// ReSharper restore PossibleMultipleEnumeration
+						velocity.X = ResolveAxisDirection(
+							_playerUnit.AaBb,
+							velocity.X,
+							player => player.Right,
+							statics,
+							wall => wall.Left);
+					}
+					else // If the player is going left
+					{
+						velocity.X = ResolveAxisDirection(
+							_playerUnit.AaBb,
+							velocity.X,
+							player => player.Left,
+							statics,
+							wall => wall.Right);
 					}
 				}
 
 				// If there's horizontal movement
 				if (yHasVel)
 				{
+					if (velocity.Y > 0) // If the player is going up
+					{
+						velocity.Y = ResolveAxisDirection(
+							_playerUnit.AaBb,
+							velocity.Y,
+							player => player.Up,
+							statics,
+							wall => wall.Down);
+					}
+					else // If the player is going down
+					{
+						velocity.Y = ResolveAxisDirection(
+							_playerUnit.AaBb,
+							velocity.Y,
+							player => player.Down,
+							statics,
+							wall => wall.Up);
+					}
 				}
 
 				// Update the player's position
-				_playerUnit.Position = newPosition;
-
-				// Send over the updated player position
+				_playerUnit.Position += velocity;
 				_network.SendPlayerPhysics(_playerUnit);
 			}
-
+			
 			// Make sure the camera is parented correctly
 			_client.Graphics.Camera.Parent = _playerUnit.Structure;
 			_client.Graphics.Camera.Position = _playerUnit.Position;
+		}
+
+		private float ResolveAxisDirection(AaBb dynamic, float velocity, Func<AaBb, AaSide> dynamicSideFunc, IEnumerable<AaBb> statics, Func<AaBb, AaSide> staticSideFunc)
+		{
+			// Sometimes with aligned walls they might not entirely align, causing something to stick out a bit out of the wall.
+			// This is really small and practically invisible. To fix it we just remove a tiny invisible bit from the length of the lines.
+			const float floatCompensation = 0.001f;
+
+			// Create some data to work with
+			var directionMultiplier = velocity < 0 ? -1.0f : 1.0f;
+			var dynamicSide = dynamicSideFunc(dynamic);
+
+			var dynamicTangent = dynamicSide.Tangent;
+			dynamicSide.Tangent += velocity;
+			dynamicSide.Tangent *= directionMultiplier;
+
+			var dynamicCenterTangent = dynamicSide.CenterTangent;
+			dynamicSide.CenterTangent += velocity;
+			dynamicSide.CenterTangent *= directionMultiplier;
+
+			// Get all the sides that overlap on the Y axis (which won't change during resolving)
+			var sides = statics.Select(staticSideFunc).Where(s =>
+				(dynamicSide.End > s.Start + floatCompensation) &&
+				(dynamicSide.Start < s.End - floatCompensation)).ToArray();
+
+			while (true)
+			{
+				// Find sides that collided (Give every side a line on their tangential axis from the side to the center of the AaBb then see if there's overlap)
+				var side = sides.FirstOrDefault(s =>
+					// Only include where the player's side is more than the static side
+					(dynamicSide.Tangent > s.Tangent * directionMultiplier) &&
+					// Only include where the player's center is less than the static side's center
+					(dynamicSide.CenterTangent < s.CenterTangent * directionMultiplier));
+
+				if (side != null)
+				{
+					// Calculate difference in target position needed to resolve collision
+					var diffVel = dynamicSide.Tangent - (side.Tangent * directionMultiplier);
+
+					// Remove difference from velocity
+					velocity -= diffVel * directionMultiplier;
+
+					// Update the data in the dynamic side
+					dynamicSide.Tangent = dynamicTangent;
+					dynamicSide.Tangent += velocity;
+					dynamicSide.Tangent *= directionMultiplier;
+					dynamicSide.CenterTangent = dynamicCenterTangent;
+					dynamicSide.CenterTangent += velocity;
+					dynamicSide.CenterTangent *= directionMultiplier;
+				}
+				else break;
+			}
+
+			return velocity;
 		}
 
 		public void Render()

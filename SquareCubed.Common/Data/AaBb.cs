@@ -23,9 +23,52 @@ namespace SquareCubed.Common.Data
 			{
 				return new AaSide
 				{
-					Position = new Vector2(Position.X + Size.X, Position.Y),
-					Length = Size.Y,
-					CenterDistance = Size.X * 0.5f
+					Start = Position.Y,
+					End = Position.Y + Size.Y,
+					Tangent = Position.X + Size.X,
+					CenterTangent = Position.X + (Size.X * 0.5f)
+				};
+			}
+		}
+
+		public AaSide Left
+		{
+			get
+			{
+				return new AaSide
+				{
+					Start = Position.Y,
+					End = Position.Y + Size.Y,
+					Tangent = Position.X,
+					CenterTangent = Position.X + (Size.X * 0.5f)
+				};
+			}
+		}
+
+		public AaSide Up
+		{
+			get
+			{
+				return new AaSide()
+				{
+					Start = Position.X,
+					End = Position.X + Size.X,
+					Tangent = Position.Y + Size.Y,
+					CenterTangent = Position.Y + (Size.Y*0.5f)
+				};
+			}
+		}
+
+		public AaSide Down
+		{
+			get
+			{
+				return new AaSide
+				{
+					Start = Position.X,
+					End = Position.X + Size.X,
+					Tangent = Position.Y,
+					CenterTangent = Position.Y + (Size.Y * 0.5f)
 				};
 			}
 		}
