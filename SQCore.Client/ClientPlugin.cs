@@ -1,4 +1,5 @@
-﻿using SQCore.Client.Tiles;
+﻿using SQCore.Client.Objects;
+using SQCore.Client.Tiles;
 using SQCore.Common;
 using SquareCubed.Client;
 
@@ -8,16 +9,18 @@ namespace SQCore.Client
 	{
 		private StarsBackground _stars;
 
-		private CorridorTileType _corridorTile;
-		private MetalFloorTileType _metalFloorTile;
-
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
 			Logger.LogInfo("Initializing core plugin...");
 
 			_stars = new StarsBackground(client);
-			_corridorTile = new CorridorTileType(client.Structures.TileTypes);
-			_metalFloorTile = new MetalFloorTileType(client.Structures.TileTypes);
+
+			// Add tile types
+			client.Structures.TileTypes.RegisterType(new CorridorTileType(), 2);
+			client.Structures.TileTypes.RegisterType(new MetalFloorTileType(), 3);
+
+			// Add object types
+			client.Structures.ObjectTypes.RegisterType(typeof (PilotSeatObject), 0);
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}

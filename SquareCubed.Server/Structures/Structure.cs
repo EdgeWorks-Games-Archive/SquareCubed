@@ -16,7 +16,7 @@ namespace SquareCubed.Server.Structures
 
 		public Structure()
 		{
-			Chunks = new List<Chunk>();
+			Chunks = new List<ServerChunk>();
 		}
 
 		public World World
@@ -36,7 +36,7 @@ namespace SquareCubed.Server.Structures
 		}
 
 		public uint Id { get; set; }
-		public List<Chunk> Chunks { get; set; }
+		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
 

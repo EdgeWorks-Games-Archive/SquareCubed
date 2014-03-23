@@ -19,7 +19,7 @@ namespace SquareCubed.Client.Structures
 			msg.SkipPadBits();
 
 			// Read the data
-			var structure = msg.ReadStructure();
+			var structure = msg.ReadStructure(_callback.ObjectTypes);
 
 			// Pass the data on
 			_callback.OnStructureData(structure);

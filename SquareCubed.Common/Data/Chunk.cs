@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Lidgren.Network;
 using OpenTK;
 
 namespace SquareCubed.Common.Data
@@ -109,50 +108,5 @@ namespace SquareCubed.Common.Data
 		}
 
 		#endregion
-	}
-
-	public static class ChunkExtensions
-	{
-		public static void Write(this NetOutgoingMessage msg, Chunk chunk)
-		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(chunk != null);
-
-			for (var x = 0; x < Chunk.ChunkSize; x++)
-			{
-				for (var y = 0; y < Chunk.ChunkSize; y++)
-				{
-					if (chunk.Tiles[x][y] != null)
-					{
-						msg.Write(true);
-						msg.WritePadBits();
-						msg.Write(chunk.Tiles[x][y]);
-					}
-					else
-						msg.Write(false);
-				}
-			}
-		}
-
-		public static Chunk ReadChunk(this NetIncomingMessage msg)
-		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Ensures(Contract.Result<Chunk>() != null);
-
-			var chunk = new Chunk();
-			for (var x = 0; x < Chunk.ChunkSize; x++)
-			{
-				for (var y = 0; y < Chunk.ChunkSize; y++)
-				{
-					// False means no tile, so ignore it
-					if (!msg.ReadBoolean()) continue;
-
-					msg.ReadPadBits();
-					chunk.Tiles[x][y] = msg.ReadTile();
-				}
-			}
-			chunk.UpdateColliders();
-			return chunk;
-		}
 	}
 }

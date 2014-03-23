@@ -5,10 +5,9 @@ namespace SQCore.Client.Tiles
 {
 	class MetalFloorTileType : TileType
 	{
-		public MetalFloorTileType(TileTypes tileTypes)
+		public MetalFloorTileType()
 		{
 			Texture = new Texture2D("./Graphics/Tiles/MetalFloor.png");
-			tileTypes.RegisterType(this, 3);
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Lidgren.Network;
 using OpenTK;
+using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Units;
 using SquareCubed.Common.Data;
 
@@ -14,7 +15,7 @@ namespace SquareCubed.Client.Structures
 		private readonly List<Unit> _units = new List<Unit>();
 
 		public uint Id { get; set; }
-		public List<Chunk> Chunks { get; set; }
+		public List<ClientChunk> Chunks { get; set; }
 
 		public IEnumerable<Unit> Units
 		{
@@ -54,17 +55,17 @@ namespace SquareCubed.Client.Structures
 
 	public static class StructureExtensions
 	{
-		private static List<Chunk> ReadChunks(this NetIncomingMessage msg)
+		private static List<ClientChunk> ReadChunks(this NetIncomingMessage msg, ObjectTypes objectTypes)
 		{
 			var amount = msg.ReadInt32();
-			var chunks = new List<Chunk>(amount);
+			var chunks = new List<ClientChunk>(amount);
 			for (var i = 0; i < amount; i++)
-				chunks.Add(msg.ReadChunk());
+				chunks.Add(msg.ReadChunk(objectTypes));
 
 			return chunks;
 		}
 
-		public static Structure ReadStructure(this NetIncomingMessage msg)
+		public static Structure ReadStructure(this NetIncomingMessage msg, ObjectTypes objectTypes)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 
@@ -74,7 +75,7 @@ namespace SquareCubed.Client.Structures
 				Position = msg.ReadVector2(),
 				Rotation = msg.ReadFloat(),
 				Center = msg.ReadVector2(),
-				Chunks = msg.ReadChunks()
+				Chunks = msg.ReadChunks(objectTypes)
 			};
 		}
 	}

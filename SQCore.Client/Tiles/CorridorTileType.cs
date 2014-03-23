@@ -5,10 +5,9 @@ namespace SQCore.Client.Tiles
 {
 	class CorridorTileType : TileType
 	{
-		public CorridorTileType(TileTypes tileTypes)
+		public CorridorTileType()
 		{
 			Texture = new Texture2D("./Graphics/Tiles/Corridor.png");
-			tileTypes.RegisterType(this, 2);
 		}
 	}
 }

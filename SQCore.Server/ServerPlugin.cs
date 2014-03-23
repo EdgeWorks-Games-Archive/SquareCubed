@@ -1,6 +1,5 @@
 ﻿using OpenTK;
 using SQCore.Common;
-using SquareCubed.Common.Data;
 using SquareCubed.Server;
 using SquareCubed.Server.Structures;
 
@@ -25,7 +24,7 @@ namespace SQCore.Server
 			};
 
 			// Add a chunk for the test ship
-			var chunk = new Chunk();
+			var chunk = new ServerChunk();
 
 			// Cockpit
 			chunk.SetTile(5, 5, 3);
