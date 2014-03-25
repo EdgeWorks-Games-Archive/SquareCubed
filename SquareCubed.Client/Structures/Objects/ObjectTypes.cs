@@ -5,23 +5,33 @@ namespace SquareCubed.Client.Structures.Objects
 {
 	public class ObjectTypes
 	{
-		public Type[] TypeList { get; private set; }
+		public const uint MaxId = 20;
+		private Type[] _typeList;
 
 		public ObjectTypes()
 		{
-			TypeList = new Type[20];
+			_typeList = new Type[MaxId + 1];
+		}
+
+		public Type GetType(uint id)
+		{
+			Contract.Requires<ArgumentOutOfRangeException>(
+				id <= MaxId,
+				"Object Id is bigger than the maximum Id allowed.");
+
+			return _typeList[id];
 		}
 
 		public void RegisterType(Type type, uint id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
-				id < TypeList.Length,
-				"Type Id is bigger than the amount of allocated type Id slots.");
+				id <= MaxId,
+				"Object Id is bigger than the maximum Id allowed.");
 
-			if (TypeList[id] != null)
-				throw new Exception("Tile type already registered!");
+			if (_typeList[id] != null)
+				throw new Exception("Object type already registered!");
 
-			TypeList[id] = type;
+			_typeList[id] = type;
 		}
 	}
 }

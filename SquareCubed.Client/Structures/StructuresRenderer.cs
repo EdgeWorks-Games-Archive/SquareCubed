@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -27,7 +29,7 @@ namespace SquareCubed.Client.Structures
 					if (tile == null || tile.Type == 0) continue;
 
 					// Get tile tile type and render it
-					_client.Structures.TileTypes.TypeList[tile.Type].RenderTile(new Vector2(x, y));
+					_client.Structures.TileTypes.GetType(tile.Type).RenderTile(new Vector2(x, y));
 				}
 			}
 		}

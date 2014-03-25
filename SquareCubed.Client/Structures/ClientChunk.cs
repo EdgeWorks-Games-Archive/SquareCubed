@@ -20,7 +20,7 @@ namespace SquareCubed.Client.Structures
 			var objects = new List<ClientObject>(amount);
 			for (var i = 0; i < amount; i++)
 			{
-				var obj = (ClientObject)Activator.CreateInstance(objectTypes.TypeList[msg.ReadUInt32()]);
+				var obj = (ClientObject)Activator.CreateInstance(objectTypes.GetType(msg.ReadUInt32()));
 				obj.Position = msg.ReadVector2();
 				objects.Add(obj);
 			}
