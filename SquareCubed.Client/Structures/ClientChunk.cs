@@ -9,7 +9,7 @@ namespace SquareCubed.Client.Structures
 {
 	public class ClientChunk : Chunk
 	{
-		public List<ClientObject> Objects { get; set; } 
+		public List<ClientObject> Objects { get; set; }
 	}
 
 	public static class ClientChunkExtensions
@@ -20,7 +20,8 @@ namespace SquareCubed.Client.Structures
 			var objects = new List<ClientObject>(amount);
 			for (var i = 0; i < amount; i++)
 			{
-				var obj = (ClientObject)Activator.CreateInstance(objectTypes.GetType(msg.ReadUInt32()));
+				// Create an object of the type with the id we received assigned to it.
+				var obj = objectTypes.InstantiateType(msg.ReadUInt32());
 				obj.Position = msg.ReadVector2();
 				objects.Add(obj);
 			}

@@ -129,6 +129,7 @@
     <Compile Include="Structures\ClientChunk.cs" />
     <Compile Include="Structures\Objects\ClientObject.cs" />
     <Compile Include="Structures\Objects\ObjectTypes.cs" />
+    <Compile Include="Structures\Objects\PlayerProximityHelper.cs" />
     <Compile Include="Structures\Structure.cs" />
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

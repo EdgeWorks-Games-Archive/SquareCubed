@@ -5,7 +5,7 @@ namespace SquareCubed.Client.Structures.Tiles
 {
 	public class TileTypes
 	{
-		public const uint MaxId = 20;
+		private const uint MaxId = 20;
 		private readonly TileType[] _typeList;
 
 		public TileTypes()
@@ -29,6 +29,9 @@ namespace SquareCubed.Client.Structures.Tiles
 				id <= MaxId,
 				"Type Id is bigger than the maximum Id allowed.");
 
+			// Overwriting the type could lead to serious issues.
+			// Preventing the type from being overwritten even at
+			// runtime will give us a clearer bugreport.
 			if (_typeList[id] != null)
 				throw new Exception("Tile type already registered!");
 
