@@ -129,7 +129,7 @@
     <Compile Include="Structures\ClientChunk.cs" />
     <Compile Include="Structures\Objects\ClientObject.cs" />
     <Compile Include="Structures\Objects\ObjectTypes.cs" />
-    <Compile Include="Structures\Objects\PlayerProximityHelper.cs" />
+    <Compile Include="Structures\Objects\UnitProximityHelper.cs" />
     <Compile Include="Structures\Structure.cs" />
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />

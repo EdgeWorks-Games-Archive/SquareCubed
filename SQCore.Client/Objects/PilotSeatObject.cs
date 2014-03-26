@@ -4,11 +4,11 @@ namespace SQCore.Client.Objects
 {
 	class PilotSeatObject : ClientObject
 	{
-		private PlayerProximityHelper _proximityHelper;
+		private UnitProximityHelper _proximity;
 
 		public PilotSeatObject(SquareCubed.Client.Client client)
 		{
-			_proximityHelper = new PlayerProximityHelper(this, client.Player);
+			_proximity = new UnitProximityHelper(this);
 		}
 	}
 }
