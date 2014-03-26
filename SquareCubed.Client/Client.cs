@@ -16,6 +16,7 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public Window.Window Window { get; private set; }
 		public Input.Input Input { get; private set; }
+		public Gui.Gui Gui { get; private set; }
 		public Player.Player Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
@@ -63,8 +64,9 @@ namespace SquareCubed.Client
 			Graphics = graphics ?? new Graphics.Graphics(Window);
 			_disposeGraphics = disposeGraphics;
 
-			// The Input
+			// The Input & Gui
 			Input = new Input.Input(Window);
+			Gui = new Gui.Gui();
 
 			// The Network
 			Network = network ?? new Network.Network("SquareCubed");
@@ -80,8 +82,10 @@ namespace SquareCubed.Client
 			Player = new Player.Player(this);
 
 			// Hook Game Loop Events
-			Window.UpdateFrame += (s, e) => Update(e);
-			Window.RenderFrame += (s, e) => Render(e);
+			Window.Load += Load;
+			Window.Unload += Unload;
+			Window.UpdateFrame += Update;
+			Window.RenderFrame += Render;
 
 			// Done initializing, let's log it
 			_logger.LogInfo("Finished initializing engine!");
@@ -138,15 +142,34 @@ namespace SquareCubed.Client
 			_logger.LogInfo("Finished running!");
 		}
 
-		public void ForceImmediateRender()
+		/// <summary>
+		///     Load is called after the context and opengl is set up.
+		///     Stuff that needs to be initialized after opengl is set
+		///     up should be called in here.
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="e"></param>
+		private void Load(object s, EventArgs e)
 		{
-			Render(new FrameEventArgs());
+			Gui.Load();
 		}
 
-		private void Update(FrameEventArgs e)
+		/// <summary>
+		///     Unload is called after the engine is done running, but
+		///     before cleaning up the context and opengl. Clean up any
+		///     OpenGL related objects here.
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="e"></param>
+		private void Unload(object s, EventArgs e)
+		{
+			Gui.Unload();
+		}
+
+		private void Update(object s, FrameEventArgs e)
 		{
 			// Clamp tick data to prevent long frame stutters from messing stuff up
-			var delta = e.Time > 0.1f ? 0.1f : (float)e.Time;
+			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 
 			// Handle all queued up packets
 			Network.HandlePackets();
@@ -160,10 +183,10 @@ namespace SquareCubed.Client
 			if (UpdateTick != null) UpdateTick(this, delta);
 		}
 
-		private void Render(FrameEventArgs e)
+		private void Render(object s, FrameEventArgs e)
 		{
 			// Clamp tick data to prevent long frame stutters from messing stuff up
-			var delta = e.Time > 0.1f ? 0.1f : (float)e.Time;
+			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 
 			Graphics.BeginRender();
 
