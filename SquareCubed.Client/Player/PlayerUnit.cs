@@ -4,7 +4,7 @@ using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Player
 {
-	class PlayerUnit : Unit
+	public class PlayerUnit : Unit
 	{
 		public AaBb AaBb
 		{

@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using SquareCubed.Client.Units;
+﻿using SquareCubed.Client.Units;
 
 namespace SquareCubed.Client.Structures.Objects
 {
@@ -18,10 +17,11 @@ namespace SquareCubed.Client.Structures.Objects
 	{
 		private readonly ClientObject _obj;
 
-		public UnitProximityHelper(ClientObject obj)
+		public UnitProximityHelper(ClientObject obj, float range = 1.0f)
 		{
 			_obj = obj;
 			Status = ProximityStatus.NotWithin;
+			Range = 1.0f;
 		}
 
 		public ProximityStatus Status { get; private set; }

@@ -10,7 +10,6 @@ namespace SquareCubed.Client.Player
 		private const float Speed = 2;
 		private readonly Client _client;
 		private readonly PlayerNetwork _network;
-		private PlayerUnit _playerUnit;
 
 		public Player(Client client)
 		{
@@ -18,11 +17,13 @@ namespace SquareCubed.Client.Player
 			_network = new PlayerNetwork(_client, this);
 		}
 
+		public PlayerUnit PlayerUnit { get; private set; }
+
 		public void OnPlayerData(uint id)
 		{
 			var unit = _client.Units.GetAndRemove(id);
-			_playerUnit = new PlayerUnit(unit);
-			_client.Units.Add(_playerUnit);
+			PlayerUnit = new PlayerUnit(unit);
+			_client.Units.Add(PlayerUnit);
 
 			// Update the old unit's structure entry so it isn't kept alive by the structure
 			// TODO: Improve this to be done better somehow
@@ -32,22 +33,22 @@ namespace SquareCubed.Client.Player
 		public void Update(float delta)
 		{
 			// Make sure the player is correctly set up, if not just ignore this tick
-			if (_playerUnit == null) return;
-			if (_playerUnit.Structure == null) return;
+			if (PlayerUnit == null) return;
+			if (PlayerUnit.Structure == null) return;
 
 			// Calculate total movement data requested
-			var velocity = _client.Input.Axes * delta * Speed;
-			
+			var velocity = _client.Input.Axes*delta*Speed;
+
 			// Check if there is movement data
 			var xHasVel = (Math.Abs(velocity.X) > 0.001);
 			var yHasVel = (Math.Abs(velocity.Y) > 0.001);
-				
+
 			// If there's velocity, we need to do stuff
 			if (xHasVel || yHasVel)
 			{
 				// Get the collider data we'll need to detect collisions
-				var statics = _playerUnit.Structure
-					.GetChunksWithin(_playerUnit.Position.GetChunkPosition(), 1)
+				var statics = PlayerUnit.Structure
+					.GetChunksWithin(PlayerUnit.Position.GetChunkPosition(), 1)
 					.SelectMany(c => c.GetColliders()).ToArray();
 
 				// If there's vertical movement
@@ -56,7 +57,7 @@ namespace SquareCubed.Client.Player
 					if (velocity.X > 0) // If the player is going right
 					{
 						velocity.X = ResolveAxisDirection(
-							_playerUnit.AaBb,
+							PlayerUnit.AaBb,
 							velocity.X,
 							player => player.Right,
 							statics,
@@ -65,7 +66,7 @@ namespace SquareCubed.Client.Player
 					else // If the player is going left
 					{
 						velocity.X = ResolveAxisDirection(
-							_playerUnit.AaBb,
+							PlayerUnit.AaBb,
 							velocity.X,
 							player => player.Left,
 							statics,
@@ -79,7 +80,7 @@ namespace SquareCubed.Client.Player
 					if (velocity.Y > 0) // If the player is going up
 					{
 						velocity.Y = ResolveAxisDirection(
-							_playerUnit.AaBb,
+							PlayerUnit.AaBb,
 							velocity.Y,
 							player => player.Up,
 							statics,
@@ -88,7 +89,7 @@ namespace SquareCubed.Client.Player
 					else // If the player is going down
 					{
 						velocity.Y = ResolveAxisDirection(
-							_playerUnit.AaBb,
+							PlayerUnit.AaBb,
 							velocity.Y,
 							player => player.Down,
 							statics,
@@ -97,16 +98,17 @@ namespace SquareCubed.Client.Player
 				}
 
 				// Update the player's position
-				_playerUnit.Position += velocity;
-				_network.SendPlayerPhysics(_playerUnit);
+				PlayerUnit.Position += velocity;
+				_network.SendPlayerPhysics(PlayerUnit);
 			}
-			
+
 			// Make sure the camera is parented correctly
-			_client.Graphics.Camera.Parent = _playerUnit.Structure;
-			_client.Graphics.Camera.Position = _playerUnit.Position;
+			_client.Graphics.Camera.Parent = PlayerUnit.Structure;
+			_client.Graphics.Camera.Position = PlayerUnit.Position;
 		}
 
-		private float ResolveAxisDirection(AaBb dynamic, float velocity, Func<AaBb, AaSide> dynamicSideFunc, IEnumerable<AaBb> statics, Func<AaBb, AaSide> staticSideFunc)
+		private float ResolveAxisDirection(AaBb dynamic, float velocity, Func<AaBb, AaSide> dynamicSideFunc,
+			IEnumerable<AaBb> statics, Func<AaBb, AaSide> staticSideFunc)
 		{
 			// Sometimes with aligned walls they might not entirely align, causing something to stick out a bit out of the wall.
 			// This is really small and practically invisible. To fix it we just remove a tiny invisible bit from the length of the lines.
@@ -134,17 +136,17 @@ namespace SquareCubed.Client.Player
 				// Find sides that collided (Give every side a line on their tangential axis from the side to the center of the AaBb then see if there's overlap)
 				var side = sides.FirstOrDefault(s =>
 					// Only include where the player's side is more than the static side
-					(dynamicSide.Tangent > s.Tangent * directionMultiplier) &&
+					(dynamicSide.Tangent > s.Tangent*directionMultiplier) &&
 					// Only include where the player's center is less than the static side's center
-					(dynamicSide.CenterTangent < s.CenterTangent * directionMultiplier));
+					(dynamicSide.CenterTangent < s.CenterTangent*directionMultiplier));
 
 				if (side != null)
 				{
 					// Calculate difference in target position needed to resolve collision
-					var diffVel = dynamicSide.Tangent - (side.Tangent * directionMultiplier);
+					var diffVel = dynamicSide.Tangent - (side.Tangent*directionMultiplier);
 
 					// Remove difference from velocity
-					velocity -= diffVel * directionMultiplier;
+					velocity -= diffVel*directionMultiplier;
 
 					// Update the data in the dynamic side
 					dynamicSide.Tangent = dynamicTangent;
@@ -165,16 +167,16 @@ namespace SquareCubed.Client.Player
 			// TODO: Move to structure and add debugging flag on the structures
 
 			// Make sure the player is correctly set up, if not just ignore this tick
-			/*if (_playerUnit == null) return;
-			if (_playerUnit.Structure == null) return;
+			/*if (PlayerUnit == null) return;
+			if (PlayerUnit.Structure == null) return;
 
 			GL.PushMatrix();
-			GL.Translate(_playerUnit.Structure.Position.X, _playerUnit.Structure.Position.Y, 0);
-			GL.Rotate(-_playerUnit.Structure.Rotation, 0, 0, 1);
-			GL.Translate(-_playerUnit.Structure.Center.X, -_playerUnit.Structure.Center.Y, 0);
+			GL.Translate(PlayerUnit.Structure.Position.X, PlayerUnit.Structure.Position.Y, 0);
+			GL.Rotate(-PlayerUnit.Structure.Rotation, 0, 0, 1);
+			GL.Translate(-PlayerUnit.Structure.Center.X, -PlayerUnit.Structure.Center.Y, 0);
 
 			// Render all AaBbs
-			foreach (var collider in _playerUnit.Structure.GetChunksWithin(_playerUnit.Position.GetChunkPosition(), 1).SelectMany(c => c.GetColliders()))
+			foreach (var collider in PlayerUnit.Structure.GetChunksWithin(PlayerUnit.Position.GetChunkPosition(), 1).SelectMany(c => c.GetColliders()))
 			{
 				GL.PushMatrix();
 				GL.Translate(collider.Position.X, collider.Position.Y, 0);
