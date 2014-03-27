@@ -1,17 +1,14 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 using Coherent.UI;
-using OpenTK.Graphics.ES10;
 using SquareCubed.Client.Graphics;
 
 namespace SquareCubed.Client.Gui
 {
-	internal class ViewListener : Coherent.UI.ViewListener // TODO: Destroy view in Dispose
+	internal class ViewListener : Coherent.UI.ViewListener
 	{
-		private View _view;
 		private readonly TextureBufferHelper _helper = new TextureBufferHelper();
 		private readonly Texture2D _texture;
+		private View _view;
 
 		public ViewListener(Texture2D sharedTexture)
 		{
@@ -30,14 +27,11 @@ namespace SquareCubed.Client.Gui
 		{
 			Debug.Assert(usesSharedMemory, "Coherent UI must be set to use shared memory.");
 
-			// Get the shared texture memory
+			// Get the shared texture memory and map our opengl texture to it
 			var pixels = _helper.MapSharedMemoryNative(handle, width, height);
-
-			// Map the texture memory we received to our texture
 			_texture.MapSubImage(pixels);
 
-			// Release the shared texture memory
-			// TODO: Release here? I cannot find if this is needed.
+			// TODO: Release shared memory here? I cannot find if this is needed.
 
 			base.OnDraw(handle, true, width, height);
 		}

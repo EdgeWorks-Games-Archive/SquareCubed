@@ -38,6 +38,7 @@ namespace SquareCubed.Client.Gui
 		{
 			// We only have managed resources to dispose of
 			if (IsLoaded) Unload();
+			if (_viewListener != null) _viewListener.Dispose();
 		}
 
 		public void Load()
