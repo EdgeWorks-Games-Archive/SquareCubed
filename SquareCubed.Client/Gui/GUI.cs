@@ -5,19 +5,25 @@ using SquareCubed.Client.Graphics;
 
 namespace SquareCubed.Client.Gui
 {
-	public class Gui : IDisposable
+	public sealed class Gui : IDisposable
 	{
 		// Listeners
 		private EventListener _eventListener;
 
 		// Coherent UI System
 		private SystemSettings _settings;
-		private UISystem _system;
 
 		// Graphics Resources
 		private ShaderProgram _shader;
+		private UISystem _system;
 
 		public bool IsLoaded { get; private set; }
+
+		public void Dispose()
+		{
+			// We only have managed resources to dispose of
+			if (IsLoaded) Unload();
+		}
 
 		public void Load()
 		{
@@ -61,7 +67,7 @@ namespace SquareCubed.Client.Gui
 
 			// Clean up the Coherent UI system
 			_system.Uninitialize();
-			_system.Dispose(); // TODO: Dispose in our own dispose method instead
+			_system.Dispose();
 			_system = null;
 			_settings = null;
 
@@ -70,16 +76,10 @@ namespace SquareCubed.Client.Gui
 			_shader = null;
 
 			// Clean up the Listeners
-			_eventListener.Dispose(); // TODO: Dispose in our own dispose method instead
+			_eventListener.Dispose();
 			_eventListener = null;
 
 			IsLoaded = false;
-		}
-
-		public void Dispose()
-		{
-			// We only have managed resources to dispose of
-			if (IsLoaded) Unload();
 		}
 	}
 }

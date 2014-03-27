@@ -1,29 +1,42 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Graphics
 {
+	[Serializable]
 	public class ShaderException : Exception
 	{
+		public ShaderException(string message, Exception inner = null)
+			: base(message, inner)
+		{
+		}
+
 		public int OpenGlId { get; set; }
 		public int OpenGlResult { get; set; }
 		public string OpenGlLog { get; set; }
 
-		public ShaderException(string message, Exception inner = null)
-			:base(message, inner)
+		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
+			base.GetObjectData(info, context);
+
+			info.AddValue("OpenGlId", OpenGlId);
+			info.AddValue("OpenGlResult", OpenGlResult);
+			info.AddValue("OpenGlLog", OpenGlLog);
 		}
 	}
 
 
 	public sealed class ShaderProgram : IDisposable
 	{
-		private static Logger _logger = new Logger("Shaders");
+		private static readonly Logger Logger = new Logger("Shaders");
 
-		private int _program = -1;
+		private readonly int _program = -1;
 
 		public ShaderProgram(string vertPath, string fragPath)
 		{
@@ -64,7 +77,7 @@ namespace SquareCubed.Client.Graphics
 					};
 				}
 
-				_logger.LogInfo("Created new shader program {0}!", _program);
+				Logger.LogInfo("Created new shader program {0}!", _program);
 			}
 			catch (Exception)
 			{
@@ -78,6 +91,14 @@ namespace SquareCubed.Client.Graphics
 				GL.DeleteShader(vertexShader);
 				GL.DeleteShader(fragmentShader);
 			}
+		}
+
+		public void Dispose()
+		{
+			// We only have unmanaged resources
+			if (_program != -1) GL.DeleteProgram(_program);
+
+			GC.SuppressFinalize(this);
 		}
 
 		private static void CompileShader(int shader, string sourcePath)
@@ -106,14 +127,6 @@ namespace SquareCubed.Client.Graphics
 		~ShaderProgram()
 		{
 			Dispose();
-		}
-
-		public void Dispose()
-		{
-			// We only have unmanaged resources
-			if (_program != -1) GL.DeleteProgram(_program);
-
-			GC.SuppressFinalize(this);
 		}
 	}
 }
