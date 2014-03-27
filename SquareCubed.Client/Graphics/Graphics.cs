@@ -39,7 +39,10 @@ namespace SquareCubed.Client.Graphics
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Multisample);
-
+			
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+			
 			GL.ClearColor(Color.FromArgb(5, 5, 8));
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 

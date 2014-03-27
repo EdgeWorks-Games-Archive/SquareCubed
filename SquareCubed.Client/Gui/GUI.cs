@@ -147,7 +147,7 @@ namespace SquareCubed.Client.Gui
 					IsTransparent = true,
 					UsesSharedMemory = true
 				};
-				_system.CreateView(viewInfo, "http://tf2maps.net/", _viewListener);
+				_system.CreateView(viewInfo, "coui://GUI/Test.html", _viewListener);
 			}
 
 			// Get the latest Coherent UI surfaces
@@ -203,6 +203,7 @@ namespace SquareCubed.Client.Gui
 			// Reset the matrices
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.PopMatrix();
+
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.PopMatrix();
 		}

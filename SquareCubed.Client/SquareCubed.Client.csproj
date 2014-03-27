@@ -130,7 +130,7 @@
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Gui\EventListener.cs" />
-    <Compile Include="Gui\GUI.cs" />
+    <Compile Include="Gui\Gui.cs" />
     <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
