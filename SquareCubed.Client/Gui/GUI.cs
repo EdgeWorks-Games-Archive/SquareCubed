@@ -7,15 +7,20 @@ namespace SquareCubed.Client.Gui
 {
 	public sealed class Gui : IDisposable
 	{
-		// Listeners
+		#region Coherent UI Resources
+
 		private EventListener _eventListener;
-
-		// Coherent UI System
 		private SystemSettings _settings;
-
-		// Graphics Resources
-		private ShaderProgram _shader;
 		private UISystem _system;
+
+		#endregion
+
+		#region Graphics Resources
+
+		private ShaderProgram _shader;
+		private Texture2D _texture;
+
+		#endregion
 
 		public bool IsLoaded { get; private set; }
 
@@ -25,7 +30,7 @@ namespace SquareCubed.Client.Gui
 			if (IsLoaded) Unload();
 		}
 
-		public void Load()
+		public void Load(int width, int height)
 		{
 			Contract.Requires<InvalidOperationException>(
 				!IsLoaded,
@@ -48,13 +53,18 @@ namespace SquareCubed.Client.Gui
 				_settings, _eventListener,
 				Severity.Warning, null, null);
 
-			// Make sure it got set up correctly
+			// Make sure it got created
 			if (_system == null)
 				throw new Exception("Failed to initialize CoherentUI!");
 
+			// Create a shader program for Coherent UI
 			_shader = new ShaderProgram(
 				"Shaders/CoherentUI.vert",
 				"Shaders/CoherentUI.frag");
+
+			// Create a texture for it as well
+			// The texture needs to have alpha activated since Coherent UI will need it
+			_texture = new Texture2D(width, height, true);
 
 			IsLoaded = true;
 		}
@@ -78,6 +88,10 @@ namespace SquareCubed.Client.Gui
 			// Clean up the Listeners
 			_eventListener.Dispose();
 			_eventListener = null;
+
+			// Clean up the Graphics Resources
+			// TODO: _texture.Dispose() needs to be created
+			_texture = null;
 
 			IsLoaded = false;
 		}

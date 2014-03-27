@@ -103,7 +103,7 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
-			Gui.Load();
+			Gui.Load(Window.Width, Window.Height);
 		}
 
 		/// <summary>

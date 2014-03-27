@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -25,38 +26,65 @@ namespace SquareCubed.Client.Graphics
 			if (!File.Exists(path)) throw new Exception("Can't find file \"" + path + "\"!");
 
 			// Load the data from the image file
-			var textureBitmap = new Bitmap(path);
-			var textureData = textureBitmap.LockBits(
-				new Rectangle(0, 0, textureBitmap.Width, textureBitmap.Height),
+			_textureId = LoadFromBitmap(new Bitmap(path), useAlpha);
+		}
+
+		public Texture2D(int width, int height, bool useAlpha = false)
+		{
+			// Create a new bitmap at the size we need
+			var bitmap = new Bitmap(width, height);
+
+			// Fill it with a single color
+			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
+			{
+				using (var brush = new SolidBrush(Color.FromArgb(255, 0, 255)))
+				{
+					gfx.FillRectangle(brush, 0, 0, width, height);
+				}
+			}
+
+			// Load the data from the bitmap
+			_textureId = LoadFromBitmap(bitmap, useAlpha);
+		}
+
+		[Pure]
+		private static uint LoadFromBitmap(Bitmap bitmap, bool useAlpha = false)
+		{
+			// Load the data from the bitmap
+			var textureData = bitmap.LockBits(
+				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				ImageLockMode.ReadOnly,
 				useAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 
 			// Generate and bind a new OpenGL texture
-			GL.GenTextures(1, out _textureId);
-			GL.BindTexture(TextureTarget.Texture2D, _textureId);
+			uint textureId;
+			GL.GenTextures(1, out textureId);
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// Configure the texture
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
-				TextureEnvParameter.TextureEnvMode, (float) TextureEnvMode.Modulate);
+				TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float) TextureMinFilter.Linear);
+				TextureParameterName.TextureMinFilter, (float)TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float) TextureMagFilter.Linear);
+				TextureParameterName.TextureMagFilter, (float)TextureMagFilter.Linear);
 
 			// Load the texture
 			GL.TexImage2D(
 				TextureTarget.Texture2D,
 				0, // level
 				PixelInternalFormat.Three,
-				textureBitmap.Width, textureBitmap.Height,
+				bitmap.Width, bitmap.Height,
 				0, // border
 				useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb,
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 
 			// Free the data since we won't need it anymore
-			textureBitmap.UnlockBits(textureData);
+			bitmap.UnlockBits(textureData);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+
+			return textureId;
 		}
 
 		public void Render(Vector2 position, Vector2 size)
