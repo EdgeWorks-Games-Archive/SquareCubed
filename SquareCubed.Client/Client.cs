@@ -45,7 +45,7 @@ namespace SquareCubed.Client
 			Window = new Window.Window();
 			Graphics = new Graphics.Graphics(Window);
 			Input = new Input.Input(Window);
-			Gui = new Gui.Gui();
+			Gui = new Gui.Gui(this);
 			Network = new Network.Network("SquareCubed");
 			PluginLoader = new PluginLoader<IClientPlugin, Client>();
 			Meta = new Meta.Meta(this);
@@ -103,7 +103,7 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
-			Gui.Load(Window.Width, Window.Height);
+			Gui.Load();
 		}
 
 		/// <summary>
@@ -130,6 +130,7 @@ namespace SquareCubed.Client
 			// Update the axises before updating
 			Input.UpdateAxes();
 
+			Gui.Update();
 			Player.Update(delta);
 
 			// Run the update event
@@ -149,6 +150,7 @@ namespace SquareCubed.Client
 
 			Structures.Render();
 			Player.Render();
+			Gui.Render();
 
 			Graphics.EndRender();
 		}

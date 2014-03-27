@@ -126,9 +126,12 @@
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
+    <Compile Include="Graphics\ShaderUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
+    <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Gui\EventListener.cs" />
     <Compile Include="Gui\GUI.cs" />
+    <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Meta\Meta.cs" />

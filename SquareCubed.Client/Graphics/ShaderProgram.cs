@@ -128,5 +128,10 @@ namespace SquareCubed.Client.Graphics
 		{
 			Dispose();
 		}
+
+		public ShaderUniform GetUniform(string name)
+		{
+			return new ShaderUniform(GL.GetUniformLocation(_program, name));
+		}
 	}
 }

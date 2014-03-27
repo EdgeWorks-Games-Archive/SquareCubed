@@ -12,7 +12,10 @@ namespace SquareCubed.Client.Graphics
 {
 	public sealed class Texture2D
 	{
-		private readonly uint _textureId;
+		private int _textureId;
+		private int _width;
+		private int _height;
+		private bool _useAlpha;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Texture2D"/> class.
@@ -26,7 +29,7 @@ namespace SquareCubed.Client.Graphics
 			if (!File.Exists(path)) throw new Exception("Can't find file \"" + path + "\"!");
 
 			// Load the data from the image file
-			_textureId = LoadFromBitmap(new Bitmap(path), useAlpha);
+			LoadFromBitmap(new Bitmap(path), useAlpha);
 		}
 
 		public Texture2D(int width, int height, bool useAlpha = false)
@@ -44,12 +47,18 @@ namespace SquareCubed.Client.Graphics
 			}
 
 			// Load the data from the bitmap
-			_textureId = LoadFromBitmap(bitmap, useAlpha);
+			LoadFromBitmap(bitmap, useAlpha);
 		}
 
-		[Pure]
-		private static uint LoadFromBitmap(Bitmap bitmap, bool useAlpha = false)
+		private void LoadFromBitmap(Bitmap bitmap, bool useAlpha = false)
 		{
+			// TODO: Add contract here to make sure _textureId isn't already pointing to a texture
+
+			// Save some metadata
+			_useAlpha = useAlpha;
+			_width = bitmap.Width;
+			_height = bitmap.Height;
+
 			// Load the data from the bitmap
 			var textureData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
@@ -57,9 +66,8 @@ namespace SquareCubed.Client.Graphics
 				useAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 
 			// Generate and bind a new OpenGL texture
-			uint textureId;
-			GL.GenTextures(1, out textureId);
-			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			_textureId = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, _textureId);
 
 			// Configure the texture
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
@@ -83,8 +91,17 @@ namespace SquareCubed.Client.Graphics
 			// Free the data since we won't need it anymore
 			bitmap.UnlockBits(textureData);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
 
-			return textureId;
+		public void MapSubImage(IntPtr pixels)
+		{
+			GL.BindTexture(TextureTarget.Texture2D, _textureId);
+			GL.TexSubImage2D(
+				TextureTarget.Texture2D, 0,
+				0, 0, _width, _height,
+				_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb,
+				PixelType.UnsignedByte, pixels);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
 
 		public void Render(Vector2 position, Vector2 size)
