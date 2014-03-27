@@ -5,7 +5,7 @@ namespace SquareCubed.Client.Gui
 {
 	class EventListener : Coherent.UI.EventListener
 	{
-		private Logger _logger = new Logger("GUI");
+		private readonly Logger _logger = new Logger("GUI");
 
 		public bool IsSystemReady { get; private set; }
 

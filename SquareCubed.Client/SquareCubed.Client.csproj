@@ -125,6 +125,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Gui\EventListener.cs" />
     <Compile Include="Gui\GUI.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Structures\Tiles\InvisibleTileType.cs" />
     <Compile Include="Structures\Tiles\TileTypes.cs" />
     <Compile Include="Structures\Tiles\TileType.cs" />
+    <Compile Include="TickEventArgs.cs" />
     <Compile Include="Units\Unit.cs" />
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />

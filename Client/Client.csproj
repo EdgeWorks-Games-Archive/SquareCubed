@@ -55,6 +55,12 @@
     <None Include="Graphics\Tiles\Corridor.psd" />
     <None Include="Graphics\Tiles\MetalFloor.psd" />
     <None Include="packages.config" />
+    <None Include="Shaders\CoherentUI.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\CoherentUI.vert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">

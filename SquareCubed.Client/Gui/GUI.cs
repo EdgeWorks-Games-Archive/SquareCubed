@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Coherent.UI;
+using SquareCubed.Client.Graphics;
 
 namespace SquareCubed.Client.Gui
 {
-	public class Gui // TODO: Make IDisposable
+	public class Gui : IDisposable
 	{
+		// Listeners
+		private EventListener _eventListener;
+
+		// Coherent UI System
 		private SystemSettings _settings;
 		private UISystem _system;
-		private EventListener _eventListener;
+
+		// Graphics Resources
+		private ShaderProgram _shader;
 
 		public bool IsLoaded { get; private set; }
 
@@ -39,6 +46,10 @@ namespace SquareCubed.Client.Gui
 			if (_system == null)
 				throw new Exception("Failed to initialize CoherentUI!");
 
+			_shader = new ShaderProgram(
+				"Shaders/CoherentUI.vert",
+				"Shaders/CoherentUI.frag");
+
 			IsLoaded = true;
 		}
 
@@ -48,14 +59,27 @@ namespace SquareCubed.Client.Gui
 				IsLoaded,
 				"GUI needs to be loaded before it can be unloaded.");
 
+			// Clean up the Coherent UI system
 			_system.Uninitialize();
 			_system.Dispose(); // TODO: Dispose in our own dispose method instead
 			_system = null;
-
 			_settings = null;
 
+			// Clean up all the Graphics Resources
+			_shader.Dispose();
+			_shader = null;
+
+			// Clean up the Listeners
 			_eventListener.Dispose(); // TODO: Dispose in our own dispose method instead
 			_eventListener = null;
+
+			IsLoaded = false;
+		}
+
+		public void Dispose()
+		{
+			// We only have managed resources to dispose of
+			if (IsLoaded) Unload();
 		}
 	}
 }

@@ -26,6 +26,10 @@ namespace SquareCubed.Client.Structures.Objects
 
 		public ClientObject InstantiateType(uint id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(
+				id <= MaxId,
+				"Object Id is bigger than the maximum Id allowed.");
+
 			var type = GetType(id);
 
 			// Make sure we actually managed to retrieve a type

@@ -5,7 +5,7 @@ using SquareCubed.PluginLoader;
 
 namespace SquareCubed.Client
 {
-	public class Client : IDisposable
+	public sealed class Client : IDisposable
 	{
 		private readonly Logger _logger = new Logger("Client");
 
@@ -22,60 +22,32 @@ namespace SquareCubed.Client
 		public Units.Units Units { get; private set; }
 		public Structures.Structures Structures { get; private set; }
 
-		#region MetaData
-
-		private readonly bool _disposeGraphics;
-		private readonly bool _disposeNetwork;
-		private readonly bool _disposePluginLoader;
-		private readonly bool _disposeWindow;
-
 		#endregion
+
+		#region Events
+
+		public event EventHandler<TickEventArgs> UpdateTick;
+		public event EventHandler<TickEventArgs> BackgroundRenderTick;
 
 		#endregion
 
 		#region Initialization and Cleanup
 
-		private bool _disposed;
-
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Client" /> class.
 		/// </summary>
-		/// <param name="window">If not null, use this existing window.</param>
-		/// <param name="disposeWindow">If false, doesn't dispose the window.</param>
-		/// <param name="graphics">If not null, use this existing graphics module.</param>
-		/// <param name="disposeGraphics">If false, doesn't dispose the graphics module.</param>
-		/// <param name="network">If not null, use this existing network module.</param>
-		/// <param name="disposeNetwork">If false, doesn't dispose the network module.</param>
-		/// <param name="pluginLoader">If not null, use this existing plugin loader module.</param>
-		/// <param name="disposePluginLoader">If false, doesn't dispose the plugin loader module.</param>
-		public Client(Window.Window window = null, bool disposeWindow = true,
-			Graphics.Graphics graphics = null, bool disposeGraphics = true,
-			Network.Network network = null, bool disposeNetwork = true,
-			PluginLoader<IClientPlugin, Client> pluginLoader = null, bool disposePluginLoader = true)
+		public Client()
 		{
 			// Log the start of Initialization
 			_logger.LogInfo("Initializing client...");
 
-			// If caller doesn't provide a window, create our own
-			Window = window ?? new Window.Window();
-			_disposeWindow = disposeWindow;
-
-			// Same for graphics
-			Graphics = graphics ?? new Graphics.Graphics(Window);
-			_disposeGraphics = disposeGraphics;
-
-			// The Input & Gui
+			// Initialize all the submodules
+			Window = new Window.Window();
+			Graphics = new Graphics.Graphics(Window);
 			Input = new Input.Input(Window);
 			Gui = new Gui.Gui();
-
-			// The Network
-			Network = network ?? new Network.Network("SquareCubed");
-			_disposeNetwork = disposeNetwork;
-
-			// And the Plugin Loader
-			PluginLoader = pluginLoader ?? new PluginLoader<IClientPlugin, Client>();
-			_disposePluginLoader = disposePluginLoader;
-
+			Network = new Network.Network("SquareCubed");
+			PluginLoader = new PluginLoader<IClientPlugin, Client>();
 			Meta = new Meta.Meta(this);
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
@@ -91,38 +63,18 @@ namespace SquareCubed.Client
 			_logger.LogInfo("Finished initializing engine!");
 		}
 
-		public virtual void Dispose()
+		public void Dispose()
 		{
-			Dispose(true);
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			// Prevent Double Disposing
-			if (_disposed) return;
-
-			if (disposing)
-			{
-				if (_disposeWindow) Window.Dispose();
-				if (_disposeGraphics) Graphics.Dispose();
-				if (_disposeNetwork) Network.Dispose();
-				if (_disposePluginLoader) PluginLoader.Dispose();
-			}
-
-			_disposed = true;
+			// We only have managed resources to dispose of
+			Gui.Dispose();
+			PluginLoader.Dispose();
+			Network.Dispose();
+			Window.Dispose();
 		}
 
 		#endregion
 
 		#region Game Loop
-
-		#region Game Loop Events
-
-		public event EventHandler<float> UpdateTick;
-		public event EventHandler<float> BackgroundRenderTick;
-		public event EventHandler<float> UnitRenderTick;
-
-		#endregion
 
 		/// <summary>
 		///     Runs this instance.
@@ -170,6 +122,7 @@ namespace SquareCubed.Client
 		{
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
+			var eventArgs = new TickEventArgs {ElapsedTime = delta};
 
 			// Handle all queued up packets
 			Network.HandlePackets();
@@ -180,25 +133,21 @@ namespace SquareCubed.Client
 			Player.Update(delta);
 
 			// Run the update event
-			if (UpdateTick != null) UpdateTick(this, delta);
+			if (UpdateTick != null) UpdateTick(this, eventArgs);
 		}
 
 		private void Render(object s, FrameEventArgs e)
 		{
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
+			var eventArgs = new TickEventArgs {ElapsedTime = delta};
 
 			Graphics.BeginRender();
 
 			// Run the background render event
-			if (BackgroundRenderTick != null) BackgroundRenderTick(this, delta);
+			if (BackgroundRenderTick != null) BackgroundRenderTick(this, eventArgs);
 
 			Structures.Render();
-
-			// Run the unit render event
-			if (UnitRenderTick != null) UnitRenderTick(this, delta);
-
-			// Render some test stuff in player
 			Player.Render();
 
 			Graphics.EndRender();

@@ -9,7 +9,7 @@ using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace SquareCubed.Client.Graphics
 {
-	public class Texture2D
+	public sealed class Texture2D
 	{
 		private readonly uint _textureId;
 
