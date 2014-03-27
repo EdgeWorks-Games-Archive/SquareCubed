@@ -15,6 +15,7 @@ namespace SquareCubed.Client.Graphics
 		private int _height;
 		private int _texture;
 		private bool _useAlpha;
+		private bool _useBgra;
 		private int _width;
 
 		/// <summary>
@@ -32,7 +33,7 @@ namespace SquareCubed.Client.Graphics
 			LoadFromBitmap(new Bitmap(path), useAlpha);
 		}
 
-		public Texture2D(int width, int height, bool useAlpha = false)
+		public Texture2D(int width, int height, bool useAlpha = false, bool useFiltering = true, bool useBgra = false)
 		{
 			// Create a new bitmap at the size we need
 			var bitmap = new Bitmap(width, height);
@@ -45,15 +46,16 @@ namespace SquareCubed.Client.Graphics
 			}
 
 			// Load the data from the bitmap
-			LoadFromBitmap(bitmap, useAlpha);
+			LoadFromBitmap(bitmap, useAlpha, useFiltering, useBgra);
 		}
 
-		private void LoadFromBitmap(Bitmap bitmap, bool useAlpha = false)
+		private void LoadFromBitmap(Bitmap bitmap, bool useAlpha, bool useFiltering = true, bool useBgra = false)
 		{
 			// TODO: Add contract here to make sure _textureId isn't already pointing to a texture
 
 			// Save some metadata
 			_useAlpha = useAlpha;
+			_useBgra = useBgra;
 			_width = bitmap.Width;
 			_height = bitmap.Height;
 
@@ -71,18 +73,18 @@ namespace SquareCubed.Client.Graphics
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
 				TextureEnvParameter.TextureEnvMode, (float) TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float) TextureMinFilter.Linear);
+				TextureParameterName.TextureMinFilter, (float)(useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float) TextureMagFilter.Linear);
+				TextureParameterName.TextureMagFilter, (float)(useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 
 			// Load the texture
 			GL.TexImage2D(
 				TextureTarget.Texture2D,
 				0, // level
-				PixelInternalFormat.Three,
+				PixelInternalFormat.Rgba,
 				bitmap.Width, bitmap.Height,
 				0, // border
-				useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb,
+				useBgra ? (useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 
@@ -97,7 +99,7 @@ namespace SquareCubed.Client.Graphics
 			GL.TexSubImage2D(
 				TextureTarget.Texture2D, 0,
 				0, 0, _width, _height,
-				_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb,
+				_useBgra ? (_useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte, pixels);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
