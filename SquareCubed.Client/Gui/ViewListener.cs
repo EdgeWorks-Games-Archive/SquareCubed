@@ -50,7 +50,7 @@ namespace SquareCubed.Client.Gui
 			var sharedHandle = _helper.CreateSharedMemory(width, height);
 			response.Signal(sharedHandle);
 
-			base.CreateSurface(true, width, height, response);
+			// Do not invoke base
 		}
 
 		public override void DestroySurface(CoherentHandle surface, bool usesSharedMemory)
@@ -60,7 +60,7 @@ namespace SquareCubed.Client.Gui
 			// Destroy the shared memory
 			_helper.DestroySharedMemory(surface);
 
-			base.DestroySurface(surface, true);
+			// Do not invoke base
 		}
 	}
 }
