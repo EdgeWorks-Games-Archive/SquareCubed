@@ -6,7 +6,7 @@ using System.Security.Permissions;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Common.Utils;
 
-namespace SquareCubed.Client.Graphics
+namespace SquareCubed.Client.Graphics.Shaders
 {
 	[Serializable]
 	public class ShaderException : Exception
@@ -129,9 +129,33 @@ namespace SquareCubed.Client.Graphics
 			Dispose();
 		}
 
-		public ShaderUniform GetUniform(string name)
+		public ProgramUniform GetUniform(string name)
 		{
-			return new ShaderUniform(GL.GetUniformLocation(_program, name));
+			return new ProgramUniform(GL.GetUniformLocation(_program, name));
+		}
+
+		/// <summary>
+		///     Sets the shader as active and creates a new lifetime
+		///     object to deactivate the shader once done.
+		/// </summary>
+		/// <returns>A new shader lifetime object that should be disposed when done.</returns>
+		[Pure]
+		public ActivationLifetime Activate()
+		{
+			return new ActivationLifetime(_program);
+		}
+
+		public sealed class ActivationLifetime : IDisposable
+		{
+			public ActivationLifetime(int program)
+			{
+				GL.UseProgram(program);
+			}
+
+			public void Dispose()
+			{
+				GL.UseProgram(0);
+			}
 		}
 	}
 }

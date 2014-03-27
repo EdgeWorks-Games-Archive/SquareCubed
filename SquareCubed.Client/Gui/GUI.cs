@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Coherent.UI;
+using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
+using SquareCubed.Client.Graphics.Shaders;
 
 namespace SquareCubed.Client.Gui
 {
@@ -21,7 +23,7 @@ namespace SquareCubed.Client.Gui
 		#region Graphics Resources
 
 		private ShaderProgram _program;
-		private ShaderUniform _textureSampler;
+		private ProgramUniform _textureSampler;
 		private Texture2D _texture;
 		private VertexBuffer _vertexBuffer;
 
@@ -150,6 +152,59 @@ namespace SquareCubed.Client.Gui
 
 			// Get the latest Coherent UI surfaces
 			_system.FetchSurfaces();
+
+			// Reset the matrices to default values
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.PushMatrix();
+			GL.LoadIdentity();
+
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.PushMatrix();
+			GL.LoadIdentity();
+
+			using (_program.Activate())
+			using (_texture.Activate())
+			{
+				// Set the texture sampler to use texture unit 0
+				_textureSampler.SetInt32(0);
+
+				// Enable the attribute arrays so we can send attributes
+				GL.EnableVertexAttribArray(0);
+				GL.EnableVertexAttribArray(1);
+				using (_vertexBuffer.Activate())
+				{
+					// Set the position attribute pointer
+					GL.VertexAttribPointer(
+						0, // Location
+						3, // Size
+						VertexAttribPointerType.Float, // Type
+						false, // Normalized
+						5*sizeof (float), // Offset between values
+						0); // Start offset
+
+					// Set the UV attribute pointer
+					GL.VertexAttribPointer(
+						1, // Location
+						2, // Size
+						VertexAttribPointerType.Float, // Type
+						false, // Normalized
+						5 * sizeof(float), // Offset between values
+						3 * sizeof(float)); // Start offset
+
+					// And finally, draw
+					GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+				}
+
+				// Clean up
+				GL.DisableVertexAttribArray(0);
+				GL.DisableVertexAttribArray(1);
+			}
+
+			// Reset the matrices
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.PopMatrix();
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.PopMatrix();
 		}
 	}
 }

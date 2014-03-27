@@ -5,20 +5,20 @@ using System.Drawing.Imaging;
 using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SquareCubed.Client.Graphics
 {
 	public sealed class Texture2D
 	{
-		private int _textureId;
-		private int _width;
 		private int _height;
+		private int _texture;
 		private bool _useAlpha;
+		private int _width;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Texture2D"/> class.
+		///     Initializes a new instance of the <see cref="Texture2D" /> class.
 		/// </summary>
 		/// <param name="path">The path to the image file to use for this Texture2D.</param>
 		/// <param name="useAlpha">If set to <c>true</c>, use alpha channel. UNTESTED!</param>
@@ -39,11 +39,9 @@ namespace SquareCubed.Client.Graphics
 
 			// Fill it with a single color
 			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
+			using (var brush = new SolidBrush(Color.FromArgb(255, 0, 255)))
 			{
-				using (var brush = new SolidBrush(Color.FromArgb(255, 0, 255)))
-				{
-					gfx.FillRectangle(brush, 0, 0, width, height);
-				}
+				gfx.FillRectangle(brush, 0, 0, width, height);
 			}
 
 			// Load the data from the bitmap
@@ -66,16 +64,16 @@ namespace SquareCubed.Client.Graphics
 				useAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 
 			// Generate and bind a new OpenGL texture
-			_textureId = GL.GenTexture();
-			GL.BindTexture(TextureTarget.Texture2D, _textureId);
+			_texture = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, _texture);
 
 			// Configure the texture
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
-				TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Modulate);
+				TextureEnvParameter.TextureEnvMode, (float) TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float)TextureMinFilter.Linear);
+				TextureParameterName.TextureMinFilter, (float) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float)TextureMagFilter.Linear);
+				TextureParameterName.TextureMagFilter, (float) TextureMagFilter.Linear);
 
 			// Load the texture
 			GL.TexImage2D(
@@ -95,7 +93,7 @@ namespace SquareCubed.Client.Graphics
 
 		public void MapSubImage(IntPtr pixels)
 		{
-			GL.BindTexture(TextureTarget.Texture2D, _textureId);
+			GL.BindTexture(TextureTarget.Texture2D, _texture);
 			GL.TexSubImage2D(
 				TextureTarget.Texture2D, 0,
 				0, 0, _width, _height,
@@ -104,32 +102,57 @@ namespace SquareCubed.Client.Graphics
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
 
+		/// <summary>
+		///     Sets the texture as active and creates a new lifetime
+		///     object to deactivate the texture once done.
+		/// </summary>
+		/// <returns>A new texture lifetime object that should be disposed when done.</returns>
+		[Pure]
+		public ActivationLifetime Activate()
+		{
+			return new ActivationLifetime(_texture);
+		}
+
 		public void Render(Vector2 position, Vector2 size)
 		{
-			GL.BindTexture(TextureTarget.Texture2D, _textureId);
+			using (Activate())
+			{
+				GL.Begin(PrimitiveType.Quads);
+				GL.Color3(Color.White);
 
-			GL.Begin(PrimitiveType.Quads);
-			GL.Color3(Color.White);
+				// Left Bottom
+				GL.TexCoord2(0, 1);
+				GL.Vertex2(position.X, position.Y);
 
-			// Left Bottom
-			GL.TexCoord2(0, 1);
-			GL.Vertex2(position.X, position.Y);
+				// Right Bottom
+				GL.TexCoord2(1, 1);
+				GL.Vertex2(position.X + size.X, position.Y);
 
-			// Right Bottom
-			GL.TexCoord2(1, 1);
-			GL.Vertex2(position.X + size.X, position.Y);
+				// Right Top
+				GL.TexCoord2(1, 0);
+				GL.Vertex2(position.X + size.X, position.Y + size.Y);
 
-			// Right Top
-			GL.TexCoord2(1, 0);
-			GL.Vertex2(position.X + size.X, position.Y + size.Y);
+				// Left Top
+				GL.TexCoord2(0, 0);
+				GL.Vertex2(position.X, position.Y + size.Y);
 
-			// Left Top
-			GL.TexCoord2(0, 0);
-			GL.Vertex2(position.X, position.Y + size.Y);
+				GL.End();
+			}
+		}
 
-			GL.End();
+		public sealed class ActivationLifetime : IDisposable
+		{
+			public ActivationLifetime(int texture)
+			{
+				GL.ActiveTexture(TextureUnit.Texture0);
+				GL.BindTexture(TextureTarget.Texture2D, texture);
+			}
 
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+			public void Dispose()
+			{
+				GL.ActiveTexture(TextureUnit.Texture0);
+				GL.BindTexture(TextureTarget.Texture2D, 0);
+			}
 		}
 	}
 }

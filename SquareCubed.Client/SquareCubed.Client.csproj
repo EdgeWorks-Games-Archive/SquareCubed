@@ -125,8 +125,8 @@
     <Compile Include="Client.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Graphics.cs" />
-    <Compile Include="Graphics\ShaderProgram.cs" />
-    <Compile Include="Graphics\ShaderUniform.cs" />
+    <Compile Include="Graphics\Shaders\ShaderProgram.cs" />
+    <Compile Include="Graphics\Shaders\ProgramUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Gui\EventListener.cs" />
