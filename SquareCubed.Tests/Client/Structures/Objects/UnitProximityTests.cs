@@ -109,5 +109,12 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			_proximity.Update(unit);
 			Assert.Equal(ProximityStatus.NotWithin, _proximity.Status);
 		}
+
+		[Fact]
+		public void ConstructorChangesRange()
+		{
+			var helper = new UnitProximityHelper(null, 0.5f);
+			Assert.Equal(0.5f, helper.Range);
+		}
 	}
 }

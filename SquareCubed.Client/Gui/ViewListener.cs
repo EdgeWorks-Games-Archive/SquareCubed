@@ -8,7 +8,8 @@ namespace SquareCubed.Client.Gui
 	{
 		private readonly TextureBufferHelper _helper = new TextureBufferHelper();
 		private readonly Texture2D _texture;
-		private View _view;
+
+		public View View { get; private set; }
 
 		public ViewListener(Texture2D sharedTexture)
 		{
@@ -17,8 +18,8 @@ namespace SquareCubed.Client.Gui
 
 		public override void OnViewCreated(View view)
 		{
-			_view = view;
-			_view.SetFocus();
+			View = view;
+			View.SetFocus();
 
 			base.OnViewCreated(view);
 		}

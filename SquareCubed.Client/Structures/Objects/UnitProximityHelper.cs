@@ -21,7 +21,7 @@ namespace SquareCubed.Client.Structures.Objects
 		{
 			_obj = obj;
 			Status = ProximityStatus.NotWithin;
-			Range = 1.0f;
+			Range = range;
 		}
 
 		public ProximityStatus Status { get; private set; }

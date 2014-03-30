@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Coherent.UI;
+using Coherent.UI.Binding;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
@@ -125,6 +126,13 @@ namespace SquareCubed.Client.Gui
 			IsLoaded = false;
 		}
 
+		public void Trigger<T>(string func, T param)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if(_viewListener != null && _viewListener.View != null)
+				_viewListener.View.TriggerEvent(func, param);
+		}
+
 		public void Update()
 		{
 			// Update Coherent UI
@@ -169,6 +177,7 @@ namespace SquareCubed.Client.Gui
 				_textureSampler.SetInt32(0);
 
 				// Enable the attribute arrays so we can send attributes
+				// TODO: Gotta make this part of the vertex buffer object
 				GL.EnableVertexAttribArray(0);
 				GL.EnableVertexAttribArray(1);
 				using (_vertexBuffer.Activate())
