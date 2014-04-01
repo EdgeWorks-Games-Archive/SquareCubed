@@ -15,19 +15,22 @@ namespace SQCore.Client.Objects
 		{
 			_gui = client.Gui;
 			_player = client.Player;
-			_proximity = new UnitProximityHelper(this, 1.0f);
+			_proximity = new UnitProximityHelper(this);
 
 			client.UpdateTick += Update;
+			_proximity.Change += OnChange;
 		}
 
 		private void Update(object s, TickEventArgs e)
 		{
 			// Update the proximity helper, if there's no player it will default to not within range
 			_proximity.Update(_player.PlayerUnit);
+		}
 
+		private void OnChange(object s, ProximityEventArgs e)
+		{
 			// Actually do something with this data
-			// TODO: Change to use a status change event in UnitProximityHelper instead
-			_gui.Trigger("SetContextInfoVisibility", _proximity.Status == ProximityStatus.Within);
+			_gui.Trigger("SetContextInfoVisibility", e.NewStatus == ProximityStatus.Within);
 		}
 	}
 }
