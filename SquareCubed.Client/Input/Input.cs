@@ -19,11 +19,23 @@ namespace SquareCubed.Client.Input
 			window.KeyUp += OnKeyUp;
 
 			// Add a axis keys to be tracked
-			_keys[Key.W] = false;
-			_keys[Key.A] = false;
-			_keys[Key.S] = false;
-			_keys[Key.D] = false;
+			TrackKey(Key.W);
+			TrackKey(Key.A);
+			TrackKey(Key.S);
+			TrackKey(Key.D);
 		}
+
+		public void TrackKey(Key key)
+		{
+			_keys[key] = false;
+		}
+
+		public bool GetKey(Key key)
+		{
+			return _keys[key];
+		}
+
+		#region Input Event Handlers
 
 		private void OnKeyDown(object s, KeyboardKeyEventArgs e)
 		{
@@ -38,6 +50,8 @@ namespace SquareCubed.Client.Input
 			if (_keys.ContainsKey(e.Key))
 				_keys[e.Key] = false;
 		}
+
+		#endregion
 
 		#region Input Direction Axes
 
