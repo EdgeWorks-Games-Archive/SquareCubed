@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SquareCubed.Client;
 using SquareCubed.Client.Graphics;
 
 namespace SQCore.Client
@@ -50,7 +51,7 @@ namespace SQCore.Client
 			client.BackgroundRenderTick += Render;
 		}
 
-		private void Render(object sender, float e)
+		private void Render(object sender, TickEventArgs e)
 		{
 			// Temporarily set the camera to something more convenient
 			GL.MatrixMode(MatrixMode.Projection);

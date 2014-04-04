@@ -109,5 +109,52 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			_proximity.Update(unit);
 			Assert.Equal(ProximityStatus.NotWithin, _proximity.Status);
 		}
+
+		[Fact]
+		public void EventsFiredCorrectly()
+		{
+			var unit = new Unit(0)
+			{
+				// Should be not within 1 distance of the test object but within 2 distance
+				Position = new Vector2(0.8f, 3.7f)
+			};
+
+			// Set up the Event
+			var evtProximityStatus = ProximityStatus.NotWithin;
+			var evtTriggerCount = 0;
+			_proximity.Change += (s, e) =>
+			{
+				evtTriggerCount++;
+				evtProximityStatus = e.NewStatus;
+			};
+
+			// Initially this is outside the range, so we make sure it isn't detected as within
+			_proximity.Update(unit);
+			Assert.Equal(ProximityStatus.NotWithin, evtProximityStatus);
+			Assert.Equal(0, evtTriggerCount);
+
+			// Change the position to now fall within the range
+			unit.Position = new Vector2(2.4f, 3.4f);
+
+			// The unit now does fall within our detection range
+			_proximity.Update(unit);
+			Assert.Equal(ProximityStatus.Within, evtProximityStatus);
+			Assert.Equal(1, evtTriggerCount);
+
+			// Change the position to now fall out of the range again
+			unit.Position = new Vector2(2.3f, 4.5f);
+
+			// The unit now doesn't fall within our detection range anymore
+			_proximity.Update(unit);
+			Assert.Equal(ProximityStatus.NotWithin, evtProximityStatus);
+			Assert.Equal(2, evtTriggerCount);
+		}
+
+		[Fact]
+		public void ConstructorChangesRange()
+		{
+			var helper = new UnitProximityHelper(null, 0.5f);
+			Assert.Equal(0.5f, helper.Range);
+		}
 	}
 }

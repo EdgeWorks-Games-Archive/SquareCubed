@@ -1,4 +1,5 @@
-﻿using SquareCubed.Client.Units;
+﻿using System;
+using SquareCubed.Client.Units;
 
 namespace SquareCubed.Client.Structures.Objects
 {
@@ -6,6 +7,15 @@ namespace SquareCubed.Client.Structures.Objects
 	{
 		NotWithin,
 		Within
+	}
+
+	public class ProximityEventArgs : EventArgs
+	{
+		/// <summary>
+		///     The time elapsed between the start of the last
+		///     frame and the start of the current frame.
+		/// </summary>
+		public ProximityStatus NewStatus { get; set; }
 	}
 
 	/// <summary>
@@ -21,11 +31,12 @@ namespace SquareCubed.Client.Structures.Objects
 		{
 			_obj = obj;
 			Status = ProximityStatus.NotWithin;
-			Range = 1.0f;
+			Range = range;
 		}
 
 		public ProximityStatus Status { get; private set; }
 		public float Range { get; set; }
+		public event EventHandler<ProximityEventArgs> Change;
 
 		/// <summary>
 		///     Updates the detection state, fires off events on changes.
@@ -36,10 +47,17 @@ namespace SquareCubed.Client.Structures.Objects
 		/// </param>
 		public void Update(Unit unit)
 		{
+			// Find the new status
+			var nStatus = ProximityStatus.Within;
 			if (unit == null || (unit.Position - _obj.Position).LengthFast > Range)
-				Status = ProximityStatus.NotWithin;
-			else
-				Status = ProximityStatus.Within;
+				nStatus = ProximityStatus.NotWithin;
+
+			// If not different, don't do anything
+			if (nStatus == Status) return;
+
+			// Set it and fire an event
+			Status = nStatus;
+			if (Change != null) Change(this, new ProximityEventArgs {NewStatus = nStatus});
 		}
 	}
 }

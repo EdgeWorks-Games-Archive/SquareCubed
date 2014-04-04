@@ -5,7 +5,7 @@ using System;
 
 namespace SquareCubed.Client.Graphics
 {
-	public class Graphics : IDisposable
+	public class Graphics
 	{
 		#region External Modules
 
@@ -29,22 +29,6 @@ namespace SquareCubed.Client.Graphics
 			Camera = new Camera(_window.Size);
 		}
 
-		private bool _disposed;
-
-		public virtual void Dispose()
-		{
-			Dispose(true);
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			// Prevent double disposing and don't dispose if we're told not to
-			if (_disposed || !disposing) return;
-			_disposed = true;
-
-			// Nothing to do yet
-		}
-
 		#endregion
 
 		#region Game Loop
@@ -55,7 +39,10 @@ namespace SquareCubed.Client.Graphics
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Multisample);
-
+			
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+			
 			GL.ClearColor(Color.FromArgb(5, 5, 8));
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 

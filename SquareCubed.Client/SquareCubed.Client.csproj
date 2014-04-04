@@ -101,6 +101,10 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CoherentUINet, Version=1.7.0.0, Culture=neutral, PublicKeyToken=06c400a284f0f0fd, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CoherentUI\bin\Win32\CoherentUINet.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenTK.1.1.1508.5724\lib\NET40\OpenTK.dll</HintPath>
@@ -115,10 +119,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CoherentUI\License.cs">
+      <Link>Gui\License.cs</Link>
+    </Compile>
     <Compile Include="Client.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Shaders\ShaderProgram.cs" />
+    <Compile Include="Graphics\Shaders\ProgramUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
+    <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Gui\EventListener.cs" />
+    <Compile Include="Gui\Gui.cs" />
+    <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Meta\Meta.cs" />
@@ -137,6 +150,7 @@
     <Compile Include="Structures\Tiles\InvisibleTileType.cs" />
     <Compile Include="Structures\Tiles\TileTypes.cs" />
     <Compile Include="Structures\Tiles\TileType.cs" />
+    <Compile Include="TickEventArgs.cs" />
     <Compile Include="Units\Unit.cs" />
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />
