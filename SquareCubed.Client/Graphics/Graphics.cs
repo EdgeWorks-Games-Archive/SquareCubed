@@ -1,27 +1,20 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
-using System;
+using OpenTK.Platform;
 
 namespace SquareCubed.Client.Graphics
 {
 	public class Graphics
 	{
-		#region External Modules
-
-		private readonly Window.Window _window;
-
-		#endregion
-
-		#region Camera
+		private readonly IGameWindow _window;
 
 		public Camera Camera { get; private set; }
 
-		#endregion
-
 		#region Initialization and Cleanup
 
-		public Graphics(Window.Window window)
+		public Graphics(IGameWindow window)
 		{
 			Contract.Requires<ArgumentNullException>(window != null);
 
@@ -39,10 +32,10 @@ namespace SquareCubed.Client.Graphics
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Multisample);
-			
+
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
-			
+
 			GL.ClearColor(Color.FromArgb(5, 5, 8));
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 

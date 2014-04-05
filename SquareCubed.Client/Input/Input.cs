@@ -10,7 +10,7 @@ namespace SquareCubed.Client.Input
 	{
 		private readonly Dictionary<Key, bool> _keys = new Dictionary<Key, bool>();
 
-		public Input(Window.Window window)
+		public Input(INativeWindow window)
 		{
 			Contract.Requires<ArgumentNullException>(window != null);
 
@@ -23,16 +23,6 @@ namespace SquareCubed.Client.Input
 			TrackKey(Key.A);
 			TrackKey(Key.S);
 			TrackKey(Key.D);
-		}
-
-		public void TrackKey(Key key)
-		{
-			_keys[key] = false;
-		}
-
-		public bool GetKey(Key key)
-		{
-			return _keys[key];
 		}
 
 		#region Input Event Handlers
@@ -53,18 +43,28 @@ namespace SquareCubed.Client.Input
 
 		#endregion
 
-		#region Input Direction Axes
+		#region Public Helpers
 
 		public Vector2 Axes { get; private set; }
+
+		public void TrackKey(Key key)
+		{
+			_keys[key] = false;
+		}
+
+		public bool GetKey(Key key)
+		{
+			return _keys[key];
+		}
 
 		public void UpdateAxes()
 		{
 			// Translate the pressed keys to axes
 			var newAxes = new Vector2();
-			if (_keys[Key.D]) newAxes.X += 1;
-			if (_keys[Key.A]) newAxes.X -= 1;
-			if (_keys[Key.W]) newAxes.Y += 1;
-			if (_keys[Key.S]) newAxes.Y -= 1;
+			if (GetKey(Key.D)) newAxes.X += 1;
+			if (GetKey(Key.A)) newAxes.X -= 1;
+			if (GetKey(Key.W)) newAxes.Y += 1;
+			if (GetKey(Key.S)) newAxes.Y -= 1;
 
 			// Normalize the axes for easy usage and update
 			newAxes.NormalizeFast();

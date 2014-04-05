@@ -11,7 +11,7 @@ namespace SquareCubed.Common.Data
 		/// <returns></returns>
 		public static float GetRatio(this Size size)
 		{
-			return (float) size.Width/size.Height;
+			return ((float) size.Width)/size.Height;
 		}
 	}
 }

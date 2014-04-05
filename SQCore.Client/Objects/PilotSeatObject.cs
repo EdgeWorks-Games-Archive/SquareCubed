@@ -7,10 +7,10 @@ namespace SQCore.Client.Objects
 {
 	internal class PilotSeatObject : ClientObject
 	{
-		private readonly Player _player;
 		private readonly Gui _gui;
+		private readonly Player _player;
 		private readonly UnitProximityHelper _proximity;
-		
+
 		public PilotSeatObject(SquareCubed.Client.Client client)
 		{
 			_gui = client.Gui;

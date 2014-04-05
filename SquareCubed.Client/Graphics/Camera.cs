@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Common.Data;
@@ -12,7 +10,6 @@ namespace SquareCubed.Client.Graphics
 		#region Resolution and Size
 
 		private Size _res;
-
 		private SizeF _size;
 
 		public SizeF Size
@@ -20,10 +17,19 @@ namespace SquareCubed.Client.Graphics
 			get { return _size; }
 		}
 
-		public void SetHeight(float height)
+		public float Width
 		{
-			_size.Height = height;
-			_size.Width = _size.Height * _res.GetRatio();
+			get { return _size.Width; }
+		}
+
+		public float Height
+		{
+			get { return _size.Height; }
+			set
+			{
+				_size.Height = value;
+				_size.Width = _size.Height*_res.GetRatio();
+			}
 		}
 
 		#endregion
@@ -40,7 +46,7 @@ namespace SquareCubed.Client.Graphics
 			_res = resolution;
 
 			// Set Default Size
-			SetHeight(14);
+			Height = 14;
 		}
 
 
