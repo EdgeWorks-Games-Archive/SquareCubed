@@ -10,9 +10,9 @@ namespace SquareCubed.Server.Units
 		private readonly AutoDictionary<Unit> _units = new AutoDictionary<Unit>();
 		private readonly UnitsNetwork _network;
 
-		public Units(Server server)
+		public Units(Network.Network network)
 		{
-			_network = new UnitsNetwork(server);
+			_network = new UnitsNetwork(network);
 		}
 
 		public void Add(Unit unit)

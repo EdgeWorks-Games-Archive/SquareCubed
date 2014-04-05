@@ -8,18 +8,18 @@ namespace SquareCubed.Server.Structures
 	{
 		private readonly ushort _physicsPacketType;
 		private readonly ushort _dataPacketType;
-		private readonly Server _server;
+		private readonly Network.Network _network;
 
-		public StructuresNetwork(Server server)
+		public StructuresNetwork(Network.Network network)
 		{
-			_server = server;
-			_physicsPacketType = _server.Network.PacketHandlers.ResolveType("structures.physics");
-			_dataPacketType = _server.Network.PacketHandlers.ResolveType("structures.data");
+			_network = network;
+			_physicsPacketType = _network.PacketHandlers.ResolveType("structures.physics");
+			_dataPacketType = _network.PacketHandlers.ResolveType("structures.data");
 		}
 
 		public void SendStructurePhysics(Structure structure)
 		{
-			var msg = _server.Network.Peer.CreateMessage();
+			var msg = _network.Peer.CreateMessage();
 
 			// Add the packet type Id
 			msg.Write(_physicsPacketType);
@@ -39,7 +39,7 @@ namespace SquareCubed.Server.Structures
 
 		public void SendStructureData(Structure structure, Player player = null)
 		{
-			var msg = _server.Network.Peer.CreateMessage();
+			var msg = _network.Peer.CreateMessage();
 
 			// Add the packet type Id
 			msg.Write(_dataPacketType);

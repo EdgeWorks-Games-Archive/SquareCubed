@@ -7,7 +7,7 @@ namespace SquareCubed.Client.Graphics
 {
 	public class Camera
 	{
-		#region Resolution and Size
+		#region Resolution, Size and Position
 
 		private Size _res;
 		private SizeF _size;
@@ -22,6 +22,11 @@ namespace SquareCubed.Client.Graphics
 			get { return _size.Width; }
 		}
 
+		public float AspectRatio
+		{
+			get { return _res.GetRatio(); }
+		}
+
 		public float Height
 		{
 			get { return _size.Height; }
@@ -31,10 +36,6 @@ namespace SquareCubed.Client.Graphics
 				_size.Width = _size.Height*_res.GetRatio();
 			}
 		}
-
-		#endregion
-
-		#region Positioning, Following and Parenting
 
 		public Vector2 Position { get; set; }
 		public IPositionable Parent { get; set; }
@@ -49,15 +50,14 @@ namespace SquareCubed.Client.Graphics
 			Height = 14;
 		}
 
-
 		public void SetMatrices()
 		{
 			// Set up camera size
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.Ortho(
-				-Size.Width/2.0f, Size.Width/2.0f,
-				-Size.Height/2.0f, Size.Height/2.0f,
+				-Width/2.0f, Width/2.0f,
+				-Height/2.0f, Height/2.0f,
 				0.0f, 4.0f);
 
 			// Now set up the camera position

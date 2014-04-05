@@ -2,11 +2,10 @@
 using System.Threading;
 using SquareCubed.Common.Utils;
 using SquareCubed.PluginLoader;
-using SquareCubed.Server.Structures;
 
 namespace SquareCubed.Server
 {
-	public class Server : IDisposable
+	public sealed class Server : IDisposable
 	{
 		private readonly Logger _logger = new Logger("Server");
 
@@ -20,37 +19,27 @@ namespace SquareCubed.Server
 		public Units.Units Units { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 
-		#region MetaData
-
-		private readonly bool _disposeNetwork;
-		private readonly bool _disposePluginLoader;
-
 		#endregion
+
+		#region Events
+
+		public event EventHandler<float> UpdateTick = (o, p) => { };
 
 		#endregion
 
 		#region Initialization and Cleanup
 
-		private bool _disposed;
-
-		public Server(Network.Network network = null, bool disposeNetwork = true,
-			PluginLoader<IServerPlugin, Server> pluginLoader = null, bool disposePluginLoader = true)
+		public Server()
 		{
 			// Log the start of Initialization
 			_logger.LogInfo("Initializing server...");
 
-			// Yada yada
-			Network = network ?? new Network.Network("SquareCubed");
-			_disposeNetwork = disposeNetwork;
-
-			// And the Plugin Loader
-			PluginLoader = pluginLoader ?? new PluginLoader<IServerPlugin, Server>();
-			_disposePluginLoader = disposePluginLoader;
-
+			Network = new Network.Network("SquareCubed");
+			PluginLoader = new PluginLoader<IServerPlugin, Server>();
 			Meta = new Meta.Meta(this);
 			Worlds = new Worlds.Worlds(this);
-			Structures = new Structures.Structures(this);
-			Units = new Units.Units(this);
+			Structures = new Structures.Structures(Network);
+			Units = new Units.Units(Network);
 			Players = new Players.Players(this);
 
 			// Done initializing, let's log it
@@ -59,29 +48,14 @@ namespace SquareCubed.Server
 
 		public void Dispose()
 		{
-			Dispose(true);
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			// Prevent double disposing and don't dispose if we're told not to
-			if (_disposed || !disposing) return;
-			_disposed = true;
-
-			// Actually dispose modules
-			if (_disposeNetwork) Network.Dispose();
-			if (_disposePluginLoader) PluginLoader.Dispose();
+			// We only have managed resources to dispose of
+			PluginLoader.Dispose();
+			Network.Dispose();
 		}
 
 		#endregion
 
 		#region Game Loop
-
-		#region Game Loop Events
-
-		public event EventHandler<float> UpdateTick;
-
-		#endregion
 
 		public bool KeepRunning { get; set; }
 
@@ -112,7 +86,7 @@ namespace SquareCubed.Server
 				Units.Update(delta);
 
 				// Run the update event
-				if (UpdateTick != null) UpdateTick(this, delta);
+				UpdateTick(this, delta);
 
 				// Fixed interval for now
 				Thread.Sleep(50);

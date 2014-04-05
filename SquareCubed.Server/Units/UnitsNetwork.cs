@@ -1,5 +1,4 @@
-﻿using System;
-using Lidgren.Network;
+﻿using Lidgren.Network;
 using SquareCubed.Network;
 using SquareCubed.Server.Players;
 
@@ -9,18 +8,18 @@ namespace SquareCubed.Server.Units
 	{
 		private readonly ushort _dataPacketType;
 		private readonly ushort _physicsPacketType;
-		private readonly Server _server;
+		private readonly Network.Network _network;
 
-		public UnitsNetwork(Server server)
+		public UnitsNetwork(Network.Network network)
 		{
-			_server = server;
-			_physicsPacketType = _server.Network.PacketHandlers.ResolveType("units.physics");
-			_dataPacketType = _server.Network.PacketHandlers.ResolveType("units.data");
+			_network = network;
+			_physicsPacketType = _network.PacketHandlers.ResolveType("units.physics");
+			_dataPacketType = _network.PacketHandlers.ResolveType("units.data");
 		}
 
 		public void SendUnitPhysics(Unit unit)
 		{
-			var msg = _server.Network.Peer.CreateMessage();
+			var msg = _network.Peer.CreateMessage();
 
 			// Add the packet type Id
 			msg.Write(_physicsPacketType);
@@ -39,7 +38,7 @@ namespace SquareCubed.Server.Units
 
 		public void SendUnitData(Unit unit, Player player = null)
 		{
-			var msg = _server.Network.Peer.CreateMessage();
+			var msg = _network.Peer.CreateMessage();
 
 			// Add the packet type Id
 			msg.Write(_dataPacketType);

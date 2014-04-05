@@ -10,9 +10,9 @@ namespace SquareCubed.Server.Structures
 		private readonly StructuresNetwork _network;
 		private readonly AutoDictionary<Structure> _structures = new AutoDictionary<Structure>();
 
-		public Structures(Server server)
+		public Structures(Network.Network network)
 		{
-			_network = new StructuresNetwork(server);
+			_network = new StructuresNetwork(network);
 		}
 
 		public void Add(Structure structure)

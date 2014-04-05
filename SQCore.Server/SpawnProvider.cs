@@ -1,5 +1,4 @@
 ﻿using OpenTK;
-using SquareCubed.Common.Data;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
 using SquareCubed.Server.Structures;
@@ -28,7 +27,6 @@ namespace SQCore.Server
 				Rotation = 20.0f,
 				Center = new Vector2(6.0f, 6.0f)
 			};
-			_server.Structures.Add(str);
 			_nextPosition += 4.0f;
 
 			// Add a chunk for the test ship
@@ -67,6 +65,10 @@ namespace SQCore.Server
 			chunk.SetRightWall(5, 4, 2);
 
 			_logger.LogInfo("Spawned beginner ship at {0}, {1}!", str.Position.X, str.Position.Y);
+
+			// Add the structure, this sends over the structure data
+			// TODO: Perhaps do something about that not being obvious?
+			_server.Structures.Add(str);
 
 			// Now actually create the struct to describe where the player is
 			return new SpawnPoint

@@ -27,8 +27,8 @@ namespace SquareCubed.Client
 
 		#region Events
 
-		public event EventHandler<TickEventArgs> UpdateTick;
-		public event EventHandler<TickEventArgs> BackgroundRenderTick;
+		public event EventHandler<TickEventArgs> UpdateTick = (o, p) => { };
+		public event EventHandler<TickEventArgs> BackgroundRenderTick = (o, p) => { };
 
 		#endregion
 
@@ -135,7 +135,7 @@ namespace SquareCubed.Client
 			Player.Update(delta);
 
 			// Run the update event
-			if (UpdateTick != null) UpdateTick(this, eventArgs);
+			UpdateTick(this, eventArgs);
 		}
 
 		private void Render(object s, FrameEventArgs e)
@@ -147,7 +147,7 @@ namespace SquareCubed.Client
 			Graphics.BeginRender();
 
 			// Run the background render event
-			if (BackgroundRenderTick != null) BackgroundRenderTick(this, eventArgs);
+			BackgroundRenderTick(this, eventArgs);
 
 			Structures.Render();
 			Player.Render();
