@@ -40,9 +40,20 @@ namespace SquareCubed.Client.Graphics
 
 			// Fill it with a single color
 			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
-			using (var brush = new SolidBrush(Color.FromArgb(255, 0, 255)))
 			{
-				gfx.FillRectangle(brush, 0, 0, width, height);
+				using (var brush = new SolidBrush(Color.FromArgb(0, 0, 0)))
+				{
+					gfx.FillRectangle(brush, 0, 0, width, height);
+				}
+				using (var brush = new SolidBrush(Color.FromArgb(255, 255, 255)))
+				{
+					// Draw the loading message
+					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
+					var textWidth = gfx.MeasureString("loading", font);
+					gfx.DrawString("loading", font, brush,
+						(width * 0.5f) - (textWidth.Width * 0.5f),
+						(height * 0.5f) - (textWidth.Height * 0.5f));
+				}
 			}
 
 			// Load the data from the bitmap
@@ -73,9 +84,9 @@ namespace SquareCubed.Client.Graphics
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
 				TextureEnvParameter.TextureEnvMode, (float) TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float)(useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMinFilter, (float) (useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float)(useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMagFilter, (float) (useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 
 			// Load the texture
 			GL.TexImage2D(
@@ -99,7 +110,9 @@ namespace SquareCubed.Client.Graphics
 			GL.TexSubImage2D(
 				TextureTarget.Texture2D, 0,
 				0, 0, _width, _height,
-				_useBgra ? (_useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				_useBgra
+					? (_useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
+					: (_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte, pixels);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
