@@ -24,7 +24,7 @@ namespace SquareCubed.Client.Structures.Objects
 			return _typeList[id];
 		}
 
-		public ClientObject InstantiateType(uint id)
+		public IClientObject InstantiateType(uint id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
@@ -36,7 +36,7 @@ namespace SquareCubed.Client.Structures.Objects
 			if(type == null)
 				throw new Exception("Object type " + id + " not registered!");
 
-			return (ClientObject) Activator.CreateInstance(type, _client);
+			return (IClientObject)Activator.CreateInstance(type, _client);
 		}
 
 		public void RegisterType(Type type, uint id)
@@ -52,6 +52,12 @@ namespace SquareCubed.Client.Structures.Objects
 				throw new Exception("Object type " + id + " already registered!");
 
 			_typeList[id] = type;
+		}
+
+		public void UnregisterType(Type type)
+		{
+			var index = Array.IndexOf(_typeList, type);
+			_typeList[index] = null;
 		}
 	}
 }

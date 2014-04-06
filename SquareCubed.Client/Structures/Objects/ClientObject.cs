@@ -2,8 +2,8 @@
 
 namespace SquareCubed.Client.Structures.Objects
 {
-	public class ClientObject
+	public interface IClientObject
 	{
-		public Vector2 Position { get; set; }
+		Vector2 Position { get; set; }
 	}
 }

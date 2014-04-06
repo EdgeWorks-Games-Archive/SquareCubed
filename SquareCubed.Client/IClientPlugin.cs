@@ -1,6 +1,8 @@
-﻿namespace SquareCubed.Client
+﻿using System;
+
+namespace SquareCubed.Client
 {
-	public interface IClientPlugin
+	public interface IClientPlugin : IDisposable
 	{
 	}
 }

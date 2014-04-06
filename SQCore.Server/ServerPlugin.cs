@@ -36,5 +36,9 @@ namespace SQCore.Server
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}
+
+		public void Dispose()
+		{
+		}
 	}
 }

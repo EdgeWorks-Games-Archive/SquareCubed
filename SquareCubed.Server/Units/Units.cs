@@ -12,6 +12,8 @@ namespace SquareCubed.Server.Units
 
 		public Units(Network.Network network)
 		{
+			Contract.Requires<ArgumentNullException>(network != null);
+
 			_network = new UnitsNetwork(network);
 		}
 

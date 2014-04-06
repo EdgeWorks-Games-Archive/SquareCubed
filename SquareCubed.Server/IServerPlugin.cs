@@ -1,6 +1,8 @@
-﻿namespace SquareCubed.Server
+﻿using System;
+
+namespace SquareCubed.Server
 {
-	public interface IServerPlugin
+	public interface IServerPlugin : IDisposable
 	{
 	}
 }

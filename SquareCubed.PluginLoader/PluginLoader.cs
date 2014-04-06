@@ -7,7 +7,7 @@ using SquareCubed.Common.Utils;
 
 namespace SquareCubed.PluginLoader
 {
-	public class PluginLoader<TPlugin, TConstParam> : IDisposable
+	public class PluginLoader<TPlugin, TConstParam> : IDisposable where TPlugin : IDisposable
 	{
 		private readonly Logger _logger = new Logger("Plugins");
 
@@ -132,6 +132,12 @@ namespace SquareCubed.PluginLoader
 		{
 			var plugin = (TPlugin) Activator.CreateInstance(PluginTypes[id].Versions[version], param);
 			LoadedPlugins.Add(plugin);
+		}
+
+		public void UnloadAllPlugins()
+		{
+			LoadedPlugins.ForEach(p => p.Dispose());
+			LoadedPlugins.Clear();
 		}
 
 		#endregion

@@ -68,6 +68,8 @@ namespace SQCore.Server
 
 			// Add the structure, this sends over the structure data
 			// TODO: Perhaps do something about that not being obvious?
+			// Perhaps remember that the structure has changed and only
+			// send the changes later in the frame.
 			_server.Structures.Add(str);
 
 			// Now actually create the struct to describe where the player is

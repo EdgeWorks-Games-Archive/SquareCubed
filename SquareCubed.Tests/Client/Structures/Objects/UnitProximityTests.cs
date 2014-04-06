@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Moq;
+using OpenTK;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Units;
 using Xunit;
@@ -11,17 +12,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 
 		public UnitProximityTests()
 		{
-			var obj = new ClientObject
-			{
-				// Initial position of the object
-				Position = new Vector2(2.0f, 3.5f)
-			};
-
-			_proximity = new UnitProximityHelper(obj)
-			{
-				// Initial range of the proximity detection
-				Range = 1.0f
-			};
+			var obj = Mock.Of<IClientObject>(o => o.Position == new Vector2(2.0f, 3.5f));
+			_proximity = new UnitProximityHelper(obj);
 		}
 
 		[Fact]

@@ -37,5 +37,11 @@ namespace SquareCubed.Client.Structures.Tiles
 
 			_typeList[id] = type;
 		}
+
+		public void UnregisterType(TileType type)
+		{
+			var index = Array.IndexOf(_typeList, type);
+			_typeList[index] = null;
+		}
 	}
 }

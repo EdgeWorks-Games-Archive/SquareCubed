@@ -1,11 +1,12 @@
-﻿using SquareCubed.Client;
+﻿using OpenTK;
+using SquareCubed.Client;
 using SquareCubed.Client.Gui;
 using SquareCubed.Client.Player;
 using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	internal class PilotSeatObject : ClientObject
+	internal class PilotSeatObject : IClientObject
 	{
 		private readonly Gui _gui;
 		private readonly Player _player;
@@ -20,6 +21,8 @@ namespace SQCore.Client.Objects
 			client.UpdateTick += Update;
 			_proximity.Change += OnChange;
 		}
+
+		public Vector2 Position { get; set; }
 
 		private void Update(object s, TickEventArgs e)
 		{
