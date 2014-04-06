@@ -33,6 +33,9 @@ namespace SquareCubed.Client.Gui
 			_texture.MapSubImage(pixels);
 
 			// TODO: Release shared memory here? I cannot find if this is needed.
+			// Checking in taskmanager, the memory usage doesn't grow as much as
+			// I would expect if it needs to be released. The texture is at least
+			// a few MB in size.
 
 			base.OnDraw(handle, true, width, height);
 		}

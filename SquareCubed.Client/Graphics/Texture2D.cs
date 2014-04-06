@@ -10,30 +10,34 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SquareCubed.Client.Graphics
 {
+	[Flags]
+	public enum TextureOptions
+	{
+		Alpha = 0x1,
+		Filtering = 0x2,
+		Bgra = 0x4
+	}
+
 	public sealed class Texture2D
 	{
-		private int _height;
 		private int _texture;
-		private bool _useAlpha;
-		private bool _useBgra;
-		private int _width;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class.
 		/// </summary>
 		/// <param name="path">The path to the image file to use for this Texture2D.</param>
-		/// <param name="useAlpha">If set to <c>true</c>, use alpha channel. UNTESTED!</param>
+		/// <param name="options">The option flags used for this texture.</param>
 		/// <exception cref="System.Exception">Can't find the image file!</exception>
-		public Texture2D(string path, bool useAlpha = false)
+		public Texture2D(string path, TextureOptions options = TextureOptions.Filtering)
 		{
 			// If the file doesn't exist, we can't do anything
 			if (!File.Exists(path)) throw new Exception("Can't find file \"" + path + "\"!");
 
 			// Load the data from the image file
-			LoadFromBitmap(new Bitmap(path), useAlpha);
+			LoadFromBitmap(new Bitmap(path), options);
 		}
 
-		public Texture2D(int width, int height, bool useAlpha = false, bool useFiltering = true, bool useBgra = false)
+		public Texture2D(int width, int height, TextureOptions options = TextureOptions.Filtering)
 		{
 			// Create a new bitmap at the size we need
 			var bitmap = new Bitmap(width, height);
@@ -51,30 +55,49 @@ namespace SquareCubed.Client.Graphics
 					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
 					var textWidth = gfx.MeasureString("loading", font);
 					gfx.DrawString("loading", font, brush,
-						(width * 0.5f) - (textWidth.Width * 0.5f),
-						(height * 0.5f) - (textWidth.Height * 0.5f));
+						(width*0.5f) - (textWidth.Width*0.5f),
+						(height*0.5f) - (textWidth.Height*0.5f));
 				}
 			}
 
 			// Load the data from the bitmap
-			LoadFromBitmap(bitmap, useAlpha, useFiltering, useBgra);
+			LoadFromBitmap(bitmap, options);
 		}
 
-		private void LoadFromBitmap(Bitmap bitmap, bool useAlpha, bool useFiltering = true, bool useBgra = false)
+		public int Width { get; private set; }
+		public int Height { get; private set; }
+
+		public TextureOptions Options { get; private set; }
+
+		public bool UseAlpha
+		{
+			get { return (Options & TextureOptions.Alpha) == TextureOptions.Alpha; }
+		}
+
+		public bool UseFiltering
+		{
+			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
+		}
+
+		public bool UseBgra
+		{
+			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
+		}
+
+		private void LoadFromBitmap(Bitmap bitmap, TextureOptions options)
 		{
 			// TODO: Add contract here to make sure _textureId isn't already pointing to a texture
 
 			// Save some metadata
-			_useAlpha = useAlpha;
-			_useBgra = useBgra;
-			_width = bitmap.Width;
-			_height = bitmap.Height;
+			Options = options;
+			Width = bitmap.Width;
+			Height = bitmap.Height;
 
 			// Load the data from the bitmap
 			var textureData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				ImageLockMode.ReadOnly,
-				useAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
+				UseAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 
 			// Generate and bind a new OpenGL texture
 			_texture = GL.GenTexture();
@@ -84,9 +107,9 @@ namespace SquareCubed.Client.Graphics
 			GL.TexEnv(TextureEnvTarget.TextureEnv,
 				TextureEnvParameter.TextureEnvMode, (float) TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float) (useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMinFilter, (float) (UseFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float) (useFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMagFilter, (float) (UseFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 
 			// Load the texture
 			GL.TexImage2D(
@@ -95,7 +118,7 @@ namespace SquareCubed.Client.Graphics
 				PixelInternalFormat.Rgba,
 				bitmap.Width, bitmap.Height,
 				0, // border
-				useBgra ? (useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				UseBgra ? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 
@@ -109,10 +132,10 @@ namespace SquareCubed.Client.Graphics
 			GL.BindTexture(TextureTarget.Texture2D, _texture);
 			GL.TexSubImage2D(
 				TextureTarget.Texture2D, 0,
-				0, 0, _width, _height,
-				_useBgra
-					? (_useAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
-					: (_useAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				0, 0, Width, Height,
+				UseBgra
+					? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
+					: (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte, pixels);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}

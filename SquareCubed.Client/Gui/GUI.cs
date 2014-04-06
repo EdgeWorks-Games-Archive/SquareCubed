@@ -78,7 +78,7 @@ namespace SquareCubed.Client.Gui
 
 			// Create a texture for it as well
 			// The texture needs to have alpha activated since Coherent UI will need it
-			_texture = new Texture2D(_client.Window.Width, _client.Window.Height, true, false, true);
+			_texture = new Texture2D(_client.Window.Width, _client.Window.Height, TextureOptions.Alpha | TextureOptions.Bgra);
 
 			// Get the texture sampler uniform
 			_textureSampler = _program.GetUniform("textureSampler");
