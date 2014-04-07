@@ -10,11 +10,15 @@ namespace SQCore.Client
 {
 	public sealed class ClientPlugin : CommonPlugin, IClientPlugin
 	{
+		#region Tile Types
+
 		private readonly CorridorTileType _corridorTile;
 		private readonly MetalFloorTileType _metalFloorTile;
 
-		private readonly ObjectTypes _objectTypes;
+		#endregion
 
+		private readonly Chat.Chat _chat;
+		private readonly ObjectTypes _objectTypes;
 		private readonly Space _stars;
 		private readonly TileTypes _tileTypes;
 
@@ -28,6 +32,8 @@ namespace SQCore.Client
 			_stars = new Space(client.Graphics.Camera.Resolution, new SpaceRenderer(client.Graphics.Camera));
 			_stars.GenerateStars();
 
+			_chat = new Chat.Chat();
+
 			// Add tile types
 			_corridorTile = new CorridorTileType();
 			_tileTypes.RegisterType(_corridorTile, 2);
@@ -37,7 +43,7 @@ namespace SQCore.Client
 			// Add object types
 			_objectTypes.RegisterType(typeof (PilotSeatObject), 0);
 
-			// Bind rendering event
+			// Bind events
 			client.BackgroundRenderTick += RenderBackground;
 
 			Logger.LogInfo("Finished initializing core plugin!");
