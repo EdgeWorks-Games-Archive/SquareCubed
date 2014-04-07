@@ -36,9 +36,6 @@ namespace SquareCubed.Client.Graphics
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
 
-			GL.ClearColor(Color.FromArgb(5, 5, 8));
-			GL.Clear(ClearBufferMask.ColorBufferBit);
-
 			// Initialize Camera
 			Camera.SetMatrices();
 		}

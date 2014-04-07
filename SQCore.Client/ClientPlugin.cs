@@ -1,4 +1,5 @@
-﻿using SQCore.Client.Objects;
+﻿using SQCore.Client.Background;
+using SQCore.Client.Objects;
 using SQCore.Client.Tiles;
 using SQCore.Common;
 using SquareCubed.Client;
@@ -9,13 +10,13 @@ namespace SQCore.Client
 {
 	public sealed class ClientPlugin : CommonPlugin, IClientPlugin
 	{
-		private readonly TileTypes _tileTypes;
-		private readonly ObjectTypes _objectTypes;
-
-		private StarsBackground _stars;
-
 		private readonly CorridorTileType _corridorTile;
 		private readonly MetalFloorTileType _metalFloorTile;
+
+		private readonly ObjectTypes _objectTypes;
+
+		private readonly Space _stars;
+		private readonly TileTypes _tileTypes;
 
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
@@ -24,7 +25,8 @@ namespace SQCore.Client
 			_tileTypes = client.Structures.TileTypes;
 			_objectTypes = client.Structures.ObjectTypes;
 
-			_stars = new StarsBackground(client);
+			_stars = new Space(client.Graphics.Camera.Resolution, new SpaceRenderer(client.Graphics.Camera));
+			_stars.GenerateStars();
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();
@@ -33,7 +35,10 @@ namespace SQCore.Client
 			_tileTypes.RegisterType(_metalFloorTile, 3);
 
 			// Add object types
-			_objectTypes.RegisterType(typeof(PilotSeatObject), 0);
+			_objectTypes.RegisterType(typeof (PilotSeatObject), 0);
+
+			// Bind rendering event
+			client.BackgroundRenderTick += RenderBackground;
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}
@@ -45,7 +50,12 @@ namespace SQCore.Client
 			_tileTypes.UnregisterType(_metalFloorTile);
 
 			// Remove object types
-			_objectTypes.UnregisterType(typeof(PilotSeatObject));
+			_objectTypes.UnregisterType(typeof (PilotSeatObject));
+		}
+
+		private void RenderBackground(object sender, TickEventArgs e)
+		{
+			_stars.Render();
 		}
 	}
 }

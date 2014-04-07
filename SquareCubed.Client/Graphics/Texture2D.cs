@@ -23,20 +23,28 @@ namespace SquareCubed.Client.Graphics
 		private int _texture;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="Texture2D" /> class.
+		///     Initializes a new instance of the <see cref="Texture2D" /> class
+		///     using texture data from a file.
 		/// </summary>
 		/// <param name="path">The path to the image file to use for this Texture2D.</param>
-		/// <param name="options">The option flags used for this texture.</param>
+		/// <param name="options">The option flags to use for this texture.</param>
 		/// <exception cref="System.Exception">Can't find the image file!</exception>
 		public Texture2D(string path, TextureOptions options = TextureOptions.Filtering)
 		{
 			// If the file doesn't exist, we can't do anything
-			if (!File.Exists(path)) throw new Exception("Can't find file \"" + path + "\"!");
+			if (!File.Exists(path)) throw new Exception("Can't find texture file \"" + path + "\"!");
 
 			// Load the data from the image file
 			LoadFromBitmap(new Bitmap(path), options);
 		}
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="Texture2D" /> class
+		///     using test texture data.
+		/// </summary>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="options">The option flags to use for this texture.</param>
 		public Texture2D(int width, int height, TextureOptions options = TextureOptions.Filtering)
 		{
 			// Create a new bitmap at the size we need
@@ -53,10 +61,10 @@ namespace SquareCubed.Client.Graphics
 				{
 					// Draw the loading message
 					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
-					var textWidth = gfx.MeasureString("loading", font);
+					var textSize = gfx.MeasureString("loading", font);
 					gfx.DrawString("loading", font, brush,
-						(width*0.5f) - (textWidth.Width*0.5f),
-						(height*0.5f) - (textWidth.Height*0.5f));
+						(width*0.5f) - (textSize.Width*0.5f),
+						(height*0.5f) - (textSize.Height*0.5f));
 				}
 			}
 
@@ -86,8 +94,6 @@ namespace SquareCubed.Client.Graphics
 
 		private void LoadFromBitmap(Bitmap bitmap, TextureOptions options)
 		{
-			// TODO: Add contract here to make sure _textureId isn't already pointing to a texture
-
 			// Save some metadata
 			Options = options;
 			Width = bitmap.Width;
@@ -118,7 +124,9 @@ namespace SquareCubed.Client.Graphics
 				PixelInternalFormat.Rgba,
 				bitmap.Width, bitmap.Height,
 				0, // border
-				UseBgra ? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr) : (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				UseBgra
+					? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
+					: (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 

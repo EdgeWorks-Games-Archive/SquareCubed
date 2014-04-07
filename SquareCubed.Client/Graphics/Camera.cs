@@ -12,6 +12,11 @@ namespace SquareCubed.Client.Graphics
 		private Size _res;
 		private SizeF _size;
 
+		public Size Resolution
+		{
+			get { return _res; }
+		}
+
 		public SizeF Size
 		{
 			get { return _size; }
