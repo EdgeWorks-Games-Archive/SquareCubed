@@ -51,6 +51,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\CoherentUI\bin\Win32\theme_resources_standard.pak">
+      <Link>theme_resources_standard.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\CoherentUI\bin\Win32\ui_resources_100_percent.pak">
+      <Link>ui_resources_100_percent.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <None Include="Graphics\Tiles\Corridor.psd" />
     <None Include="Graphics\Tiles\MetalFloor.psd" />
@@ -79,6 +87,38 @@
   <ItemGroup>
     <Content Include="..\CoherentUI\bin\JavaScript\coherent.js">
       <Link>GUI\coherent.js</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\CoherentUINet.dll">
+      <Link>CoherentUINet.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\CoherentUI_Host.exe">
+      <Link>CoherentUI_Host.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\CoherentUI_Native.dll">
+      <Link>CoherentUI_Native.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\D3DCompiler_43.dll">
+      <Link>D3DCompiler_43.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\ffmpegsumo.dll">
+      <Link>ffmpegsumo.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\icudt.dll">
+      <Link>icudt.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\libEGL.dll">
+      <Link>libEGL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoherentUI\bin\Win32\libGLESv2.dll">
+      <Link>libGLESv2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Graphics\Tiles\Corridor.png">
