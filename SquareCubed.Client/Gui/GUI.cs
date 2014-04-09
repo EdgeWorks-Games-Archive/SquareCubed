@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Coherent.UI;
 using Coherent.UI.Binding;
@@ -31,6 +32,8 @@ namespace SquareCubed.Client.Gui
 		#endregion
 
 		public bool IsLoaded { get; private set; }
+
+		private readonly List<Action> _viewReadyQueue = new List<Action>();
 
 		public Gui(Client client)
 		{
@@ -129,10 +132,17 @@ namespace SquareCubed.Client.Gui
 		public void Trigger<T>(string func, T param)
 		{
 			// TODO: This isn't a very elegant way to do it but it works for now.
-			if(_viewListener != null && _viewListener.View != null)
+			if (_viewListener != null && _viewListener.View != null)
 				_viewListener.View.TriggerEvent(func, param);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param));
 		}
 
+		public void AddHtml(string html)
+		{
+			Trigger("AddHtml", html);
+		}
+		
 		public void Update()
 		{
 			// Update Coherent UI
@@ -146,6 +156,11 @@ namespace SquareCubed.Client.Gui
 			{
 				// Create the view listener
 				_viewListener = new ViewListener(_texture);
+				_viewListener.FinishLoad += (frameId, validatedPath, isMainFrame, statusCode, headers) =>
+				{
+					_viewReadyQueue.ForEach(a => a.Invoke());
+					_viewReadyQueue.Clear();
+				};
 
 				// Create a new test view
 				var viewInfo = new ViewInfo
@@ -155,7 +170,7 @@ namespace SquareCubed.Client.Gui
 					IsTransparent = true,
 					UsesSharedMemory = true
 				};
-				_system.CreateView(viewInfo, "coui://GUI/Test.html", _viewListener);
+				_system.CreateView(viewInfo, "coui://GUI/Base.html", _viewListener);
 			}
 
 			// Get the latest Coherent UI surfaces

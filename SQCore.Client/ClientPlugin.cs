@@ -1,4 +1,5 @@
 ﻿using SQCore.Client.Background;
+using SQCore.Client.GUI;
 using SQCore.Client.Objects;
 using SQCore.Client.Tiles;
 using SQCore.Common;
@@ -17,11 +18,17 @@ namespace SQCore.Client
 
 		#endregion
 
-		private readonly Chat.Chat _chat;
-		private readonly ObjectTypes _objectTypes;
-		private readonly Space _stars;
-		private readonly TileTypes _tileTypes;
+		#region External Componentes
+
 		private readonly SquareCubed.Client.Client _client;
+		private readonly ObjectTypes _objectTypes;
+		private readonly TileTypes _tileTypes;
+
+		#endregion
+
+		private readonly ChatPanel _chat;
+		private readonly ContextInfoPanel _contextInfo;
+		private readonly Space _stars;
 
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
@@ -34,7 +41,8 @@ namespace SQCore.Client
 			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			_chat = new Chat.Chat(_client.Gui);
+			//_chat = new ChatPanel(_client.Gui);
+			_contextInfo = new ContextInfoPanel(_client.Gui);
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();

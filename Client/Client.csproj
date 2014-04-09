@@ -65,7 +65,10 @@
     <None Include="GUI\Panels\Chat\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Scripts\Test.coffee" />
+    <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GUI\Scripts\Base.coffee" />
     <None Include="GUI\Styles\Test.css.map">
       <DependentUpon>Test.css</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -136,11 +139,14 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GUI\Panels\ContextInfo\Panel.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\Scripts\jquery-2.1.0.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Scripts\Test.js">
-      <DependentUpon>Test.coffee</DependentUpon>
+    <Content Include="GUI\Scripts\Base.js">
+      <DependentUpon>Base.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Styles\Reset.css">
@@ -150,7 +156,7 @@
       <DependentUpon>Test.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Test.html">
+    <Content Include="GUI\Base.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -54,8 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Background\SpaceRenderer.cs" />
-    <Compile Include="Chat\Chat.cs" />
-    <Compile Include="Chat\GuiChatPanel.cs" />
+    <Compile Include="GUI\ChatPanel.cs" />
+    <Compile Include="GUI\ContextInfoPanel.cs" />
     <Compile Include="ClientPlugin.cs" />
     <Compile Include="Objects\PilotSeatObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

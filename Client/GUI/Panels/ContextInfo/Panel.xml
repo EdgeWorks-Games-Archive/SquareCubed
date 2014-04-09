@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Panel src="Panel.cshtml">
+  <!--
+  <Scripts>
+    <Script src="Panel.js"/>
+  </Scripts>
+  <Styles>
+    <Style src="Panel.css"/>
+  </Styles>
+  -->
+</Panel>

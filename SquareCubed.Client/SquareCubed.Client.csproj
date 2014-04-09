@@ -115,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
@@ -136,6 +137,7 @@
     <Compile Include="Graphics\Shaders\ProgramUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Gui\Data\Panel.cs" />
     <Compile Include="Gui\EventListener.cs" />
     <Compile Include="Gui\Gui.cs" />
     <Compile Include="Gui\GuiPanel.cs" />

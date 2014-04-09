@@ -11,4 +11,9 @@
   text-align: center;
   width: 100%; }
 
+.panel {
+  position: fixed;
+  left: 0;
+  top: 0; }
+
 /*# sourceMappingURL=Test.css.map */
