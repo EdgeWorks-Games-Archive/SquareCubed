@@ -62,6 +62,15 @@
     <None Include="App.config" />
     <None Include="Graphics\Tiles\Corridor.psd" />
     <None Include="Graphics\Tiles\MetalFloor.psd" />
+    <None Include="GUI\Panels\Chat\Panel.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GUI\Scripts\Test.coffee" />
+    <None Include="GUI\Styles\Test.css.map">
+      <DependentUpon>Test.css</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GUI\Styles\Test.scss" />
     <None Include="packages.config" />
     <None Include="Shaders\CoherentUI.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -86,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CoherentUI\bin\JavaScript\coherent.js">
-      <Link>GUI\coherent.js</Link>
+      <Link>GUI\Scripts\coherent.js</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\CoherentUI\bin\Win32\CoherentUINet.dll">
@@ -127,22 +136,25 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\jquery-2.1.0.min.js">
+    <Content Include="GUI\Scripts\jquery-2.1.0.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Reset.css">
+    <Content Include="GUI\Scripts\Test.js">
+      <DependentUpon>Test.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Test.css">
+    <Content Include="GUI\Styles\Reset.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GUI\Styles\Test.css">
+      <DependentUpon>Test.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Test.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Test.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>

@@ -112,7 +112,7 @@ namespace SquareCubed.Client.Player
 		{
 			// Sometimes with aligned walls they might not entirely align, causing something to stick out a bit out of the wall.
 			// This is really small and practically invisible. To fix it we just remove a tiny invisible bit from the length of the lines.
-			const float floatCompensation = 0.0001f;
+			const float floatCompensation = 0.00001f;
 
 			// Create some data to work with
 			var directionMultiplier = velocity < 0 ? -1.0f : 1.0f;

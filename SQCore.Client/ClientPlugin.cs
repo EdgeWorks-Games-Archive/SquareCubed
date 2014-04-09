@@ -21,18 +21,20 @@ namespace SQCore.Client
 		private readonly ObjectTypes _objectTypes;
 		private readonly Space _stars;
 		private readonly TileTypes _tileTypes;
+		private readonly SquareCubed.Client.Client _client;
 
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
 			Logger.LogInfo("Initializing core plugin...");
 
-			_tileTypes = client.Structures.TileTypes;
-			_objectTypes = client.Structures.ObjectTypes;
+			_client = client;
+			_tileTypes = _client.Structures.TileTypes;
+			_objectTypes = _client.Structures.ObjectTypes;
 
-			_stars = new Space(client.Graphics.Camera.Resolution, new SpaceRenderer(client.Graphics.Camera));
+			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			_chat = new Chat.Chat();
+			_chat = new Chat.Chat(_client.Gui);
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();
@@ -44,7 +46,7 @@ namespace SQCore.Client
 			_objectTypes.RegisterType(typeof (PilotSeatObject), 0);
 
 			// Bind events
-			client.BackgroundRenderTick += RenderBackground;
+			_client.BackgroundRenderTick += RenderBackground;
 
 			Logger.LogInfo("Finished initializing core plugin!");
 		}
@@ -57,6 +59,9 @@ namespace SQCore.Client
 
 			// Remove object types
 			_objectTypes.UnregisterType(typeof (PilotSeatObject));
+
+			// Unbind events
+			_client.BackgroundRenderTick -= RenderBackground;
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

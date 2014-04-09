@@ -1,12 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using RazorEngine;
+using SquareCubed.Client.Gui;
 
 namespace SQCore.Client.Chat
 {
-	class Chat
+	internal class Chat
 	{
+		private GuiChatPanel _panel;
+
+		public Chat(Gui gui)
+		{
+			_panel = new GuiChatPanel(gui);
+
+			var template = File.ReadAllText(@"GUI/Panels/Chat/Panel.cshtml");
+			var model = new { Name = "Test" };
+			var result = Razor.Parse(template, model);
+			Console.WriteLine(result);
+		}
 	}
 }
