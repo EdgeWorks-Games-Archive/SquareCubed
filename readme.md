@@ -27,7 +27,7 @@ available through it.
 8. Build the engine from Visual Studio.
 
 ## Code License ##
-This license covers the all the code in the project (.cs, .cshtml, .html, .js, .coffee, .scss, etc...)
+This license covers the all the code in this project (.cs, .cshtml, .html, .js, .coffee, .scss, etc...)
 unless specifically stated otherwise in the file.
 <div align="center">
     <p>
@@ -54,7 +54,7 @@ unless specifically stated otherwise in the file.
 </div>
 
 ## Non-Code License ##
-This license covers all the non-code in the project. (.png, .psd, etc..)
+This license covers all the non-code in this project. (.png, .psd, etc..)
 <div align="center">
     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
         <img alt="Creative Commons License"
