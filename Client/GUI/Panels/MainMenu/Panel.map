@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Panel.js",
+  "sourceRoot": "",
+  "sources": [
+    "Panel.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,CAAA,CAAE,YAAF,CAAe,CAAC,MAAhB,CAAA,CAAA,CAAA;AAAA"
+}

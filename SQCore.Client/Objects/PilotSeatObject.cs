@@ -1,7 +1,6 @@
 ﻿using OpenTK;
-using SQCore.Client.GUI;
+using SQCore.Client.Gui;
 using SquareCubed.Client;
-using SquareCubed.Client.Gui;
 using SquareCubed.Client.Player;
 using SquareCubed.Client.Structures.Objects;
 

@@ -22,6 +22,7 @@ namespace SquareCubed.Client
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
 		public Structures.Structures Structures { get; private set; }
+		public MainMenu.MainMenu MainMenu { get; private set; }
 
 		#endregion
 
@@ -53,6 +54,7 @@ namespace SquareCubed.Client
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
 			Player = new Player.Player(this);
+			MainMenu = new MainMenu.MainMenu();
 
 			// Hook Game Loop Events
 			Window.Load += Load;
@@ -105,6 +107,7 @@ namespace SquareCubed.Client
 		private void Load(object s, EventArgs e)
 		{
 			Gui.Load();
+			MainMenu.Create(Gui, Network);
 		}
 
 		/// <summary>

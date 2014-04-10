@@ -4,6 +4,10 @@
     return $("body").append(html);
   });
 
+  engine.on('RemoveHtml', function(pattern) {
+    return $(pattern).remove();
+  });
+
   engine.on('AddScript', function(src) {
     return $.getScript(src);
   });

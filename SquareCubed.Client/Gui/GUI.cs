@@ -35,6 +35,15 @@ namespace SquareCubed.Client.Gui
 
 		private readonly List<Action> _viewReadyQueue = new List<Action>();
 
+		public void Trigger(string func)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if (_viewListener != null && _viewListener.View != null)
+				_viewListener.View.TriggerEvent(func);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func));
+		}
+
 		public void Trigger<T>(string func, T param)
 		{
 			// TODO: This isn't a very elegant way to do it but it works for now.
@@ -47,6 +56,11 @@ namespace SquareCubed.Client.Gui
 		public void AddHtml(string html)
 		{
 			Trigger("AddHtml", html);
+		}
+
+		public void RemoveHtml(string pattern)
+		{
+			Trigger("RemoveHtml", pattern);
 		}
 
 		public void AddScript(string src)
@@ -124,6 +138,11 @@ namespace SquareCubed.Client.Gui
 
 			// Create a new vertex buffer with the vertex data we need
 			_vertexBuffer = new VertexBuffer(vertexData);
+
+			// Set up RazorEngine
+			/*var config = new TemplateServiceConfiguration { BaseTemplateType = typeof(MvcTemplateBase<>) };
+			var service = new TemplateService(config);
+			Razor.SetTemplateService(service);*/
 
 			IsLoaded = true;
 		}

@@ -8,13 +8,14 @@ using SquareCubed.Client.Gui.Data;
 
 namespace SquareCubed.Client.Gui
 {
-	public class GuiPanel
+	public class GuiPanel : IDisposable
 	{
 		/// <summary>
 		///     Counter to make sure every panel has a unique Id.
 		/// </summary>
 		private static int _counter;
 
+		protected readonly Gui Gui;
 		private readonly string _id;
 
 		/// <summary>
@@ -26,6 +27,8 @@ namespace SquareCubed.Client.Gui
 		protected GuiPanel(Gui gui, string name)
 		{
 			Contract.Requires<ArgumentNullException>(gui != null);
+
+			Gui = gui;
 
 			// Generate data about the panel before we load it in
 			_id = "panel-" + _counter;
@@ -57,11 +60,25 @@ namespace SquareCubed.Client.Gui
 			}
 
 			// Add the scripts and the css
+			// TODO: Prevent double loading for example with the main menu
 			panelData.Scripts.ForEach(s => gui.AddScript(urlRoot + s.Source));
 			panelData.Styles.ForEach(s => gui.AddStyle(urlRoot + s.Source));
 
 			// Increment the counter so every Id is identical
 			_counter++;
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed)
+		{
+			// We only have managed
+			if (!managed) return;
+
+			Gui.RemoveHtml("#" + _id);
 		}
 	}
 }

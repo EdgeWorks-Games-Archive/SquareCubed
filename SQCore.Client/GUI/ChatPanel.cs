@@ -2,11 +2,11 @@
 using RazorEngine;
 using SquareCubed.Client.Gui;
 
-namespace SQCore.Client.GUI
+namespace SQCore.Client.Gui
 {
 	internal class ChatPanel : GuiPanel
 	{
-		public ChatPanel(Gui gui)
+		public ChatPanel(SquareCubed.Client.Gui.Gui gui)
 			: base(gui, "Chat")
 		{
 			var template = File.ReadAllText(@"GUI/Panels/Chat/Panel.cshtml");

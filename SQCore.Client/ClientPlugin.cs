@@ -1,5 +1,5 @@
 ﻿using SQCore.Client.Background;
-using SQCore.Client.GUI;
+using SQCore.Client.Gui;
 using SQCore.Client.Objects;
 using SQCore.Client.Tiles;
 using SQCore.Common;

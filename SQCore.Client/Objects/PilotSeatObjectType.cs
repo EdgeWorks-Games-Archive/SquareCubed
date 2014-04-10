@@ -1,5 +1,4 @@
-﻿using System;
-using SQCore.Client.GUI;
+﻿using SQCore.Client.Gui;
 using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects

@@ -1,12 +1,12 @@
 ﻿using SquareCubed.Client.Gui;
 
-namespace SQCore.Client.GUI
+namespace SQCore.Client.Gui
 {
 	public class ContextInfoPanel : GuiPanel
 	{
-		private readonly Gui _gui;
+		private readonly SquareCubed.Client.Gui.Gui _gui;
 
-		public ContextInfoPanel(Gui gui)
+		public ContextInfoPanel(SquareCubed.Client.Gui.Gui gui)
 			: base(gui, "ContextInfo")
 		{
 			_gui = gui;
