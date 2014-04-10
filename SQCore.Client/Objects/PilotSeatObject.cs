@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using SQCore.Client.GUI;
 using SquareCubed.Client;
 using SquareCubed.Client.Gui;
 using SquareCubed.Client.Player;
@@ -8,13 +9,13 @@ namespace SQCore.Client.Objects
 {
 	internal class PilotSeatObject : IClientObject
 	{
-		private readonly Gui _gui;
+		private readonly ContextInfoPanel _panel;
 		private readonly Player _player;
 		private readonly UnitProximityHelper _proximity;
 
-		public PilotSeatObject(SquareCubed.Client.Client client)
+		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
 		{
-			_gui = client.Gui;
+			_panel = panel;
 			_player = client.Player;
 			_proximity = new UnitProximityHelper(this);
 
@@ -33,7 +34,7 @@ namespace SQCore.Client.Objects
 		private void OnChange(object s, ProximityEventArgs e)
 		{
 			// Actually do something with this data
-			_gui.Trigger("SetContextInfoVisibility", e.NewStatus == ProximityStatus.Within);
+			_panel.IsVisible = e.NewStatus == ProximityStatus.Within;
 		}
 	}
 }

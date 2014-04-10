@@ -21,10 +21,8 @@ namespace SquareCubed.Client.Gui.Data
 		[XmlAttribute("src")]
 		public string Source { get; set; }
 
-		[XmlArrayItem]
 		public List<Script> Scripts { get; set; }
 
-		[XmlArrayItem]
 		public List<Style> Styles { get; set; }
 	}
 }

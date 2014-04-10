@@ -2,11 +2,19 @@
 
 namespace SQCore.Client.GUI
 {
-	internal class ContextInfoPanel : GuiPanel
+	public class ContextInfoPanel : GuiPanel
 	{
+		private readonly Gui _gui;
+
 		public ContextInfoPanel(Gui gui)
 			: base(gui, "ContextInfo")
 		{
+			_gui = gui;
+		}
+
+		public bool IsVisible
+		{
+			set { _gui.Trigger("ContextInfo.SetVisible", value); }
 		}
 	}
 }

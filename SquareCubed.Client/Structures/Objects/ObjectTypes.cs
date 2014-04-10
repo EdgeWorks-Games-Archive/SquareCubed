@@ -6,16 +6,14 @@ namespace SquareCubed.Client.Structures.Objects
 	public class ObjectTypes
 	{
 		private const uint MaxId = 20;
-		private readonly Client _client;
-		private readonly Type[] _typeList;
+		private readonly IObjectType[] _typeList;
 
 		public ObjectTypes(Client client)
 		{
-			_client = client;
-			_typeList = new Type[MaxId + 1];
+			_typeList = new IObjectType[MaxId + 1];
 		}
 
-		public Type GetType(uint id)
+		public IObjectType GetType(uint id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
@@ -24,22 +22,7 @@ namespace SquareCubed.Client.Structures.Objects
 			return _typeList[id];
 		}
 
-		public IClientObject InstantiateType(uint id)
-		{
-			Contract.Requires<ArgumentOutOfRangeException>(
-				id <= MaxId,
-				"Object Id is bigger than the maximum Id allowed.");
-
-			var type = GetType(id);
-
-			// Make sure we actually managed to retrieve a type
-			if(type == null)
-				throw new Exception("Object type " + id + " not registered!");
-
-			return (IClientObject)Activator.CreateInstance(type, _client);
-		}
-
-		public void RegisterType(Type type, uint id)
+		public void RegisterType(IObjectType type, uint id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,

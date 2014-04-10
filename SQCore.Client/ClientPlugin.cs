@@ -18,6 +18,12 @@ namespace SQCore.Client
 
 		#endregion
 
+		#region Object Types
+
+		private readonly PilotSeatObjectType _pilotSeatType;
+
+		#endregion
+
 		#region External Componentes
 
 		private readonly SquareCubed.Client.Client _client;
@@ -26,8 +32,8 @@ namespace SQCore.Client
 
 		#endregion
 
+		private ContextInfoPanel _infoPanel;
 		private readonly ChatPanel _chat;
-		private readonly ContextInfoPanel _contextInfo;
 		private readonly Space _stars;
 
 		public ClientPlugin(SquareCubed.Client.Client client)
@@ -42,7 +48,7 @@ namespace SQCore.Client
 			_stars.GenerateStars();
 
 			//_chat = new ChatPanel(_client.Gui);
-			_contextInfo = new ContextInfoPanel(_client.Gui);
+			_infoPanel = new ContextInfoPanel(_client.Gui);
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();
@@ -51,7 +57,8 @@ namespace SQCore.Client
 			_tileTypes.RegisterType(_metalFloorTile, 3);
 
 			// Add object types
-			_objectTypes.RegisterType(typeof (PilotSeatObject), 0);
+			_pilotSeatType = new PilotSeatObjectType(_client, _infoPanel);
+			_objectTypes.RegisterType(_pilotSeatType, 0);
 
 			// Bind events
 			_client.BackgroundRenderTick += RenderBackground;
@@ -61,15 +68,17 @@ namespace SQCore.Client
 
 		public void Dispose()
 		{
+			// Unbind events
+			_client.BackgroundRenderTick -= RenderBackground;
+
+			// TODO: _infoPanel.Dispose();
+
 			// Remove tile types
 			_tileTypes.UnregisterType(_corridorTile);
 			_tileTypes.UnregisterType(_metalFloorTile);
 
 			// Remove object types
 			_objectTypes.UnregisterType(typeof (PilotSeatObject));
-
-			// Unbind events
-			_client.BackgroundRenderTick -= RenderBackground;
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

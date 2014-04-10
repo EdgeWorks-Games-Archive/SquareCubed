@@ -16,17 +16,17 @@ namespace SquareCubed.Client.Gui
 		#region Coherent UI Resources
 
 		private EventListener _eventListener;
-		private ViewListener _viewListener;
 		private SystemSettings _settings;
 		private UISystem _system;
+		private ViewListener _viewListener;
 
 		#endregion
 
 		#region Graphics Resources
 
 		private ShaderProgram _program;
-		private ProgramUniform _textureSampler;
 		private Texture2D _texture;
+		private ProgramUniform _textureSampler;
 		private VertexBuffer _vertexBuffer;
 
 		#endregion
@@ -61,13 +61,12 @@ namespace SquareCubed.Client.Gui
 
 		#endregion
 
-		public bool IsLoaded { get; private set; }
-
-
 		public Gui(Client client)
 		{
 			_client = client;
 		}
+
+		public bool IsLoaded { get; private set; }
 
 		public void Dispose()
 		{
@@ -227,8 +226,8 @@ namespace SquareCubed.Client.Gui
 						2, // Size
 						VertexAttribPointerType.Float, // Type
 						false, // Normalized
-						5 * sizeof(float), // Offset between values
-						3 * sizeof(float)); // Start offset
+						5*sizeof (float), // Offset between values
+						3*sizeof (float)); // Start offset
 
 					// And finally, draw
 					GL.DrawArrays(PrimitiveType.Triangles, 0, 3);

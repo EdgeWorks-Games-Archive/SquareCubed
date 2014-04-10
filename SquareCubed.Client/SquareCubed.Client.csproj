@@ -150,7 +150,8 @@
     <Compile Include="Player\PlayerUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\ClientChunk.cs" />
-    <Compile Include="Structures\Objects\ClientObject.cs" />
+    <Compile Include="Structures\Objects\IClientObject.cs" />
+    <Compile Include="Structures\Objects\IObjectType.cs" />
     <Compile Include="Structures\Objects\ObjectTypes.cs" />
     <Compile Include="Structures\Objects\UnitProximityHelper.cs" />
     <Compile Include="Structures\Structure.cs" />
