@@ -31,9 +31,33 @@ namespace SquareCubed.Client.Gui
 
 		#endregion
 
-		public bool IsLoaded { get; private set; }
+		#region View Interaction
 
 		private readonly List<Action> _viewReadyQueue = new List<Action>();
+
+		public void Trigger<T>(string func, T param)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if (_viewListener != null && _viewListener.View != null)
+				_viewListener.View.TriggerEvent(func, param);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param));
+		}
+
+		public void AddHtml(string html)
+		{
+			Trigger("AddHtml", html);
+		}
+
+		public void AddScript(string src)
+		{
+			Trigger("AddScript", src);
+		}
+
+		#endregion
+
+		public bool IsLoaded { get; private set; }
+
 
 		public Gui(Client client)
 		{
@@ -129,20 +153,6 @@ namespace SquareCubed.Client.Gui
 			IsLoaded = false;
 		}
 
-		public void Trigger<T>(string func, T param)
-		{
-			// TODO: This isn't a very elegant way to do it but it works for now.
-			if (_viewListener != null && _viewListener.View != null)
-				_viewListener.View.TriggerEvent(func, param);
-			else
-				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param));
-		}
-
-		public void AddHtml(string html)
-		{
-			Trigger("AddHtml", html);
-		}
-		
 		public void Update()
 		{
 			// Update Coherent UI

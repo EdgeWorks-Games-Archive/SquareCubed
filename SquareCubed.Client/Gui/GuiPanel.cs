@@ -27,13 +27,15 @@ namespace SquareCubed.Client.Gui
 		{
 			Contract.Requires<ArgumentNullException>(gui != null);
 
+			// Generate data about the panel before we load it in
+			_id = "panel-" + _counter;
+			var urlRoot = "Panels/" + name + "/";
+			var folderRoot = "GUI/Panels/" + name + "/";
+
 			// Load in the panel data
 			var serializer = new XmlSerializer(typeof (Panel));
-			var fileStream = new FileStream("GUI/Panels/" + name + "/Panel.xml", FileMode.Open);
+			var fileStream = new FileStream(folderRoot + "Panel.xml", FileMode.Open);
 			var panelData = (Panel) serializer.Deserialize(fileStream);
-
-			// Generate a unique identifier for this panel
-			_id = "panel-" + _counter;
 
 			// Generate the Html and add it
 			using (var stringWriter = new StringWriter())
@@ -45,7 +47,7 @@ namespace SquareCubed.Client.Gui
 				writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
 				// Render and write the actual panel
-				var template = File.ReadAllText("GUI/Panels/" + name + "/" + panelData.Source);
+				var template = File.ReadAllText(folderRoot + panelData.Source);
 				var result = Razor.Parse(template);
 				writer.Write(result);
 
@@ -53,6 +55,9 @@ namespace SquareCubed.Client.Gui
 				writer.RenderEndTag();
 				gui.AddHtml(stringWriter.ToString());
 			}
+
+			// Add the scripts
+			panelData.Scripts.ForEach(s => gui.AddScript(urlRoot + s.Source));
 
 			// Increment the counter so every Id is identical
 			_counter++;
