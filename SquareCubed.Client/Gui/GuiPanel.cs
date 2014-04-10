@@ -56,8 +56,9 @@ namespace SquareCubed.Client.Gui
 				gui.AddHtml(stringWriter.ToString());
 			}
 
-			// Add the scripts
+			// Add the scripts and the css
 			panelData.Scripts.ForEach(s => gui.AddScript(urlRoot + s.Source));
+			panelData.Styles.ForEach(s => gui.AddStyle(urlRoot + s.Source));
 
 			// Increment the counter so every Id is identical
 			_counter++;

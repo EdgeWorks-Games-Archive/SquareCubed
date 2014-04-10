@@ -8,6 +8,14 @@
     return $.getScript(src);
   });
 
+  engine.on('AddStyle', function(src) {
+    return $("<link/>", {
+      rel: "stylesheet",
+      type: "text/css",
+      href: src
+    }).appendTo("head");
+  });
+
 }).call(this);
 
 //# sourceMappingURL=Base.map

@@ -10,6 +10,12 @@ namespace SquareCubed.Client.Gui.Data
 		public string Source { get; set; }
 	}
 
+	public class Style
+	{
+		[XmlAttribute("src")]
+		public string Source { get; set; }
+	}
+
 	public class Panel
 	{
 		[XmlAttribute("src")]
@@ -17,5 +23,8 @@ namespace SquareCubed.Client.Gui.Data
 
 		[XmlArrayItem]
 		public List<Script> Scripts { get; set; }
+
+		[XmlArrayItem]
+		public List<Style> Styles { get; set; }
 	}
 }

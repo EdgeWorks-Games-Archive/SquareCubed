@@ -54,6 +54,11 @@ namespace SquareCubed.Client.Gui
 			Trigger("AddScript", src);
 		}
 
+		public void AddStyle(string src)
+		{
+			Trigger("AddStyle", src);
+		}
+
 		#endregion
 
 		public bool IsLoaded { get; private set; }

@@ -69,12 +69,17 @@
     <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Scripts\Base.coffee" />
-    <None Include="GUI\Styles\Test.css.map">
-      <DependentUpon>Test.css</DependentUpon>
+    <None Include="GUI\Panels\ContextInfo\Panel.css.map">
+      <DependentUpon>Panel.css</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Styles\Test.scss" />
+    <None Include="GUI\Panels\ContextInfo\Panel.scss" />
+    <None Include="GUI\Scripts\Base.coffee" />
+    <None Include="GUI\Styles\Base.css.map">
+      <DependentUpon>Base.css</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GUI\Styles\Base.scss" />
     <None Include="packages.config" />
     <None Include="Shaders\CoherentUI.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -140,6 +145,10 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GUI\Panels\ContextInfo\Panel.css">
+      <DependentUpon>Panel.scss</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\Panels\ContextInfo\Panel.js">
       <DependentUpon>Panel.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -157,8 +166,8 @@
     <Content Include="GUI\Styles\Reset.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Styles\Test.css">
-      <DependentUpon>Test.scss</DependentUpon>
+    <Content Include="GUI\Styles\Base.css">
+      <DependentUpon>Base.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Base.html">

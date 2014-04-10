@@ -5,15 +5,9 @@
   font-family: Segoe UI, Arial, sans-serif;
   font-size: 14px; }
 
-#context-info {
-  bottom: 30%;
-  position: fixed;
-  text-align: center;
-  width: 100%; }
-
 .panel {
   position: fixed;
   left: 0;
   top: 0; }
 
-/*# sourceMappingURL=Test.css.map */
+/*# sourceMappingURL=Base.css.map */
