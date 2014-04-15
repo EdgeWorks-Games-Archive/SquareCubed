@@ -8,7 +8,7 @@ namespace SquareCubed.Client.Meta
 	public class Meta
 	{
 		private readonly Logger _logger = new Logger("Meta");
-		private readonly ushort _packetType;
+		private readonly short _packetType;
 		private readonly Client _client;
 
 		public Meta(Client client)

@@ -35,7 +35,7 @@ namespace SquareCubed.Server.Structures
 			}
 		}
 
-		public uint Id { get; set; }
+		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }

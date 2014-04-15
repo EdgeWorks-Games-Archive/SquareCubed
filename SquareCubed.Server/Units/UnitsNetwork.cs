@@ -6,8 +6,8 @@ namespace SquareCubed.Server.Units
 {
 	internal class UnitsNetwork
 	{
-		private readonly ushort _dataPacketType;
-		private readonly ushort _physicsPacketType;
+		private readonly short _dataPacketType;
+		private readonly short _physicsPacketType;
 		private readonly Network.Network _network;
 
 		public UnitsNetwork(Network.Network network)

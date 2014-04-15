@@ -8,7 +8,7 @@ namespace SquareCubed.Common.Data
 {
 	public class Chunk
 	{
-		public const uint ChunkSize = 16;
+		public const int ChunkSize = 16;
 
 		public Chunk()
 		{
@@ -23,7 +23,7 @@ namespace SquareCubed.Common.Data
 
 		#region Tile Editing Functions
 
-		public void SetTile(uint x, uint y, uint type)
+		public void SetTile(int x, int y, int type)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
@@ -34,7 +34,7 @@ namespace SquareCubed.Common.Data
 				Tiles[x][y].Type = type;
 		}
 
-		public void SetTopWall(uint x, uint y, uint type)
+		public void SetTopWall(int x, int y, int type)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
@@ -45,7 +45,7 @@ namespace SquareCubed.Common.Data
 			Tiles[x][y].WallTypes[(int) WallSides.Top] = type;
 		}
 
-		public void SetRightWall(uint x, uint y, uint type)
+		public void SetRightWall(int x, int y, int type)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
@@ -56,7 +56,7 @@ namespace SquareCubed.Common.Data
 			Tiles[x][y].WallTypes[(int) WallSides.Right] = type;
 		}
 
-		public void SetBottomWall(uint x, uint y, uint type)
+		public void SetBottomWall(int x, int y, int type)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
@@ -67,7 +67,7 @@ namespace SquareCubed.Common.Data
 			Tiles[x][y - 1].WallTypes[(int) WallSides.Top] = type;
 		}
 
-		public void SetLeftWall(uint x, uint y, uint type)
+		public void SetLeftWall(int x, int y, int type)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
@@ -78,7 +78,7 @@ namespace SquareCubed.Common.Data
 			Tiles[x - 1][y].WallTypes[(int) WallSides.Right] = type;
 		}
 
-		public void SetWalls(uint x, uint y, uint top, uint right, uint bottom, uint left)
+		public void SetWalls(int x, int y, int top, int right, int bottom, int left)
 		{
 			SetTopWall(x, y, top);
 			SetRightWall(x, y, right);
@@ -97,7 +97,7 @@ namespace SquareCubed.Common.Data
 				for (var y = 0; y < ChunkSize; y++)
 				{
 					if(Tiles[x][y] != null)
-						Tiles[x][y].UpdateColliders(new Vector2(Position.X * (int)ChunkSize + x, Position.Y * (int)ChunkSize + y));
+						Tiles[x][y].UpdateColliders(new Vector2(Position.X * ChunkSize + x, Position.Y * ChunkSize + y));
 				}
 			}
 		}

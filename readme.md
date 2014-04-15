@@ -1,4 +1,4 @@
-# Square Cubed Engine #
+# SquareCubed Engine #
 SquareCubed Engine is an open source 2D game engine. Its focus is on
 multiplayer and modding. It is available for free via github under
 GPLv3 for non-commercial. Contact EdgeWorks Games(TM) for commercial

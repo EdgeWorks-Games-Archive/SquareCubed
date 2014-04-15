@@ -47,14 +47,14 @@ namespace SquareCubed.Network
 
 		private class PacketType
 		{
-			public PacketType(string id, ushort num)
+			public PacketType(string id, short num)
 			{
 				Id = id;
 				Num = num;
 			}
 
 			public string Id { get; private set; }
-			public ushort Num { get; private set; }
+			public short Num { get; private set; }
 			public bool IsBound { get { return Handler != null; } }
 			public event EventHandler<NetIncomingMessage> Handler;
 
@@ -66,7 +66,7 @@ namespace SquareCubed.Network
 
 		#region Packet Type Resolving
 
-		public void RegisterTypeId(string id, ushort num)
+		public void RegisterTypeId(string id, short num)
 		{
 			// Make sure not already registered
 			if (_packetHandlers.Any(h => h != null && (h.Id == id || h.Num == num)))
@@ -76,14 +76,14 @@ namespace SquareCubed.Network
 			_packetHandlers[num] = new PacketType(id, num);
 		}
 
-		public ushort RegisterTypeId(string id)
+		public short RegisterTypeId(string id)
 		{
 			// Make sure not already registered
 			if (_packetHandlers.Any(h => h != null && h.Id == id))
 				throw new Exception("Handler ID already registered!");
 
 			// Find an unused Id
-			for (ushort i = 0; i < _packetHandlers.Length; i++)
+			for (short i = 0; i < _packetHandlers.Length; i++)
 			{
 				if (_packetHandlers[i] != null) continue;
 
@@ -96,7 +96,7 @@ namespace SquareCubed.Network
 			throw new Exception("Packet handlers array full!");
 		}
 
-		public ushort ResolveType(string id)
+		public short ResolveType(string id)
 		{
 			try
 			{
@@ -126,7 +126,7 @@ namespace SquareCubed.Network
 			}
 		}
 
-		public void Bind(ushort num, EventHandler<NetIncomingMessage> handler)
+		public void Bind(short num, EventHandler<NetIncomingMessage> handler)
 		{
 			try
 			{

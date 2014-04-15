@@ -7,7 +7,7 @@ namespace SquareCubed.Client.Player
 	{
 		private readonly Player _callback;
 		private readonly Client _client;
-		private readonly ushort _packetType;
+		private readonly short _packetType;
 
 		public PlayerNetwork(Client client, Player callback)
 		{

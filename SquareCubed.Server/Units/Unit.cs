@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using OpenTK;
+﻿using OpenTK;
 using SquareCubed.Server.Structures;
 using SquareCubed.Server.Worlds;
 
@@ -11,7 +9,7 @@ namespace SquareCubed.Server.Units
 		private World _world;
 		private Structure _structure;
 
-		public uint Id { get; set; }
+		public int Id { get; set; }
 
 		public virtual World World
 		{

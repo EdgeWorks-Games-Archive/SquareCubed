@@ -7,11 +7,11 @@ namespace SquareCubed.Common.Utils
 	///     an internal counter to automatically assign keys.
 	/// </summary>
 	/// <typeparam name="TValue">Value to map in dictionary.</typeparam>
-	public class AutoDictionary<TValue> : Dictionary<uint, TValue>
+	public class AutoDictionary<TValue> : Dictionary<int, TValue>
 	{
-		private uint _nextKey;
+		private int _nextKey;
 
-		public uint Add(TValue value)
+		public int Add(TValue value)
 		{
 			// Add the value with the current next key
 			base.Add(_nextKey, value);
@@ -20,7 +20,7 @@ namespace SquareCubed.Common.Utils
 			return _nextKey++;
 		}
 
-		public new void Add(uint key, TValue value)
+		public new void Add(int key, TValue value)
 		{
 			base.Add(key, value);
 

@@ -16,7 +16,7 @@ namespace SquareCubed.Common.Data
 	{
 		public Tile()
 		{
-			WallTypes = new uint[2];
+			WallTypes = new int[2];
 		}
 
 		/// <summary>
@@ -47,8 +47,8 @@ namespace SquareCubed.Common.Data
 
 		private List<AaBb> _wallColliders;
 
-		public uint Type { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for docking)
-		public uint[] WallTypes { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for doors)
+		public int Type { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for docking)
+		public int[] WallTypes { get; set; } // Reserved types: 0 = None, 1 = Invisible (Used for doors)
 		public IEnumerable<AaBb> WallColliders
 		{
 			get { return _wallColliders.AsReadOnly(); }
@@ -72,9 +72,9 @@ namespace SquareCubed.Common.Data
 			Contract.Requires<ArgumentNullException>(msg != null);
 			Contract.Ensures(Contract.Result<Tile>() != null);
 
-			var tile = new Tile {Type = msg.ReadUInt32()};
+			var tile = new Tile {Type = msg.ReadInt32()};
 			for (var i = 0; i < tile.WallTypes.Length; i++)
-				tile.WallTypes[i] = msg.ReadUInt32();
+				tile.WallTypes[i] = msg.ReadInt32();
 
 			return tile;
 		}

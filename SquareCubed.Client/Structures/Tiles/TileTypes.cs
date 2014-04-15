@@ -14,7 +14,7 @@ namespace SquareCubed.Client.Structures.Tiles
 			_typeList[1] = new InvisibleTileType(this);
 		}
 
-		public TileType GetType(uint id)
+		public TileType GetType(int id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
