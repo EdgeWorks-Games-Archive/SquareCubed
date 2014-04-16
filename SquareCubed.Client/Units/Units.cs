@@ -10,7 +10,7 @@ namespace SquareCubed.Client.Units
 	{
 		private readonly UnitsNetwork _network;
 		private readonly UnitsRenderer _renderer = new UnitsRenderer();
-		private readonly Dictionary<uint, Unit> _units = new Dictionary<uint, Unit>();
+		private readonly Dictionary<int, Unit> _units = new Dictionary<int, Unit>();
 
 		public Units(Client client)
 		{
@@ -19,7 +19,7 @@ namespace SquareCubed.Client.Units
 
 		#region Network Callbacks
 
-		public void OnUnitPhysics(uint key, Vector2 position)
+		public void OnUnitPhysics(int key, Vector2 position)
 		{
 			Unit unit;
 
@@ -62,7 +62,7 @@ namespace SquareCubed.Client.Units
 			_units.Add(unit.Id, unit);
 		}
 
-		public Unit GetAndRemove(uint key)
+		public Unit GetAndRemove(int key)
 		{
 			Unit unit;
 

@@ -20,7 +20,6 @@ namespace SquareCubed.Client.MainMenu
 		{
 			_menuPanel.Dispose();
 			_menuPanel = null;
-			Console.WriteLine("Deleted");
 		}
 	}
 }

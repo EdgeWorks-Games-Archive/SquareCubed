@@ -10,7 +10,7 @@ namespace SquareCubed.Client.Structures
 	{
 		private readonly StructuresNetwork _network;
 		private readonly StructuresRenderer _renderer;
-		private readonly Dictionary<uint, Structure> _structures = new Dictionary<uint, Structure>();
+		private readonly Dictionary<int, Structure> _structures = new Dictionary<int, Structure>();
 
 		public TileTypes TileTypes { get; private set; }
 		public ObjectTypes ObjectTypes { get; private set; }
@@ -20,7 +20,7 @@ namespace SquareCubed.Client.Structures
 			get { return _structures.Values; }
 		}
 
-		public Structure GetOrNull(uint id)
+		public Structure GetOrNull(int id)
 		{
 			Structure structure;
 			return _structures.TryGetValue(id, out structure) ? structure : null;

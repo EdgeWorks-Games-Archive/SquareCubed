@@ -13,7 +13,7 @@ namespace SquareCubed.Client.Structures.Objects
 			_typeList = new IObjectType[MaxId + 1];
 		}
 
-		public IObjectType GetType(uint id)
+		public IObjectType GetType(int id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
@@ -22,7 +22,7 @@ namespace SquareCubed.Client.Structures.Objects
 			return _typeList[id];
 		}
 
-		public void RegisterType(IObjectType type, uint id)
+		public void RegisterType(IObjectType type, int id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,

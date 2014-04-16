@@ -24,7 +24,7 @@ namespace SquareCubed.Client.Player
 			msg.SkipPadBits();
 
 			// Read the data
-			var key = msg.ReadUInt32();
+			var key = msg.ReadInt32();
 
 			// Pass the data on
 			_callback.OnPlayerData(key);

@@ -31,7 +31,7 @@ namespace SquareCubed.Client.Units
 			}
 		}
 
-		public uint Id { get; private set; }
+		public int Id { get; private set; }
 		public Vector2 Position { get; set; }
 
 		public virtual void ProcessPhysicsPacketData(Vector2 position)
@@ -40,7 +40,7 @@ namespace SquareCubed.Client.Units
 			Position = position;
 		}
 
-		public Unit(uint id)
+		public Unit(int id)
 		{
 			Id = id;
 		}

@@ -2,6 +2,10 @@
 (function() {
   $("#main-menu").dialog();
 
+  engine.on('MainMenu.Dispose', function() {
+    return $("#main-menu").dialog("destroy");
+  });
+
 }).call(this);
 
 //# sourceMappingURL=Panel.map

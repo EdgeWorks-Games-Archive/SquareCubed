@@ -25,7 +25,7 @@ namespace SquareCubed.Client.Units
 			msg.SkipPadBits();
 
 			// Read the data
-			var key = msg.ReadUInt32();
+			var key = msg.ReadInt32();
 			var position = new Vector2(
 				msg.ReadFloat(),
 				msg.ReadFloat());
@@ -41,10 +41,10 @@ namespace SquareCubed.Client.Units
 			msg.SkipPadBits();
 
 			// Read the data
-			var unit = new Unit(msg.ReadUInt32())
+			var unit = new Unit(msg.ReadInt32())
 			{
 				Position = msg.ReadVector2(),
-				Structure = _client.Structures.GetOrNull(msg.ReadUInt32())
+				Structure = _client.Structures.GetOrNull(msg.ReadInt32())
 			};
 
 			// Pass the data on

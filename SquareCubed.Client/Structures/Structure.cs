@@ -14,7 +14,7 @@ namespace SquareCubed.Client.Structures
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 
-		public uint Id { get; set; }
+		public int Id { get; set; }
 		public List<ClientChunk> Chunks { get; set; }
 
 		public IEnumerable<Unit> Units
@@ -71,7 +71,7 @@ namespace SquareCubed.Client.Structures
 
 			return new Structure
 			{
-				Id = msg.ReadUInt32(),
+				Id = msg.ReadInt32(),
 				Position = msg.ReadVector2(),
 				Rotation = msg.ReadFloat(),
 				Center = msg.ReadVector2(),

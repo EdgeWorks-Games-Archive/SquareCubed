@@ -19,7 +19,7 @@ namespace SquareCubed.Client.Player
 
 		public PlayerUnit PlayerUnit { get; private set; }
 
-		public void OnPlayerData(uint id)
+		public void OnPlayerData(int id)
 		{
 			var unit = _client.Units.GetAndRemove(id);
 			PlayerUnit = new PlayerUnit(unit);
@@ -97,6 +97,12 @@ namespace SquareCubed.Client.Player
 					}
 				}
 
+				// TODO: Add collision resolving in the case of exact corner collision
+				// This happens because axises are being checked in isolation from eachother.
+				// Thus if the player is at an exact corner going in the direction of the corner,
+				// individually it won't hit. However in the next frame the player is in the wall
+				// and thus the player snaps back. Insert pun about "edge cases" here.
+
 				// Update the player's position
 				PlayerUnit.Position += velocity;
 				_network.SendPlayerPhysics(PlayerUnit);
@@ -112,16 +118,16 @@ namespace SquareCubed.Client.Player
 		{
 			// Sometimes with aligned walls they might not entirely align, causing something to stick out a bit out of the wall.
 			// This is really small and practically invisible. To fix it we just remove a tiny invisible bit from the length of the lines.
-			const float floatCompensation = 0.00001f;
+			const float floatCompensation = 0.000001f;
 
 			// Create some data to work with
 			var directionMultiplier = velocity < 0 ? -1.0f : 1.0f;
 			var dynamicSide = dynamicSideFunc(dynamic);
 
+			// Apply velocity in the correct direction
 			var dynamicTangent = dynamicSide.Tangent;
 			dynamicSide.Tangent += velocity;
 			dynamicSide.Tangent *= directionMultiplier;
-
 			var dynamicCenterTangent = dynamicSide.CenterTangent;
 			dynamicSide.CenterTangent += velocity;
 			dynamicSide.CenterTangent *= directionMultiplier;

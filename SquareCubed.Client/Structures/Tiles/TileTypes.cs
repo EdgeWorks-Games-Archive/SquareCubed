@@ -23,7 +23,7 @@ namespace SquareCubed.Client.Structures.Tiles
 			return _typeList[id];
 		}
 
-		public void RegisterType(TileType type, uint id)
+		public void RegisterType(TileType type, int id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,

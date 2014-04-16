@@ -8,7 +8,7 @@ using SquareCubed.Client.Gui.Data;
 
 namespace SquareCubed.Client.Gui
 {
-	public class GuiPanel : IDisposable
+	public abstract class GuiPanel : IDisposable
 	{
 		/// <summary>
 		///     Counter to make sure every panel has a unique Id.
@@ -66,6 +66,11 @@ namespace SquareCubed.Client.Gui
 
 			// Increment the counter so every Id is identical
 			_counter++;
+		}
+
+		~GuiPanel()
+		{
+			Dispose(false);
 		}
 
 		public void Dispose()
