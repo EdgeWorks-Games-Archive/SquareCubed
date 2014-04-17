@@ -11,10 +11,10 @@ namespace SquareCubed.Server.Structures
 	{
 		private readonly List<ServerObject> _objects = new List<ServerObject>();
 
-		public IList<ServerObject> Objects { get { return _objects.AsReadOnly(); } }
+		public IReadOnlyCollection<ServerObject> Objects { get { return _objects.AsReadOnly(); } }
 
 		// TODO: Change to use proper object classes instead of Ids and resolve Ids on send instead
-		public void AddObject(float x, float y, uint id)
+		public void AddObject(float x, float y, int id)
 		{
 			_objects.Add(new ServerObject
 			{

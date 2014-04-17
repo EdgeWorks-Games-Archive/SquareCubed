@@ -46,7 +46,7 @@ namespace SquareCubed.Server.Structures
 		/// </summary>
 		public Vector2 Center { get; set; }
 
-		public IEnumerable<Unit> Units
+		public IReadOnlyCollection<Unit> Units
 		{
 			get { return _units.AsReadOnly(); }
 		}

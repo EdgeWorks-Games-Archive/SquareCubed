@@ -16,7 +16,7 @@ namespace SquareCubed.Server.Meta
 
 		public Meta(Server server)
 		{
-			Contract.Requires(server != null);
+			Contract.Requires<ArgumentNullException>(server != null);
 
 			_server = server;
 			_server.Network.NewConnection += OnNewConnection;

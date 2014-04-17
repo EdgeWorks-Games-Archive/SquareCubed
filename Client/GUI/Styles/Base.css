@@ -10,4 +10,7 @@
   left: 0;
   top: 0; }
 
+.ui-noclose .ui-dialog-titlebar-close {
+  display: none; }
+
 /*# sourceMappingURL=Base.css.map */

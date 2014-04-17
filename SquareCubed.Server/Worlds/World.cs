@@ -24,17 +24,17 @@ namespace SquareCubed.Server.Worlds
 		private readonly List<Structure> _structures = new List<Structure>();
 		private readonly List<Unit> _units = new List<Unit>();
 
-		public IEnumerable<Player> Players
+		public IReadOnlyCollection<Player> Players
 		{
 			get { return _players.AsReadOnly(); }
 		}
 
-		public IEnumerable<Unit> Units
+		public IReadOnlyCollection<Unit> Units
 		{
 			get { return _units.AsReadOnly(); }
 		}
 
-		public IEnumerable<Structure> Structures
+		public IReadOnlyCollection<Structure> Structures
 		{
 			get { return _structures.AsReadOnly(); }
 		}
