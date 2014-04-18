@@ -1,7 +1,8 @@
-﻿using Coherent.UI;
+﻿using System.Windows.Forms;
+using Coherent.UI;
 using OpenTK;
-using OpenTK.Input;
 using SquareCubed.Common.Data;
+using KeyPressEventArgs = OpenTK.KeyPressEventArgs;
 
 namespace SquareCubed.Client.Gui
 {
@@ -17,6 +18,22 @@ namespace SquareCubed.Client.Gui
 		public InputHandler(INativeWindow window)
 		{
 			_window = window;
+		}
+
+		private static EventModifiersState GetEventModifiersState()
+		{
+			var keys = Control.ModifierKeys;
+
+			var state = new EventModifiersState
+			{
+				IsCtrlDown = keys.HasFlag(Keys.Control),
+				IsAltDown = keys.HasFlag(Keys.Alt),
+				IsShiftDown = keys.HasFlag(Keys.Shift),
+				IsCapsOn = keys.HasFlag(Keys.CapsLock),
+				IsNumLockOn = keys.HasFlag(Keys.NumLock)
+			};
+
+			return state;
 		}
 
 		public ViewListener ViewListener
@@ -46,7 +63,7 @@ namespace SquareCubed.Client.Gui
 		{
 			var eventData = new KeyEventData
 			{
-				//Modifiers = GetEventModifiersState(),
+				Modifiers = GetEventModifiersState(),
 				KeyCode = e.KeyChar, // Not sure this is the right one
 				IsNumPad = false, // Indeterminate
 				IsAutoRepeat = false, // Indeterminate
@@ -55,11 +72,11 @@ namespace SquareCubed.Client.Gui
 			_viewListener.View.KeyEvent(eventData);
 		}
 
-		private void _window_KeyDown(object sender, KeyboardKeyEventArgs e)
+		private void _window_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
 			var eventData = new KeyEventData
 			{
-				//Modifiers = GetEventModifiersState(),
+				Modifiers = GetEventModifiersState(),
 				KeyCode = e.Key.ToVkCode(),
 				IsNumPad = false, // Indeterminate
 				IsAutoRepeat = false, // Indeterminate
@@ -68,11 +85,11 @@ namespace SquareCubed.Client.Gui
 			_viewListener.View.KeyEvent(eventData);
 		}
 
-		private void window_KeyUp(object sender, KeyboardKeyEventArgs e)
+		private void window_KeyUp(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
 			var eventData = new KeyEventData
 			{
-				//Modifiers = GetEventModifiersState(),
+				Modifiers = GetEventModifiersState(),
 				KeyCode = e.Key.ToVkCode(),
 				IsNumPad = false, // Indeterminate
 				IsAutoRepeat = false, // Indeterminate

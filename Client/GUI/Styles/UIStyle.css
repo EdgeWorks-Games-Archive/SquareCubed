@@ -66,19 +66,18 @@ input:focus {
 .ui-dialog .ui-dialog-content {
   border: 0; }
   .ui-dialog .ui-dialog-content p, .ui-dialog .ui-dialog-content label {
-    padding: 0 6px 0 6px;
-    margin: 6px 0 6px 0; }
+    margin: 6px 8px 6px 8px; }
   .ui-dialog .ui-dialog-content input {
-    padding: 6px 6px 6px 6px;
+    padding: 6px 8px 6px 8px;
     margin: 6px 0 12px 0;
-    width: calc(100% - 12px); }
+    width: calc(100% - 16px); }
 .ui-dialog .ui-dialog-buttonpane {
   border: 0; }
   .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
     float: right; }
 .ui-dialog .ui-dialog-titlebar {
   font-size: 14px;
-  padding: 6px;
+  padding: 8px;
   position: relative; }
 .ui-dialog .ui-dialog-titlebar-close {
   width: 20px;
@@ -90,7 +89,7 @@ input:focus {
   border: 0; }
 .ui-dialog .ui-dialog-buttonpane button {
   padding: 3px 6px;
-  margin: 6px 6px 6px 0;
+  margin: 6px 6px 5px 0;
   width: 90px;
   cursor: pointer; }
 

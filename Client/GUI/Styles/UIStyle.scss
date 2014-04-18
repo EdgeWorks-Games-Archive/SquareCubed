@@ -106,13 +106,12 @@ input:focus {
 		border: 0;
 
 		p, label {
-			padding: 0 6px 0 6px;
-			margin: 6px 0 6px 0;
+			margin: 6px 8px 6px 8px;
 		}
 		input {
-			padding: 6px 6px 6px 6px;
+			padding: 6px 8px 6px 8px;
 			margin: 6px 0 12px 0;
-			width: calc(100% - 12px);
+			width: calc(100% - 16px);
 		}
 	}
 
@@ -127,7 +126,7 @@ input:focus {
 	// Title Bar
 	.ui-dialog-titlebar {
 		font-size: 14px;
-		padding: 6px;
+		padding: 8px;
 		position: relative;
 	}
 
@@ -147,7 +146,7 @@ input:focus {
 	// Button Pane
 	.ui-dialog-buttonpane button {
 		padding: 3px 6px;
-		margin: 6px 6px 6px 0;
+		margin: 6px 6px 5px 0;
 		width: 90px;
 		cursor: pointer;
 	}
