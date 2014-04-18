@@ -53,12 +53,17 @@
   <ItemGroup>
     <Compile Include="Client\Graphics\CameraTests.cs" />
     <Compile Include="Client\Structures\Objects\UnitProximityTests.cs" />
+    <Compile Include="Network\PacketTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
       <Name>SquareCubed.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
+      <Project>{1f3ca083-84be-4d55-b878-d3a3be508ef1}</Project>
+      <Name>SquareCubed.Network</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

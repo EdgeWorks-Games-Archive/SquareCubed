@@ -35,6 +35,16 @@ namespace SquareCubed.Common.Data
 					return 0x14;
 				case Key.Space:
 					return 0x20;
+
+				case Key.Left:
+					return 0x25;
+				case Key.Up:
+					return 0x26;
+				case Key.Right:
+					return 0x27;
+				case Key.Down:
+					return 0x28;
+
 				case Key.Delete:
 					return 0x2E;
 				case Key.WinLeft:
