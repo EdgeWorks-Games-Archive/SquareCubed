@@ -1,16 +1,22 @@
-﻿$("#main-menu").dialog
+﻿$("#mainmenu").dialog
+	closeOnEscape: false
+	
+	draggable: false
 	resizable: false
-	height: 120
-	modal: true
-	dialogClass: "ui-noclose"
+	height: 180
+	
 	hide:
 		effect: "fadeOut",
 		duration: 300
+		
 	buttons:
 		"Connect": ->
-			$(this).dialog("close")
+			# Stuff here later
 		"Quit": ->
 			$(this).dialog("close")
-
+			
+	afterClose: (event, ui) ->
+		engine.trigger('OnQuitClicked');
+	
 engine.on 'MainMenu.Dispose', ->
-	$("#main-menu").dialog "destroy"
+	$("#mainmenu").dialog "destroy"
