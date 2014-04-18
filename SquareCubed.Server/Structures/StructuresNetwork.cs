@@ -4,17 +4,17 @@ using SquareCubed.Server.Players;
 
 namespace SquareCubed.Server.Structures
 {
-	class StructuresNetwork
+	internal class StructuresNetwork
 	{
-		private readonly short _physicsPacketType;
-		private readonly short _dataPacketType;
+		private readonly PacketType _dataPacketType;
 		private readonly Network.Network _network;
+		private readonly PacketType _physicsPacketType;
 
 		public StructuresNetwork(Network.Network network)
 		{
 			_network = network;
-			_physicsPacketType = _network.PacketHandlers.ResolveType("structures.physics");
-			_dataPacketType = _network.PacketHandlers.ResolveType("structures.data");
+			_physicsPacketType = _network.PacketTypes.ResolveType("structures.physics");
+			_dataPacketType = _network.PacketTypes.ResolveType("structures.data");
 		}
 
 		public void SendStructurePhysics(Structure structure)
@@ -23,7 +23,6 @@ namespace SquareCubed.Server.Structures
 
 			// Add the packet type Id
 			msg.Write(_physicsPacketType);
-			msg.WritePadBits();
 
 			// Add data
 			msg.Write(structure.Id);
@@ -34,7 +33,7 @@ namespace SquareCubed.Server.Structures
 			msg.Write(structure.Center.Y);
 
 			// Send data to appropriate players
-			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int)SequenceChannels.UnitPhysics);
+			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
 		}
 
 		public void SendStructureData(Structure structure, Player player = null)
@@ -43,7 +42,6 @@ namespace SquareCubed.Server.Structures
 
 			// Add the packet type Id
 			msg.Write(_dataPacketType);
-			msg.WritePadBits();
 
 			// And add the data
 			msg.Write(structure);
@@ -51,12 +49,12 @@ namespace SquareCubed.Server.Structures
 			if (player != null)
 			{
 				// Send the data to the player
-				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.UnitData);
+				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
 			}
 			else
 			{
 				// Send the data to all players in the world the structure is in
-				structure.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.UnitData);
+				structure.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ namespace SquareCubed.Client.Player
 		public Player(Client client)
 		{
 			_client = client;
-			_network = new PlayerNetwork(_client, this);
+			_network = new PlayerNetwork(_client.Network, this);
 		}
 
 		public PlayerUnit PlayerUnit { get; private set; }

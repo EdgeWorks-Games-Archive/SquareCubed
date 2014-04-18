@@ -3,27 +3,31 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
+using SquareCubed.Network;
+using SquareCubed.PluginLoader;
 
 namespace SquareCubed.Server.Meta
 {
 	public class Meta
 	{
 		private readonly Logger _logger = new Logger("Meta");
-		private readonly short _packetType;
-		private readonly Server _server;
+		private readonly PacketType _packetType;
+		private readonly PluginLoader<IServerPlugin, Server> _pluginLoader;
 
 		public event EventHandler<NetConnection> ClientDataReceived;
 
-		public Meta(Server server)
+		public Meta(Network.Network network, PluginLoader<IServerPlugin, Server> pluginLoader)
 		{
-			Contract.Requires<ArgumentNullException>(server != null);
+			Contract.Requires<ArgumentNullException>(network != null);
+			Contract.Requires<ArgumentNullException>(pluginLoader != null);
 
-			_server = server;
-			_server.Network.NewConnection += OnNewConnection;
+			_pluginLoader = pluginLoader;
+
+			network.NewConnection += OnNewConnection;
 
 			// Resolve packet type num and bind handler
-			_packetType = _server.Network.PacketHandlers.ResolveType("meta");
-			_server.Network.PacketHandlers.Bind(_packetType, OnMetaPacket);
+			_packetType = network.PacketTypes.ResolveType("meta");
+			network.PacketHandlers.Bind(_packetType, OnMetaPacket);
 		}
 
 		private void OnNewConnection(object sender, NetIncomingMessage msg)
@@ -39,9 +43,8 @@ namespace SquareCubed.Server.Meta
 			// Write packet type mapping data
 
 			// Write mod data
-			outMsg.Write((ushort) _server.PluginLoader.PluginTypes.Count);
-			outMsg.WritePadBits();
-			foreach (var type in _server.PluginLoader.PluginTypes)
+			outMsg.Write(_pluginLoader.PluginTypes.Count);
+			foreach (var type in _pluginLoader.PluginTypes)
 			{
 				// Write plugin type data
 				outMsg.Write(type.Key);
@@ -53,7 +56,7 @@ namespace SquareCubed.Server.Meta
 			msg.SenderConnection.SendMessage(outMsg, NetDeliveryMethod.ReliableUnordered, 0);
 		}
 
-		private void OnMetaPacket(object sender, NetIncomingMessage msg)
+		private void OnMetaPacket(NetIncomingMessage msg)
 		{
 			ClientDataReceived(this, msg.SenderConnection);
 		}

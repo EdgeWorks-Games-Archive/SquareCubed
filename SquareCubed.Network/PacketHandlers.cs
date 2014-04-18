@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
 
@@ -7,8 +7,16 @@ namespace SquareCubed.Network
 {
 	public class PacketHandlers
 	{
+		private readonly Dictionary<int, Action<NetIncomingMessage>> _entries =
+			new Dictionary<int, Action<NetIncomingMessage>>();
+
 		private readonly Logger _logger = new Logger("Packets");
-		private readonly PacketType[] _packetHandlers = new PacketType[20];
+		private readonly PacketTypes _types;
+
+		public PacketHandlers(PacketTypes types)
+		{
+			_types = types;
+		}
 
 		public void HandlePacket(NetIncomingMessage msg, bool isServer)
 		{
@@ -17,11 +25,11 @@ namespace SquareCubed.Network
 			{
 #endif
 			// Read the packet type
-			var type = msg.PeekInt16();
+			var type = msg.ReadInt32();
 
 			// If we have a packet handler on this type, invoke it, if not throw to drop client
-			if (_packetHandlers[type] != null)
-				_packetHandlers[type].Invoke(this, msg);
+			if (_entries.ContainsKey(type))
+				_entries[type](msg);
 			else
 			{
 				if (isServer)
@@ -45,101 +53,24 @@ namespace SquareCubed.Network
 #endif
 		}
 
-		private class PacketType
+		public void Bind(PacketType type, Action<NetIncomingMessage> handler)
 		{
-			public PacketType(string id, short num)
-			{
-				Id = id;
-				Num = num;
-			}
+			// Check requirements
+			if (_entries.ContainsKey(type.Id))
+				throw new InvalidOperationException("Handler for type already registered!");
 
-			public string Id { get; private set; }
-			public short Num { get; private set; }
-			public bool IsBound { get { return Handler != null; } }
-			public event EventHandler<NetIncomingMessage> Handler;
-
-			public void Invoke(object sender, NetIncomingMessage msg)
-			{
-				if (Handler != null) Handler(sender, msg);
-			}
+			_entries.Add(type.Id, handler);
 		}
 
-		#region Packet Type Resolving
-
-		public void RegisterTypeId(string id, short num)
+		public void Bind(string typeName, Action<NetIncomingMessage> handler)
 		{
-			// Make sure not already registered
-			if (_packetHandlers.Any(h => h != null && (h.Id == id || h.Num == num)))
-				throw new Exception("Handler ID or numeric value already registered!");
+			var type = _types.ResolveType(typeName);
 
-			// Register it
-			_packetHandlers[num] = new PacketType(id, num);
+			// Check requirements
+			if (_entries.ContainsKey(type.Id))
+				throw new InvalidOperationException("Handler for type already registered!");
+
+			_entries.Add(type.Id, handler);
 		}
-
-		public short RegisterTypeId(string id)
-		{
-			// Make sure not already registered
-			if (_packetHandlers.Any(h => h != null && h.Id == id))
-				throw new Exception("Handler ID already registered!");
-
-			// Find an unused Id
-			for (short i = 0; i < _packetHandlers.Length; i++)
-			{
-				if (_packetHandlers[i] != null) continue;
-
-				// Register it
-				_packetHandlers[i] = new PacketType(id, i);
-				return i;
-			}
-
-			// Failed to find an unused Id
-			throw new Exception("Packet handlers array full!");
-		}
-
-		public short ResolveType(string id)
-		{
-			try
-			{
-				return _packetHandlers.First(h => h != null && h.Id == id).Num;
-			}
-			catch
-			{
-				throw new Exception("Packet type not registered.");
-			}
-		}
-
-		#endregion
-
-		#region Handler Binding
-
-		public void Bind(string id, EventHandler<NetIncomingMessage> handler)
-		{
-			try
-			{
-				var type = _packetHandlers.First(h => h != null && h.Id == id);
-				if (type.IsBound) throw new Exception();
-				type.Handler += handler;
-			}
-			catch
-			{
-				throw new Exception("Packet type not registered or already bound.");
-			}
-		}
-
-		public void Bind(short num, EventHandler<NetIncomingMessage> handler)
-		{
-			try
-			{
-				var type = _packetHandlers.First(h => h != null && h.Num == num);
-				if (type.IsBound) throw new Exception();
-				type.Handler += handler;
-			}
-			catch
-			{
-				throw new Exception("Packet type not registered or already bound.");
-			}
-		}
-
-		#endregion
 	}
 }

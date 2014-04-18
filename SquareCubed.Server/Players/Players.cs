@@ -22,7 +22,7 @@ namespace SquareCubed.Server.Players
 			Contract.Requires<ArgumentNullException>(server != null);
 
 			_server = server;
-			_network = new PlayersNetwork(_server, this);
+			_network = new PlayersNetwork(_server.Network, this);
 
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
 			_server.Network.LostConnection += OnLostConnection;

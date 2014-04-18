@@ -7,23 +7,20 @@ namespace SquareCubed.Server.Players
 	internal class PlayersNetwork
 	{
 		private readonly Players _callback;
-		private readonly short _packetType;
-		private readonly Server _server;
+		private readonly Network.Network _network;
+		private readonly PacketType _packetType;
 
-		public PlayersNetwork(Server server, Players callback)
+		public PlayersNetwork(Network.Network network, Players callback)
 		{
-			_server = server;
+			_network = network;
 			_callback = callback;
-			_packetType = _server.Network.PacketHandlers.ResolveType("players.data");
-			_server.Network.PacketHandlers.Bind(_packetType, OnPlayerPhysics);
+
+			_packetType = _network.PacketTypes.ResolveType("players.data");
+			_network.PacketHandlers.Bind(_packetType, OnPlayerPhysics);
 		}
 
-		private void OnPlayerPhysics(object s, NetIncomingMessage msg)
+		private void OnPlayerPhysics(NetIncomingMessage msg)
 		{
-			// Skip the packet type Id
-			msg.ReadUInt16();
-			msg.SkipPadBits();
-
 			// Read the data
 			var position = new Vector2(
 				msg.ReadFloat(),
@@ -35,11 +32,10 @@ namespace SquareCubed.Server.Players
 
 		public void SendPlayerData(Player player)
 		{
-			var msg = _server.Network.Peer.CreateMessage();
+			var msg = _network.Peer.CreateMessage();
 
 			// Add the packet type Id
 			msg.Write(_packetType);
-			msg.WritePadBits();
 
 			// Send over unit Id so client can link it to the player
 			msg.Write(player.Unit.Id);

@@ -1,5 +1,4 @@
-﻿using System;
-using Lidgren.Network;
+﻿using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
 
@@ -14,16 +13,12 @@ namespace SquareCubed.Client.Units
 		{
 			_client = client;
 			_callback = callback;
-			client.Network.PacketHandlers.Bind("units.physics", OnUnitPhysics);
-			client.Network.PacketHandlers.Bind("units.data", OnUnitData);
+			_client.Network.PacketHandlers.Bind("units.physics", OnUnitPhysics);
+			_client.Network.PacketHandlers.Bind("units.data", OnUnitData);
 		}
 
-		private void OnUnitPhysics(object s, NetIncomingMessage msg)
+		private void OnUnitPhysics(NetIncomingMessage msg)
 		{
-			// Skip the packet type Id
-			msg.ReadUInt16();
-			msg.SkipPadBits();
-
 			// Read the data
 			var key = msg.ReadInt32();
 			var position = new Vector2(
@@ -34,12 +29,8 @@ namespace SquareCubed.Client.Units
 			_callback.OnUnitPhysics(key, position);
 		}
 
-		private void OnUnitData(object s, NetIncomingMessage msg)
+		private void OnUnitData(NetIncomingMessage msg)
 		{
-			// Skip the packet type Id
-			msg.ReadUInt16();
-			msg.SkipPadBits();
-
 			// Read the data
 			var unit = new Unit(msg.ReadInt32())
 			{

@@ -31,7 +31,7 @@ namespace SquareCubed.Client.Structures
 			TileTypes = new TileTypes();
 			ObjectTypes = new ObjectTypes(client);
 
-			_network = new StructuresNetwork(client, this);
+			_network = new StructuresNetwork(client.Network, this);
 			_renderer = new StructuresRenderer(client);
 		}
 

@@ -36,7 +36,7 @@ namespace SquareCubed.Server
 
 			Network = new Network.Network("SquareCubed");
 			PluginLoader = new PluginLoader<IServerPlugin, Server>();
-			Meta = new Meta.Meta(this);
+			Meta = new Meta.Meta(Network, PluginLoader);
 			Worlds = new Worlds.Worlds(this);
 			Structures = new Structures.Structures(Network);
 			Units = new Units.Units(Network);

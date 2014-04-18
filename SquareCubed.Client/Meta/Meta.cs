@@ -2,13 +2,14 @@
 using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
+using SquareCubed.Network;
 
 namespace SquareCubed.Client.Meta
 {
 	public class Meta
 	{
 		private readonly Logger _logger = new Logger("Meta");
-		private readonly short _packetType;
+		private readonly PacketType _packetType;
 		private readonly Client _client;
 
 		public Meta(Client client)
@@ -17,19 +18,16 @@ namespace SquareCubed.Client.Meta
 			_client = client;
 
 			// Resolve packet type num and bind handler
-			_packetType = _client.Network.PacketHandlers.ResolveType("meta");
+			_packetType = _client.Network.PacketTypes.ResolveType("meta");
 			_client.Network.PacketHandlers.Bind(_packetType, OnMetaPacket);
 		}
 
-		private void OnMetaPacket(object sender, NetIncomingMessage msg)
+		private void OnMetaPacket(NetIncomingMessage msg)
 		{
 			if(_client.PluginLoader.LoadedPlugins.Count != 0)
 				throw new Exception("MetaData received but mods already loaded!");
 
 			_logger.LogInfo("Received MetaData!");
-
-			// Skip Initial Type
-			msg.ReadUInt16();
 
 			// Read packet type mapping data
 
@@ -38,8 +36,7 @@ namespace SquareCubed.Client.Meta
 			// Read wall type mapping data
 
 			// Read mod data
-			var count = msg.ReadUInt16();
-			msg.SkipPadBits();
+			var count = msg.ReadInt32();
 			for (var i = 0; i < count; i++)
 			{
 				var id = msg.ReadString();

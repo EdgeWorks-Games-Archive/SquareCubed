@@ -13,7 +13,8 @@ namespace SquareCubed.Network
 
 		private readonly string _appIdentifier;
 		public NetPeer Peer { get; private set; }
-		public PacketHandlers PacketHandlers { get; set; }
+		public PacketHandlers PacketHandlers { get; private set; }
+		public PacketTypes PacketTypes { get; private set; }
 
 		#region Client/Server Specific Data
 
@@ -31,19 +32,20 @@ namespace SquareCubed.Network
 		public Network(string appIdentifier)
 		{
 			_appIdentifier = appIdentifier;
-			PacketHandlers = new PacketHandlers();
+			PacketTypes = new PacketTypes();
+			PacketHandlers = new PacketHandlers(PacketTypes);
 
 			// Register common packet Ids that never change.
 			// Usually you would only do this on the server
 			// side of a mod and let the engine decide what
 			// numeric value to use, but these are used by
 			// core parts of the engine.
-			PacketHandlers.RegisterTypeId("meta", 0);
-			PacketHandlers.RegisterTypeId("units.physics", 1);
-			PacketHandlers.RegisterTypeId("units.data", 2);
-			PacketHandlers.RegisterTypeId("players.data", 3);
-			PacketHandlers.RegisterTypeId("structures.physics", 4);
-			PacketHandlers.RegisterTypeId("structures.data", 5);
+			PacketTypes.RegisterType("meta", 0);
+			PacketTypes.RegisterType("units.physics", 1);
+			PacketTypes.RegisterType("units.data", 2);
+			PacketTypes.RegisterType("players.data", 3);
+			PacketTypes.RegisterType("structures.physics", 4);
+			PacketTypes.RegisterType("structures.data", 5);
 		}
 
 		public virtual void Dispose()

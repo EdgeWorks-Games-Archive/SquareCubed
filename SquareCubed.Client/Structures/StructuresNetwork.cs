@@ -2,22 +2,24 @@
 
 namespace SquareCubed.Client.Structures
 {
-	class StructuresNetwork
+	internal class StructuresNetwork
 	{
 		private readonly Structures _callback;
 
-		public StructuresNetwork(Client client, Structures callback)
+		public StructuresNetwork(Network.Network network, Structures callback)
 		{
 			_callback = callback;
-			client.Network.PacketHandlers.Bind("structures.data", OnStructureData);
+			network.PacketHandlers.Bind("structures.physics", OnStructurePhysics);
+			network.PacketHandlers.Bind("structures.data", OnStructureData);
 		}
 
-		private void OnStructureData(object s, NetIncomingMessage msg)
+		private void OnStructurePhysics(NetIncomingMessage msg)
 		{
-			// Skip the packet type Id
-			msg.ReadUInt16();
-			msg.SkipPadBits();
+			// TODO: Add structure physics sync here.
+		}
 
+		private void OnStructureData(NetIncomingMessage msg)
+		{
 			// Read the data
 			var structure = msg.ReadStructure(_callback.ObjectTypes);
 

@@ -39,6 +39,7 @@ namespace SquareCubed.Client.Gui
 			var serializer = new XmlSerializer(typeof (Panel));
 			var fileStream = new FileStream(folderRoot + "Panel.xml", FileMode.Open);
 			var panelData = (Panel) serializer.Deserialize(fileStream);
+			fileStream.Dispose();
 
 			// Generate the Html and add it
 			using (var stringWriter = new StringWriter())

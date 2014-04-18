@@ -6,15 +6,15 @@ namespace SquareCubed.Server.Units
 {
 	internal class UnitsNetwork
 	{
-		private readonly short _dataPacketType;
-		private readonly short _physicsPacketType;
+		private readonly PacketType _dataPacketType;
 		private readonly Network.Network _network;
+		private readonly PacketType _physicsPacketType;
 
 		public UnitsNetwork(Network.Network network)
 		{
 			_network = network;
-			_physicsPacketType = _network.PacketHandlers.ResolveType("units.physics");
-			_dataPacketType = _network.PacketHandlers.ResolveType("units.data");
+			_physicsPacketType = _network.PacketTypes.ResolveType("units.physics");
+			_dataPacketType = _network.PacketTypes.ResolveType("units.data");
 		}
 
 		public void SendUnitPhysics(Unit unit)
@@ -23,7 +23,6 @@ namespace SquareCubed.Server.Units
 
 			// Add the packet type Id
 			msg.Write(_physicsPacketType);
-			msg.WritePadBits();
 
 			// The client knows what unit to update/create using the Id
 			msg.Write(unit.Id);
@@ -42,7 +41,6 @@ namespace SquareCubed.Server.Units
 
 			// Add the packet type Id
 			msg.Write(_dataPacketType);
-			msg.WritePadBits();
 
 			// The client knows what unit to update using the Id
 			msg.Write(unit.Id);
