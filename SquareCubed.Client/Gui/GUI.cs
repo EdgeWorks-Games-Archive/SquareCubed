@@ -75,9 +75,12 @@ namespace SquareCubed.Client.Gui
 
 		#endregion
 
+		private InputHandler _inputHandler;
+
 		public Gui(Client client)
 		{
 			_client = client;
+			_inputHandler = new InputHandler(_client.Window);
 		}
 
 		public bool IsLoaded { get; private set; }
@@ -204,6 +207,9 @@ namespace SquareCubed.Client.Gui
 					UsesSharedMemory = true
 				};
 				_system.CreateView(viewInfo, "coui://GUI/Base.html", _viewListener);
+
+				// Pass over the view listener to the input handler as well
+				_inputHandler.ViewListener = _viewListener;
 			}
 
 			// Get the latest Coherent UI surfaces

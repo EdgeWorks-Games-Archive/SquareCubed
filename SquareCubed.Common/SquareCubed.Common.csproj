@@ -118,6 +118,7 @@
     <Compile Include="Data\AaSide.cs" />
     <Compile Include="Data\Chunk.cs" />
     <Compile Include="Data\IPositionable.cs" />
+    <Compile Include="Data\KeyExtensions.cs" />
     <Compile Include="Data\SizeExtensions.cs" />
     <Compile Include="Data\Tile.cs" />
     <Compile Include="Data\Vector2i.cs" />

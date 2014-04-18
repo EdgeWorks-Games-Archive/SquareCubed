@@ -141,6 +141,7 @@
     <Compile Include="Gui\EventListener.cs" />
     <Compile Include="Gui\Gui.cs" />
     <Compile Include="Gui\GuiPanel.cs" />
+    <Compile Include="Gui\InputHandler.cs" />
     <Compile Include="MainMenu\ConnectModel.cs" />
     <Compile Include="MainMenu\MainMenu.cs" />
     <Compile Include="MainMenu\MainMenuPanel.cs" />
