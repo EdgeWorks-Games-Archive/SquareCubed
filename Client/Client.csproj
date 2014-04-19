@@ -111,7 +111,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="GUI\Panels\ContextInfo\Panel.scss" />
-    <None Include="GUI\Panels\MainMenu\Panel.coffee" />
+    <None Include="GUI\Panels\MainMenu\Panel.iced" />
     <None Include="GUI\Panels\MainMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -184,6 +184,9 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GUI\Panels\Chat\Panel.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\Styles\Images\ui-icons_A3A3A3_256x240.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -203,7 +206,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\MainMenu\Panel.js">
-      <DependentUpon>Panel.coffee</DependentUpon>
+      <DependentUpon>Panel.iced</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\MainMenu\Panel.xml">

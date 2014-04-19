@@ -32,7 +32,7 @@ namespace SQCore.Client
 
 		#endregion
 
-		private ContextInfoPanel _infoPanel;
+		private readonly ContextInfoPanel _infoPanel;
 		private readonly ChatPanel _chat;
 		private readonly Space _stars;
 
@@ -47,7 +47,7 @@ namespace SQCore.Client
 			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			//_chat = new ChatPanel(_client.Gui);
+			_chat = new ChatPanel(_client.Gui);
 			_infoPanel = new ContextInfoPanel(_client.Gui);
 
 			// Add tile types
@@ -71,7 +71,9 @@ namespace SQCore.Client
 			// Unbind events
 			_client.BackgroundRenderTick -= RenderBackground;
 
-			// TODO: _infoPanel.Dispose();
+			// Clean up the Gui
+			_chat.Dispose();
+			_infoPanel.Dispose();
 
 			// Remove tile types
 			_tileTypes.UnregisterType(_corridorTile);

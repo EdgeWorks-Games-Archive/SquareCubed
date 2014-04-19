@@ -4,6 +4,11 @@ multiplayer and modding. It is available for free via github under
 GPLv3 for non-commercial. Contact EdgeWorks Games(TM) for commercial
 licensing.
 
+## Blink ##
+Blink is the game this engine was started for. Currently the source
+for Blink and this engine are exactly the same thing. Assets for blink
+are in this repository as well.
+
 ## Modding ##
 If you want to make a mod for this engine or games built on it, you
 do not need to download the entire engine source and build it. We
@@ -22,9 +27,10 @@ available through it.
 3. Place Coherent UI in the root solution directory under the folder "CoherentUI".
 4. Download [Lidgren.Network](https://code.google.com/p/lidgren-network-gen3/).
 5. Place Lidgren.Network in the root solution directory under the folder "Lidgren.Network".
-6. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
-7. _(Optional) Install [Web Essentials](http://vswebessentials.com/) extension for Visual Studio._
-8. Build the engine from Visual Studio.
+6. Set Lidgren.Network code contract settings to "Custom Parameter Validation" and "Build".
+7. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
+8. _(Optional) Install [Web Essentials](http://vswebessentials.com/) extension for Visual Studio._
+9. Build the engine from Visual Studio.
 
 ## Code License ##
 This license covers the all the code in this project (.cs, .cshtml, .html, .js, .coffee, .scss, etc...)

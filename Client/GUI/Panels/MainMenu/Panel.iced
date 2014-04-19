@@ -11,12 +11,12 @@
 		
 	buttons:
 		"Connect": ->
-			# Stuff here later
+			engine.call "connect", $("#mainmenu-form-server").val()
 		"Quit": ->
 			$(this).dialog("close")
 			
-	afterClose: (event, ui) ->
-		engine.trigger('OnQuitClicked');
+	close: (event, ui) ->
+		engine.call "quit";
 	
-engine.on 'MainMenu.Dispose', ->
+engine.on "MainMenu.Dispose", ->
 	$("#mainmenu").dialog "destroy"

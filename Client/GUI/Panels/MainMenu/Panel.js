@@ -10,17 +10,19 @@
       duration: 300
     },
     buttons: {
-      "Connect": function() {},
+      "Connect": function() {
+        return engine.call("connect", $("#mainmenu-form-server").val());
+      },
       "Quit": function() {
         return $(this).dialog("close");
       }
     },
-    afterClose: function(event, ui) {
-      return engine.trigger('OnQuitClicked');
+    close: function(event, ui) {
+      return engine.call("quit");
     }
   });
 
-  engine.on('MainMenu.Dispose', function() {
+  engine.on("MainMenu.Dispose", function() {
     return $("#mainmenu").dialog("destroy");
   });
 

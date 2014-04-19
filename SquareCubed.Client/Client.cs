@@ -107,6 +107,14 @@ namespace SquareCubed.Client
 		private void Load(object s, EventArgs e)
 		{
 			Gui.Load();
+
+			// Bind some default functions
+			Gui.BindCall("quit", () =>
+			{
+				Console.WriteLine("Quits");
+				Window.Close();
+			});
+
 			MainMenu.Open(Gui, Network);
 		}
 

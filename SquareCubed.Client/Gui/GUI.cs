@@ -73,6 +73,15 @@ namespace SquareCubed.Client.Gui
 			Trigger("AddStyle", src);
 		}
 
+		public void BindCall(string name, Action handler)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if (_viewListener != null && _viewListener.View != null)
+				_viewListener.View.BindCall(name, handler);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.BindCall(name, handler));
+		}
+
 		#endregion
 
 		private readonly InputHandler _inputHandler;
