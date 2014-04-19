@@ -11,6 +11,7 @@
     },
     buttons: {
       "Connect": function() {
+        $("#mainmenu").parent().find(":input").prop("disabled", true);
         return engine.call("connect", $("#mainmenu-form-server").val());
       },
       "Quit": function() {

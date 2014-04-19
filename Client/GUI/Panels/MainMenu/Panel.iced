@@ -11,6 +11,8 @@
 		
 	buttons:
 		"Connect": ->
+			# Disable input and attempt connecting
+			$("#mainmenu").parent().find(":input").prop "disabled", true
 			engine.call "connect", $("#mainmenu-form-server").val()
 		"Quit": ->
 			$(this).dialog("close")

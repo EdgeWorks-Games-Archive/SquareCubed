@@ -23,6 +23,12 @@ input {
   background-color: #2d2d2d;
   color: #a3a3a3; }
 
+input:disabled {
+  background-color: #2f2f2f; }
+
+input:invalid {
+  background-color: #2f2b2b; }
+
 /*** Buttons ***/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   border-bottom: 1px solid #282828;
@@ -31,6 +37,9 @@ input {
 
 .ui-state-default:hover, .ui-widget-content .ui-state-default:hover, .ui-widget-header .ui-state-default:hover {
   background: #545454; }
+
+.ui-state-default:disabled, .ui-widget-content .ui-state-default:disabled, .ui-widget-header .ui-state-default:disabled {
+  background: #404040; }
 
 .ui-button {
   display: inline-block;
@@ -89,6 +98,10 @@ input {
   border: 0; }
 .ui-dialog .ui-dialog-titlebar-close:hover {
   background: none; }
+.ui-dialog .ui-dialog-titlebar-close:disabled {
+  background: none; }
+  .ui-dialog .ui-dialog-titlebar-close:disabled .ui-icon {
+    background-image: none; }
 .ui-dialog .ui-dialog-buttonpane button {
   padding: 3px 6px;
   margin: 6px 6px 5px 0;

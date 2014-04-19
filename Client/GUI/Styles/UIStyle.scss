@@ -33,6 +33,12 @@ input {
 	background-color: rgb(45, 45, 45);
 	color: rgb(163, 163, 163);
 }
+input:disabled {
+	background-color: rgb(47, 47, 47);
+}
+input:invalid {
+	background-color: rgb(47, 43, 43);
+}
 
 
 /*** Buttons ***/
@@ -48,6 +54,11 @@ input {
 .ui-widget-content .ui-state-default:hover,
 .ui-widget-header .ui-state-default:hover {
 	background: rgb(84, 84, 84);
+}
+.ui-state-default:disabled,
+.ui-widget-content .ui-state-default:disabled,
+.ui-widget-header .ui-state-default:disabled {
+	background: rgb(64, 64, 64);
 }
 
 .ui-button {
@@ -146,6 +157,12 @@ input {
 	}
 	.ui-dialog-titlebar-close:hover {
 		background: none;
+	}
+	.ui-dialog-titlebar-close:disabled {
+		background: none;
+		.ui-icon {
+			background-image: none;
+		}
 	}
 
 	// Button Pane

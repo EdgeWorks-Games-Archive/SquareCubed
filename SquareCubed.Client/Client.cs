@@ -89,9 +89,6 @@ namespace SquareCubed.Client
 			// Detect all installed plugins
 			PluginLoader.DetectPlugins();
 
-			// TODO: Move to connect input form
-			Network.Connect("127.0.0.1");
-
 			_logger.LogInfo("Started running...");
 			Window.Run();
 			_logger.LogInfo("Finished running!");
@@ -109,11 +106,8 @@ namespace SquareCubed.Client
 			Gui.Load();
 
 			// Bind some default functions
-			Gui.BindCall("quit", () =>
-			{
-				Console.WriteLine("Quits");
-				Window.Close();
-			});
+			Gui.BindCall("quit", Window.Close);
+			Gui.BindCall<string>("connect", host => Network.Connect(host));
 
 			MainMenu.Open(Gui, Network);
 		}
