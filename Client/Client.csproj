@@ -102,21 +102,15 @@
     <None Include="GUI\Panels\Chat\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="GUI\Panels\Chat\Panel.coffee" />
+    <None Include="GUI\Panels\Chat\Panel.scss" />
     <None Include="GUI\Panels\ContextInfo\Panel.coffee" />
     <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Panels\ContextInfo\Panel.css.map">
-      <DependentUpon>Panel.css</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="GUI\Panels\ContextInfo\Panel.scss" />
-    <None Include="GUI\Panels\MainMenu\Panel.iced" />
+    <None Include="GUI\Panels\MainMenu\Panel.coffee" />
     <None Include="GUI\Panels\MainMenu\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\MainMenu\Panel.css.map">
-      <DependentUpon>Panel.css</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="GUI\Panels\MainMenu\Panel.scss" />
@@ -184,6 +178,14 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GUI\Panels\Chat\Panel.css">
+      <DependentUpon>Panel.scss</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GUI\Panels\Chat\Panel.js">
+      <DependentUpon>Panel.coffee</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\Panels\Chat\Panel.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -206,7 +208,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\MainMenu\Panel.js">
-      <DependentUpon>Panel.iced</DependentUpon>
+      <DependentUpon>Panel.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\MainMenu\Panel.xml">

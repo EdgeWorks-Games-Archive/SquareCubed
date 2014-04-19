@@ -35,6 +35,14 @@ namespace SquareCubed.Common.Data
 					return 0x14;
 				case Key.Space:
 					return 0x20;
+				case Key.PageUp:
+					return 0x21;
+				case Key.PageDown:
+					return 0x22;
+				case Key.End:
+					return 0x23;
+				case Key.Home:
+					return 0x24;
 
 				case Key.Left:
 					return 0x25;
@@ -47,6 +55,8 @@ namespace SquareCubed.Common.Data
 
 				case Key.Delete:
 					return 0x2E;
+				case Key.PrintScreen:
+					return 0x2C;
 				case Key.WinLeft:
 					return 0x5B;
 				case Key.WinRight:
@@ -60,6 +70,9 @@ namespace SquareCubed.Common.Data
 					return 0x6D;
 				case Key.KeypadPeriod:
 					return 0x6E;
+
+				case Key.ScrollLock:
+					return 0x91;
 
 				case Key.ShiftLeft:
 					return 0xA0;
@@ -96,6 +109,9 @@ namespace SquareCubed.Common.Data
 					return 0xDD;
 				case Key.Quote:
 					return 0xDE;
+
+				case Key.Unknown:
+					return 0x3A; // It is a mystery
 
 				default:
 #if DEBUG

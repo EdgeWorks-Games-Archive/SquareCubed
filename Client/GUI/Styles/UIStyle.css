@@ -74,7 +74,7 @@ input:invalid {
 /*** Dialogs ***/
 .ui-dialog .ui-dialog-content {
   border: 0; }
-  .ui-dialog .ui-dialog-content p, .ui-dialog .ui-dialog-content label {
+  .ui-dialog .ui-dialog-content p, .ui-dialog .ui-dialog-content label, .ui-dialog .ui-dialog-content ul {
     margin: 6px 8px 6px 8px; }
   .ui-dialog .ui-dialog-content input {
     padding: 6px 8px 6px 8px;
@@ -108,6 +108,9 @@ input:invalid {
   margin: 6px 6px 5px 0;
   width: 90px;
   cursor: pointer; }
+
+.ui-dialog-transparent {
+  opacity: 0.8; }
 
 /*** Misc ***/
 .ui-icon-blank {

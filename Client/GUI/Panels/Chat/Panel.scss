@@ -1,0 +1,31 @@
+﻿.chat-buttons-container {
+	.chat-buttons {
+		float: left;
+		font-size: 0;
+		button {
+			height: 16px;
+			padding: 0 8px 0 8px;
+
+			color: rgb(210, 210, 210);
+			background-color: rgb(50, 50, 50);
+
+			text-align: left;
+		}
+		button:hover {
+			background: rgb(84, 84, 84);
+		}
+	}
+
+	.chat-buttons-text {
+		float: right;
+		margin: 2px 8px 2px 8px !important;
+	}
+}
+
+.chat-output {
+	height: 100px;
+}
+
+#chat-input {
+	margin: 0 0 4px 0;
+}
