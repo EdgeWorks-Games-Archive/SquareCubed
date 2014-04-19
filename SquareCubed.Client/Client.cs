@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenTK;
-using OpenTK.Platform;
+using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
 using SquareCubed.PluginLoader;
 
@@ -15,7 +15,7 @@ namespace SquareCubed.Client
 		public Graphics.Graphics Graphics { get; private set; }
 		public Network.Network Network { get; private set; }
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
-		public IGameWindow Window { get; private set; }
+		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
 		public Gui.Gui Gui { get; private set; }
 		public Player.Player Player { get; private set; }

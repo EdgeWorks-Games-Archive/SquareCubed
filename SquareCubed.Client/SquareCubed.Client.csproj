@@ -171,6 +171,7 @@
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitsNetwork.cs" />
     <Compile Include="Units\UnitsRenderer.cs" />
+    <Compile Include="Window\IExtGameWindow.cs" />
     <Compile Include="Window\Window.cs" />
   </ItemGroup>
   <ItemGroup>

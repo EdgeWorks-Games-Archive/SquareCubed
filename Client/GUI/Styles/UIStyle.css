@@ -23,14 +23,14 @@ input {
   background-color: #2d2d2d;
   color: #a3a3a3; }
 
-input:focus {
-  outline-width: 0; }
-
 /*** Buttons ***/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   border-bottom: 1px solid #282828;
   background: #4a4a4a;
   color: #d2d2d2; }
+
+.ui-state-default:hover, .ui-widget-content .ui-state-default:hover, .ui-widget-header .ui-state-default:hover {
+  background: #545454; }
 
 .ui-button {
   display: inline-block;
@@ -85,8 +85,10 @@ input:focus {
   position: absolute;
   right: 2px;
   top: 1px;
-  background-color: transparent;
+  background: none;
   border: 0; }
+.ui-dialog .ui-dialog-titlebar-close:hover {
+  background: none; }
 .ui-dialog .ui-dialog-buttonpane button {
   padding: 3px 6px;
   margin: 6px 6px 5px 0;

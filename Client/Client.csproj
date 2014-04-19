@@ -121,15 +121,7 @@
     </None>
     <None Include="GUI\Panels\MainMenu\Panel.scss" />
     <None Include="GUI\Scripts\Base.coffee" />
-    <None Include="GUI\Styles\Base.css.map">
-      <DependentUpon>Base.css</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="GUI\Styles\Base.scss" />
-    <None Include="GUI\Styles\UIStyle.css.map">
-      <DependentUpon>UIStyle.css</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="GUI\Styles\UIStyle.scss" />
     <None Include="packages.config" />
     <None Include="Shaders\CoherentUI.frag">
@@ -227,7 +219,9 @@
     <Content Include="GUI\Scripts\jquery-ui-1.10.4.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Styles\Images\ui-icons_D6D6D6_256x240.png" />
+    <Content Include="GUI\Styles\Images\ui-icons_D6D6D6_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\Styles\Reset.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

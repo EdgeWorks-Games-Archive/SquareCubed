@@ -33,9 +33,6 @@ input {
 	background-color: rgb(45, 45, 45);
 	color: rgb(163, 163, 163);
 }
-input:focus {
-    outline-width: 0;
-}
 
 
 /*** Buttons ***/
@@ -46,6 +43,11 @@ input:focus {
 	border-bottom: 1px solid rgb(40, 40, 40);
 	background: rgb(74, 74, 74);
 	color: rgb(210, 210, 210);
+}
+.ui-state-default:hover,
+.ui-widget-content .ui-state-default:hover,
+.ui-widget-header .ui-state-default:hover {
+	background: rgb(84, 84, 84);
 }
 
 .ui-button {
@@ -139,8 +141,11 @@ input:focus {
 		right: 2px; // Different because it looks slightly better
 		top: 1px;
 		
-		background-color: transparent;
+		background: none;
 		border: 0;
+	}
+	.ui-dialog-titlebar-close:hover {
+		background: none;
 	}
 
 	// Button Pane
