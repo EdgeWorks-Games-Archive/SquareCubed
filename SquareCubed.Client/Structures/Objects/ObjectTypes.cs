@@ -15,6 +15,7 @@ namespace SquareCubed.Client.Structures.Objects
 
 		public IObjectType GetType(int id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
 				"Object Id is bigger than the maximum Id allowed.");
@@ -24,6 +25,7 @@ namespace SquareCubed.Client.Structures.Objects
 
 		public void RegisterType(IObjectType type, int id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
 				"Object Id is bigger than the maximum Id allowed.");

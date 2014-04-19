@@ -3,23 +3,28 @@ using System.Diagnostics.Contracts;
 
 namespace SquareCubed.Client.MainMenu
 {
-	public class MainMenu
+	public sealed class MainMenu : IDisposable
 	{
 		private MainMenuPanel _menuPanel;
 
-		public void Create(Gui.Gui gui, Network.Network network)
+		public void Open(Gui.Gui gui, Network.Network network)
 		{
 			Contract.Requires<ArgumentNullException>(gui != null);
 			Contract.Requires<ArgumentNullException>(network != null);
 
 			_menuPanel = new MainMenuPanel(gui);
-			network.NewConnection += (s, e) => Remove();
+			network.NewConnection += (s, e) => Close();
 		}
 
-		public void Remove()
+		public void Close()
 		{
 			_menuPanel.Dispose();
 			_menuPanel = null;
+		}
+
+		public void Dispose()
+		{
+			Close();
 		}
 	}
 }

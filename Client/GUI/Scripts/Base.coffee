@@ -1,6 +1,13 @@
-﻿engine.on 'AddHtml', (html) ->
-	$("body").append html
-engine.on 'RemoveHtml', (pattern) ->
+﻿# Panels
+engine.on 'AddPanel', (html) ->
+	$("#panels").append html
+engine.on 'RemovePanel', (pattern) ->
+	$(pattern).remove()
+	
+# Forms
+engine.on 'AddForm', (html) ->
+	$("#forms").append html
+engine.on 'RemoveForm', (pattern) ->
 	$(pattern).remove()
 
 engine.on 'AddScript', (src) ->

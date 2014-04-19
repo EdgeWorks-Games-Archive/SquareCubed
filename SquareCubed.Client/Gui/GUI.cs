@@ -53,14 +53,14 @@ namespace SquareCubed.Client.Gui
 				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param));
 		}
 
-		public void AddHtml(string html)
+		public void AddPanel(string html)
 		{
-			Trigger("AddHtml", html);
+			Trigger("AddPanel", html);
 		}
 
-		public void RemoveHtml(string pattern)
+		public void RemovePanel(string pattern)
 		{
-			Trigger("RemoveHtml", pattern);
+			Trigger("RemovePanel", pattern);
 		}
 
 		public void AddScript(string src)
@@ -75,10 +75,12 @@ namespace SquareCubed.Client.Gui
 
 		#endregion
 
-		private InputHandler _inputHandler;
+		private readonly InputHandler _inputHandler;
 
 		public Gui(Client client)
 		{
+			Contract.Requires<ArgumentNullException>(client != null);
+
 			_client = client;
 			_inputHandler = new InputHandler(_client.Window);
 		}

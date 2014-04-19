@@ -42,7 +42,7 @@ namespace SquareCubed.Client.Gui
 			fileStream.Dispose();
 
 			// Generate the Html and add it
-			using (var stringWriter = new StringWriter())
+			var stringWriter = new StringWriter();
 			using (var writer = new HtmlTextWriter(stringWriter))
 			{
 				// Start rendering the panel div
@@ -57,7 +57,7 @@ namespace SquareCubed.Client.Gui
 
 				// Finish rendering the panel div and send it to the view
 				writer.RenderEndTag();
-				gui.AddHtml(stringWriter.ToString());
+				gui.AddPanel(stringWriter.ToString());
 			}
 
 			// Add the scripts and the css
@@ -84,7 +84,7 @@ namespace SquareCubed.Client.Gui
 			// We only have managed
 			if (!managed) return;
 
-			Gui.RemoveHtml("#" + _id);
+			Gui.RemovePanel("#" + _id);
 		}
 	}
 }

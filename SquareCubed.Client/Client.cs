@@ -107,7 +107,7 @@ namespace SquareCubed.Client
 		private void Load(object s, EventArgs e)
 		{
 			Gui.Load();
-			MainMenu.Create(Gui, Network);
+			MainMenu.Open(Gui, Network);
 		}
 
 		/// <summary>

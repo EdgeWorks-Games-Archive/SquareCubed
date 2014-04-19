@@ -28,6 +28,8 @@ namespace SquareCubed.Client.Structures
 
 		public Structures(Client client)
 		{
+			Contract.Requires<ArgumentNullException>(client != null);
+
 			TileTypes = new TileTypes();
 			ObjectTypes = new ObjectTypes(client);
 

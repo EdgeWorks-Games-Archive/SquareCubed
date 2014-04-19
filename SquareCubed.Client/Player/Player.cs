@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using SquareCubed.Common.Data;
 
@@ -13,6 +14,8 @@ namespace SquareCubed.Client.Player
 
 		public Player(Client client)
 		{
+			Contract.Requires<ArgumentNullException>(client != null);
+
 			_client = client;
 			_network = new PlayerNetwork(_client.Network, this);
 		}

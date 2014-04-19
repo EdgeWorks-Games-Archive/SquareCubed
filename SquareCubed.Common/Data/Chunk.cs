@@ -25,7 +25,9 @@ namespace SquareCubed.Common.Data
 
 		public void SetTile(int x, int y, int type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
@@ -36,7 +38,9 @@ namespace SquareCubed.Common.Data
 
 		public void SetTopWall(int x, int y, int type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
@@ -47,7 +51,9 @@ namespace SquareCubed.Common.Data
 
 		public void SetRightWall(int x, int y, int type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
@@ -58,7 +64,9 @@ namespace SquareCubed.Common.Data
 
 		public void SetBottomWall(int x, int y, int type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y-1 >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
 
 			if (Tiles[x][y - 1] == null)
@@ -69,7 +77,9 @@ namespace SquareCubed.Common.Data
 
 		public void SetLeftWall(int x, int y, int type)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x-1 >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
 
 			if (Tiles[x - 1][y] == null)

@@ -16,6 +16,7 @@ namespace SquareCubed.Client.Structures.Tiles
 
 		public TileType GetType(int id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
 				"Type Id is bigger than the maximum Id allowed.");
@@ -25,6 +26,7 @@ namespace SquareCubed.Client.Structures.Tiles
 
 		public void RegisterType(TileType type, int id)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
 			Contract.Requires<ArgumentOutOfRangeException>(
 				id <= MaxId,
 				"Type Id is bigger than the maximum Id allowed.");
