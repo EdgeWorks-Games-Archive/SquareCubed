@@ -85,6 +85,7 @@ input:invalid {
   .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
     float: right; }
 .ui-dialog .ui-dialog-titlebar {
+  color: white;
   font-size: 14px;
   padding: 8px;
   position: relative; }

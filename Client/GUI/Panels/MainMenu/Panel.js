@@ -4,13 +4,15 @@
     closeOnEscape: false,
     draggable: false,
     resizable: false,
-    height: 180,
+    width: 300,
+    minHeight: "auto",
     hide: {
       effect: "fadeOut",
       duration: 300
     },
     buttons: {
       "Connect": function() {
+        $("#mainmenu-error").slideUp(200);
         $("#mainmenu").parent().find(":input").prop("disabled", true);
         return engine.call("connect", $("#mainmenu-form-server").val());
       },
@@ -21,6 +23,11 @@
     close: function(event, ui) {
       return engine.call("quit");
     }
+  });
+
+  engine.on("Network.ConnectFailed", function() {
+    $("#mainmenu-error").slideDown(200);
+    return $("#mainmenu").parent().find(":input").prop("disabled", false);
   });
 
   engine.on("MainMenu.Dispose", function() {

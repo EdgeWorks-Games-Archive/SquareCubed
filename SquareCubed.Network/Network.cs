@@ -107,8 +107,8 @@ namespace SquareCubed.Network
 
 		#region Packet Handling
 
-		public event EventHandler<NetIncomingMessage> NewConnection;
-		public event EventHandler<NetIncomingMessage> LostConnection;
+		public event EventHandler<NetIncomingMessage> NewConnection = (s, e) => { };
+		public event EventHandler<NetIncomingMessage> LostConnection = (s, e) => { };
 
 		public void HandlePackets()
 		{
@@ -136,11 +136,16 @@ namespace SquareCubed.Network
 						{
 							case NetConnectionStatus.Connected:
 								if (!_isServer) Server = msg.SenderConnection;
-								if (NewConnection != null) NewConnection(this, msg);
+								NewConnection(this, msg);
 								break;
 							case NetConnectionStatus.Disconnected:
-								if (!_isServer) Server = null;
-								if (LostConnection != null) LostConnection(this, msg);
+								LostConnection(this, msg);
+								if (!_isServer)
+								{
+									Server = null;
+									Peer = null;
+									return;
+								}
 								break;
 						}
 

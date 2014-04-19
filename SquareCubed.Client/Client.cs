@@ -109,6 +109,9 @@ namespace SquareCubed.Client
 			Gui.BindCall("quit", Window.Close);
 			Gui.BindCall<string>("connect", host => Network.Connect(host));
 
+			// Add some event triggers
+			Network.LostConnection += (se, ev) => Gui.Trigger("Network.ConnectFailed");
+
 			MainMenu.Open(Gui, Network);
 		}
 
