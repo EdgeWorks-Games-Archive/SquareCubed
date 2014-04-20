@@ -6,6 +6,7 @@ using Coherent.UI.Binding;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
+using SquareCubed.Client.Gui.Panels;
 
 namespace SquareCubed.Client.Gui
 {
@@ -28,6 +29,12 @@ namespace SquareCubed.Client.Gui
 		private Texture2D _texture;
 		private ProgramUniform _textureSampler;
 		private VertexBuffer _vertexBuffer;
+
+		#endregion
+
+		#region Panels
+
+		EscMenuPanel _escMenu;
 
 		#endregion
 
@@ -166,6 +173,8 @@ namespace SquareCubed.Client.Gui
 			/*var config = new TemplateServiceConfiguration { BaseTemplateType = typeof(MvcTemplateBase<>) };
 			var service = new TemplateService(config);
 			Razor.SetTemplateService(service);*/
+
+			_escMenu = new EscMenuPanel(this);
 
 			IsLoaded = true;
 		}
