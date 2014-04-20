@@ -34,7 +34,8 @@ namespace SquareCubed.Client.Gui
 
 		#region Panels
 
-		EscMenuPanel _escMenu;
+		public MainMenuPanel MainMenu { get; private set; }
+		public EscMenuPanel EscMenu { get; private set; }
 
 		#endregion
 
@@ -101,7 +102,6 @@ namespace SquareCubed.Client.Gui
 		#endregion
 
 		private readonly InputHandler _inputHandler;
-		public MainMenuPanel MainMenu { get; private set; }
 
 		public Gui(Client client)
 		{
@@ -173,7 +173,7 @@ namespace SquareCubed.Client.Gui
 			// Create Panels
 			MainMenu = new MainMenuPanel(this);
 
-			_escMenu = new EscMenuPanel(this);
+			EscMenu = new EscMenuPanel(this);
 
 			IsLoaded = true;
 		}
