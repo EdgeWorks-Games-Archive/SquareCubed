@@ -32,6 +32,12 @@ namespace SquareCubed.Client.Gui
 
 		#endregion
 
+		#region Panels
+
+		EscMenuPanel _escMenu;
+
+		#endregion
+
 		#region View Interaction
 
 		private readonly List<Action> _viewReadyQueue = new List<Action>();
@@ -166,6 +172,8 @@ namespace SquareCubed.Client.Gui
 
 			// Create Panels
 			MainMenu = new MainMenuPanel(this);
+
+			_escMenu = new EscMenuPanel(this);
 
 			IsLoaded = true;
 		}
