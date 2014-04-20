@@ -143,7 +143,6 @@
     <Compile Include="Gui\Gui.cs" />
     <Compile Include="Gui\GuiPanel.cs" />
     <Compile Include="Gui\InputHandler.cs" />
-    <Compile Include="Gui\Panels\MainMenu.cs" />
     <Compile Include="Gui\Panels\MainMenuPanel.cs" />
     <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />

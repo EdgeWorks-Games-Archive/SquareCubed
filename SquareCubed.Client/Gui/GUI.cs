@@ -6,6 +6,7 @@ using Coherent.UI.Binding;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
+using SquareCubed.Client.Gui.Panels;
 
 namespace SquareCubed.Client.Gui
 {
@@ -94,6 +95,7 @@ namespace SquareCubed.Client.Gui
 		#endregion
 
 		private readonly InputHandler _inputHandler;
+		public MainMenuPanel MainMenu { get; private set; }
 
 		public Gui(Client client)
 		{
@@ -162,10 +164,8 @@ namespace SquareCubed.Client.Gui
 			// Create a new vertex buffer with the vertex data we need
 			_vertexBuffer = new VertexBuffer(vertexData);
 
-			// Set up RazorEngine
-			/*var config = new TemplateServiceConfiguration { BaseTemplateType = typeof(MvcTemplateBase<>) };
-			var service = new TemplateService(config);
-			Razor.SetTemplateService(service);*/
+			// Create Panels
+			MainMenu = new MainMenuPanel(this);
 
 			IsLoaded = true;
 		}

@@ -1,4 +1,6 @@
-﻿$("#mainmenu").dialog
+﻿parent = $("#mainmenu").parent()
+$("#mainmenu").dialog
+	dialogClass: "ui-noclose"
 	closeOnEscape: false
 	
 	draggable: false
@@ -17,14 +19,18 @@
 			$("#mainmenu").parent().find(":input").prop "disabled", true
 			engine.call "connect", $("#mainmenu-form-server").val()
 		"Quit": ->
-			$(this).dialog("close")
+			engine.call "quit"
 			
-	close: (event, ui) ->
-		engine.call "quit";
+	open: ->
+		$("#mainmenu-background").show()
+	close: ->
+		$("#mainmenu-background").hide()
+	
+$("#mainmenu").parent().appendTo(parent)
+
+engine.on "MainMenu.Hide", ->
+	$("#mainmenu").dialog("close")
 	
 engine.on "Network.ConnectFailed", ->
 	$("#mainmenu-error").slideDown(200)
 	$("#mainmenu").parent().find(":input").prop "disabled", false
-	
-engine.on "MainMenu.Dispose", ->
-	$("#mainmenu").dialog "destroy"

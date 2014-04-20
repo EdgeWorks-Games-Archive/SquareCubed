@@ -1,20 +1,20 @@
 ﻿namespace SquareCubed.Client.Gui.Panels
 {
-	sealed class MainMenuPanel : GuiPanel
+	public sealed class MainMenuPanel : GuiPanel
 	{
-		public MainMenuPanel(SquareCubed.Client.Gui.Gui gui)
+		public MainMenuPanel(Gui gui)
 			: base(gui, "MainMenu")
 		{
 		}
 
-		protected override void Dispose(bool managed)
+		public void Show()
 		{
-			if (managed)
-			{
-				Gui.Trigger("MainMenu.Dispose");
-			}
+			Gui.Trigger("MainMenu.Show");
+		}
 
-			base.Dispose(managed);
+		public void Hide()
+		{
+			Gui.Trigger("MainMenu.Hide");
 		}
 	}
 }
