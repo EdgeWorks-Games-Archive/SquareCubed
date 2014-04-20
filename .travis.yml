@@ -4,7 +4,7 @@ install:
 #  - sudo apt-get install mono-devel mono-gmcs
   - wget http://download.mono-project.com/archive/3.2.3/linux/x86/mono-core-3.2.3-0.i586.rpm
   - wget http://download.mono-project.com/archive/3.2.3/linux/x86/mono-devel-3.2.3-0.i586.rpm
-  - rpm –ivh mono-core-3.2.3-0.i586.rpm
+  - rpm -ivh mono-core-3.2.3-0.i586.rpm
   - rpm -ivh mono-devel-3.2.3-0.i586.rpm
 
 script:
