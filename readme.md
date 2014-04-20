@@ -32,6 +32,11 @@ available through it.
 8. _(Optional) Install [Web Essentials](http://vswebessentials.com/) extension for Visual Studio._
 9. Build the engine from Visual Studio.
 
+## Branches ##
+This project uses [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/).
+If you are looking for the latest develop version, look at the develop branch.
+The latest stable version is the master branch.
+
 ## Code License ##
 This license covers the all the code in this project (.cs, .cshtml, .html, .js, .coffee, .scss, etc...)
 unless specifically stated otherwise in the file.

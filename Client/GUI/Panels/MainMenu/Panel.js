@@ -17,8 +17,11 @@
     },
     buttons: {
       "Connect": function() {
+        var dialog;
+        dialog = $("#mainmenu").parent();
         $("#mainmenu-error").slideUp(200);
-        $("#mainmenu").parent().find(":input").prop("disabled", true);
+        dialog.find(":input").prop("disabled", true);
+        dialog.find(".ui-dialog-buttonpane").slideUp(200);
         return engine.call("connect", $("#mainmenu-form-server").val());
       },
       "Quit": function() {
@@ -40,8 +43,11 @@
   });
 
   engine.on("Network.ConnectFailed", function() {
+    var dialog;
     $("#mainmenu-error").slideDown(200);
-    return $("#mainmenu").parent().find(":input").prop("disabled", false);
+    dialog = $("#mainmenu").parent();
+    dialog.find(":input").prop("disabled", false);
+    return dialog.find(".ui-dialog-buttonpane").slideDown(200);
   });
 
 }).call(this);
