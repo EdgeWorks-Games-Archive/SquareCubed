@@ -21,9 +21,9 @@
   });
 
   $("#chat").parent().hover((function() {
-    return $(this).fadeTo(200, 1.0);
+    return $(this).stop(true).fadeTo(200, 1.0);
   }), (function() {
-    return $(this).fadeTo(200, 0.8);
+    return $(this).stop(true).fadeTo(200, 0.8);
   }));
 
 }).call(this);

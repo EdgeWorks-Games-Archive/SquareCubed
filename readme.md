@@ -60,7 +60,7 @@ unless specifically stated otherwise in the file.
 </div>
 
 ## Non-Code License ##
-This license covers all the non-code in this project. (.png, .psd, etc..)
+This license covers all the non-code in this project. (.png, .psd, etc...)
 <div align="center">
     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
         <img alt="Creative Commons License"

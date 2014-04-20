@@ -19,5 +19,5 @@ $("#chat").parent().css
 	bottom: 6
 
 $("#chat").parent().hover (
-	-> $(this).fadeTo 200, 1.0) , (
-	-> $(this).fadeTo 200, 0.8)
+	-> $(this).stop(true).fadeTo 200, 1.0), (
+	-> $(this).stop(true).fadeTo 200, 0.8)
