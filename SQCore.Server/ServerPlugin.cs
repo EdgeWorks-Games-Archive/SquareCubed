@@ -23,15 +23,13 @@ namespace SQCore.Server
 				Center = new Vector2(5.5f, 5.5f)
 			};
 
-			// Add a chunk for the test ship
+			// Add a chunk for the test structure
 			var chunk = new ServerChunk();
-
-			// Cockpit
 			chunk.SetTile(5, 5, 3);
 			chunk.SetWalls(5, 5, 2, 2, 2, 2);
 			str.Chunks.Add(chunk);
 
-			// And add the ship to the collection
+			// Add the structure to the world
 			server.Structures.Add(str);
 
 			Logger.LogInfo("Finished initializing core plugin!");

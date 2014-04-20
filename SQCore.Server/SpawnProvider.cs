@@ -41,6 +41,7 @@ namespace SQCore.Server
 
 			// Airlock
 			chunk.SetTile(5, 6, 3);
+			chunk.SetLeftWall(5, 6, 2);
 			chunk.SetTopWall(5, 6, 2);
 			chunk.SetBottomWall(5, 6, 2);
 

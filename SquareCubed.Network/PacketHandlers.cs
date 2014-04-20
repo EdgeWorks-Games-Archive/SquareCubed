@@ -20,7 +20,7 @@ namespace SquareCubed.Network
 
 		public void HandlePacket(NetIncomingMessage msg, bool isServer)
 		{
-#if _DEBUG
+#if !DEBUG
 			try
 			{
 #endif
@@ -32,11 +32,11 @@ namespace SquareCubed.Network
 				_entries[type](msg);
 			else
 			{
-				if (isServer)
-					throw new Exception(string.Format("Connection sent invalid packet type {0}!", type));
-				_logger.LogInfo("Connection sent invalid packet type {0}!", type);
+				var error = string.Format("Connection sent invalid packet type {0}!", type);
+				_logger.LogInfo(error);
+				throw new Exception(error);
 			}
-#if _DEBUG
+#if !DEBUG
 			}
 			catch (Exception e)
 			{
