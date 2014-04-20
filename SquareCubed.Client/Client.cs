@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK;
+using SquareCubed.Client.Gui.Panels;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
 using SquareCubed.PluginLoader;
@@ -22,7 +23,7 @@ namespace SquareCubed.Client
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
 		public Structures.Structures Structures { get; private set; }
-		public MainMenu.MainMenu MainMenu { get; private set; }
+		public MainMenu MainMenu { get; private set; }
 
 		#endregion
 
@@ -54,7 +55,7 @@ namespace SquareCubed.Client
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
 			Player = new Player.Player(this);
-			MainMenu = new MainMenu.MainMenu();
+			MainMenu = new MainMenu();
 
 			// Hook Game Loop Events
 			Window.Load += Load;

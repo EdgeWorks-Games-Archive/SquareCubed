@@ -1,10 +1,8 @@
-﻿using SquareCubed.Client.Gui;
-
-namespace SquareCubed.Client.MainMenu
+﻿namespace SquareCubed.Client.Gui.Panels
 {
 	sealed class MainMenuPanel : GuiPanel
 	{
-		public MainMenuPanel(Gui.Gui gui)
+		public MainMenuPanel(SquareCubed.Client.Gui.Gui gui)
 			: base(gui, "MainMenu")
 		{
 		}

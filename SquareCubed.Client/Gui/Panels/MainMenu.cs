@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace SquareCubed.Client.MainMenu
+namespace SquareCubed.Client.Gui.Panels
 {
 	public sealed class MainMenu : IDisposable
 	{
 		private MainMenuPanel _menuPanel;
 
-		public void Open(Gui.Gui gui, Network.Network network)
+		public void Open(SquareCubed.Client.Gui.Gui gui, Network.Network network)
 		{
 			Contract.Requires<ArgumentNullException>(gui != null);
 			Contract.Requires<ArgumentNullException>(network != null);
