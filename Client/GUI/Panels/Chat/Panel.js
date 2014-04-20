@@ -26,6 +26,8 @@
     return $(this).stop(true).fadeTo(200, 0.8);
   }));
 
+  $(".chat-buttons").buttonset();
+
 }).call(this);
 
 //# sourceMappingURL=Panel.map

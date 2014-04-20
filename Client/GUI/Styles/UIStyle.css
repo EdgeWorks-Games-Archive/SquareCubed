@@ -11,6 +11,9 @@
 .ui-helper-clearfix:after {
   clear: both; }
 
+.ui-helper-hidden-accessible {
+  display: none; }
+
 .ui-icon {
   width: 16px;
   height: 16px; }

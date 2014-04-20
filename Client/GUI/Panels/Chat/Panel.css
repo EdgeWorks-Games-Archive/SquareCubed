@@ -1,14 +1,17 @@
 .chat-buttons-container .chat-buttons {
   float: left;
   font-size: 0; }
-  .chat-buttons-container .chat-buttons button {
+  .chat-buttons-container .chat-buttons label {
+    border: 0;
+    margin: 0;
     height: 16px;
     padding: 0 8px 0 8px;
-    color: #d2d2d2;
+    color: #d2d2d2 !important;
     background-color: #323232;
+    font: -webkit-small-control;
     text-align: left; }
-  .chat-buttons-container .chat-buttons button:hover {
-    background: #545454; }
+  .chat-buttons-container .chat-buttons label.ui-state-active {
+    background-color: #646464; }
 .chat-buttons-container .chat-buttons-text {
   float: right;
   margin: 2px 8px 2px 8px !important; }

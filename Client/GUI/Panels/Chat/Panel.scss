@@ -2,17 +2,23 @@
 	.chat-buttons {
 		float: left;
 		font-size: 0;
-		button {
+		label {
+			border: 0;
+			margin: 0;
+
 			height: 16px;
 			padding: 0 8px 0 8px;
 
-			color: rgb(210, 210, 210);
+			color: rgb(210, 210, 210) !important;
 			background-color: rgb(50, 50, 50);
 
+			font: -webkit-small-control;
 			text-align: left;
+
+			
 		}
-		button:hover {
-			background: rgb(84, 84, 84);
+		label.ui-state-active {
+			background-color: rgb(100, 100, 100);
 		}
 	}
 

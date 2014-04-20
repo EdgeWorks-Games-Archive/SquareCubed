@@ -21,3 +21,6 @@ $("#chat").parent().css
 $("#chat").parent().hover (
 	-> $(this).stop(true).fadeTo 200, 1.0), (
 	-> $(this).stop(true).fadeTo 200, 0.8)
+	
+# Set up the checkbox buttons
+$(".chat-buttons").buttonset()

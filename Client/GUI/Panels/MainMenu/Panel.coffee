@@ -25,7 +25,6 @@ $("#mainmenu").dialog
 		$("#mainmenu-background").show()
 	close: ->
 		$("#mainmenu-background").hide()
-	
 $("#mainmenu").parent().appendTo(parent)
 
 engine.on "MainMenu.Hide", ->
