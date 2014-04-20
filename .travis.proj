@@ -4,7 +4,7 @@
   <Target Name="Travis" DependsOnTargets="Build" />
  
   <Target Name="Build">
-    <MSBuild Projects="SquareCubed.sln" Properties="Configuration=Debug;Platform=AnyCPU" />
+    <MSBuild Projects="SquareCubed.sln" Properties="Configuration=Debug;Platform=Any CPU" />
   </Target>
  
 </Project>
