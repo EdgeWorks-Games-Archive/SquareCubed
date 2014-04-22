@@ -1,4 +1,6 @@
-﻿# Panels
+﻿$.ui.dialog.prototype._focusTabbable = $.noop;
+
+# Panels
 engine.on 'AddPanel', (html) ->
 	$("#panels").append html
 engine.on 'RemovePanel', (pattern) ->

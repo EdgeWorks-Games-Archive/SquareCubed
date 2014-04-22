@@ -1,4 +1,4 @@
-﻿parent = $("#mainmenu").parent()
+﻿panel = $("#mainmenu").parent()
 $("#mainmenu").dialog
 	dialogClass: "ui-noclose"
 	closeOnEscape: false
@@ -29,16 +29,29 @@ $("#mainmenu").dialog
 		$("#mainmenu-background").show()
 	close: ->
 		$("#mainmenu-background").hide()
-$("#mainmenu").parent().appendTo(parent)
+$("#mainmenu").parent().appendTo(panel)
 
-engine.on "MainMenu.Hide", ->
-	$("#mainmenu").dialog("close")
-	
-engine.on "Network.ConnectFailed", ->
-	# Show an error message
-	$("#mainmenu-error").slideDown 200
-	
+$("#mainmenu-startserver").button().click ->
+	engine.call "server.start"
+$("#mainmenu-startserver").button().hide()
+
+
+### Engine Events ###
+
+enableDialog = ->
 	# Enable input and show the buttons
 	dialog = $("#mainmenu").parent()
 	dialog.find(":input").prop "disabled", false
 	dialog.find(".ui-dialog-buttonpane").slideDown 200
+
+engine.on "MainMenu.Hide", ->
+	panel.hide()
+	enableDialog()
+	
+engine.on "MainMenu.Show", ->
+	panel.show();
+	
+engine.on "Network.ConnectFailed", ->
+	# Show an error message
+	$("#mainmenu-error").slideDown 200
+	enableDialog()
