@@ -33,7 +33,6 @@ $("#mainmenu").parent().appendTo(panel)
 
 $("#mainmenu-startserver").button().click ->
 	engine.call "server.start"
-$("#mainmenu-startserver").button().hide()
 
 
 ### Engine Events ###
