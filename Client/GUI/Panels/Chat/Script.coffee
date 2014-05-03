@@ -18,6 +18,7 @@ $("#chat").parent().css
 	left: 6
 	bottom: 6
 
+$("#chat").parent().stop(true).fadeTo 200, 0.8
 $("#chat").parent().hover (
 	-> $(this).stop(true).fadeTo 200, 1.0), (
 	-> $(this).stop(true).fadeTo 200, 0.8)
@@ -30,4 +31,4 @@ input = $("#chat-input")
 input.keyup (e) ->
 	if e.which is 13
 		engine.call "chat.send", input.val()
-		input.val("")
+		input.val ""

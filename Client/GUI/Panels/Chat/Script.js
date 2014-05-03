@@ -22,6 +22,8 @@
     bottom: 6
   });
 
+  $("#chat").parent().stop(true).fadeTo(200, 0.8);
+
   $("#chat").parent().hover((function() {
     return $(this).stop(true).fadeTo(200, 1.0);
   }), (function() {
