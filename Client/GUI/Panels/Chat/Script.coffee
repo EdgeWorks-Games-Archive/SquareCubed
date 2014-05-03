@@ -24,3 +24,10 @@ $("#chat").parent().hover (
 	
 # Set up the checkbox buttons
 $(".chat-buttons").buttonset()
+
+# Make enter in chat send the message
+input = $("#chat-input")
+input.keyup (e) ->
+	if e.which is 13
+		engine.call "chat.send", input.val()
+		input.val("")

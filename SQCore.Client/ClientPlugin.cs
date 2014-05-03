@@ -33,7 +33,7 @@ namespace SQCore.Client
 		#endregion
 
 		private readonly ContextInfoPanel _infoPanel;
-		private readonly ChatPanel _chat;
+		private readonly Chat.Chat _chat;
 		private readonly Space _stars;
 
 		public ClientPlugin(SquareCubed.Client.Client client)
@@ -47,7 +47,7 @@ namespace SQCore.Client
 			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			_chat = new ChatPanel(_client.Gui);
+			_chat = new Chat.Chat(_client.Gui, _client.Network);
 			_infoPanel = new ContextInfoPanel(_client.Gui);
 
 			// Add tile types

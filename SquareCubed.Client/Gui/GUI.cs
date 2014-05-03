@@ -61,6 +61,15 @@ namespace SquareCubed.Client.Gui
 				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param));
 		}
 
+		public void Trigger<T1, T2>(string func, T1 param1, T2 param2)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if (_viewListener != null && _viewListener.View != null)
+				_viewListener.View.TriggerEvent(func, param1, param2);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.TriggerEvent(func, param1, param2));
+		}
+
 		public void AddPanel(string html)
 		{
 			Trigger("AddPanel", html);

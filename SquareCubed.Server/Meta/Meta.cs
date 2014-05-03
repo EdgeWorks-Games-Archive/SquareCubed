@@ -10,6 +10,7 @@ namespace SquareCubed.Server.Meta
 {
 	public class Meta
 	{
+		private readonly Network.Network _network;
 		private readonly Logger _logger = new Logger("Meta");
 		private readonly PacketType _packetType;
 		private readonly PluginLoader<IServerPlugin, Server> _pluginLoader;
@@ -21,13 +22,14 @@ namespace SquareCubed.Server.Meta
 			Contract.Requires<ArgumentNullException>(network != null);
 			Contract.Requires<ArgumentNullException>(pluginLoader != null);
 
+			_network = network;
 			_pluginLoader = pluginLoader;
 
 			network.NewConnection += OnNewConnection;
 
 			// Resolve packet type num and bind handler
-			_packetType = network.PacketTypes.ResolveType("meta");
-			network.PacketHandlers.Bind(_packetType, OnMetaPacket);
+			_packetType = _network.PacketTypes.ResolveType("meta");
+			_network.PacketHandlers.Bind(_packetType, OnMetaPacket);
 		}
 
 		private void OnNewConnection(object sender, NetIncomingMessage msg)
@@ -41,6 +43,13 @@ namespace SquareCubed.Server.Meta
 			outMsg.Write(_packetType);
 
 			// Write packet type mapping data
+			var types = _network.PacketTypes.Types;
+			outMsg.Write(types.Count);
+			foreach (var type in types)
+			{
+				outMsg.Write(type.Key);
+				outMsg.Write(type.Value.Id);
+			}
 
 			// Write mod data
 			outMsg.Write(_pluginLoader.PluginTypes.Count);
