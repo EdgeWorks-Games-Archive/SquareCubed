@@ -1,7 +1,8 @@
 ﻿using Lidgren.Network;
 using SquareCubed.Network;
+using SquareCubed.Server.Players;
 
-namespace SQCore.Client.Chat
+namespace SQCore.Server.Chat
 {
 	class ChatNetwork
 	{
@@ -14,21 +15,22 @@ namespace SQCore.Client.Chat
 			_network = network;
 			_callback = callback;
 
-			_type = _network.PacketTypes.ResolveType("chat");
+			_type = _network.PacketTypes.RegisterType("chat");
 			_network.PacketHandlers.Bind(_type, OnChatMessage);
 		}
 
-		public void SendChatMessage(string message)
+		public void SendWorldChatMessage(Player player, string message)
 		{
 			var msg = _network.Peer.CreateMessage();
 			msg.Write(_type);
+			msg.Write(player.Name);
 			msg.Write(message);
-			_network.Server.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.Chat);
+			player.Unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int)SequenceChannels.Chat);
 		}
 
 		private void OnChatMessage(NetIncomingMessage msg)
 		{
-			_callback.OnChatMessage(msg.ReadString(), msg.ReadString());
+			_callback.OnChatMessage(msg.SenderConnection, msg.ReadString());
 		}
 	}
 }

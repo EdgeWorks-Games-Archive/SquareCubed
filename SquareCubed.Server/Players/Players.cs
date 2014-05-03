@@ -17,6 +17,11 @@ namespace SquareCubed.Server.Players
 		private readonly List<ISpawnProvider> _spawnProviders = new List<ISpawnProvider>();
 		private uint _iterator = 1;
 
+		public Player this[NetConnection key]
+		{
+			get { return _players[key]; }
+		}
+
 		public Players(Server server)
 		{
 			Contract.Requires<ArgumentNullException>(server != null);

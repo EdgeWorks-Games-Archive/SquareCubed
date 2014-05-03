@@ -14,7 +14,7 @@ namespace SQCore.Server
 			Logger.LogInfo("Initializing core plugin...");
 
 			// Set up the chat
-			_chat = new Chat.Chat(server.Network);
+			_chat = new Chat.Chat(server.Network, server.Players);
 
 			// Add the default spawn provider
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));
