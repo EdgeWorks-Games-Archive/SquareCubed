@@ -72,6 +72,8 @@ namespace SquareCubed.Common.Data
 					return 0x6D;
 				case Key.KeypadPeriod:
 					return 0x6E;
+				case Key.KeypadEnter:
+					return 0x0D;
 
 				case Key.NumLock:
 					return 0x90;
