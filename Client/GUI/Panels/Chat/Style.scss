@@ -30,7 +30,22 @@
 
 #chat-output {
 	height: 100px;
+	
+	margin: 0;
+	padding: 0 0 0 8px;
+
 	overflow-y: scroll;
+	word-wrap: break-word;
+	
+	background-color: rgb(45, 45, 45);
+
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: rgb(80, 80, 80);
+	}
 }
 
 #chat-input {

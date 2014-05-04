@@ -18,7 +18,15 @@
 
 #chat-output {
   height: 100px;
-  overflow-y: scroll; }
+  margin: 0;
+  padding: 0 0 0 8px;
+  overflow-y: scroll;
+  word-wrap: break-word;
+  background-color: #2d2d2d; }
+  #chat-output::-webkit-scrollbar {
+    width: 8px; }
+  #chat-output::-webkit-scrollbar-thumb {
+    background-color: #505050; }
 
 #chat-input {
   margin: 0 0 4px 0; }
