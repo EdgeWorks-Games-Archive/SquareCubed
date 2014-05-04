@@ -19,6 +19,8 @@ namespace SquareCubed.Common.Data
 				return (int) key - (0x30 - (int) Key.Number0);
 			if (key >= Key.F1 && key <= Key.F35)
 				return (int) key - (0x70 - (int) Key.F1);
+			if (key >= Key.Keypad0 && key <= Key.Keypad9)
+				return (int) key - (0x60 - (int) Key.Keypad0);
 
 			// Convert any misc keys
 			switch (key)
@@ -71,6 +73,8 @@ namespace SquareCubed.Common.Data
 				case Key.KeypadPeriod:
 					return 0x6E;
 
+				case Key.NumLock:
+					return 0x90;
 				case Key.ScrollLock:
 					return 0x91;
 
