@@ -17,7 +17,8 @@
   margin: 2px 8px 2px 8px !important; }
 
 #chat-output {
-  height: 100px; }
+  height: 100px;
+  overflow-y: scroll; }
 
 #chat-input {
   margin: 0 0 4px 0; }

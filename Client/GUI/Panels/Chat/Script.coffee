@@ -32,3 +32,15 @@ input.keyup (e) ->
 	if e.which is 13
 		engine.call "chat.send", input.val()
 		input.val ""
+		
+		
+### Engine Events ###
+
+chatOutput = $("#chat-output")
+engine.on "chat.message", (player, message) ->
+	chatLine = $("<li>", {class: "chat-message-prefix"})
+	chatLine.text player + ": " + message
+	chatOutput.append chatLine
+	
+	# Scroll to the bottom of the chat output
+	chatOutput.scrollTop(chatOutput[0].scrollHeight);

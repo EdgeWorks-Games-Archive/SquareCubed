@@ -19,13 +19,22 @@ namespace SQCore.Client.Chat
 
 		public void Send(string message)
 		{
+			// Trim whitespace if needed
+			message = message.Trim();
+
+			// Make sure you can't send an empty message
+			if (message == "")
+				return;
+
+			// Log and send the message
 			_logger.LogInfo("Sending chat message \"{0}\"...", message);
 			_network.SendChatMessage(message);
 		}
 
-		public void OnChatMessage(string user, string message)
+		public void OnChatMessage(string player, string message)
 		{
-			Gui.Trigger("chat.message", user, message);
+			_logger.LogInfo("{0}: {1}", player, message);
+			Gui.Trigger("chat.message", player, message);
 		}
 	}
 }
