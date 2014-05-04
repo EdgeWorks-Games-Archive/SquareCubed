@@ -28,8 +28,9 @@
 	}
 }
 
-.chat-output {
+#chat-output {
 	height: 100px;
+	overflow-y: scroll;
 }
 
 #chat-input {

@@ -21,9 +21,8 @@ available through it.
 
 1. Download and install the [Code Contracts](http://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970)
    extension for Visual Studio.
-2. Acquire a [Coherent UI](http://coherent-labs.com/) license.
-   Evaluation or full both work, but for full you will need to add
-   a License.cs file to the root directory of Coherent UI.
+2. Download [Coherent UI .NET](http://coherent-labs.com/download-dotnet/).
+   Evaluation version works.
 3. Place Coherent UI in the root solution directory under the folder "CoherentUI".
 4. Download [Lidgren.Network](https://code.google.com/p/lidgren-network-gen3/).
 5. Place Lidgren.Network in the root solution directory under the folder "Lidgren.Network".

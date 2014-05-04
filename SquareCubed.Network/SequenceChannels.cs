@@ -5,6 +5,7 @@
 		UnitPhysics,
 		UnitData,
 		StructurePhysics,
-		StructureData
+		StructureData,
+		Chat
 	}
 }

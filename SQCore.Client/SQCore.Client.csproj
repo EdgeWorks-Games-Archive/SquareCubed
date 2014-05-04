@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenTK.1.1.1508.5724\lib\NET40\OpenTK.dll</HintPath>
+      <HintPath>..\packages\OpenTK.1.1.1579.5793\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
@@ -54,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Background\SpaceRenderer.cs" />
-    <Compile Include="Gui\ChatPanel.cs" />
+    <Compile Include="Chat\Chat.cs" />
+    <Compile Include="Chat\ChatNetwork.cs" />
     <Compile Include="Gui\ContextInfoPanel.cs" />
     <Compile Include="ClientPlugin.cs" />
     <Compile Include="Objects\PilotSeatObject.cs" />
@@ -65,6 +66,10 @@
     <Compile Include="Tiles\MetalFloorTileType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQCore.Common\SQCore.Common.csproj">
       <Project>{a0fb175c-e049-4e55-8b97-80bf9edc606e}</Project>
       <Name>SQCore.Common</Name>
@@ -76,6 +81,10 @@
     <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
       <Project>{17F0BADE-60BB-4B9A-B358-26047EF85BEB}</Project>
       <Name>SquareCubed.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
+      <Project>{1F3CA083-84BE-4D55-B878-D3A3BE508EF1}</Project>
+      <Name>SquareCubed.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.PluginLoader\SquareCubed.PluginLoader.csproj">
       <Project>{ce026967-4f68-4808-a8e1-5187aef415cf}</Project>

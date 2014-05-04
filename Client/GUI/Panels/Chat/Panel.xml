@@ -2,9 +2,9 @@
 
 <Panel src="Panel.cshtml">
   <Scripts>
-    <Script src="Panel.js" />
+    <Script src="Script.js" />
   </Scripts>
   <Styles>
-    <Style src="Panel.css" />
+    <Style src="Style.css" />
   </Styles>
 </Panel>

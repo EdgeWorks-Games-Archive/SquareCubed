@@ -68,7 +68,7 @@
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenTK.1.1.1508.5724\lib\NET40\OpenTK.dll</HintPath>
+      <HintPath>..\packages\OpenTK.1.1.1579.5793\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine, Version=3.4.1.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -106,21 +106,21 @@
     <None Include="GUI\Panels\Chat\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Panels\Chat\Panel.coffee" />
-    <None Include="GUI\Panels\Chat\Panel.scss" />
-    <None Include="GUI\Panels\ContextInfo\Panel.coffee" />
+    <None Include="GUI\Panels\Chat\Script.coffee" />
+    <None Include="GUI\Panels\Chat\Style.scss" />
+    <None Include="GUI\Panels\ContextInfo\Script.coffee" />
     <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Panels\ContextInfo\Panel.scss" />
+    <None Include="GUI\Panels\ContextInfo\Style.scss" />
     <None Include="GUI\Panels\EscMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Panels\MainMenu\Panel.coffee" />
+    <None Include="GUI\Panels\MainMenu\Script.coffee" />
     <None Include="GUI\Panels\MainMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="GUI\Panels\MainMenu\Panel.scss" />
+    <None Include="GUI\Panels\MainMenu\Style.scss" />
     <None Include="GUI\Scripts\Base.coffee" />
     <None Include="GUI\Styles\Base.scss" />
     <None Include="GUI\Styles\UIStyle.scss" />
@@ -185,12 +185,12 @@
     <Content Include="Graphics\Tiles\MetalFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\Chat\Panel.css">
-      <DependentUpon>Panel.scss</DependentUpon>
+    <Content Include="GUI\Panels\Chat\Style.css">
+      <DependentUpon>Style.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\Chat\Panel.js">
-      <DependentUpon>Panel.coffee</DependentUpon>
+    <Content Include="GUI\Panels\Chat\Script.js">
+      <DependentUpon>Script.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\Chat\Panel.xml">
@@ -202,23 +202,23 @@
     <Content Include="GUI\Styles\Images\ui-icons_A3A3A3_256x240.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\ContextInfo\Panel.css">
-      <DependentUpon>Panel.scss</DependentUpon>
+    <Content Include="GUI\Panels\ContextInfo\Style.css">
+      <DependentUpon>Style.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\ContextInfo\Panel.js">
-      <DependentUpon>Panel.coffee</DependentUpon>
+    <Content Include="GUI\Panels\ContextInfo\Script.js">
+      <DependentUpon>Script.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\ContextInfo\Panel.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\MainMenu\Panel.css">
-      <DependentUpon>Panel.scss</DependentUpon>
+    <Content Include="GUI\Panels\MainMenu\Style.css">
+      <DependentUpon>Style.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\Panels\MainMenu\Panel.js">
-      <DependentUpon>Panel.coffee</DependentUpon>
+    <Content Include="GUI\Panels\MainMenu\Script.js">
+      <DependentUpon>Script.coffee</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\MainMenu\Panel.xml">

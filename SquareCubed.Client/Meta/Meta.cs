@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
 using SquareCubed.Network;
@@ -30,13 +31,23 @@ namespace SquareCubed.Client.Meta
 			_logger.LogInfo("Received MetaData!");
 
 			// Read packet type mapping data
+			var count = msg.ReadInt32();
+			for (var i = 0; i < count; i++)
+			{
+				var name = msg.ReadString();
+				var id = msg.ReadInt32();
+
+				// If all entires don't match this, add a new one
+				if(_client.Network.PacketTypes.Types.All(t => t.Key != name))
+					_client.Network.PacketTypes.RegisterType(name, id);
+			}
 
 			// Read tile type mapping data
 			
 			// Read wall type mapping data
 
 			// Read mod data
-			var count = msg.ReadInt32();
+			count = msg.ReadInt32();
 			for (var i = 0; i < count; i++)
 			{
 				var id = msg.ReadString();

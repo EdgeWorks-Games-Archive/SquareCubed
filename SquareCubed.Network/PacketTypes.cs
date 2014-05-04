@@ -22,6 +22,8 @@ namespace SquareCubed.Network
 		private readonly Dictionary<string, PacketType> _packetTypes = new Dictionary<string, PacketType>();
 		private int _nextId;
 
+		public IReadOnlyDictionary<string, PacketType> Types { get { return _packetTypes; } } 
+
 		public PacketType RegisterType(string name)
 		{
 			return RegisterType(name, _nextId);

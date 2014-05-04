@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using OpenTK;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
@@ -106,6 +108,19 @@ namespace SquareCubed.Client
 			// Bind some default functions
 			Gui.BindCall("quit", Window.Close);
 			Gui.BindCall<string>("connect", host => Network.Connect(host));
+#if DEBUG
+			Gui.BindCall("server.start", () =>
+			{
+				var fileInfo = new FileInfo("../../../Server/bin/Debug/Server.exe");
+				Debug.Assert(fileInfo.DirectoryName != null);
+				var processInfo = new ProcessStartInfo()
+				{
+					FileName = fileInfo.FullName,
+					WorkingDirectory = fileInfo.DirectoryName
+				};
+				Process.Start(processInfo);
+			});
+#endif
 
 			// Add some event triggers
 			// TODO: Make LostConnection only trigger when a connection was lost, not failed
