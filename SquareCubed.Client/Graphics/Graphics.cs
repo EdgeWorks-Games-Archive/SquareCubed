@@ -18,11 +18,15 @@ namespace SquareCubed.Client.Graphics
 		public Graphics(IGameWindow window, float backBufferScale = 2.0f)
 		{
 			Contract.Requires<ArgumentNullException>(window != null);
+			Contract.Requires<InvalidOperationException>(backBufferScale <= 2.0f);
 			
 			_window = window;
 			Camera = new Camera(_window.Size);
 
 			_backBufferScale = backBufferScale;
+			var maxSize = GL.GetInteger(GetPName.MaxTextureSize);
+			if ((int)(_window.Width * _backBufferScale) > maxSize || (int)(_window.Height * _backBufferScale) > maxSize)
+				throw new ArgumentOutOfRangeException("backBufferScale", "Back buffer scale results in higher size textures than allowed.");
 
 			// Generate the upscaled background texture
 			_usTexture = GL.GenTexture();
