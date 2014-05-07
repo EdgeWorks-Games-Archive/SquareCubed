@@ -13,7 +13,7 @@ namespace SquareCubed.Client.Window
 	public class Window : GameWindow, IExtGameWindow
 	{
 		public Window()
-			: base(1280, 720, new GraphicsMode(32, 0, 0, 16), "SquareCubed Engine")
+			: base(1280, 720, new GraphicsMode(32, 0, 0, 0), "SquareCubed Engine")
 		{
 			Mouse.Move += (o, p) => MouseMove.Invoke(o, p);
 			Mouse.ButtonDown += (o, p) => MouseDown.Invoke(o, p);

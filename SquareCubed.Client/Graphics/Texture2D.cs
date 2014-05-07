@@ -13,6 +13,7 @@ namespace SquareCubed.Client.Graphics
 	[Flags]
 	public enum TextureOptions
 	{
+		None = 0x0,
 		Alpha = 0x1,
 		Filtering = 0x2,
 		Bgra = 0x4
@@ -29,7 +30,7 @@ namespace SquareCubed.Client.Graphics
 		/// <param name="path">The path to the image file to use for this Texture2D.</param>
 		/// <param name="options">The option flags to use for this texture.</param>
 		/// <exception cref="System.Exception">Can't find the image file!</exception>
-		public Texture2D(string path, TextureOptions options = TextureOptions.Filtering)
+		public Texture2D(string path, TextureOptions options = TextureOptions.None)
 		{
 			// If the file doesn't exist, we can't do anything
 			if (!File.Exists(path)) throw new Exception("Can't find texture file \"" + path + "\"!");
@@ -45,7 +46,7 @@ namespace SquareCubed.Client.Graphics
 		/// <param name="width">The width.</param>
 		/// <param name="height">The height.</param>
 		/// <param name="options">The option flags to use for this texture.</param>
-		public Texture2D(int width, int height, TextureOptions options = TextureOptions.Filtering)
+		public Texture2D(int width, int height, TextureOptions options = TextureOptions.None)
 		{
 			// Create a new bitmap at the size we need
 			var bitmap = new Bitmap(width, height);

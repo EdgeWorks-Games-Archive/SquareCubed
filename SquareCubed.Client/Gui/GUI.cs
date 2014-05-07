@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Coherent.UI;
 using Coherent.UI.Binding;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
 using SquareCubed.Client.Gui.Panels;
@@ -252,15 +252,6 @@ namespace SquareCubed.Client.Gui
 			// Get the latest Coherent UI surfaces
 			_system.FetchSurfaces();
 
-			// Reset the matrices to default values
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.PushMatrix();
-			GL.LoadIdentity();
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.PushMatrix();
-			GL.LoadIdentity();
-
 			using (_program.Activate())
 			using (_texture.Activate())
 			{
@@ -299,13 +290,6 @@ namespace SquareCubed.Client.Gui
 				GL.DisableVertexAttribArray(0);
 				GL.DisableVertexAttribArray(1);
 			}
-
-			// Reset the matrices
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.PopMatrix();
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.PopMatrix();
 		}
 	}
 }

@@ -144,6 +144,9 @@ namespace SquareCubed.Client
 
 		private void Update(object s, FrameEventArgs e)
 		{
+			// Gui needs to be updated as early as possible
+			Gui.Update();
+
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 			var eventArgs = new TickEventArgs {ElapsedTime = delta};
@@ -154,7 +157,6 @@ namespace SquareCubed.Client
 			// Update the axises before updating
 			Input.UpdateAxes();
 
-			Gui.Update();
 			Player.Update(delta);
 
 			// Run the update event
@@ -174,9 +176,14 @@ namespace SquareCubed.Client
 
 			Structures.Render();
 			Player.Render();
-			Gui.Render();
 
 			Graphics.EndRender();
+
+			// Render the Gui
+			Graphics.BeginRenderGui();
+			Gui.Render();
+
+			Graphics.EndRenderAll();
 		}
 
 		#endregion
