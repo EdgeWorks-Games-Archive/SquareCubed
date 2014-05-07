@@ -48,6 +48,11 @@ namespace SquareCubed.Network
 			return type;
 		}
 
+		public PacketType this[string name]
+		{
+			get { return ResolveType(name); }
+		}
+
 		public PacketType ResolveType(string name)
 		{
 			PacketType type;

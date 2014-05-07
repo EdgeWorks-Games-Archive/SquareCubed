@@ -1,9 +1,10 @@
-﻿using Lidgren.Network;
+﻿using System;
+using Lidgren.Network;
 using SquareCubed.Network;
 
 namespace SQCore.Client.Chat
 {
-	class ChatNetwork
+	sealed class ChatNetwork : IDisposable
 	{
 		private readonly Network _network;
 		private readonly Chat _callback;
@@ -29,6 +30,11 @@ namespace SQCore.Client.Chat
 		private void OnChatMessage(NetIncomingMessage msg)
 		{
 			_callback.OnChatMessage(msg.ReadString(), msg.ReadString());
+		}
+
+		public void Dispose()
+		{
+			_network.PacketHandlers.Unbind(_type);
 		}
 	}
 }

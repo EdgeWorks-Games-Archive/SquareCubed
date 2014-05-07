@@ -33,7 +33,7 @@ namespace SquareCubed.Network
 		{
 			_appIdentifier = appIdentifier;
 			PacketTypes = new PacketTypes();
-			PacketHandlers = new PacketHandlers(PacketTypes);
+			PacketHandlers = new PacketHandlers();
 
 			// Register common packet Ids that never change.
 			// Usually you would only do this on the server
@@ -151,7 +151,7 @@ namespace SquareCubed.Network
 
 						break;
 					case NetIncomingMessageType.Data:
-						PacketHandlers.HandlePacket(msg, _isServer);
+						PacketHandlers.HandlePacket(msg);
 						break;
 					default:
 						_logger.LogInfo("Unhandled message: " + msg.MessageType);

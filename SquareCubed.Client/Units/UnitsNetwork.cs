@@ -13,8 +13,10 @@ namespace SquareCubed.Client.Units
 		{
 			_client = client;
 			_callback = callback;
-			_client.Network.PacketHandlers.Bind("units.physics", OnUnitPhysics);
-			_client.Network.PacketHandlers.Bind("units.data", OnUnitData);
+
+			var network = _client.Network;
+			network.PacketHandlers.Bind(network.PacketTypes["units.physics"], OnUnitPhysics);
+			network.PacketHandlers.Bind(network.PacketTypes["units.data"], OnUnitData);
 		}
 
 		private void OnUnitPhysics(NetIncomingMessage msg)

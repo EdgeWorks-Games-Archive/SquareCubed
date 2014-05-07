@@ -9,8 +9,8 @@ namespace SquareCubed.Client.Structures
 		public StructuresNetwork(Network.Network network, Structures callback)
 		{
 			_callback = callback;
-			network.PacketHandlers.Bind("structures.physics", OnStructurePhysics);
-			network.PacketHandlers.Bind("structures.data", OnStructureData);
+			network.PacketHandlers.Bind(network.PacketTypes["structures.physics"], OnStructurePhysics);
+			network.PacketHandlers.Bind(network.PacketTypes["structures.data"], OnStructureData);
 		}
 
 		private void OnStructurePhysics(NetIncomingMessage msg)

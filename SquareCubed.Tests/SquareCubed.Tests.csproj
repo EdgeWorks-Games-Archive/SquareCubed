@@ -54,10 +54,15 @@
   <ItemGroup>
     <Compile Include="Client\Graphics\CameraTests.cs" />
     <Compile Include="Client\Structures\Objects\UnitProximityTests.cs" />
+    <Compile Include="Network\PacketHandlersTests.cs" />
     <Compile Include="Network\PacketTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Client\SquareCubed.Client.csproj">
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
       <Name>SquareCubed.Client</Name>

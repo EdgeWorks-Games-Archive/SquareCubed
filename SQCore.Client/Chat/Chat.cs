@@ -36,5 +36,13 @@ namespace SQCore.Client.Chat
 			_logger.LogInfo("{0}: {1}", player, message);
 			Gui.Trigger("chat.message", player, message);
 		}
+
+		protected override void Dispose(bool managed)
+		{
+			if (managed)
+				_network.Dispose();
+
+			base.Dispose(managed);
+		}
 	}
 }

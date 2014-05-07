@@ -65,6 +65,14 @@ namespace SquareCubed.Tests.Network
 		}
 
 		[Fact]
+		public void LookupOperator()
+		{
+			var expected = _packetTypes.RegisterType("stuff.sometype");
+			var type = _packetTypes["stuff.sometype"];
+			Assert.Equal(expected, type);
+		}
+
+		[Fact]
 		public void CannotLookupUnknown()
 		{
 			_packetTypes.RegisterType("tests.packettype", 5);

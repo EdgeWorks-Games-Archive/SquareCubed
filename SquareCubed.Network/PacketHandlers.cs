@@ -11,31 +11,14 @@ namespace SquareCubed.Network
 			new Dictionary<int, Action<NetIncomingMessage>>();
 
 		private readonly Logger _logger = new Logger("Packets");
-		private readonly PacketTypes _types;
-
-		public PacketHandlers(PacketTypes types)
-		{
-			_types = types;
-		}
-
-		public void HandlePacket(NetIncomingMessage msg, bool isServer)
+		
+		public void HandlePacket(NetIncomingMessage msg)
 		{
 #if !DEBUG
 			try
 			{
 #endif
-			// Read the packet type
-			var type = msg.ReadInt32();
-
-			// If we have a packet handler on this type, invoke it, if not throw to drop client
-			if (_entries.ContainsKey(type))
-				_entries[type](msg);
-			else
-			{
-				var error = string.Format("Connection sent invalid packet type {0}!", type);
-				_logger.LogInfo(error);
-				throw new Exception(error);
-			}
+			TriggerHandler(msg.ReadInt32(), msg);
 #if !DEBUG
 			}
 			catch (Exception e)
@@ -53,6 +36,20 @@ namespace SquareCubed.Network
 #endif
 		}
 
+		public void TriggerHandler(int type, NetIncomingMessage msg)
+		{
+			// If we have a packet handler on this type, invoke it, if not throw to drop client
+			Action<NetIncomingMessage> handler;
+			if (_entries.TryGetValue(type, out handler))
+				handler(msg);
+			else
+			{
+				var error = string.Format("Connection sent invalid packet type {0}!", type);
+				_logger.LogInfo(error);
+				throw new InvalidOperationException(error);
+			}
+		}
+
 		public void Bind(PacketType type, Action<NetIncomingMessage> handler)
 		{
 			// Check requirements
@@ -62,15 +59,13 @@ namespace SquareCubed.Network
 			_entries.Add(type.Id, handler);
 		}
 
-		public void Bind(string typeName, Action<NetIncomingMessage> handler)
+		public void Unbind(PacketType type)
 		{
-			var type = _types.ResolveType(typeName);
-
 			// Check requirements
-			if (_entries.ContainsKey(type.Id))
-				throw new InvalidOperationException("Handler for type already registered!");
+			if (!_entries.ContainsKey(type.Id))
+				throw new InvalidOperationException("Handler for type not registered!");
 
-			_entries.Add(type.Id, handler);
+			_entries.Remove(type.Id);
 		}
 	}
 }
