@@ -48,7 +48,6 @@ namespace SquareCubed.Client
 			Window = new Window.Window();
 			Graphics = new Graphics.Graphics(Window);
 			Input = new Input.Input(Window, Graphics.Camera);
-			Gui = new Gui.Gui(this);
 			Network = new Network.Network("SquareCubed");
 			PluginLoader = new PluginLoader<IClientPlugin, Client>();
 			Meta = new Meta.Meta(this);
@@ -102,8 +101,8 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
-			Gui.Load();
-
+			Gui = new Gui.Gui(this);
+			
 			// Bind some default functions
 			Gui.BindCall("quit", Window.Close);
 			Gui.BindCall<string>("connect", host => Network.Connect(host));
@@ -138,6 +137,8 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Unload(object s, EventArgs e)
 		{
+			PluginLoader.UnloadAllPlugins();
+
 			Gui.Dispose();
 			Gui = null;
 		}

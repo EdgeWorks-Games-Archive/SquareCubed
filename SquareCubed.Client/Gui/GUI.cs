@@ -121,39 +121,6 @@ namespace SquareCubed.Client.Gui
 
 			_client = client;
 			_inputHandler = new InputHandler(_client.Window);
-		}
-
-		public bool IsLoaded { get; private set; }
-
-		public void Dispose()
-		{
-			// If we're not loaded we can't dispose
-			if (!IsLoaded) return;
-
-			// Clean up the Coherent UI system
-			_system.Uninitialize();
-			_system.Dispose();
-
-			// Clean up all the Graphics Resources
-			_program.Dispose();
-
-			// Clean up the Listeners
-			_eventListener.Dispose();
-
-			// Clean up the Graphics Resources
-			_texture.Dispose();
-			_vertexBuffer.Dispose();
-
-			if (_viewListener != null) _viewListener.Dispose();
-
-			IsLoaded = false;
-		}
-
-		public void Load()
-		{
-			Contract.Requires<InvalidOperationException>(
-				!IsLoaded,
-				"GUI is already loaded.");
 
 			// Set up Event Listener
 			_eventListener = new EventListener();
@@ -221,8 +188,25 @@ namespace SquareCubed.Client.Gui
 			MainMenu = new MainMenuPanel(this);
 
 			EscMenu = new EscMenuPanel(this);
+		}
 
-			IsLoaded = true;
+		public void Dispose()
+		{
+			// Clean up the Coherent UI system
+			_system.Uninitialize();
+			_system.Dispose();
+
+			// Clean up all the Graphics Resources
+			_program.Dispose();
+
+			// Clean up the Listeners
+			_eventListener.Dispose();
+
+			// Clean up the Graphics Resources
+			_texture.Dispose();
+			_vertexBuffer.Dispose();
+
+			if (_viewListener != null) _viewListener.Dispose();
 		}
 
 		public void Update()
