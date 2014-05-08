@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
 using SquareCubed.Client.Player;
@@ -12,13 +13,18 @@ namespace SQCore.Client.Objects
 		private readonly Player _player;
 		private readonly UnitProximityHelper _proximity;
 
+		private Vector2 _storedPos;
+		private bool _hasPlayer;
+
 		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
 		{
 			_panel = panel;
 			_player = client.Player;
-			_proximity = new UnitProximityHelper(this);
 
 			client.UpdateTick += Update;
+			client.Window.KeyUp += OnKeyPress;
+
+			_proximity = new UnitProximityHelper(this);
 			_proximity.Change += OnChange;
 		}
 
@@ -30,10 +36,28 @@ namespace SQCore.Client.Objects
 			_proximity.Update(_player.PlayerUnit);
 		}
 
+		void OnKeyPress(object sender, KeyboardKeyEventArgs e)
+		{
+			if (!_hasPlayer || e.Key != Key.Escape) return;
+
+			_hasPlayer = false;
+
+			_player.Position = _storedPos;
+
+			_player.LockInput = false;
+			_panel.UseAltText = false;
+		}
+
 		public void OnUse()
 		{
-			_player.PlayerUnit.Position = Position;
-			_player.LockPosition = true;
+			if (_hasPlayer || _proximity.Status != ProximityStatus.Within) return;
+
+			_hasPlayer = true;
+
+			_storedPos = _player.Position;
+			_player.Position = Position;
+
+			_player.LockInput = true;
 			_panel.UseAltText = true;
 		}
 

@@ -15,7 +15,16 @@ namespace SquareCubed.Client.Player
 		private readonly Client _client;
 		private readonly PlayerNetwork _network;
 
-		public bool LockPosition { get; set; }
+		public bool LockInput { get; set; }
+		public Vector2 Position
+		{
+			get { return PlayerUnit.Position; }
+			set
+			{
+				PlayerUnit.Position = value;
+				_client.Graphics.Camera.Position = PlayerUnit.Position;
+			}
+		}
 
 		public Player(Client client)
 		{
@@ -65,8 +74,8 @@ namespace SquareCubed.Client.Player
 			if (PlayerUnit == null) return;
 			if (PlayerUnit.Structure == null) return;
 
-			// If the position is locked, don't move
-			if (!LockPosition)
+			// If the input is locked, don't move
+			if (!LockInput)
 			{
 				// Calculate total movement data requested
 				var velocity = _client.Input.Axes*delta*Speed;

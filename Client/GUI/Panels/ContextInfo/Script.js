@@ -5,8 +5,8 @@
   });
 
   engine.on('contextinfo.usealt', function(use) {
-    $("#context-info #norm").toggle(use);
-    return $("#context-info #alt").toggle(!use);
+    $("#context-info-norm").toggle(!use);
+    return $("#context-info-alt").toggle(use);
   });
 
 }).call(this);
