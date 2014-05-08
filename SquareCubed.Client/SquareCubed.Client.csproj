@@ -148,6 +148,7 @@
     <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
+    <Compile Include="Input\MouseState.cs" />
     <Compile Include="Meta\Meta.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerNetwork.cs" />

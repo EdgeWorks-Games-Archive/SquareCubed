@@ -47,7 +47,7 @@ namespace SquareCubed.Client
 			// Initialize all the submodules
 			Window = new Window.Window();
 			Graphics = new Graphics.Graphics(Window);
-			Input = new Input.Input(Window);
+			Input = new Input.Input(Window, Graphics.Camera);
 			Gui = new Gui.Gui(this);
 			Network = new Network.Network("SquareCubed");
 			PluginLoader = new PluginLoader<IClientPlugin, Client>();

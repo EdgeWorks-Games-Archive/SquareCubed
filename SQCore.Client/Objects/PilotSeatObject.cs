@@ -30,6 +30,13 @@ namespace SQCore.Client.Objects
 			_proximity.Update(_player.PlayerUnit);
 		}
 
+		public void OnUse()
+		{
+			_player.PlayerUnit.Position = Position;
+			_player.LockPosition = true;
+			_panel.UseAltText = true;
+		}
+
 		private void OnChange(object s, ProximityEventArgs e)
 		{
 			// Actually do something with this data

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Player
@@ -12,12 +15,35 @@ namespace SquareCubed.Client.Player
 		private readonly Client _client;
 		private readonly PlayerNetwork _network;
 
+		public bool LockPosition { get; set; }
+
 		public Player(Client client)
 		{
 			Contract.Requires<ArgumentNullException>(client != null);
 
 			_client = client;
+
+			_client.Window.MouseUp += OnMouseUp;
+
 			_network = new PlayerNetwork(_client.Network, this);
+		}
+
+		void OnMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			// Make sure the player is correctly set up, if not just ignore this click
+			if (PlayerUnit == null) return;
+			if (PlayerUnit.Structure == null) return;
+
+			foreach (
+				var obj in from obj in PlayerUnit.Structure.Chunks.SelectMany(c => c.Objects) let boundingBox = new AaBb
+			{
+				Position = new Vector2(obj.Position.X - 0.4f, obj.Position.Y - 0.4f),
+				Size = new Vector2(0.8f, 0.8f)
+			} where boundingBox.Contains(_client.Input.MouseState.RelativePosition) select obj)
+			{
+				obj.OnUse();
+				return;
+			}
 		}
 
 		public PlayerUnit PlayerUnit { get; private set; }
@@ -39,76 +65,80 @@ namespace SquareCubed.Client.Player
 			if (PlayerUnit == null) return;
 			if (PlayerUnit.Structure == null) return;
 
-			// Calculate total movement data requested
-			var velocity = _client.Input.Axes*delta*Speed;
-
-			// Check if there is movement data
-			var xHasVel = (Math.Abs(velocity.X) > 0.001);
-			var yHasVel = (Math.Abs(velocity.Y) > 0.001);
-
-			// If there's velocity, we need to do stuff
-			if (xHasVel || yHasVel)
+			// If the position is locked, don't move
+			if (!LockPosition)
 			{
-				// Get the collider data we'll need to detect collisions
-				var statics = PlayerUnit.Structure
-					.GetChunksWithin(PlayerUnit.Position.GetChunkPosition(), 1)
-					.SelectMany(c => c.GetColliders()).ToArray();
+				// Calculate total movement data requested
+				var velocity = _client.Input.Axes*delta*Speed;
 
-				// If there's vertical movement
-				if (xHasVel)
+				// Check if there is movement data
+				var xHasVel = (Math.Abs(velocity.X) > 0.001);
+				var yHasVel = (Math.Abs(velocity.Y) > 0.001);
+
+				// If there's velocity, we need to do stuff
+				if (xHasVel || yHasVel)
 				{
-					if (velocity.X > 0) // If the player is going right
+					// Get the collider data we'll need to detect collisions
+					var statics = PlayerUnit.Structure
+						.GetChunksWithin(PlayerUnit.Position.GetChunkPosition(), 1)
+						.SelectMany(c => c.GetColliders()).ToArray();
+
+					// If there's vertical movement
+					if (xHasVel)
 					{
-						velocity.X = ResolveAxisDirection(
-							PlayerUnit.AaBb,
-							velocity.X,
-							player => player.Right,
-							statics,
-							wall => wall.Left);
+						if (velocity.X > 0) // If the player is going right
+						{
+							velocity.X = ResolveAxisDirection(
+								PlayerUnit.AaBb,
+								velocity.X,
+								player => player.Right,
+								statics,
+								wall => wall.Left);
+						}
+						else // If the player is going left
+						{
+							velocity.X = ResolveAxisDirection(
+								PlayerUnit.AaBb,
+								velocity.X,
+								player => player.Left,
+								statics,
+								wall => wall.Right);
+						}
 					}
-					else // If the player is going left
+
+					// If there's horizontal movement
+					if (yHasVel)
 					{
-						velocity.X = ResolveAxisDirection(
-							PlayerUnit.AaBb,
-							velocity.X,
-							player => player.Left,
-							statics,
-							wall => wall.Right);
+						if (velocity.Y > 0) // If the player is going up
+						{
+							velocity.Y = ResolveAxisDirection(
+								PlayerUnit.AaBb,
+								velocity.Y,
+								player => player.Up,
+								statics,
+								wall => wall.Down);
+						}
+						else // If the player is going down
+						{
+							velocity.Y = ResolveAxisDirection(
+								PlayerUnit.AaBb,
+								velocity.Y,
+								player => player.Down,
+								statics,
+								wall => wall.Up);
+						}
 					}
+
+					// TODO: Add collision resolving in the case of exact corner collision
+					// This happens because axises are being checked in isolation from eachother.
+					// Thus if the player is at an exact corner going in the direction of the corner,
+					// individually it won't hit. However in the next frame the player is in the wall
+					// and thus the player snaps back. Insert pun about "edge cases" here.
+
+					// Update the player's position
+					PlayerUnit.Position += velocity;
+					_network.SendPlayerPhysics(PlayerUnit);
 				}
-
-				// If there's horizontal movement
-				if (yHasVel)
-				{
-					if (velocity.Y > 0) // If the player is going up
-					{
-						velocity.Y = ResolveAxisDirection(
-							PlayerUnit.AaBb,
-							velocity.Y,
-							player => player.Up,
-							statics,
-							wall => wall.Down);
-					}
-					else // If the player is going down
-					{
-						velocity.Y = ResolveAxisDirection(
-							PlayerUnit.AaBb,
-							velocity.Y,
-							player => player.Down,
-							statics,
-							wall => wall.Up);
-					}
-				}
-
-				// TODO: Add collision resolving in the case of exact corner collision
-				// This happens because axises are being checked in isolation from eachother.
-				// Thus if the player is at an exact corner going in the direction of the corner,
-				// individually it won't hit. However in the next frame the player is in the wall
-				// and thus the player snaps back. Insert pun about "edge cases" here.
-
-				// Update the player's position
-				PlayerUnit.Position += velocity;
-				_network.SendPlayerPhysics(PlayerUnit);
 			}
 
 			// Make sure the camera is parented correctly

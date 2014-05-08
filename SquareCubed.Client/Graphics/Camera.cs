@@ -98,5 +98,18 @@ namespace SquareCubed.Client.Graphics
 				-Parent.Position.Y,
 				0.0f);
 		}
+
+		public Vector2 AbsoluteToRelative(Vector2i absolute)
+		{
+			// Set the relative position to the center of the camera
+			var relative = new Vector2(Position.X, Position.Y);
+
+			// Add the offset that the absolute is from the center of the camera to the relative
+			// TODO: improve to not divide every time used
+			relative.X += _size.Width * ((float)absolute.X / _res.Width) - (_size.Width / 2);
+			relative.Y -= _size.Height * ((float)absolute.Y / _res.Height) - (_size.Height / 2);
+
+			return relative;
+		}
 	}
 }

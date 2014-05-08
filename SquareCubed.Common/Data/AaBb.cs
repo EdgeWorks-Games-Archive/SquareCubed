@@ -72,5 +72,11 @@ namespace SquareCubed.Common.Data
 				};
 			}
 		}
+
+		public bool Contains(Vector2 relativePosition)
+		{
+			return !(relativePosition.X < Position.X) && !(relativePosition.Y < Position.Y) &&
+				   !(relativePosition.X > Position.X + Size.X) && !(relativePosition.Y > Position.Y + Size.Y);
+		}
 	}
 }

@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using OpenTK;
 using OpenTK.Input;
+using SquareCubed.Client.Graphics;
+using SquareCubed.Client.Window;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Input
 {
 	public class Input
 	{
 		private readonly Dictionary<Key, bool> _keys = new Dictionary<Key, bool>();
+		private readonly Camera _camera;
 
-		public Input(INativeWindow window)
+		public Input(IExtGameWindow window, Camera camera)
 		{
 			Contract.Requires<ArgumentNullException>(window != null);
+			Contract.Requires<ArgumentNullException>(camera != null);
+
+			_camera = camera;
 
 			// Bind keyboard events
 			window.KeyDown += OnKeyDown;
 			window.KeyUp += OnKeyUp;
+
+			// Bind mouse events
+			window.MouseMove += OnMouseMove;
 
 			// Add a axis keys to be tracked
 			TrackKey(Key.W);
@@ -41,11 +51,22 @@ namespace SquareCubed.Client.Input
 				_keys[e.Key] = false;
 		}
 
+		private void OnMouseMove(object s, MouseMoveEventArgs e)
+		{
+			var absolute = new Vector2i(e.X, e.Y);
+			MouseState = new MouseState
+			{
+				AbsolutePosition = absolute,
+				RelativePosition = _camera.AbsoluteToRelative(absolute)
+			};
+		}
+
 		#endregion
 
 		#region Public Helpers
 
 		public Vector2 Axes { get; private set; }
+		public MouseState MouseState { get; private set; }
 
 		public void TrackKey(Key key)
 		{

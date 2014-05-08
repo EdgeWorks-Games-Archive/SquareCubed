@@ -35,6 +35,8 @@ namespace SquareCubed.Common.Data
 					return 0x13;
 				case Key.CapsLock:
 					return 0x14;
+				case Key.Escape:
+					return 0x1B;
 				case Key.Space:
 					return 0x20;
 				case Key.PageUp:

@@ -21,7 +21,7 @@ namespace SquareCubed.Client.Graphics
 			Contract.Requires<InvalidOperationException>(backBufferScale <= 2.0f);
 			
 			_window = window;
-			Camera = new Camera(_window.Size);
+			Camera = new Camera(_window.ClientSize);
 
 			_backBufferScale = backBufferScale;
 			var maxSize = GL.GetInteger(GetPName.MaxTextureSize);
