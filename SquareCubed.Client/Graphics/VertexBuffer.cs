@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace SquareCubed.Client.Graphics
 {
-	class VertexBuffer
+	internal sealed class VertexBuffer : IDisposable
 	{
 		private readonly int _vertexBuffer;
 
@@ -17,11 +17,22 @@ namespace SquareCubed.Client.Graphics
 			GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBuffer);
 			GL.BufferData(
 				BufferTarget.ArrayBuffer,
-                new IntPtr(sizeof(float) * data.Length), data,
+				new IntPtr(sizeof (float)*data.Length), data,
 				BufferUsageHint.StaticDraw);
 
 			// Clean up
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+		}
+
+		~VertexBuffer()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			GL.DeleteBuffer(_vertexBuffer);
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>

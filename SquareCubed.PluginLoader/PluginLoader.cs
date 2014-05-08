@@ -32,18 +32,25 @@ namespace SquareCubed.PluginLoader
 			_logger.LogInfo("Finished initializing plugin loader!");
 		}
 
-		public virtual void Dispose()
+		~PluginLoader()
 		{
-			Dispose(true);
+			Dispose(false);
 		}
 
-		protected virtual void Dispose(bool disposing)
+		public void Dispose()
 		{
-			// Prevent double disposing and don't dispose if we're told not to
-			if (_disposed || !disposing) return;
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool managed)
+		{
+			// Prevent double disposing and disposing managed when told not to
+			if (_disposed || !managed) return;
 			_disposed = true;
 
 			// Clean Up Plugins Here
+			UnloadAllPlugins();
 		}
 
 		#endregion

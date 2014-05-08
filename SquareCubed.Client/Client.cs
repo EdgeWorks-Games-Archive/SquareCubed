@@ -69,7 +69,6 @@ namespace SquareCubed.Client
 		public void Dispose()
 		{
 			// We only have managed resources to dispose of
-			Gui.Dispose();
 			PluginLoader.Dispose();
 			Network.Dispose();
 			Window.Dispose();
@@ -139,7 +138,8 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Unload(object s, EventArgs e)
 		{
-			Gui.Unload();
+			Gui.Dispose();
+			Gui = null;
 		}
 
 		private void Update(object s, FrameEventArgs e)

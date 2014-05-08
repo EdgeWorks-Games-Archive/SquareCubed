@@ -77,10 +77,12 @@ namespace SQCore.Client
 
 			// Remove tile types
 			_tileTypes.UnregisterType(_corridorTile);
+			_corridorTile.Dispose();
 			_tileTypes.UnregisterType(_metalFloorTile);
+			_metalFloorTile.Dispose();
 
 			// Remove object types
-			_objectTypes.UnregisterType(typeof (PilotSeatObject));
+			_objectTypes.UnregisterType(_pilotSeatType);
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

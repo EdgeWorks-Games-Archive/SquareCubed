@@ -2,7 +2,6 @@
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
@@ -19,9 +18,9 @@ namespace SquareCubed.Client.Graphics
 		Bgra = 0x4
 	}
 
-	public sealed class Texture2D
+	public sealed class Texture2D : IDisposable
 	{
-		private int _texture;
+		private readonly int _texture;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class
@@ -31,70 +30,32 @@ namespace SquareCubed.Client.Graphics
 		/// <param name="options">The option flags to use for this texture.</param>
 		/// <exception cref="System.Exception">Can't find the image file!</exception>
 		public Texture2D(string path, TextureOptions options = TextureOptions.None)
+			: this(new Bitmap(path), options)
 		{
-			// If the file doesn't exist, we can't do anything
-			if (!File.Exists(path)) throw new Exception("Can't find texture file \"" + path + "\"!");
-
-			// Load the data from the image file
-			LoadFromBitmap(new Bitmap(path), options);
 		}
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class
-		///     using test texture data.
+		///     using empty texture data at the size given.
 		/// </summary>
 		/// <param name="width">The width.</param>
 		/// <param name="height">The height.</param>
 		/// <param name="options">The option flags to use for this texture.</param>
 		public Texture2D(int width, int height, TextureOptions options = TextureOptions.None)
+			: this(new Bitmap(width, height), options)
 		{
-			// Create a new bitmap at the size we need
-			var bitmap = new Bitmap(width, height);
-
-			// Fill it with a single color
-			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
-			{
-				using (var brush = new SolidBrush(Color.FromArgb(0, 0, 0)))
-				{
-					gfx.FillRectangle(brush, 0, 0, width, height);
-				}
-				using (var brush = new SolidBrush(Color.FromArgb(255, 255, 255)))
-				{
-					// Draw the loading message
-					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
-					var textSize = gfx.MeasureString("loading", font);
-					gfx.DrawString("loading", font, brush,
-						(width*0.5f) - (textSize.Width*0.5f),
-						(height*0.5f) - (textSize.Height*0.5f));
-				}
-			}
-
-			// Load the data from the bitmap
-			LoadFromBitmap(bitmap, options);
 		}
 
-		public int Width { get; private set; }
-		public int Height { get; private set; }
-
-		public TextureOptions Options { get; private set; }
-
-		public bool UseAlpha
+		/// <summary>
+		///     Initializes a new instance of the <see cref="Texture2D" /> class
+		///     using bitmap data given.
+		/// </summary>
+		/// <param name="bitmap">The bitmap data.</param>
+		/// <param name="options">The option flags to use for this texture.</param>
+		public Texture2D(Bitmap bitmap, TextureOptions options = TextureOptions.None)
 		{
-			get { return (Options & TextureOptions.Alpha) == TextureOptions.Alpha; }
-		}
+			Contract.Requires<ArgumentNullException>(bitmap != null);
 
-		public bool UseFiltering
-		{
-			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
-		}
-
-		public bool UseBgra
-		{
-			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
-		}
-
-		private void LoadFromBitmap(Bitmap bitmap, TextureOptions options)
-		{
 			// Save some metadata
 			Options = options;
 			Width = bitmap.Width;
@@ -134,6 +95,37 @@ namespace SquareCubed.Client.Graphics
 			// Free the data since we won't need it anymore
 			bitmap.UnlockBits(textureData);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		~Texture2D()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			GL.DeleteTexture(_texture);
+			GC.SuppressFinalize(this);
+		}
+
+		public int Width { get; private set; }
+		public int Height { get; private set; }
+
+		public TextureOptions Options { get; private set; }
+
+		public bool UseAlpha
+		{
+			get { return (Options & TextureOptions.Alpha) == TextureOptions.Alpha; }
+		}
+
+		public bool UseFiltering
+		{
+			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
+		}
+
+		public bool UseBgra
+		{
+			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
 		}
 
 		public void MapSubImage(IntPtr pixels)

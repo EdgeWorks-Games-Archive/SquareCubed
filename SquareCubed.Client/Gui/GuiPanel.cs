@@ -84,7 +84,8 @@ namespace SquareCubed.Client.Gui
 			// We only have managed
 			if (!managed) return;
 
-			Gui.RemovePanel("#" + _id);
+			// TODO: Improve this so the Gui.IsLoaded check isn't needed
+			if(Gui.IsLoaded) Gui.RemovePanel("#" + _id);
 		}
 	}
 }

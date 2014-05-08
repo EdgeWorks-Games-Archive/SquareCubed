@@ -39,7 +39,7 @@ namespace SquareCubed.Client.Structures.Objects
 			_typeList[id] = type;
 		}
 
-		public void UnregisterType(Type type)
+		public void UnregisterType(IObjectType type)
 		{
 			var index = Array.IndexOf(_typeList, type);
 			_typeList[index] = null;

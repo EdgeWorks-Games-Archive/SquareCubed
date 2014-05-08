@@ -9,7 +9,7 @@ namespace SquareCubed.Client.Graphics
 	{
 		private readonly IGameWindow _window;
 		private readonly float _backBufferScale;
-		private readonly int _usTexture, _usFrameBuffer;
+		private readonly int _usFrameBuffer;
 
 		public Camera Camera { get; private set; }
 
@@ -29,8 +29,8 @@ namespace SquareCubed.Client.Graphics
 				throw new ArgumentOutOfRangeException("backBufferScale", "Back buffer scale results in higher size textures than allowed.");
 
 			// Generate the upscaled background texture
-			_usTexture = GL.GenTexture();
-			GL.BindTexture(TextureTarget.Texture2D, _usTexture);
+			var usTexture = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, usTexture);
 
 			// Allocate storage for the texture
 			GL.TexImage2D(
@@ -45,7 +45,7 @@ namespace SquareCubed.Client.Graphics
 			// Attach the texture to the frame buffer color attachment 0
 			GL.FramebufferTexture2D(
 				FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
-				TextureTarget.Texture2D, _usTexture, 0);
+				TextureTarget.Texture2D, usTexture, 0);
 
 			// Clean up
 			GL.BindTexture(TextureTarget.Texture2D, 0);

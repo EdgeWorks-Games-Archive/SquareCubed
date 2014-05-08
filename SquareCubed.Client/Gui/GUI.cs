@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Drawing;
 using Coherent.UI;
 using Coherent.UI.Binding;
 using OpenTK.Graphics.OpenGL4;
 using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
 using SquareCubed.Client.Gui.Panels;
+using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SquareCubed.Client.Gui
 {
@@ -124,9 +127,26 @@ namespace SquareCubed.Client.Gui
 
 		public void Dispose()
 		{
-			// We only have managed resources to dispose of
-			if (IsLoaded) Unload();
+			// If we're not loaded we can't dispose
+			if (!IsLoaded) return;
+
+			// Clean up the Coherent UI system
+			_system.Uninitialize();
+			_system.Dispose();
+
+			// Clean up all the Graphics Resources
+			_program.Dispose();
+
+			// Clean up the Listeners
+			_eventListener.Dispose();
+
+			// Clean up the Graphics Resources
+			_texture.Dispose();
+			_vertexBuffer.Dispose();
+
 			if (_viewListener != null) _viewListener.Dispose();
+
+			IsLoaded = false;
 		}
 
 		public void Load()
@@ -161,9 +181,27 @@ namespace SquareCubed.Client.Gui
 				"Shaders/CoherentUI.vert",
 				"Shaders/CoherentUI.frag");
 
-			// Create a texture for it as well
+			// Create a texture for it as well, filled with loading text
+			var bitmap = new Bitmap(_client.Window.Width, _client.Window.Height);
+			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
+			{
+				using (var brush = new SolidBrush(Color.FromArgb(0, 0, 0)))
+				{
+					gfx.FillRectangle(brush, 0, 0, _client.Window.Width, _client.Window.Height);
+				}
+				using (var brush = new SolidBrush(Color.FromArgb(255, 255, 255)))
+				{
+					// Draw the loading message
+					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
+					var textSize = gfx.MeasureString("loading", font);
+					gfx.DrawString("loading", font, brush,
+						(_client.Window.Width * 0.5f) - (textSize.Width * 0.5f),
+						(_client.Window.Height * 0.5f) - (textSize.Height * 0.5f));
+				}
+			}
+
 			// The texture needs to have alpha activated since Coherent UI will need it
-			_texture = new Texture2D(_client.Window.Width, _client.Window.Height, TextureOptions.Alpha | TextureOptions.Bgra);
+			_texture = new Texture2D(bitmap, TextureOptions.Alpha | TextureOptions.Bgra);
 
 			// Get the texture sampler uniform
 			_textureSampler = _program.GetUniform("textureSampler");
@@ -185,35 +223,6 @@ namespace SquareCubed.Client.Gui
 			EscMenu = new EscMenuPanel(this);
 
 			IsLoaded = true;
-		}
-
-		public void Unload()
-		{
-			Contract.Requires<InvalidOperationException>(
-				IsLoaded,
-				"GUI needs to be loaded before it can be unloaded.");
-
-			// Clean up the Coherent UI system
-			_system.Uninitialize();
-			_system.Dispose();
-			_system = null;
-			_settings = null;
-
-			// Clean up all the Graphics Resources
-			_program.Dispose();
-			_program = null;
-
-			// Clean up the Listeners
-			_eventListener.Dispose();
-			_eventListener = null;
-
-			// Clean up the Graphics Resources
-			// TODO: _texture.Dispose() needs to be created
-			_texture = null;
-			// TODO: _vertexBuffer.Dispose() needs to be created
-			_vertexBuffer = null;
-
-			IsLoaded = false;
 		}
 
 		public void Update()
