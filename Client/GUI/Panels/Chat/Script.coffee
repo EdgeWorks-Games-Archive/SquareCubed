@@ -3,20 +3,24 @@
 	closeOnEscape: false
 	
 	draggable: false
-	resizable: false
+	resizable: true
+	
 	width: 400
-	height: "auto"
+	minWidth: 400
+	height: 216
+	minHeight: 216
+	
+	position:
+		"my": "left+6px bottom-6px"
+		"at": "left bottom"
+		"collision" : "none"
 	
 	show:
 		effect: "fadeIn",
 		duration: 300
 		
-# Patch the position to something a bit more sane
-$("#chat").parent().css
-	position: "fixed"
-	top: ""
-	left: 6
-	bottom: 6
+$("#chat").parent().resizable
+	handles: "n, e"
 
 $("#chat").parent().stop(true).fadeTo 200, 0.8
 $("#chat").parent().hover (

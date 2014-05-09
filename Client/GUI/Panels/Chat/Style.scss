@@ -29,7 +29,7 @@
 }
 
 #chat-output {
-	height: 120px;
+	height: calc(100% - 64px);
 	
 	margin: 0;
 	padding: 0 0 0 8px;
