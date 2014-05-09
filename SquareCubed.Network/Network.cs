@@ -97,12 +97,12 @@ namespace SquareCubed.Network
 		public void Connect(string host, string playerName, int port = 12321)
 		{
 			// Configure and start client peer
-			Start<NetClient>();
 			_isServer = false;
+			Start<NetClient>();
 
 			// Attempt to connect to server
 			Debug.Assert(Peer != null);
-			NetOutgoingMessage name = Peer.CreateMessage();
+			var name = Peer.CreateMessage();
 			name.Write(playerName);
 			Peer.Connect(host, port, name);
 		}
@@ -113,6 +113,12 @@ namespace SquareCubed.Network
 
 		public event EventHandler<NetIncomingMessage> NewConnection = (s, e) => { };
 		public event EventHandler<NetIncomingMessage> LostConnection = (s, e) => { };
+
+		/// <summary>
+		/// To react to this event, set the Deny in the event arguments
+		/// to true if you need to deny an incoming connection.
+		/// </summary>
+		public event EventHandler<ConnectApprovalEventArgs> ApprovalRequested = (s, e) => { };
 
 		public void HandlePackets()
 		{
@@ -127,17 +133,22 @@ namespace SquareCubed.Network
 					case NetIncomingMessageType.VerboseDebugMessage:
 					case NetIncomingMessageType.DebugMessage:
 						break; // We don't need those
+
 					case NetIncomingMessageType.WarningMessage:
 					case NetIncomingMessageType.ErrorMessage:
 						_logger.LogInfo(msg.ReadString());
 						break;
 
 					case NetIncomingMessageType.ConnectionApproval:
-						var playerName = msg.ReadString();
-						if (playerName == "a name that is already in use")
+						// Check if anyone wants to deny this connect request
+						var arguments = new ConnectApprovalEventArgs(msg.ReadString());
+						ApprovalRequested(this, arguments);
+						arguments.Deny = true;
+						if (arguments.Deny)
 							msg.SenderConnection.Deny();
 						else
 							msg.SenderConnection.Approve();
+
 						break;
 
 					case NetIncomingMessageType.StatusChanged:
@@ -163,9 +174,11 @@ namespace SquareCubed.Network
 						}
 
 						break;
+
 					case NetIncomingMessageType.Data:
 						PacketHandlers.HandlePacket(msg);
 						break;
+
 					default:
 						_logger.LogInfo("Unhandled message: " + msg.MessageType);
 						break;

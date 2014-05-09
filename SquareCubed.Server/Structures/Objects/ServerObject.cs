@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace SquareCubed.Server.Structures
+namespace SquareCubed.Server.Structures.Objects
 {
 	public class ServerObject
 	{

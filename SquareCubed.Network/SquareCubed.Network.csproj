@@ -108,6 +108,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectApprovalEventArgs.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="PacketHandlers.cs" />
     <Compile Include="PacketTypes.cs" />
