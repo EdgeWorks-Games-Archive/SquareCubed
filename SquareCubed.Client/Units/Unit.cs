@@ -2,10 +2,11 @@
 using System.Diagnostics.Contracts;
 using OpenTK;
 using SquareCubed.Client.Structures;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Units
 {
-	public class Unit
+	public class Unit : IPositionable
 	{
 		private Structure _structure;
 

@@ -10,7 +10,7 @@ using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures
 {
-	public class Structure : IPositionable
+	public class Structure : IComplexPositionable
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 

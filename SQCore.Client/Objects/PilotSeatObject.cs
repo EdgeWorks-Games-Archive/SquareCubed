@@ -44,7 +44,7 @@ namespace SQCore.Client.Objects
 		private void Update(object s, TickEventArgs e)
 		{
 			// Update the proximity helper, if there's no player it will default to not within range
-			_proximity.Update(_player.WorldPlayer);
+			_proximity.Update(_player);
 		}
 
 		void OnKeyPress(object sender, KeyboardKeyEventArgs e)

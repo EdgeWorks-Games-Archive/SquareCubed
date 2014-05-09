@@ -43,7 +43,7 @@ namespace SquareCubed.Client.Graphics
 		}
 
 		public Vector2 Position { get; set; }
-		public IPositionable Parent { get; set; }
+		public IComplexPositionable Parent { get; set; }
 
 		#endregion
 

@@ -1,13 +1,9 @@
-﻿using OpenTK;
+﻿using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Player
 {
-	public interface IPlayer
+	public interface IPlayer : IPositionable
 	{
-		Vector2 Position { get; set; }
 		bool LockInput { set; }
-
-		// TODO: Change to an interface that has a Position property
-		PlayerUnit WorldPlayer { get; }
 	}
 }

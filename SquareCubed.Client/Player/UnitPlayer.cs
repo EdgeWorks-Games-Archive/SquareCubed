@@ -29,7 +29,7 @@ namespace SquareCubed.Client.Player
 
 
 		public bool LockInput { private get; set; }
-		public PlayerUnit WorldPlayer { get { return _playerUnit; } }
+		public IPositionable WorldPlayer { get { return _playerUnit; } }
 
 		public Vector2 Position
 		{

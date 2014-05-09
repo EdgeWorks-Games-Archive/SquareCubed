@@ -1,5 +1,5 @@
 ﻿using System;
-using SquareCubed.Client.Units;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures.Objects
 {
@@ -19,8 +19,8 @@ namespace SquareCubed.Client.Structures.Objects
 	}
 
 	/// <summary>
-	///     Helper class to detect changes on a unit's proximity to an object.
-	///     Can only handle a single unit at a time. Pass the unit you need to
+	///     Helper class to detect changes on a object's proximity to an object.
+	///     Can only handle a single object at a time. Pass the object you need to
 	///     track to the Update function. Default state is not within proximity.
 	/// </summary>
 	public class UnitProximityHelper
@@ -41,15 +41,15 @@ namespace SquareCubed.Client.Structures.Objects
 		/// <summary>
 		///     Updates the detection state, fires off events on changes.
 		/// </summary>
-		/// <param name="unit">
-		///     The unit to update the detection state with.
+		/// <param name="obj">
+		///     The object to update the detection state with.
 		///     Null resets the state to default.
 		/// </param>
-		public void Update(Unit unit)
+		public void Update(IPositionable obj)
 		{
 			// Find the new status
 			var nStatus = ProximityStatus.Within;
-			if (unit == null || (unit.Position - _obj.Position).LengthFast > Range)
+			if (obj == null || (obj.Position - _obj.Position).LengthFast > Range)
 				nStatus = ProximityStatus.NotWithin;
 
 			// If not different, don't do anything

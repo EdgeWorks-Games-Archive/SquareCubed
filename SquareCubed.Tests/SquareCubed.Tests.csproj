@@ -68,6 +68,10 @@
       <Project>{AF82FE81-B664-4632-BDF6-4FA51F07586C}</Project>
       <Name>SquareCubed.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
+      <Project>{17f0bade-60bb-4b9a-b358-26047ef85beb}</Project>
+      <Name>SquareCubed.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
       <Project>{1f3ca083-84be-4d55-b878-d3a3be508ef1}</Project>
       <Name>SquareCubed.Network</Name>
