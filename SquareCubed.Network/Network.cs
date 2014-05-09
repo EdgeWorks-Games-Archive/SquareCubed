@@ -46,6 +46,7 @@ namespace SquareCubed.Network
 			PacketTypes.RegisterType("players.data", 3);
 			PacketTypes.RegisterType("structures.physics", 4);
 			PacketTypes.RegisterType("structures.data", 5);
+			PacketTypes.RegisterType("objects", 6);
 		}
 
 		public virtual void Dispose()

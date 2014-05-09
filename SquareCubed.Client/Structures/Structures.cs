@@ -14,6 +14,7 @@ namespace SquareCubed.Client.Structures
 
 		public TileTypes TileTypes { get; private set; }
 		public ObjectTypes ObjectTypes { get; private set; }
+		public ObjectNetwork ObjectNetwork { get; private set; }
 
 		public IEnumerable<Structure> List
 		{
@@ -26,12 +27,13 @@ namespace SquareCubed.Client.Structures
 			return _structures.TryGetValue(id, out structure) ? structure : null;
 		}
 
-		public Structures(Client client)
+		internal Structures(Client client)
 		{
 			Contract.Requires<ArgumentNullException>(client != null);
 
 			TileTypes = new TileTypes();
 			ObjectTypes = new ObjectTypes(client);
+			ObjectNetwork = new ObjectNetwork(client.Network);
 
 			_network = new StructuresNetwork(client.Network, this);
 			_renderer = new StructuresRenderer(client);

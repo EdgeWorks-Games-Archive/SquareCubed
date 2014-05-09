@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Lidgren.Network;
+using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
@@ -6,14 +7,14 @@ using SquareCubed.Client.Input;
 using SquareCubed.Client.Player;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Objects.Components;
+using SquareCubed.Network;
 
 namespace SQCore.Client.Objects
 {
 	internal class PilotSeatObject : IClientObject
 	{
-		private readonly Input _input;
+		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
-		private readonly IPlayer _player;
 		private readonly UnitProximityHelper _proximity;
 		private readonly Seat _seat;
 
@@ -22,13 +23,12 @@ namespace SQCore.Client.Objects
 
 		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
 		{
+			_client = client;
 			_panel = panel;
-			_player = client.Player;
-			_input = client.Input;
 
-			_input.TrackKey(Key.ShiftLeft);
-			_input.TrackKey(Key.ControlLeft);
-			_input.TrackKey(Key.X);
+			_client.Input.TrackKey(Key.ShiftLeft);
+			_client.Input.TrackKey(Key.ControlLeft);
+			_client.Input.TrackKey(Key.X);
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
@@ -36,8 +36,10 @@ namespace SQCore.Client.Objects
 			_proximity = new UnitProximityHelper(this);
 			_proximity.Change += OnChange;
 
-			_seat = new Seat(_player);
+			_seat = new Seat(_client.Player);
 		}
+
+		public int Id { get; set; }
 
 		public Vector2 Position
 		{
@@ -60,12 +62,12 @@ namespace SQCore.Client.Objects
 		private void Update(object s, TickEventArgs e)
 		{
 			// Update the proximity helper, if there's no player it will default to not within range
-			_proximity.Update(_player);
+			_proximity.Update(_client.Player);
 
 			// If the player isn't in the seat, we're done
 			if (!_seat.HasPlayer) return;
 
-			if (_input.GetKey(Key.ShiftLeft) && !_input.GetKey(Key.ControlLeft))
+			if (_client.Input.GetKey(Key.ShiftLeft) && !_client.Input.GetKey(Key.ControlLeft))
 			{
 				// Shift increases throttle
 				if (_throttle < 1.0f)
@@ -73,7 +75,7 @@ namespace SQCore.Client.Objects
 				if (_throttle > 1.0f)
 					_throttle = 1.0f;
 			}
-			else if (_input.GetKey(Key.ControlLeft))
+			else if (_client.Input.GetKey(Key.ControlLeft))
 			{
 				// Control decreases throttle
 				if (_throttle > 0.0f)
@@ -83,8 +85,13 @@ namespace SQCore.Client.Objects
 			}
 
 			// X cuts throttle
-			if (_input.GetKey(Key.X))
+			if (_client.Input.GetKey(Key.X))
 				_throttle = 0.0f;
+
+			// Send throttle update to the server
+			var msg = _client.Structures.ObjectNetwork.CreateMessageFor(this);
+			msg.Write(_throttle);
+			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
 		}
 
 		private void OnKeyPress(object sender, KeyboardKeyEventArgs e)

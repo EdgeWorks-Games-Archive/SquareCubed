@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
+using SquareCubed.Server.Structures.Objects;
 
 namespace SquareCubed.Server.Structures
 {
@@ -10,8 +11,12 @@ namespace SquareCubed.Server.Structures
 		private readonly StructuresNetwork _network;
 		private readonly AutoDictionary<Structure> _structures = new AutoDictionary<Structure>();
 
+		public ObjectNetwork ObjectNetwork { get; private set; }
+
 		public Structures(Network.Network network)
 		{
+			ObjectNetwork = new ObjectNetwork(network);
+
 			_network = new StructuresNetwork(network);
 		}
 
