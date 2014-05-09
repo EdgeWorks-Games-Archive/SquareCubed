@@ -4,6 +4,7 @@ using SQCore.Client.Gui;
 using SquareCubed.Client;
 using SquareCubed.Client.Player;
 using SquareCubed.Client.Structures.Objects;
+using SquareCubed.Client.Structures.Objects.Components;
 
 namespace SQCore.Client.Objects
 {
@@ -12,9 +13,9 @@ namespace SQCore.Client.Objects
 		private readonly ContextInfoPanel _panel;
 		private readonly Player _player;
 		private readonly UnitProximityHelper _proximity;
+		private readonly Seat _seat;
 
-		private Vector2 _storedPos;
-		private bool _hasPlayer;
+		private Vector2 _position;
 
 		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
 		{
@@ -26,9 +27,19 @@ namespace SQCore.Client.Objects
 
 			_proximity = new UnitProximityHelper(this);
 			_proximity.Change += OnChange;
+
+			_seat = new Seat(_player);
 		}
 
-		public Vector2 Position { get; set; }
+		public Vector2 Position
+		{
+			get { return _position; }
+			set
+			{
+				_position = value;
+				_seat.Position = value;
+			}
+		}
 
 		private void Update(object s, TickEventArgs e)
 		{
@@ -38,26 +49,17 @@ namespace SQCore.Client.Objects
 
 		void OnKeyPress(object sender, KeyboardKeyEventArgs e)
 		{
-			if (!_hasPlayer || e.Key != Key.Escape) return;
+			if (!_seat.HasPlayer || e.Key != Key.Escape) return;
 
-			_hasPlayer = false;
-
-			_player.Position = _storedPos;
-
-			_player.LockInput = false;
+			_seat.Empty();
 			_panel.UseAltText = false;
 		}
 
 		public void OnUse()
 		{
-			if (_hasPlayer || _proximity.Status != ProximityStatus.Within) return;
+			if (_seat.HasPlayer || _proximity.Status != ProximityStatus.Within) return;
 
-			_hasPlayer = true;
-
-			_storedPos = _player.Position;
-			_player.Position = Position;
-
-			_player.LockInput = true;
+			_seat.Sit();
 			_panel.UseAltText = true;
 		}
 
