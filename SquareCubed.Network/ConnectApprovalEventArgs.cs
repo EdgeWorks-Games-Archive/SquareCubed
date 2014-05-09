@@ -1,4 +1,5 @@
 ﻿using System;
+using Lidgren.Network;
 
 namespace SquareCubed.Network
 {
@@ -6,13 +7,15 @@ namespace SquareCubed.Network
 	{
 		private bool _deny;
 
-		public ConnectApprovalEventArgs(string name)
+		public ConnectApprovalEventArgs(string name, NetConnection connection)
 		{
 			Name = name;
+			Connection = connection;
 			_deny = false;
 		}
 
 		public string Name { get; private set; }
+		public NetConnection Connection { get; private set; }
 
 		public bool Deny
 		{

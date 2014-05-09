@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Utils;
+using SquareCubed.Network;
 
 namespace SquareCubed.Server.Players
 {
@@ -12,6 +14,7 @@ namespace SquareCubed.Server.Players
 		private readonly Logger _logger = new Logger("Players");
 		private readonly PlayersNetwork _network;
 		private readonly Dictionary<NetConnection, Player> _players = new Dictionary<NetConnection, Player>();
+		private readonly Dictionary<NetConnection, string> _names = new Dictionary<NetConnection, string>();
 		private readonly Random _random = new Random();
 		private readonly Server _server;
 		private readonly List<ISpawnProvider> _spawnProviders = new List<ISpawnProvider>();
@@ -31,6 +34,7 @@ namespace SquareCubed.Server.Players
 
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
 			_server.Network.LostConnection += OnLostConnection;
+			_server.Network.ApprovalRequested += OnApprovalRequested;
 		}
 
 		/// <summary>
@@ -65,7 +69,9 @@ namespace SquareCubed.Server.Players
 				Structure = spawn.Structure,
 				Position = spawn.Position
 			};
-			var name = "Player " + _iterator++;
+			var name = _names[con];
+			_names.Remove(con);
+
 			var player = new Player(con, name, unit);
 
 			// Make sure the player knows the existing structures
@@ -100,6 +106,15 @@ namespace SquareCubed.Server.Players
 			// Remove and Log
 			_players.Remove(msg.SenderConnection);
 			_logger.LogInfo("Player \"{0}\" removed!", player.Name);
+		}
+
+		private void OnApprovalRequested(object sender, ConnectApprovalEventArgs args)
+		{
+			if (_players.Any(player => string.Equals(player.Value.Name, args.Name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				args.Deny = true;
+			}
+			_names.Add(args.Connection, args.Name);
 		}
 	}
 }

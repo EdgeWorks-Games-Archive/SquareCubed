@@ -141,9 +141,8 @@ namespace SquareCubed.Network
 
 					case NetIncomingMessageType.ConnectionApproval:
 						// Check if anyone wants to deny this connect request
-						var arguments = new ConnectApprovalEventArgs(msg.ReadString());
+						var arguments = new ConnectApprovalEventArgs(msg.ReadString(), msg.SenderConnection);
 						ApprovalRequested(this, arguments);
-						arguments.Deny = true;
 						if (arguments.Deny)
 							msg.SenderConnection.Deny();
 						else
