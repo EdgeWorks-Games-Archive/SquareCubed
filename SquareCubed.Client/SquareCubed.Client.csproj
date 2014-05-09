@@ -150,7 +150,8 @@
     <Compile Include="Input\Input.cs" />
     <Compile Include="Input\MouseState.cs" />
     <Compile Include="Meta\Meta.cs" />
-    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\IPlayer.cs" />
+    <Compile Include="Player\UnitPlayer.cs" />
     <Compile Include="Player\PlayerNetwork.cs" />
     <Compile Include="Player\PlayerUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,11 +5,11 @@ namespace SquareCubed.Client.Player
 {
 	internal class PlayerNetwork
 	{
-		private readonly Player _callback;
+		private readonly UnitPlayer _callback;
 		private readonly Network.Network _network;
 		private readonly PacketType _packetType;
 
-		public PlayerNetwork(Network.Network network, Player callback)
+		public PlayerNetwork(Network.Network network, UnitPlayer callback)
 		{
 			_network = network;
 			_callback = callback;

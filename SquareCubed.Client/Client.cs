@@ -20,7 +20,7 @@ namespace SquareCubed.Client
 		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
 		public Gui.Gui Gui { get; private set; }
-		public Player.Player Player { get; private set; }
+		public Player.IPlayer Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
 		public Structures.Structures Structures { get; private set; }
@@ -53,7 +53,7 @@ namespace SquareCubed.Client
 			Meta = new Meta.Meta(this);
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this);
-			Player = new Player.Player(this);
+			Player = new Player.UnitPlayer(this);
 
 			// Hook Game Loop Events
 			Window.Load += Load;
@@ -158,8 +158,6 @@ namespace SquareCubed.Client
 			// Update the axises before updating
 			Input.UpdateAxes();
 
-			Player.Update(delta);
-
 			// Run the update event
 			UpdateTick(this, eventArgs);
 		}
@@ -176,7 +174,6 @@ namespace SquareCubed.Client
 			BackgroundRenderTick(this, eventArgs);
 
 			Structures.Render();
-			Player.Render();
 
 			Graphics.EndRender();
 

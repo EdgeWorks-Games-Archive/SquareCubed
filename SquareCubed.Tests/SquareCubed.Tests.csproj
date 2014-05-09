@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Graphics\CameraTests.cs" />
+    <Compile Include="Client\Structures\Objects\Components\SeatTests.cs" />
     <Compile Include="Client\Structures\Objects\UnitProximityTests.cs" />
     <Compile Include="Network\PacketHandlersTests.cs" />
     <Compile Include="Network\PacketTypesTests.cs" />

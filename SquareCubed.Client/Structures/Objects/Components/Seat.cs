@@ -1,16 +1,17 @@
 ﻿using OpenTK;
+using SquareCubed.Client.Player;
 
 namespace SquareCubed.Client.Structures.Objects.Components
 {
 	public class Seat
 	{
-		public bool HasPlayer { get; set; }
+		public bool HasPlayer { get; private set; }
 		public Vector2 Position { get; set; }
 
-		private readonly Player.Player _player;
+		private readonly IPlayer _player;
 		private Vector2 _storedPos;
 
-		public Seat(Player.Player player)
+		public Seat(IPlayer player)
 		{
 			_player = player;
 		}

@@ -11,7 +11,7 @@ namespace SQCore.Client.Objects
 	internal class PilotSeatObject : IClientObject
 	{
 		private readonly ContextInfoPanel _panel;
-		private readonly Player _player;
+		private readonly IPlayer _player;
 		private readonly UnitProximityHelper _proximity;
 		private readonly Seat _seat;
 
@@ -44,7 +44,7 @@ namespace SQCore.Client.Objects
 		private void Update(object s, TickEventArgs e)
 		{
 			// Update the proximity helper, if there's no player it will default to not within range
-			_proximity.Update(_player.PlayerUnit);
+			_proximity.Update(_player.WorldPlayer);
 		}
 
 		void OnKeyPress(object sender, KeyboardKeyEventArgs e)
