@@ -21,7 +21,7 @@ $("#mainmenu").dialog
 			dialog.find(".ui-dialog-buttonpane").slideUp 200
 			
 			# Actually connect
-			engine.call "connect", $("#mainmenu-form-server").val()
+			engine.call "connect", $("#mainmenu-form-server").val(), $("#mainmenu-form-player").val()
 		"Quit": ->
 			engine.call "quit"
 			

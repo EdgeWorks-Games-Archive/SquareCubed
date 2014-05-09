@@ -111,6 +111,15 @@ namespace SquareCubed.Client.Gui
 				_viewReadyQueue.Add(() => _viewListener.View.BindCall(name, handler));
 		}
 
+		public void BindCall<T1, T2>(string name, Action<T1, T2> handler)
+		{
+			// TODO: This isn't a very elegant way to do it but it works for now.
+			if (_viewListener != null && _viewListener.View != null)
+				_viewListener.View.BindCall(name, handler);
+			else
+				_viewReadyQueue.Add(() => _viewListener.View.BindCall(name, handler));
+		}
+
 		#endregion
 
 		private readonly InputHandler _inputHandler;

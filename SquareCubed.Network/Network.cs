@@ -80,6 +80,7 @@ namespace SquareCubed.Network
 			// Configure peer
 			var config = new NetPeerConfiguration(_appIdentifier);
 			if (port > 0) config.Port = port;
+			if (_isServer) config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
 			// Start peer
 			Peer = (T) Activator.CreateInstance(typeof (T), config);
@@ -89,11 +90,11 @@ namespace SquareCubed.Network
 		public void StartServer(int port = 12321)
 		{
 			// Configure and start server peer
-			Start<NetServer>(port);
 			_isServer = true;
+			Start<NetServer>(port);
 		}
 
-		public void Connect(string host, int port = 12321)
+		public void Connect(string host, string playerName, int port = 12321)
 		{
 			// Configure and start client peer
 			Start<NetClient>();
@@ -101,7 +102,9 @@ namespace SquareCubed.Network
 
 			// Attempt to connect to server
 			Debug.Assert(Peer != null);
-			Peer.Connect(host, port);
+			NetOutgoingMessage name = Peer.CreateMessage();
+			name.Write(playerName);
+			Peer.Connect(host, port, name);
 		}
 
 		#endregion
@@ -128,6 +131,15 @@ namespace SquareCubed.Network
 					case NetIncomingMessageType.ErrorMessage:
 						_logger.LogInfo(msg.ReadString());
 						break;
+
+					case NetIncomingMessageType.ConnectionApproval:
+						var playerName = msg.ReadString();
+						if (playerName == "a name that is already in use")
+							msg.SenderConnection.Deny();
+						else
+							msg.SenderConnection.Approve();
+						break;
+
 					case NetIncomingMessageType.StatusChanged:
 						var status = (NetConnectionStatus) msg.ReadByte();
 						_logger.LogInfo("Status changed to {0}: {1}", status.ToString(), msg.ReadString());

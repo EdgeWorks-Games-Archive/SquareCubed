@@ -22,7 +22,7 @@
         $("#mainmenu-error").slideUp(200);
         dialog.find(":input").prop("disabled", true);
         dialog.find(".ui-dialog-buttonpane").slideUp(200);
-        return engine.call("connect", $("#mainmenu-form-server").val());
+        return engine.call("connect", $("#mainmenu-form-server").val(), $("#mainmenu-form-player"));
       },
       "Quit": function() {
         return engine.call("quit");
