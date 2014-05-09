@@ -18,6 +18,9 @@ namespace SquareCubed.Client.Structures.Objects.Components
 
 		public void Sit()
 		{
+			// If we have the player we can't get him there again
+			if (HasPlayer) return;
+
 			HasPlayer = true;
 			_storedPos = _player.Position;
 			_player.Position = Position;
@@ -26,6 +29,9 @@ namespace SquareCubed.Client.Structures.Objects.Components
 
 		public void Empty()
 		{
+			// If we don't have a player we can't empty
+			if (!HasPlayer) return;
+
 			HasPlayer = false;
 			_player.Position = _storedPos;
 			_player.LockInput = false;
