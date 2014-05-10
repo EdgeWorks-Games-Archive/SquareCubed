@@ -135,6 +135,13 @@ input:invalid {
   top: 0;
   height: 100%; }
 
+.ui-resizable-ne {
+  cursor: ne-resize;
+  width: 9px;
+  height: 9px;
+  right: -5px;
+  top: -5px; }
+
 /*** Misc ***/
 .ui-icon-blank {
   background-position: 16px 16px; }

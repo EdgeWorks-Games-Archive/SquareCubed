@@ -46,6 +46,11 @@
 	&::-webkit-scrollbar-thumb {
 		background-color: rgb(80, 80, 80);
 	}
+
+	li {
+		margin-top: 2px;
+		margin-bottom: 2px;
+	}
 }
 
 #chat-input {

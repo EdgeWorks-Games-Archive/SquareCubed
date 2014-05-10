@@ -6,10 +6,12 @@
     dialogClass: "ui-noclose",
     closeOnEscape: false,
     draggable: false,
-    resizable: true,
+    resizable: {
+      handles: "n, e"
+    },
     width: 400,
-    minWidth: 400,
     height: 216,
+    minWidth: 400,
     minHeight: 216,
     position: {
       "my": "left+6px bottom-6px",
@@ -20,10 +22,6 @@
       effect: "fadeIn",
       duration: 300
     }
-  });
-
-  $("#chat").parent().resizable({
-    handles: "n, e"
   });
 
   $("#chat").parent().stop(true).fadeTo(200, 0.8);

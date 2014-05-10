@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Utils;
@@ -12,18 +13,12 @@ namespace SquareCubed.Server.Players
 	public class Players
 	{
 		private readonly Logger _logger = new Logger("Players");
+		private readonly Dictionary<NetConnection, string> _names = new Dictionary<NetConnection, string>();
 		private readonly PlayersNetwork _network;
 		private readonly Dictionary<NetConnection, Player> _players = new Dictionary<NetConnection, Player>();
-		private readonly Dictionary<NetConnection, string> _names = new Dictionary<NetConnection, string>();
 		private readonly Random _random = new Random();
 		private readonly Server _server;
 		private readonly List<ISpawnProvider> _spawnProviders = new List<ISpawnProvider>();
-		private uint _iterator = 1;
-
-		public Player this[NetConnection key]
-		{
-			get { return _players[key]; }
-		}
 
 		public Players(Server server)
 		{
@@ -35,6 +30,11 @@ namespace SquareCubed.Server.Players
 			_server.Meta.ClientDataReceived += OnClientDataReceived;
 			_server.Network.LostConnection += OnLostConnection;
 			_server.Network.ApprovalRequested += OnApprovalRequested;
+		}
+
+		public Player this[NetConnection key]
+		{
+			get { return _players[key]; }
 		}
 
 		/// <summary>
@@ -110,11 +110,19 @@ namespace SquareCubed.Server.Players
 
 		private void OnApprovalRequested(object sender, ConnectApprovalEventArgs args)
 		{
-			if (_players.Any(player => string.Equals(player.Value.Name, args.Name, StringComparison.CurrentCultureIgnoreCase)))
+			// Remove double spaces and begin/end spaces
+			var name = Regex.Replace(args.Name, " {2,}", " ").Trim(' ');
+
+			// Check if the name is already in use
+			if (_players.Any(p => string.Equals(p.Value.Name, name, StringComparison.CurrentCultureIgnoreCase)) ||
+			    _names.Any(n => string.Equals(n.Value, name, StringComparison.CurrentCultureIgnoreCase)))
 			{
 				args.Deny = true;
+				return;
 			}
-			_names.Add(args.Connection, args.Name);
+
+			// Add the actual name
+			_names.Add(args.Connection, name);
 		}
 	}
 }
