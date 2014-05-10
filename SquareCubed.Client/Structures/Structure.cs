@@ -7,6 +7,7 @@ using OpenTK;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Units;
 using SquareCubed.Common.Data;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {
@@ -55,7 +56,7 @@ namespace SquareCubed.Client.Structures
 
 	public static class StructureExtensions
 	{
-		private static List<ClientChunk> ReadChunks(this NetIncomingMessage msg, ObjectTypes objectTypes)
+		private static List<ClientChunk> ReadChunks(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
 			var amount = msg.ReadInt32();
 			var chunks = new List<ClientChunk>(amount);
@@ -65,7 +66,7 @@ namespace SquareCubed.Client.Structures
 			return chunks;
 		}
 
-		public static Structure ReadStructure(this NetIncomingMessage msg, ObjectTypes objectTypes)
+		public static Structure ReadStructure(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 

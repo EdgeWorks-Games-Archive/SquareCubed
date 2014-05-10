@@ -3,7 +3,7 @@ using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	class PilotSeatObjectType : IObjectType
+	class PilotSeatObjectType : IClientObjectType
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;

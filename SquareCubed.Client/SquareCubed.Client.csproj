@@ -158,16 +158,14 @@
     <Compile Include="Structures\ClientChunk.cs" />
     <Compile Include="Structures\Objects\Components\Seat.cs" />
     <Compile Include="Structures\Objects\IClientObject.cs" />
-    <Compile Include="Structures\Objects\IObjectType.cs" />
+    <Compile Include="Structures\Objects\IClientObjectType.cs" />
     <Compile Include="Structures\Objects\ObjectNetwork.cs" />
-    <Compile Include="Structures\Objects\ObjectTypes.cs" />
     <Compile Include="Structures\Objects\UnitProximityHelper.cs" />
     <Compile Include="Structures\Structure.cs" />
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />
     <Compile Include="Structures\StructuresRenderer.cs" />
     <Compile Include="Structures\Tiles\InvisibleTileType.cs" />
-    <Compile Include="Structures\Tiles\TileTypes.cs" />
     <Compile Include="Structures\Tiles\TileType.cs" />
     <Compile Include="TickEventArgs.cs" />
     <Compile Include="Units\Unit.cs" />

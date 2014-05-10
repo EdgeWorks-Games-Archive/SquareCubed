@@ -6,6 +6,7 @@ using SQCore.Common;
 using SquareCubed.Client;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Tiles;
+using SquareCubed.Common.Utils;
 
 namespace SQCore.Client
 {
@@ -20,15 +21,15 @@ namespace SQCore.Client
 
 		#region Object Types
 
-		private readonly PilotSeatObjectType _pilotSeatType;
+		private readonly PilotSeatObjectType _pilotSeatClientType;
 
 		#endregion
 
 		#region External Componentes
 
 		private readonly SquareCubed.Client.Client _client;
-		private readonly ObjectTypes _objectTypes;
-		private readonly TileTypes _tileTypes;
+		private readonly TypeRegistry<TileType> _tileTypes;
+		private readonly TypeRegistry<IClientObjectType> _objectTypes;
 
 		#endregion
 
@@ -57,8 +58,8 @@ namespace SQCore.Client
 			_tileTypes.RegisterType(_metalFloorTile, 3);
 
 			// Add object types
-			_pilotSeatType = new PilotSeatObjectType(_client, _infoPanel);
-			_objectTypes.RegisterType(_pilotSeatType, 0);
+			_pilotSeatClientType = new PilotSeatObjectType(_client, _infoPanel);
+			_objectTypes.RegisterType(_pilotSeatClientType, 0);
 
 			// Bind events
 			_client.BackgroundRenderTick += RenderBackground;
@@ -82,7 +83,7 @@ namespace SQCore.Client
 			_metalFloorTile.Dispose();
 
 			// Remove object types
-			_objectTypes.UnregisterType(_pilotSeatType);
+			_objectTypes.UnregisterType(_pilotSeatClientType);
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

@@ -8,6 +8,6 @@ namespace SquareCubed.Server.Structures.Objects
 		public Vector2 Position { get; set; }
 
 		// TODO: Change to be auto resolved
-		public int Id { get; set; }
+		public int TypeId { get; set; }
 	}
 }

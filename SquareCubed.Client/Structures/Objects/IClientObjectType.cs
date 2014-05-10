@@ -1,6 +1,6 @@
 ﻿namespace SquareCubed.Client.Structures.Objects
 {
-	public interface IObjectType
+	public interface IClientObjectType
 	{
 		IClientObject CreateNew();
 	}

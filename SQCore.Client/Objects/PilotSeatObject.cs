@@ -3,8 +3,6 @@ using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
-using SquareCubed.Client.Input;
-using SquareCubed.Client.Player;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Objects.Components;
 using SquareCubed.Network;
@@ -40,6 +38,7 @@ namespace SQCore.Client.Objects
 		}
 
 		public int Id { get; set; }
+		public int TypeId { get; set; }
 
 		public Vector2 Position
 		{

@@ -20,7 +20,7 @@ namespace SquareCubed.Server.Structures
 			_objects.Add(new ServerObject
 			{
 				Position = new Vector2(x, y),
-				Id = id
+				TypeId = id
 			});
 		}
 	}
@@ -53,7 +53,7 @@ namespace SquareCubed.Server.Structures
 			msg.Write(chunk.Objects.Count);
 			foreach (var obj in chunk.Objects)
 			{
-				msg.Write(obj.Id);
+				msg.Write(obj.TypeId);
 				msg.Write(obj.Position);
 			}
 		}

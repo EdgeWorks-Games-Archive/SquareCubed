@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Common.Data;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {
@@ -14,7 +15,7 @@ namespace SquareCubed.Client.Structures
 
 	public static class ClientChunkExtensions
 	{
-		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, ObjectTypes objectTypes)
+		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
 			var amount = msg.ReadInt32();
 			var objects = new List<IClientObject>(amount);
@@ -29,7 +30,7 @@ namespace SquareCubed.Client.Structures
 			return objects;
 		}
 
-		public static ClientChunk ReadChunk(this NetIncomingMessage msg, ObjectTypes objectTypes)
+		public static ClientChunk ReadChunk(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 			Contract.Ensures(Contract.Result<ClientChunk>() != null);

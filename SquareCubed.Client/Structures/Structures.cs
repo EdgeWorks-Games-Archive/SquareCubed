@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Tiles;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {
@@ -12,8 +13,8 @@ namespace SquareCubed.Client.Structures
 		private readonly StructuresRenderer _renderer;
 		private readonly Dictionary<int, Structure> _structures = new Dictionary<int, Structure>();
 
-		public TileTypes TileTypes { get; private set; }
-		public ObjectTypes ObjectTypes { get; private set; }
+		public TypeRegistry<TileType> TileTypes { get; private set; }
+		public TypeRegistry<IClientObjectType> ObjectTypes { get; private set; }
 		public ObjectNetwork ObjectNetwork { get; private set; }
 
 		public IEnumerable<Structure> List
@@ -31,8 +32,10 @@ namespace SquareCubed.Client.Structures
 		{
 			Contract.Requires<ArgumentNullException>(client != null);
 
-			TileTypes = new TileTypes();
-			ObjectTypes = new ObjectTypes(client);
+			TileTypes = new TypeRegistry<TileType>();
+			TileTypes.RegisterType(new InvisibleTileType(), 1);
+
+			ObjectTypes = new TypeRegistry<IClientObjectType>();
 			ObjectNetwork = new ObjectNetwork(client.Network);
 
 			_network = new StructuresNetwork(client.Network, this);
