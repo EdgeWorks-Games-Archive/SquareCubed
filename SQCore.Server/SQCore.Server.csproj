@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\ChatNetwork.cs" />
+    <Compile Include="Objects\PilotSeatObjectType.cs" />
     <Compile Include="ServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpawnProvider.cs" />

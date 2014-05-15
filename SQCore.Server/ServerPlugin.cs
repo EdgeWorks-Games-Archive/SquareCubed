@@ -1,20 +1,41 @@
 ﻿using OpenTK;
 using SQCore.Common;
+using SQCore.Server.Objects;
+using SquareCubed.Common.Utils;
 using SquareCubed.Server;
 using SquareCubed.Server.Structures;
+using SquareCubed.Server.Structures.Objects;
 
 namespace SQCore.Server
 {
 	public class ServerPlugin : CommonPlugin, IServerPlugin
 	{
+		#region Object Types
+
+		private readonly PilotSeatObjectType _pilotSeatType;
+
+		#endregion
+
+		#region External Components
+
+		private TypeRegistry<IServerObjectType> _objectTypes;
+
+		#endregion
+
 		private readonly Chat.Chat _chat;
 
 		public ServerPlugin(SquareCubed.Server.Server server)
 		{
 			Logger.LogInfo("Initializing core plugin...");
 
+			_objectTypes = server.Structures.ObjectTypes;
+
 			// Set up the chat
 			_chat = new Chat.Chat(server.Network, server.Players);
+
+			// Add object types
+			_pilotSeatType = new PilotSeatObjectType();
+			_objectTypes.RegisterType(_pilotSeatType, 0);
 
 			// Add the default spawn provider
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));

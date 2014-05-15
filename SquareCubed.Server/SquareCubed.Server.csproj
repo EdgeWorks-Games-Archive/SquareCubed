@@ -124,6 +124,7 @@
     <Compile Include="Players\SpawnPoint.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\Objects\IServerObjectType.cs" />
     <Compile Include="Structures\Objects\ObjectNetwork.cs" />
     <Compile Include="Structures\ServerChunk.cs" />
     <Compile Include="Structures\Objects\ServerObject.cs" />

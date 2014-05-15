@@ -1,11 +1,19 @@
-﻿using OpenTK;
+﻿using System;
+using System.Diagnostics.Contracts;
+using OpenTK;
 using SquareCubed.Client.Units;
 using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Player
 {
-	public class PlayerUnit : Unit
+	internal class PlayerUnit : Unit
 	{
+		internal PlayerUnit(Unit oldUnit)
+			: base(oldUnit)
+		{
+			Contract.Requires<ArgumentNullException>(oldUnit != null);
+		}
+
 		public AaBb AaBb
 		{
 			get
@@ -21,11 +29,6 @@ namespace SquareCubed.Client.Player
 		public override void ProcessPhysicsPacketData(Vector2 position)
 		{
 			// Player doesn't care about update packets
-		}
-
-		public PlayerUnit(Unit oldUnit)
-			: base(oldUnit)
-		{
 		}
 	}
 }

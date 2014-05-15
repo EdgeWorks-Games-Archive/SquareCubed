@@ -20,6 +20,9 @@ namespace SquareCubed.Common.Utils
 				id <= MaxId,
 				"Object TypeId is bigger than the maximum TypeId allowed.");
 
+			if (_typeList[id] == null)
+				throw new InvalidOperationException("Object type " + id + " not registered!");
+
 			return _typeList[id];
 		}
 
@@ -34,7 +37,7 @@ namespace SquareCubed.Common.Utils
 			// Preventing the type from being overwritten even at
 			// runtime will give us a clearer bugreport.
 			if (_typeList[id] != null)
-				throw new Exception("Object type " + id + " already registered!");
+				throw new InvalidOperationException("Object type " + id + " already registered!");
 
 			_typeList[id] = type;
 		}

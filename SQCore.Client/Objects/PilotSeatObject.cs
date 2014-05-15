@@ -24,10 +24,6 @@ namespace SQCore.Client.Objects
 			_client = client;
 			_panel = panel;
 
-			_client.Input.TrackKey(Key.ShiftLeft);
-			_client.Input.TrackKey(Key.ControlLeft);
-			_client.Input.TrackKey(Key.X);
-
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
 
