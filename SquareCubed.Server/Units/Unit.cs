@@ -7,7 +7,7 @@ namespace SquareCubed.Server.Units
 	public class Unit
 	{
 		private World _world;
-		private Structure _structure;
+		private ServerStructure _structure;
 
 		public int Id { get; set; }
 
@@ -29,7 +29,7 @@ namespace SquareCubed.Server.Units
 			}
 		}
 
-		public Structure Structure
+		public ServerStructure Structure
 		{
 			get { return _structure; }
 			set

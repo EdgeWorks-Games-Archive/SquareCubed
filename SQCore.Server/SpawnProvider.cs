@@ -20,7 +20,7 @@ namespace SQCore.Server
 		public SpawnPoint GetNewSpawn()
 		{
 			// Create a test ship
-			var str = new Structure
+			var str = new ServerStructure
 			{
 				World = _server.Worlds.TestWorld,
 				Position = new Vector2(_nextPosition, 0),
@@ -37,7 +37,7 @@ namespace SQCore.Server
 			chunk.SetTile(6, 7, 3);
 			chunk.SetWalls(6, 7, 2, 2, 0, 2);
 			// Add a pilot seat
-			chunk.AddObject(6.5f, 7.5f, 0);
+			str.AddObject(6.5f, 7.5f, 0);
 
 			// Airlock
 			chunk.SetTile(5, 6, 3);

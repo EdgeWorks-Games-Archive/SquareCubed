@@ -6,6 +6,6 @@ namespace SquareCubed.Server.Players
 	public struct SpawnPoint
 	{
 		public Vector2 Position { get; set; }
-		public Structure Structure { get; set; }
+		public ServerStructure Structure { get; set; }
 	}
 }

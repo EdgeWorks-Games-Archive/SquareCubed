@@ -10,19 +10,6 @@ namespace SquareCubed.Server.Structures
 {
 	public class ServerChunk : Chunk
 	{
-		private readonly List<ServerObject> _objects = new List<ServerObject>();
-
-		public IReadOnlyCollection<ServerObject> Objects { get { return _objects.AsReadOnly(); } }
-
-		// TODO: Change to use proper object classes instead of Ids and resolve Ids on send instead
-		public void AddObject(float x, float y, int id)
-		{
-			_objects.Add(new ServerObject
-			{
-				Position = new Vector2(x, y),
-				TypeId = id
-			});
-		}
 	}
 
 	public static class ServerChunkExtensions
@@ -48,14 +35,6 @@ namespace SquareCubed.Server.Structures
 				}
 			}
 			msg.WritePadBits();
-
-			// Write all the objects to the message
-			msg.Write(chunk.Objects.Count);
-			foreach (var obj in chunk.Objects)
-			{
-				msg.Write(obj.TypeId);
-				msg.Write(obj.Position);
-			}
 		}
 	}
 }

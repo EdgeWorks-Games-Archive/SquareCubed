@@ -79,7 +79,7 @@ namespace SquareCubed.Client.Units
 
 		#region Game Loop
 
-		public void RenderFor(Structure structure)
+		public void RenderFor(ClientStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(structure != null);
 

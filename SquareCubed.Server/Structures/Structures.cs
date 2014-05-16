@@ -9,7 +9,7 @@ namespace SquareCubed.Server.Structures
 	public class Structures
 	{
 		private readonly StructuresNetwork _network;
-		private readonly AutoDictionary<Structure> _structures = new AutoDictionary<Structure>();
+		private readonly AutoDictionary<ServerStructure> _structures = new AutoDictionary<ServerStructure>();
 
 		public TypeRegistry<IServerObjectType> ObjectTypes { get; private set; }
 		public ObjectNetwork ObjectNetwork { get; private set; }
@@ -22,7 +22,7 @@ namespace SquareCubed.Server.Structures
 			_network = new StructuresNetwork(network);
 		}
 
-		public void Add(Structure structure)
+		public void Add(ServerStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(structure != null);
 

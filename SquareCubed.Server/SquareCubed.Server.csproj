@@ -128,7 +128,7 @@
     <Compile Include="Structures\Objects\ObjectNetwork.cs" />
     <Compile Include="Structures\ServerChunk.cs" />
     <Compile Include="Structures\Objects\ServerObject.cs" />
-    <Compile Include="Structures\Structure.cs" />
+    <Compile Include="Structures\ServerStructure.cs" />
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />
     <Compile Include="Units\Unit.cs" />

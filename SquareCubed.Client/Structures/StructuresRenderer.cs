@@ -34,11 +34,11 @@ namespace SquareCubed.Client.Structures
 			}
 		}
 
-		private void RenderChunkObjects(ClientChunk chunk)
+		private void RenderObjects(ClientStructure structure)
 		{
 			// White test squares for now
 			GL.Color3(Color.FromArgb(255, 255, 255));
-			foreach (var obj in chunk.Objects)
+			foreach (var obj in structure.Objects)
 			{
 				GL.PushMatrix();
 				GL.Translate(obj.Position.X, obj.Position.Y, 0.0f);
@@ -93,7 +93,7 @@ namespace SquareCubed.Client.Structures
 			}
 		}
 
-		public void RenderStructures(IEnumerable<Structure> structures)
+		public void RenderStructures(IEnumerable<ClientStructure> structures)
 		{
 			GL.MatrixMode(MatrixMode.Modelview);
 			foreach (var structure in structures)
@@ -114,10 +114,11 @@ namespace SquareCubed.Client.Structures
 					GL.Translate(chunk.Position.X * Chunk.ChunkSize, chunk.Position.Y * Chunk.ChunkSize, 0);
 
 					RenderChunkTiles(chunk);
-					RenderChunkObjects(chunk);
 
 					GL.PopMatrix();
 				}
+
+				RenderObjects(structure);
 
 				// Units are rendered below walls but above tiles and objects
 				_client.Units.RenderFor(structure);

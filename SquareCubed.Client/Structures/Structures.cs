@@ -11,20 +11,20 @@ namespace SquareCubed.Client.Structures
 	{
 		private readonly StructuresNetwork _network;
 		private readonly StructuresRenderer _renderer;
-		private readonly Dictionary<int, Structure> _structures = new Dictionary<int, Structure>();
+		private readonly Dictionary<int, ClientStructure> _structures = new Dictionary<int, ClientStructure>();
 
 		public TypeRegistry<TileType> TileTypes { get; private set; }
 		public TypeRegistry<IClientObjectType> ObjectTypes { get; private set; }
 		public ObjectNetwork ObjectNetwork { get; private set; }
 
-		public IEnumerable<Structure> List
+		public IEnumerable<ClientStructure> List
 		{
 			get { return _structures.Values; }
 		}
 
-		public Structure GetOrNull(int id)
+		public ClientStructure GetOrNull(int id)
 		{
-			Structure structure;
+			ClientStructure structure;
 			return _structures.TryGetValue(id, out structure) ? structure : null;
 		}
 
@@ -42,7 +42,7 @@ namespace SquareCubed.Client.Structures
 			_renderer = new StructuresRenderer(client);
 		}
 
-		public void OnStructureData(Structure structure)
+		public void OnStructureData(ClientStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(structure != null);
 

@@ -41,7 +41,7 @@ namespace SQCore.Server
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));
 
 			// Add a little test structure
-			var str = new Structure
+			var str = new ServerStructure
 			{
 				World = server.Worlds.TestWorld,
 				Position = new Vector2(3, 2),

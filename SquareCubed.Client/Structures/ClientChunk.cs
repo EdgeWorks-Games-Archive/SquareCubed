@@ -10,27 +10,11 @@ namespace SquareCubed.Client.Structures
 {
 	public class ClientChunk : Chunk
 	{
-		public List<IClientObject> Objects { get; set; }
 	}
 
 	public static class ClientChunkExtensions
 	{
-		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
-		{
-			var amount = msg.ReadInt32();
-			var objects = new List<IClientObject>(amount);
-			for (var i = 0; i < amount; i++)
-			{
-				// Create an object of the type with the id we received assigned to it.
-				var obj = objectTypes.GetType(msg.ReadInt32()).CreateNew();
-				obj.Position = msg.ReadVector2();
-				objects.Add(obj);
-			}
-
-			return objects;
-		}
-
-		public static ClientChunk ReadChunk(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
+		public static ClientChunk ReadChunk(this NetIncomingMessage msg)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 			Contract.Ensures(Contract.Result<ClientChunk>() != null);
@@ -51,9 +35,6 @@ namespace SquareCubed.Client.Structures
 			}
 			msg.ReadPadBits();
 			chunk.UpdateColliders();
-
-			// Read all the objects from the message
-			chunk.Objects = msg.ReadObjects(objectTypes);
 
 			return chunk;
 		}

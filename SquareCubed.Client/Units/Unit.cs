@@ -8,9 +8,9 @@ namespace SquareCubed.Client.Units
 {
 	public class Unit : IPositionable
 	{
-		private Structure _structure;
+		private ClientStructure _structure;
 
-		public Structure Structure
+		public ClientStructure Structure
 		{
 			get { return _structure; }
 			set

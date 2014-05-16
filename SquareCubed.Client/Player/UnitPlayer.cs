@@ -48,7 +48,7 @@ namespace SquareCubed.Client.Player
 			if (_playerUnit.Structure == null) return;
 
 			foreach (
-				var obj in from obj in _playerUnit.Structure.Chunks.SelectMany(c => c.Objects)
+				var obj in from obj in _playerUnit.Structure.Objects
 					let boundingBox = new AaBb
 					{
 						Position = new Vector2(obj.Position.X - 0.4f, obj.Position.Y - 0.4f),

@@ -4,19 +4,21 @@ using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
+using SquareCubed.Server.Structures.Objects;
 using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
 
 namespace SquareCubed.Server.Structures
 {
-	public class Structure
+	public class ServerStructure
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 		private World _world;
 
-		public Structure()
+		public ServerStructure()
 		{
 			Chunks = new List<ServerChunk>();
+			Objects = new List<ServerObject>();
 		}
 
 		public World World
@@ -39,6 +41,7 @@ namespace SquareCubed.Server.Structures
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
+		public List<ServerObject> Objects { get; set; }
 
 		/// <summary>
 		///     The location in the chunk data where the center of the structure is.
@@ -51,7 +54,7 @@ namespace SquareCubed.Server.Structures
 			get { return _units.AsReadOnly(); }
 		}
 
-		private void UpdateEntry<T>(ICollection<T> list, T entry, Structure newStructure)
+		private void UpdateEntry<T>(ICollection<T> list, T entry, ServerStructure newStructure)
 		{
 			// If this world, add, if not, remove
 			if (newStructure == this)
@@ -69,11 +72,21 @@ namespace SquareCubed.Server.Structures
 			Contract.Requires<ArgumentNullException>(unit != null);
 			UpdateEntry(_units, unit, unit.Structure);
 		}
+
+		// TODO: Change to use proper object classes instead of Ids and resolve Ids on send instead
+		public void AddObject(float x, float y, int id)
+		{
+			Objects.Add(new ServerObject
+			{
+				Position = new Vector2(x, y),
+				TypeId = id
+			});
+		}
 	}
 
 	public static class StructureExtensions
 	{
-		public static void Write(this NetOutgoingMessage msg, Structure structure)
+		public static void Write(this NetOutgoingMessage msg, ServerStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 			Contract.Requires<ArgumentNullException>(structure != null);
@@ -88,6 +101,14 @@ namespace SquareCubed.Server.Structures
 			msg.Write(structure.Chunks.Count);
 			foreach (var chunk in structure.Chunks)
 				msg.Write(chunk);
+
+			// Write all the objects to the message
+			msg.Write(structure.Objects.Count);
+			foreach (var obj in structure.Objects)
+			{
+				msg.Write(obj.TypeId);
+				msg.Write(obj.Position);
+			}
 		}
 	}
 }

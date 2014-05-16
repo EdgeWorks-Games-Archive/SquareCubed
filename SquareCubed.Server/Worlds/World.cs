@@ -21,7 +21,7 @@ namespace SquareCubed.Server.Worlds
 		#region Quick Lookup Collections
 
 		private readonly List<Player> _players = new List<Player>();
-		private readonly List<Structure> _structures = new List<Structure>();
+		private readonly List<ServerStructure> _structures = new List<ServerStructure>();
 		private readonly List<Unit> _units = new List<Unit>();
 
 		public IReadOnlyCollection<Player> Players
@@ -34,7 +34,7 @@ namespace SquareCubed.Server.Worlds
 			get { return _units.AsReadOnly(); }
 		}
 
-		public IReadOnlyCollection<Structure> Structures
+		public IReadOnlyCollection<ServerStructure> Structures
 		{
 			get { return _structures.AsReadOnly(); }
 		}
@@ -64,7 +64,7 @@ namespace SquareCubed.Server.Worlds
 			UpdateEntry(_units, unit, unit.World);
 		}
 
-		public void UpdateStructureEntry(Structure structure)
+		public void UpdateStructureEntry(ServerStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(structure != null);
 			UpdateEntry(_structures, structure, structure.World);

@@ -17,7 +17,7 @@ namespace SquareCubed.Server.Structures
 			_dataPacketType = _network.PacketTypes.ResolveType("structures.data");
 		}
 
-		public void SendStructurePhysics(Structure structure)
+		public void SendStructurePhysics(ServerStructure structure)
 		{
 			var msg = _network.Peer.CreateMessage();
 
@@ -36,7 +36,7 @@ namespace SquareCubed.Server.Structures
 			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
 		}
 
-		public void SendStructureData(Structure structure, Player player = null)
+		public void SendStructureData(ServerStructure structure, Player player = null)
 		{
 			var msg = _network.Peer.CreateMessage();
 

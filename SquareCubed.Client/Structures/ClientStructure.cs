@@ -11,7 +11,7 @@ using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {
-	public class Structure : IComplexPositionable
+	public class ClientStructure : IComplexPositionable
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 
@@ -26,8 +26,9 @@ namespace SquareCubed.Client.Structures
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
 		public Vector2 Center { get; set; }
+		public List<IClientObject> Objects { get; set; }
 
-		private void UpdateEntry<T>(ICollection<T> list, T entry, Structure newStructure)
+		private void UpdateEntry<T>(ICollection<T> list, T entry, ClientStructure newStructure)
 		{
 			// If this world, add, if not, remove
 			if (newStructure == this)
@@ -56,28 +57,46 @@ namespace SquareCubed.Client.Structures
 
 	public static class StructureExtensions
 	{
-		private static List<ClientChunk> ReadChunks(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
+		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
+		{
+			var amount = msg.ReadInt32();
+			var objects = new List<IClientObject>(amount);
+			for (var i = 0; i < amount; i++)
+			{
+				// Create an object of the type with the id we received assigned to it.
+				var obj = objectTypes.GetType(msg.ReadInt32()).CreateNew();
+				obj.Position = msg.ReadVector2();
+				objects.Add(obj);
+			}
+
+			return objects;
+		}
+
+		private static List<ClientChunk> ReadChunks(this NetIncomingMessage msg)
 		{
 			var amount = msg.ReadInt32();
 			var chunks = new List<ClientChunk>(amount);
 			for (var i = 0; i < amount; i++)
-				chunks.Add(msg.ReadChunk(objectTypes));
+				chunks.Add(msg.ReadChunk());
 
 			return chunks;
 		}
 
-		public static Structure ReadStructure(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
+		public static ClientStructure ReadStructure(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 
-			return new Structure
+			var structure = new ClientStructure
 			{
 				Id = msg.ReadInt32(),
 				Position = msg.ReadVector2(),
 				Rotation = msg.ReadFloat(),
 				Center = msg.ReadVector2(),
-				Chunks = msg.ReadChunks(objectTypes)
+				Chunks = msg.ReadChunks(),
+				Objects = msg.ReadObjects(objectTypes)
 			};
+
+			return structure;
 		}
 	}
 }
