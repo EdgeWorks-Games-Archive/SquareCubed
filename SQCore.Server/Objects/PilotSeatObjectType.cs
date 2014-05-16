@@ -5,9 +5,9 @@ namespace SQCore.Server.Objects
 {
 	class PilotSeatObjectType : IServerObjectType
 	{
-		public ServerObject CreateNew()
+		public ServerObjectBase CreateNew()
 		{
-			throw new NotImplementedException();
+			return new PilotSeatObject(this);
 		}
 	}
 }

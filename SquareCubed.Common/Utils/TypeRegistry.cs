@@ -26,6 +26,11 @@ namespace SquareCubed.Common.Utils
 			return _typeList[id];
 		}
 
+		public int GetId(TType type)
+		{
+			return Array.IndexOf(_typeList, type);
+		}
+
 		public void RegisterType(TType type, int id)
 		{
 			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);

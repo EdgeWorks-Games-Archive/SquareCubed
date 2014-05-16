@@ -1,6 +1,8 @@
 ﻿using Lidgren.Network;
+using SquareCubed.Common.Utils;
 using SquareCubed.Network;
 using SquareCubed.Server.Players;
+using SquareCubed.Server.Structures.Objects;
 
 namespace SquareCubed.Server.Structures
 {
@@ -36,7 +38,7 @@ namespace SquareCubed.Server.Structures
 			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
 		}
 
-		public void SendStructureData(ServerStructure structure, Player player = null)
+		public void SendStructureData(ServerStructure structure, TypeRegistry<IServerObjectType> types, Player player = null)
 		{
 			var msg = _network.Peer.CreateMessage();
 
@@ -44,7 +46,7 @@ namespace SquareCubed.Server.Structures
 			msg.Write(_dataPacketType);
 
 			// And add the data
-			msg.Write(structure);
+			msg.Write(structure, types);
 
 			if (player != null)
 			{

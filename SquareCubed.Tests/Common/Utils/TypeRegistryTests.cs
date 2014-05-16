@@ -10,13 +10,25 @@ namespace SquareCubed.Tests.Common.Utils
 		private readonly TypeRegistry<ITestType> _registry = new TypeRegistry<ITestType>();
 
 		[Fact]
-		public void Lookup()
+		public void LookupById()
 		{
 			_registry.RegisterType(Mock.Of<ITestType>(t => t.TestValue == 5), 8);
 			_registry.RegisterType(Mock.Of<ITestType>(t => t.TestValue == 16), 3);
 
 			Assert.Equal(5, _registry.GetType(8).TestValue);
 			Assert.Equal(16, _registry.GetType(3).TestValue);
+		}
+
+		[Fact]
+		public void LookupByType()
+		{
+			var typeA = Mock.Of<ITestType>(t => t.TestValue == 5);
+			_registry.RegisterType(typeA, 8);
+			var typeB = Mock.Of<ITestType>(t => t.TestValue == 16);
+			_registry.RegisterType(typeB, 3);
+
+			Assert.Equal(8, _registry.GetId(typeA));
+			Assert.Equal(3, _registry.GetId(typeB));
 		}
 
 		[Fact]

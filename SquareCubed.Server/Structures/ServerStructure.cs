@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
+using SquareCubed.Common.Utils;
 using SquareCubed.Server.Structures.Objects;
 using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
@@ -18,7 +19,7 @@ namespace SquareCubed.Server.Structures
 		public ServerStructure()
 		{
 			Chunks = new List<ServerChunk>();
-			Objects = new List<ServerObject>();
+			Objects = new List<ServerObjectBase>();
 		}
 
 		public World World
@@ -41,7 +42,7 @@ namespace SquareCubed.Server.Structures
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
-		public List<ServerObject> Objects { get; set; }
+		public List<ServerObjectBase> Objects { get; set; }
 
 		/// <summary>
 		///     The location in the chunk data where the center of the structure is.
@@ -73,20 +74,18 @@ namespace SquareCubed.Server.Structures
 			UpdateEntry(_units, unit, unit.Structure);
 		}
 
-		// TODO: Change to use proper object classes instead of Ids and resolve Ids on send instead
-		public void AddObject(float x, float y, int id)
+		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
+		public void AddObject(float x, float y, int id, TypeRegistry<IServerObjectType> types)
 		{
-			Objects.Add(new ServerObject
-			{
-				Position = new Vector2(x, y),
-				TypeId = id
-			});
+			var obj = types.GetType(id).CreateNew();
+			obj.Position = new Vector2(x, y);
+			Objects.Add(obj);
 		}
 	}
 
 	public static class StructureExtensions
 	{
-		public static void Write(this NetOutgoingMessage msg, ServerStructure structure)
+		public static void Write(this NetOutgoingMessage msg, ServerStructure structure, TypeRegistry<IServerObjectType> types)
 		{
 			Contract.Requires<ArgumentNullException>(msg != null);
 			Contract.Requires<ArgumentNullException>(structure != null);
@@ -106,7 +105,7 @@ namespace SquareCubed.Server.Structures
 			msg.Write(structure.Objects.Count);
 			foreach (var obj in structure.Objects)
 			{
-				msg.Write(obj.TypeId);
+				msg.Write(types.GetId(obj.Type));
 				msg.Write(obj.Position);
 			}
 		}

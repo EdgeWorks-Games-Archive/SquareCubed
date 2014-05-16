@@ -27,7 +27,7 @@ namespace SquareCubed.Server.Structures
 			Contract.Requires<ArgumentNullException>(structure != null);
 
 			structure.Id = _structures.Add(structure);
-			_network.SendStructureData(structure);
+			_network.SendStructureData(structure, ObjectTypes);
 		}
 
 		public void SendStructureDataFor(Player player)
@@ -36,7 +36,7 @@ namespace SquareCubed.Server.Structures
 
 			// Send structure data for all structures to the player
 			foreach (var structure in player.Unit.World.Structures)
-				_network.SendStructureData(structure, player);
+				_network.SendStructureData(structure, ObjectTypes, player);
 		}
 
 		public void Update(float delta)
