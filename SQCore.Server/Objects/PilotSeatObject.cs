@@ -9,7 +9,7 @@ namespace SQCore.Server.Objects
 	internal sealed class PilotSeatObject : NetworkServerObjectBase
 	{
 		private readonly ServerStructure _parent;
-		private float _throttle;
+		private float _throttle, _angularThrottle;
 
 		public PilotSeatObject(PilotSeatObjectType type, SquareCubed.Server.Server server, ServerStructure parent)
 			: base(type, server.Structures.ObjectsNetwork)
@@ -20,15 +20,15 @@ namespace SQCore.Server.Objects
 
 		void OnUpdateTick(object sender, float e)
 		{
-			var vec = new Vector2((float)Math.Sin(_parent.Rotation), (float)Math.Cos(_parent.Rotation));
-			vec *= _throttle;
+			var vec = new Vector2((float)Math.Sin(_parent.Rotation), (float)Math.Cos(_parent.Rotation)) * _throttle;
 			_parent.Position = _parent.Position + vec;
+			_parent.Rotation = _parent.Rotation + _angularThrottle;
 		}
 
 		public override void OnMessage(NetIncomingMessage msg)
 		{
-			var throttle = msg.ReadFloat();
-			_throttle = throttle;
+			_throttle = msg.ReadFloat();
+			_angularThrottle = msg.ReadFloat();
 		}
 	}
 }

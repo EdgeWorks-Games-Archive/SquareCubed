@@ -82,9 +82,17 @@ namespace SQCore.Client.Objects
 			if (_client.Input.GetKey(Key.X))
 				_throttle = 0.0f;
 
+			// A and D are angular throttle, this will later be replaced with RCS
+			var angularThrottle = 0.0f;
+			if (_client.Input.GetKey(Key.A) && ! _client.Input.GetKey(Key.D))
+				angularThrottle = -0.04f;
+			else if (_client.Input.GetKey(Key.D))
+				angularThrottle = 0.04f;
+
 			// Send throttle update to the server
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
 			msg.Write(_throttle);
+			msg.Write(angularThrottle);
 			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
 		}
 
