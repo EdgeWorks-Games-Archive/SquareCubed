@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using SquareCubed.Common.Data;
 using SquareCubed.Common.Utils;
 using SquareCubed.Network;
 using SquareCubed.Server.Players;
@@ -28,11 +29,8 @@ namespace SquareCubed.Server.Structures
 
 			// Add data
 			msg.Write(structure.Id);
-			msg.Write(structure.Position.X);
-			msg.Write(structure.Position.Y);
+			msg.Write(structure.Position);
 			msg.Write(structure.Rotation);
-			msg.Write(structure.Center.X);
-			msg.Write(structure.Center.Y);
 
 			// Send data to appropriate players
 			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);

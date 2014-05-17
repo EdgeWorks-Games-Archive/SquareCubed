@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using OpenTK;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Tiles;
 using SquareCubed.Common.Utils;
@@ -56,6 +57,13 @@ namespace SquareCubed.Client.Structures
 		public void Render()
 		{
 			_renderer.RenderStructures(_structures.Values);
+		}
+
+		public void OnStructurePhysics(int id, Vector2 position, float rotation)
+		{
+			var structure = _structures[id];
+			structure.Position = position;
+			structure.Rotation = rotation;
 		}
 	}
 }
