@@ -44,6 +44,7 @@ namespace SquareCubed.Client.Graphics
 
 		public Vector2 Position { get; set; }
 		public IComplexPositionable Parent { get; set; }
+		public bool PilotMode { get; set; }
 
 		#endregion
 
@@ -75,22 +76,25 @@ namespace SquareCubed.Client.Graphics
 			// explanation of what the frigging frack I'm looking at.
 
 			// Move to camera position
-			GL.Translate(
-				-Position.X,
-				-Position.Y,
-				0.0f);
+			if (!PilotMode)
+			{
+				GL.Translate(
+					-Position.X,
+					-Position.Y,
+					0.0f);
 
-			// If no parent, we're done here
-			if (Parent == null) return;
+				// If no parent, we're done here
+				if (Parent == null) return;
 
-			// Then Move to the Parent's Local 0,0
-			GL.Translate(
-				Parent.Center.X,
-				Parent.Center.Y,
-				0.0f);
+				// Then Move to the Parent's Local 0,0
+				GL.Translate(
+					Parent.Center.X,
+					Parent.Center.Y,
+					0.0f);
 
-			// Rotate around the Parent's Center
-			GL.Rotate(MathHelper.RadiansToDegrees(Parent.Rotation), 0, 0, 1);
+				// Rotate around the Parent's Center
+				GL.Rotate(MathHelper.RadiansToDegrees(Parent.Rotation), 0, 0, 1);
+			}
 
 			// Move to Parent Center
 			GL.Translate(

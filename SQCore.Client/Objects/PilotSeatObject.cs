@@ -59,7 +59,13 @@ namespace SQCore.Client.Objects
 			_proximity.Update(_client.Player);
 
 			// If the player isn't in the seat, we're done
-			if (!_seat.HasPlayer) return;
+			if (!_seat.HasPlayer)
+			{
+				// TODO: Do pilot mode on events instead
+				_client.Graphics.Camera.PilotMode = false;
+				return;
+			}
+			_client.Graphics.Camera.PilotMode = true;
 
 			if (_client.Input.GetKey(Key.ShiftLeft) && !_client.Input.GetKey(Key.ControlLeft))
 			{
@@ -85,9 +91,9 @@ namespace SQCore.Client.Objects
 			// A and D are angular throttle, this will later be replaced with RCS
 			var angularThrottle = 0.0f;
 			if (_client.Input.GetKey(Key.A) && ! _client.Input.GetKey(Key.D))
-				angularThrottle = -0.04f;
+				angularThrottle = -0.08f;
 			else if (_client.Input.GetKey(Key.D))
-				angularThrottle = 0.04f;
+				angularThrottle = 0.08f;
 
 			// Send throttle update to the server
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
