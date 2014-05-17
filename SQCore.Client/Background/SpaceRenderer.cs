@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 
@@ -31,7 +32,7 @@ namespace SQCore.Client.Background
 				0.0, 4.0);
 
 			// Offset it so it's in the middle of the field
-			if (_camera.Parent != null) GL.Rotate(_camera.Parent.Rotation, 0, 0, 1);
+			if (_camera.Parent != null) GL.Rotate(MathHelper.RadiansToDegrees(_camera.Parent.Rotation), 0, 0, 1);
 			GL.Translate(
 				-(fieldSize * 0.5f),
 				-(fieldSize * 0.5f),

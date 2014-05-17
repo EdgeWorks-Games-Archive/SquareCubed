@@ -101,7 +101,7 @@ namespace SquareCubed.Client.Structures
 				// Move and rotate to the structure center
 				GL.PushMatrix();
 				GL.Translate(structure.Position.X, structure.Position.Y, 0);
-				GL.Rotate(-structure.Rotation, 0, 0, 1);
+				GL.Rotate(-MathHelper.RadiansToDegrees(structure.Rotation), 0, 0, 1);
 
 				// Move to the chunk origin (translate negative center)
 				GL.Translate(-structure.Center.X, -structure.Center.Y, 0);

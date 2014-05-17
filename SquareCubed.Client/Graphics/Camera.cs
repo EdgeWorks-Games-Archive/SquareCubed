@@ -90,7 +90,7 @@ namespace SquareCubed.Client.Graphics
 				0.0f);
 
 			// Rotate around the Parent's Center
-			GL.Rotate(Parent.Rotation, 0, 0, 1);
+			GL.Rotate(MathHelper.RadiansToDegrees(Parent.Rotation), 0, 0, 1);
 
 			// Move to Parent Center
 			GL.Translate(

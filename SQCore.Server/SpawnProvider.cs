@@ -2,7 +2,6 @@
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
 using SquareCubed.Server.Structures;
-using SquareCubed.Server.Structures.Objects;
 
 namespace SQCore.Server
 {
@@ -25,7 +24,7 @@ namespace SQCore.Server
 			{
 				World = _server.Worlds.TestWorld,
 				Position = new Vector2(_nextPosition, 0),
-				Rotation = 20.0f,
+				Rotation = MathHelper.DegreesToRadians(20.0f),
 				Center = new Vector2(6.0f, 6.0f)
 			};
 			_nextPosition += 4.0f;

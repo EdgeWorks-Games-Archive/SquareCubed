@@ -34,7 +34,6 @@ namespace SQCore.Client.Objects
 		}
 
 		public int Id { get; set; }
-		public int TypeId { get; set; }
 
 		public Vector2 Position
 		{
@@ -66,7 +65,7 @@ namespace SQCore.Client.Objects
 			{
 				// Shift increases throttle
 				if (_throttle < 1.0f)
-					_throttle += 0.8f*e.ElapsedTime;
+					_throttle += 0.5f*e.ElapsedTime;
 				if (_throttle > 1.0f)
 					_throttle = 1.0f;
 			}
@@ -74,7 +73,7 @@ namespace SQCore.Client.Objects
 			{
 				// Control decreases throttle
 				if (_throttle > 0.0f)
-					_throttle -= 0.8f*e.ElapsedTime;
+					_throttle -= 0.5f*e.ElapsedTime;
 				if (_throttle < 0.0f)
 					_throttle = 0.0f;
 			}

@@ -41,6 +41,9 @@ namespace SquareCubed.Server.Structures
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
+		/// <summary>
+		///		Structure rotation in radians.
+		/// </summary>
 		public float Rotation { get; set; }
 		public List<ServerObjectBase> Objects { get; set; }
 
