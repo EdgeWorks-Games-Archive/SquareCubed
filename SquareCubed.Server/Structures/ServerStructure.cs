@@ -75,11 +75,13 @@ namespace SquareCubed.Server.Structures
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
-		public void AddObject(float x, float y, int id, TypeRegistry<IServerObjectType> types)
+		public void AddObject(float x, float y, int id, ServerStructure parent, TypeRegistry<IServerObjectType> types)
 		{
 			Contract.Requires<ArgumentNullException>(types != null);
+			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
+			Contract.Requires<ArgumentOutOfRangeException>(id <= 20);
 
-			var obj = types.GetType(id).CreateNew();
+			var obj = types.GetType(id).CreateNew(parent);
 			obj.Position = new Vector2(x, y);
 			Objects.Add(obj);
 		}

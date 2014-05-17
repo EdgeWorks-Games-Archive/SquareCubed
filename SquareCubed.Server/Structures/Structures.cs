@@ -12,12 +12,12 @@ namespace SquareCubed.Server.Structures
 		private readonly AutoDictionary<ServerStructure> _structures = new AutoDictionary<ServerStructure>();
 
 		public TypeRegistry<IServerObjectType> ObjectTypes { get; private set; }
-		public ObjectsNetwork ObjectNetwork { get; private set; }
+		public ObjectsNetwork ObjectsNetwork { get; private set; }
 
 		public Structures(Network.Network network)
 		{
 			ObjectTypes = new TypeRegistry<IServerObjectType>();
-			ObjectNetwork = new ObjectsNetwork(network);
+			ObjectsNetwork = new ObjectsNetwork(network);
 
 			_network = new StructuresNetwork(network);
 		}

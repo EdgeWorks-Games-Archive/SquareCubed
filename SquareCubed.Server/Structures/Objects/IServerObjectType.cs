@@ -2,6 +2,6 @@
 {
 	public interface IServerObjectType
 	{
-		ServerObjectBase CreateNew();
+		ServerObjectBase CreateNew(ServerStructure parent);
 	}
 }

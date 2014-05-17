@@ -34,7 +34,7 @@ namespace SQCore.Server
 			_chat = new Chat.Chat(server.Network, server.Players);
 
 			// Add object types
-			_pilotSeatType = new PilotSeatObjectType(server.Structures.ObjectNetwork);
+			_pilotSeatType = new PilotSeatObjectType(server);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
 
 			// Add the default spawn provider

@@ -1,19 +1,20 @@
-﻿using SquareCubed.Server.Structures.Objects;
+﻿using SquareCubed.Server.Structures;
+using SquareCubed.Server.Structures.Objects;
 
 namespace SQCore.Server.Objects
 {
 	class PilotSeatObjectType : IServerObjectType
 	{
-		private readonly ObjectsNetwork _network;
+		private readonly SquareCubed.Server.Server _server;
 
-		public PilotSeatObjectType(ObjectsNetwork network)
+		public PilotSeatObjectType(SquareCubed.Server.Server server)
 		{
-			_network = network;
+			_server = server;
 		}
 
-		public ServerObjectBase CreateNew()
+		public ServerObjectBase CreateNew(ServerStructure parent)
 		{
-			return new PilotSeatObject(this, _network);
+			return new PilotSeatObject(this, _server, parent);
 		}
 	}
 }

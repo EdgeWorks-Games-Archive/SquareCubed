@@ -1,16 +1,35 @@
-﻿using Lidgren.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using Lidgren.Network;
 
 namespace SquareCubed.Server.Structures.Objects
 {
 	public class ObjectsNetwork
 	{
+		private readonly IDictionary<int, NetworkServerObjectBase> _objects = new Dictionary<int, NetworkServerObjectBase>();
+
 		internal ObjectsNetwork(Network.Network network)
 		{
-			network.PacketHandlers.Bind(network.PacketTypes["objects"], OnObjectPacket);
+			network.PacketHandlers.Bind(network.PacketTypes["objects"], OnObjectMessage);
 		}
 
-		private void OnObjectPacket(NetIncomingMessage msg)
+		public void Register(NetworkServerObjectBase obj)
 		{
+			Contract.Requires<ArgumentNullException>(obj != null);
+
+			_objects.Add(obj.Id, obj);
+		}
+
+		private void OnObjectMessage(NetIncomingMessage msg)
+		{
+			// Try to get the object
+			NetworkServerObjectBase obj;
+			if (!_objects.TryGetValue(msg.ReadInt32(), out obj))
+				return; // If it doesn't exist, it's probably an out of sync error
+
+			// Pass over the message
+			obj.OnMessage(msg);
 		}
 	}
 }

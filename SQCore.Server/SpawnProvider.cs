@@ -38,7 +38,7 @@ namespace SQCore.Server
 			chunk.SetTile(6, 7, 3);
 			chunk.SetWalls(6, 7, 2, 2, 0, 2);
 			// Add a pilot seat
-			str.AddObject(6.5f, 7.5f, 0, _server.Structures.ObjectTypes);
+			str.AddObject(6.5f, 7.5f, 0, str, _server.Structures.ObjectTypes);
 
 			// Airlock
 			chunk.SetTile(5, 6, 3);
