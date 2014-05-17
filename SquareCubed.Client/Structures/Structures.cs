@@ -15,7 +15,7 @@ namespace SquareCubed.Client.Structures
 
 		public TypeRegistry<TileType> TileTypes { get; private set; }
 		public TypeRegistry<IClientObjectType> ObjectTypes { get; private set; }
-		public ObjectNetwork ObjectNetwork { get; private set; }
+		public ObjectsNetwork ObjectsNetwork { get; private set; }
 
 		public IEnumerable<ClientStructure> List
 		{
@@ -36,7 +36,7 @@ namespace SquareCubed.Client.Structures
 			TileTypes.RegisterType(new InvisibleTileType(), 1);
 
 			ObjectTypes = new TypeRegistry<IClientObjectType>();
-			ObjectNetwork = new ObjectNetwork(client.Network);
+			ObjectsNetwork = new ObjectsNetwork(client.Network);
 
 			_network = new StructuresNetwork(client.Network, this);
 			_renderer = new StructuresRenderer(client);

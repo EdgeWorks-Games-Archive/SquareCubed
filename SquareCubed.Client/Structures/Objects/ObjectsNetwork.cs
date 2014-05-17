@@ -5,12 +5,12 @@ using SquareCubed.Network;
 
 namespace SquareCubed.Client.Structures.Objects
 {
-	public class ObjectNetwork
+	public class ObjectsNetwork
 	{
 		private readonly Network.Network _network;
 		private readonly PacketType _packetType;
 
-		internal ObjectNetwork(Network.Network network)
+		internal ObjectsNetwork(Network.Network network)
 		{
 			Contract.Requires<ArgumentNullException>(network != null);
 

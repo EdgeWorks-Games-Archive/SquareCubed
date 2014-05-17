@@ -39,7 +39,7 @@ namespace SQCore.Client
 
 		public ClientPlugin(SquareCubed.Client.Client client)
 		{
-			Logger.LogInfo("Initializing core plugin...");
+			Logger.LogInfo("Initializing blink...");
 
 			_client = client;
 			_tileTypes = _client.Structures.TileTypes;
@@ -64,7 +64,7 @@ namespace SQCore.Client
 			// Bind events
 			_client.BackgroundRenderTick += RenderBackground;
 
-			Logger.LogInfo("Finished initializing core plugin!");
+			Logger.LogInfo("Finished initializing blink!");
 		}
 
 		public void Dispose()

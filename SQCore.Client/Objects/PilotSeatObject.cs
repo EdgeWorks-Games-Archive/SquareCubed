@@ -84,7 +84,7 @@ namespace SQCore.Client.Objects
 				_throttle = 0.0f;
 
 			// Send throttle update to the server
-			var msg = _client.Structures.ObjectNetwork.CreateMessageFor(this);
+			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
 			msg.Write(_throttle);
 			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
 		}

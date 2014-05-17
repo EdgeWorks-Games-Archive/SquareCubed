@@ -5,7 +5,7 @@ namespace SQCore.Common
 {
 	[Plugin(
 		"Blink.Core",
-		"Blink Core",
+		"Blink",
 		"0.1")
 	]
     public abstract class CommonPlugin

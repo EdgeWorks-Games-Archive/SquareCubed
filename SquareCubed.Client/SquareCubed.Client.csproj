@@ -159,7 +159,7 @@
     <Compile Include="Structures\Objects\Components\Seat.cs" />
     <Compile Include="Structures\Objects\IClientObject.cs" />
     <Compile Include="Structures\Objects\IClientObjectType.cs" />
-    <Compile Include="Structures\Objects\ObjectNetwork.cs" />
+    <Compile Include="Structures\Objects\ObjectsNetwork.cs" />
     <Compile Include="Structures\Objects\UnitProximityHelper.cs" />
     <Compile Include="Structures\ClientStructure.cs" />
     <Compile Include="Structures\Structures.cs" />

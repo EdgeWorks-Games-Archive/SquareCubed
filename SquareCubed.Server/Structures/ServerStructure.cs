@@ -77,6 +77,8 @@ namespace SquareCubed.Server.Structures
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
 		public void AddObject(float x, float y, int id, TypeRegistry<IServerObjectType> types)
 		{
+			Contract.Requires<ArgumentNullException>(types != null);
+
 			var obj = types.GetType(id).CreateNew();
 			obj.Position = new Vector2(x, y);
 			Objects.Add(obj);
@@ -106,6 +108,7 @@ namespace SquareCubed.Server.Structures
 			foreach (var obj in structure.Objects)
 			{
 				msg.Write(types.GetId(obj.Type));
+				msg.Write(obj.Id);
 				msg.Write(obj.Position);
 			}
 		}

@@ -32,11 +32,21 @@ namespace SquareCubed.Tests.Common.Utils
 		}
 
 		[Fact]
-		public void CannotLookupUnregistered()
+		public void CannotLookupUnknown()
 		{
 			_registry.RegisterType(Mock.Of<ITestType>(), 12);
 
 			Assert.Throws<InvalidOperationException>(() => { _registry.GetType(8); });
+		}
+
+		[Fact]
+		public void CannotLookupRemoved()
+		{
+			var type = Mock.Of<ITestType>();
+			_registry.RegisterType(type, 11);
+			_registry.UnregisterType(type);
+
+			Assert.Throws<InvalidOperationException>(() => { _registry.GetType(11); });
 		}
 
 		[Fact]

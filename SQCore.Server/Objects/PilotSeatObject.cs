@@ -2,10 +2,10 @@
 
 namespace SQCore.Server.Objects
 {
-	class PilotSeatObject : ServerObjectBase
+	class PilotSeatObject : NetworkServerObjectBase
 	{
-		public PilotSeatObject(PilotSeatObjectType type)
-			: base(type)
+		public PilotSeatObject(PilotSeatObjectType type, ObjectsNetwork network)
+			: base(type, network)
 		{
 		}
 	}

@@ -26,7 +26,7 @@ namespace SQCore.Server
 
 		public ServerPlugin(SquareCubed.Server.Server server)
 		{
-			Logger.LogInfo("Initializing core plugin...");
+			Logger.LogInfo("Initializing blink...");
 
 			_objectTypes = server.Structures.ObjectTypes;
 
@@ -34,7 +34,7 @@ namespace SQCore.Server
 			_chat = new Chat.Chat(server.Network, server.Players);
 
 			// Add object types
-			_pilotSeatType = new PilotSeatObjectType();
+			_pilotSeatType = new PilotSeatObjectType(server.Structures.ObjectNetwork);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
 
 			// Add the default spawn provider
@@ -58,7 +58,7 @@ namespace SQCore.Server
 			// Add the structure to the world
 			server.Structures.Add(str);
 
-			Logger.LogInfo("Finished initializing core plugin!");
+			Logger.LogInfo("Finished initializing blink!");
 		}
 
 		public void Dispose()

@@ -2,9 +2,9 @@
 
 namespace SquareCubed.Server.Structures.Objects
 {
-	public class ObjectNetwork
+	public class ObjectsNetwork
 	{
-		internal ObjectNetwork(Network.Network network)
+		internal ObjectsNetwork(Network.Network network)
 		{
 			network.PacketHandlers.Bind(network.PacketTypes["objects"], OnObjectPacket);
 		}

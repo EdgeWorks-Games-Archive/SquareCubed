@@ -65,6 +65,7 @@ namespace SquareCubed.Client.Structures
 			{
 				// Create an object of the type with the id we received assigned to it.
 				var obj = objectTypes.GetType(msg.ReadInt32()).CreateNew();
+				obj.Id = msg.ReadInt32();
 				obj.Position = msg.ReadVector2();
 				objects.Add(obj);
 			}
