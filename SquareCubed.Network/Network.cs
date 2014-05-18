@@ -5,7 +5,7 @@ using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Network
 {
-	public class Network : IDisposable
+	public sealed class Network : IDisposable
 	{
 		private readonly Logger _logger = new Logger("Network");
 
@@ -27,8 +27,6 @@ namespace SquareCubed.Network
 
 		#region Initialization and Cleanup
 
-		private bool _disposed;
-
 		public Network(string appIdentifier)
 		{
 			_appIdentifier = appIdentifier;
@@ -49,18 +47,8 @@ namespace SquareCubed.Network
 			PacketTypes.RegisterType("objects", 6);
 		}
 
-		public virtual void Dispose()
+		public void Dispose()
 		{
-			Dispose(true);
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			// Prevent double disposing and don't dispose if we're told not to
-			if (_disposed || !disposing) return;
-			_disposed = true;
-
-			// Dispose stuff here
 			if (Peer != null && Peer.Status != NetPeerStatus.NotRunning)
 				Peer.Shutdown("Network object disposed!");
 		}
@@ -105,6 +93,11 @@ namespace SquareCubed.Network
 			var name = Peer.CreateMessage();
 			name.Write(playerName);
 			Peer.Connect(host, port, name);
+		}
+
+		public void Disconnect()
+		{
+			Server.Disconnect("Disconnect called!");
 		}
 
 		#endregion

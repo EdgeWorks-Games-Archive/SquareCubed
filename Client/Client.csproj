@@ -120,6 +120,9 @@
     <None Include="GUI\Panels\MainMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="GUI\Panels\MainMenu\Script.js.map">
+      <DependentUpon>Script.js</DependentUpon>
+    </None>
     <None Include="GUI\Panels\MainMenu\Style.scss" />
     <None Include="GUI\Scripts\Base.coffee" />
     <None Include="GUI\Styles\Base.scss" />

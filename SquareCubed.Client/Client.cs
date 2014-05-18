@@ -106,6 +106,7 @@ namespace SquareCubed.Client
 			// Bind some default functions
 			Gui.BindCall("quit", Window.Close);
 			Gui.BindCall<string, string>("connect", (host, name) => Network.Connect(host, name));
+			Gui.BindCall("disconnect", Network.Disconnect);
 #if DEBUG
 			Gui.BindCall("server.start", () =>
 			{
