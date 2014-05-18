@@ -21,12 +21,6 @@ namespace SquareCubed.Client.Graphics
 	{
 		private readonly int _texture;
 
-		[Obsolete("Only use for in development stuff, should not be used in production code.")]
-		public int GlId
-		{
-			get { return _texture; }
-		}
-
 		public int Width { get; private set; }
 		public int Height { get; private set; }
 
@@ -162,6 +156,14 @@ namespace SquareCubed.Client.Graphics
 				UseBgra ? GLPixelFormat.Bgra : GLPixelFormat.Rgba,
 				PixelType.UnsignedByte, pixels);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		public void AttachToFramebuffer(int frameBuffer, FramebufferAttachment attachment)
+		{
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, frameBuffer);
+			GL.FramebufferTexture2D(
+				FramebufferTarget.Framebuffer, attachment,
+				TextureTarget.Texture2D, _texture, 0);
 		}
 
 		/// <summary>

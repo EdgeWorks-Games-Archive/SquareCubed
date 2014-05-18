@@ -32,14 +32,9 @@ namespace SquareCubed.Client.Graphics
 			// Generate the upscaled background texture
 			var texture = new Texture2D(_upscaledSize);
 
-			// Generate the upscaled background frame buffer
+			// Background frame buffer and attach the texture to it
 			_usFrameBuffer = GL.GenFramebuffer();
-			GL.BindFramebuffer(FramebufferTarget.Framebuffer, _usFrameBuffer);
-
-			// Attach the texture to the frame buffer color attachment 0
-			GL.FramebufferTexture2D(
-				FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
-				TextureTarget.Texture2D, texture.GlId, 0);
+			texture.AttachToFramebuffer(_usFrameBuffer, FramebufferAttachment.ColorAttachment0);
 
 			// Clean up
 			GL.BindTexture(TextureTarget.Texture2D, 0);
