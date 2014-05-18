@@ -13,9 +13,8 @@ namespace SquareCubed.Client.Graphics
 	public enum TextureOptions
 	{
 		None = 0x0,
-		Alpha = 0x1,
-		Filtering = 0x2,
-		Bgra = 0x4
+		Filtering = 0x1,
+		Bgra = 0x2
 	}
 
 	public sealed class Texture2D : IDisposable
@@ -48,6 +47,17 @@ namespace SquareCubed.Client.Graphics
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class
+		///     using empty texture data at the size given.
+		/// </summary>
+		/// <param name="size">The size.</param>
+		/// <param name="options">The option flags to use for this texture.</param>
+		public Texture2D(Size size, TextureOptions options = TextureOptions.None)
+			: this(new Bitmap(size.Width, size.Height), options)
+		{
+		}
+
+		/// <summary>
+		///     Initializes a new instance of the <see cref="Texture2D" /> class
 		///     using bitmap data given.
 		/// </summary>
 		/// <param name="bitmap">The bitmap data.</param>
@@ -65,7 +75,7 @@ namespace SquareCubed.Client.Graphics
 			var textureData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				ImageLockMode.ReadOnly,
-				UseAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
+				PixelFormat.Format32bppArgb);
 
 			// Generate and bind a new OpenGL texture
 			_texture = GL.GenTexture();
@@ -86,9 +96,7 @@ namespace SquareCubed.Client.Graphics
 				PixelInternalFormat.Rgba,
 				bitmap.Width, bitmap.Height,
 				0, // border
-				UseBgra
-					? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
-					: (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				UseBgra ? GLPixelFormat.Bgra : GLPixelFormat.Rgba,
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 
@@ -113,11 +121,6 @@ namespace SquareCubed.Client.Graphics
 
 		public TextureOptions Options { get; private set; }
 
-		public bool UseAlpha
-		{
-			get { return (Options & TextureOptions.Alpha) == TextureOptions.Alpha; }
-		}
-
 		public bool UseFiltering
 		{
 			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
@@ -134,9 +137,7 @@ namespace SquareCubed.Client.Graphics
 			GL.TexSubImage2D(
 				TextureTarget.Texture2D, 0,
 				0, 0, Width, Height,
-				UseBgra
-					? (UseAlpha ? GLPixelFormat.Bgra : GLPixelFormat.Bgr)
-					: (UseAlpha ? GLPixelFormat.Rgba : GLPixelFormat.Rgb),
+				UseBgra ? GLPixelFormat.Bgra : GLPixelFormat.Rgba,
 				PixelType.UnsignedByte, pixels);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}

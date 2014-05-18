@@ -67,7 +67,7 @@ namespace SQCore.Client.Objects
 			}
 			_client.Graphics.Camera.PilotMode = true;
 
-			if (_client.Input.GetKey(Key.ShiftLeft) && !_client.Input.GetKey(Key.ControlLeft))
+			if (_client.Input.GetKey(Key.W) && !_client.Input.GetKey(Key.S))
 			{
 				// Shift increases throttle
 				if (_throttle < 1.0f)
@@ -75,7 +75,7 @@ namespace SQCore.Client.Objects
 				if (_throttle > 1.0f)
 					_throttle = 1.0f;
 			}
-			else if (_client.Input.GetKey(Key.ControlLeft))
+			else if (_client.Input.GetKey(Key.S))
 			{
 				// Control decreases throttle
 				if (_throttle > 0.0f)

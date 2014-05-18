@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
@@ -8,25 +10,26 @@ namespace SquareCubed.Client.Graphics
 	public class Graphics
 	{
 		private readonly IGameWindow _window;
-		private readonly float _backBufferScale;
+		private readonly Size _upscaledSize;
 		private readonly int _usFrameBuffer;
 
 		public Camera Camera { get; private set; }
 
 		#region Initialization and Cleanup
 
-		public Graphics(IGameWindow window, float backBufferScale = 2.0f)
+		public Graphics(IGameWindow window)
 		{
 			Contract.Requires<ArgumentNullException>(window != null);
-			Contract.Requires<InvalidOperationException>(backBufferScale <= 2.0f);
 			
 			_window = window;
 			Camera = new Camera(_window.ClientSize);
 
-			_backBufferScale = backBufferScale;
+			// Make sure the required texture size doesn't exceed limits
+			_upscaledSize = new Size(_window.Width * 2, _window.Height * 2);
 			var maxSize = GL.GetInteger(GetPName.MaxTextureSize);
-			if ((int)(_window.Width * _backBufferScale) > maxSize || (int)(_window.Height * _backBufferScale) > maxSize)
-				throw new ArgumentOutOfRangeException("backBufferScale", "Back buffer scale results in higher size textures than allowed.");
+			Console.WriteLine("Test: " + maxSize);
+			if (_upscaledSize.Width > maxSize || _upscaledSize.Height > maxSize)
+				throw new InvalidOperationException("GPU maximum texture size is not big enough to support supersampling.");
 
 			// Generate the upscaled background texture
 			var usTexture = GL.GenTexture();
@@ -35,7 +38,7 @@ namespace SquareCubed.Client.Graphics
 			// Allocate storage for the texture
 			GL.TexImage2D(
 				TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
-				(int)(_window.Width * _backBufferScale), (int)(_window.Height * _backBufferScale),
+				_upscaledSize.Width, _upscaledSize.Height,
 				0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
 
 			// Generate the upscaled background frame buffer
@@ -70,7 +73,7 @@ namespace SquareCubed.Client.Graphics
 
 			// Set framebuffer to the upscaled one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, _usFrameBuffer);
-			GL.Viewport(0, 0, (int)(_window.Width * _backBufferScale), (int)(_window.Height * _backBufferScale));
+			GL.Viewport(0, 0, _upscaledSize.Width, _upscaledSize.Height);
 		}
 
 		public void EndRender()
@@ -81,7 +84,7 @@ namespace SquareCubed.Client.Graphics
 
 			// Downsample the upscaled buffer into the default buffer TODO: Do with VBO triangle instead
 			GL.BlitFramebuffer(
-				0, 0, (int)(_window.Width * _backBufferScale), (int)(_window.Height * _backBufferScale),
+				0, 0, _upscaledSize.Width, _upscaledSize.Height,
 				0, 0, _window.Width, _window.Height,
 				ClearBufferMask.ColorBufferBit, BlitFramebufferFilter.Linear);
 		}

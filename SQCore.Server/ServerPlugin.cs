@@ -26,7 +26,7 @@ namespace SQCore.Server
 
 		public ServerPlugin(SquareCubed.Server.Server server)
 		{
-			Logger.LogInfo("Initializing blink...");
+			Logger.LogInfo("Initializing Blink...");
 
 			_objectTypes = server.Structures.ObjectTypes;
 
@@ -58,7 +58,7 @@ namespace SQCore.Server
 			// Add the structure to the world
 			server.Structures.Add(str);
 
-			Logger.LogInfo("Finished initializing blink!");
+			Logger.LogInfo("Finished initializing Blink!");
 		}
 
 		public void Dispose()
