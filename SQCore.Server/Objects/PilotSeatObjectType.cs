@@ -3,7 +3,7 @@ using SquareCubed.Server.Structures.Objects;
 
 namespace SQCore.Server.Objects
 {
-	class PilotSeatObjectType : IServerObjectType
+	sealed class PilotSeatObjectType : IServerObjectType
 	{
 		private readonly SquareCubed.Server.Server _server;
 

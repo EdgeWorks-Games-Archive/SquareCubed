@@ -11,7 +11,7 @@ namespace SQCore.Server.Objects
 		private readonly ServerStructure _parent;
 		private float _throttle, _angularThrottle;
 
-		public PilotSeatObject(PilotSeatObjectType type, SquareCubed.Server.Server server, ServerStructure parent)
+		public PilotSeatObject(IServerObjectType type, SquareCubed.Server.Server server, ServerStructure parent)
 			: base(type, server.Structures.ObjectsNetwork)
 		{
 			_parent = parent;

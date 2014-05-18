@@ -22,6 +22,7 @@ namespace SQCore.Client
 		#region Object Types
 
 		private readonly PilotSeatObjectType _pilotSeatType;
+		private readonly TeleporterObjectType _teleporterType;
 
 		#endregion
 
@@ -60,6 +61,8 @@ namespace SQCore.Client
 			// Add object types
 			_pilotSeatType = new PilotSeatObjectType(_client, _infoPanel);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
+			_teleporterType = new TeleporterObjectType();
+			_objectTypes.RegisterType(_teleporterType, 1);
 
 			// Bind events
 			_client.BackgroundRenderTick += RenderBackground;
@@ -84,6 +87,7 @@ namespace SQCore.Client
 
 			// Remove object types
 			_objectTypes.UnregisterType(_pilotSeatType);
+			_objectTypes.UnregisterType(_teleporterType);
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

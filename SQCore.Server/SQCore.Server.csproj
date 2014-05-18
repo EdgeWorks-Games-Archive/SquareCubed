@@ -49,6 +49,8 @@
     <Compile Include="Chat\ChatNetwork.cs" />
     <Compile Include="Objects\PilotSeatObject.cs" />
     <Compile Include="Objects\PilotSeatObjectType.cs" />
+    <Compile Include="Objects\TeleporterObject.cs" />
+    <Compile Include="Objects\TeleporterObjectType.cs" />
     <Compile Include="ServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpawnProvider.cs" />

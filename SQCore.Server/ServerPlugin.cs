@@ -13,12 +13,13 @@ namespace SQCore.Server
 		#region Object Types
 
 		private readonly PilotSeatObjectType _pilotSeatType;
+		private readonly TeleporterObjectType _teleporterType;
 
 		#endregion
 
 		#region External Components
 
-		private TypeRegistry<IServerObjectType> _objectTypes;
+		private readonly TypeRegistry<IServerObjectType> _objectTypes;
 
 		#endregion
 
@@ -36,6 +37,8 @@ namespace SQCore.Server
 			// Add object types
 			_pilotSeatType = new PilotSeatObjectType(server);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
+			_teleporterType = new TeleporterObjectType();
+			_objectTypes.RegisterType(_teleporterType, 1);
 
 			// Add the default spawn provider
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));
@@ -44,7 +47,7 @@ namespace SQCore.Server
 			var str = new ServerStructure
 			{
 				World = server.Worlds.TestWorld,
-				Position = new Vector2(3, 2),
+				Position = new Vector2(3, 4),
 				Rotation = 0.0f,
 				Center = new Vector2(5.5f, 5.5f)
 			};
@@ -52,7 +55,24 @@ namespace SQCore.Server
 			// Add a chunk for the test structure
 			var chunk = new ServerChunk();
 			chunk.SetTile(5, 5, 3);
-			chunk.SetWalls(5, 5, 2, 2, 2, 2);
+			chunk.SetLeftWall(5, 5, 2);
+			chunk.SetBottomWall(5, 5, 2);
+
+			chunk.SetTile(6, 5, 3);
+			chunk.SetRightWall(6, 5, 2);
+			chunk.SetBottomWall(6, 5, 2);
+
+			chunk.SetTile(6, 6, 3);
+			chunk.SetRightWall(6, 6, 2);
+			chunk.SetTopWall(6, 6, 2);
+
+			chunk.SetTile(5, 6, 3);
+			chunk.SetLeftWall(5, 6, 2);
+
+			chunk.SetTile(5, 7, 3);
+			chunk.SetWalls(5, 7, 2, 2, 0, 2);
+			str.AddObject(5.5f, 7.5f, 1, _objectTypes);
+
 			str.Chunks.Add(chunk);
 
 			// Add the structure to the world
@@ -63,6 +83,9 @@ namespace SQCore.Server
 
 		public void Dispose()
 		{
+			// Remove object types
+			_objectTypes.UnregisterType(_pilotSeatType);
+			_objectTypes.UnregisterType(_teleporterType);
 		}
 	}
 }
