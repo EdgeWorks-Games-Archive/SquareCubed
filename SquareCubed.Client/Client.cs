@@ -122,8 +122,7 @@ namespace SquareCubed.Client
 #endif
 
 			// Add some event triggers
-			// TODO: Make LostConnection only trigger when a connection was lost, not failed
-			Network.LostConnection += (se, ev) => Gui.Trigger("Network.ConnectFailed");
+			Network.FailedConnection += (se, ev) => Gui.Trigger("Network.ConnectFailed");
 
 			// Make the main menu hide once we connected
 			Network.NewConnection += (se, ev) => Gui.MainMenu.Hide();

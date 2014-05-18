@@ -112,6 +112,9 @@
     <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="GUI\Panels\ContextInfo\Script.js.map">
+      <DependentUpon>Script.js</DependentUpon>
+    </None>
     <None Include="GUI\Panels\ContextInfo\Style.scss" />
     <None Include="GUI\Panels\EscMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

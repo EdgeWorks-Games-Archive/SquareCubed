@@ -50,7 +50,7 @@ namespace SQCore.Client.Objects
 			if (_seat.HasPlayer || _proximity.Status != ProximityStatus.Within) return;
 
 			_seat.Sit();
-			_panel.UseAltText = true;
+			_panel.Text = "Press Esc to Exit";
 		}
 
 		private void Update(object s, TickEventArgs e)
@@ -107,12 +107,12 @@ namespace SQCore.Client.Objects
 			if (!_seat.HasPlayer || e.Key != Key.Escape) return;
 
 			_seat.Empty();
-			_panel.UseAltText = false;
+			_panel.Text = "Click to Interact";
 		}
 
 		private void OnChange(object s, ProximityEventArgs e)
 		{
-			// Actually do something with this data
+			_panel.Text = "Click to Interact";
 			_panel.IsVisible = e.NewStatus == ProximityStatus.Within;
 		}
 	}

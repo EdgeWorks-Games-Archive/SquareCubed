@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using SquareCubed.Common.Data;
 using SquareCubed.Network;
 
 namespace SquareCubed.Client.Player
@@ -35,11 +36,10 @@ namespace SquareCubed.Client.Player
 			msg.Write(_packetType);
 
 			// Add data
-			msg.Write(unit.Position.X);
-			msg.Write(unit.Position.Y);
+			msg.Write(unit.Position);
 
 			// Send data to server
-			_network.SendToServer(msg, NetDeliveryMethod.UnreliableSequenced, (int)SequenceChannels.UnitPhysics);
+			_network.SendToServer(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
 		}
 	}
 }

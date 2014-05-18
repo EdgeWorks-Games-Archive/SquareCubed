@@ -1,6 +1,7 @@
 ﻿engine.on 'contextinfo.visible', (visible) ->
-	$("#context-info").toggle visible
+	$ "#context-info"
+		.toggle visible
 	
-engine.on 'contextinfo.usealt', (use) ->
-	$("#context-info-norm").toggle !use
-	$("#context-info-alt").toggle use
+engine.on 'contextinfo.text', (text) ->
+	$ "#context-info"
+		.text text

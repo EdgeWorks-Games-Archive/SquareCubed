@@ -9,9 +9,9 @@ namespace SQCore.Client.Gui
 		{
 		}
 
-		public bool UseAltText
+		public string Text
 		{
-			set { Gui.Trigger("contextinfo.usealt", value); }
+			set { Gui.Trigger("contextinfo.text", value); }
 		}
 
 		public bool IsVisible

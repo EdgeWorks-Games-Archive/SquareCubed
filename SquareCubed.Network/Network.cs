@@ -106,6 +106,7 @@ namespace SquareCubed.Network
 
 		public event EventHandler<NetIncomingMessage> NewConnection = (s, e) => { };
 		public event EventHandler<NetIncomingMessage> LostConnection = (s, e) => { };
+		public event EventHandler<NetIncomingMessage> FailedConnection = (s, e) => { };
 
 		/// <summary>
 		/// To react to this event, set the Deny in the event arguments
@@ -155,13 +156,18 @@ namespace SquareCubed.Network
 								NewConnection(this, msg);
 								break;
 							case NetConnectionStatus.Disconnected:
-								LostConnection(this, msg);
+								if (!_isServer && Server == null)
+									FailedConnection(this, msg);
+								else
+									LostConnection(this, msg);
+
 								if (!_isServer)
 								{
 									Server = null;
 									Peer = null;
 									return;
 								}
+
 								break;
 						}
 
