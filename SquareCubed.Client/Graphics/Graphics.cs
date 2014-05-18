@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Drawing;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
 namespace SquareCubed.Client.Graphics
 {
-	public class Graphics
+	public sealed class Graphics
 	{
 		private readonly IGameWindow _window;
 		private readonly Size _upscaledSize;
@@ -27,19 +26,11 @@ namespace SquareCubed.Client.Graphics
 			// Make sure the required texture size doesn't exceed limits
 			_upscaledSize = new Size(_window.Width * 2, _window.Height * 2);
 			var maxSize = GL.GetInteger(GetPName.MaxTextureSize);
-			Console.WriteLine("Test: " + maxSize);
 			if (_upscaledSize.Width > maxSize || _upscaledSize.Height > maxSize)
 				throw new InvalidOperationException("GPU maximum texture size is not big enough to support supersampling.");
 
 			// Generate the upscaled background texture
-			var usTexture = GL.GenTexture();
-			GL.BindTexture(TextureTarget.Texture2D, usTexture);
-
-			// Allocate storage for the texture
-			GL.TexImage2D(
-				TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
-				_upscaledSize.Width, _upscaledSize.Height,
-				0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+			var texture = new Texture2D(_upscaledSize);
 
 			// Generate the upscaled background frame buffer
 			_usFrameBuffer = GL.GenFramebuffer();
@@ -48,10 +39,11 @@ namespace SquareCubed.Client.Graphics
 			// Attach the texture to the frame buffer color attachment 0
 			GL.FramebufferTexture2D(
 				FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
-				TextureTarget.Texture2D, usTexture, 0);
+				TextureTarget.Texture2D, texture.GlId, 0);
 
 			// Clean up
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+			texture.Release();
 		}
 
 		#endregion

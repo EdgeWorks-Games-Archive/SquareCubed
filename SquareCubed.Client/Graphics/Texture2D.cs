@@ -21,6 +21,29 @@ namespace SquareCubed.Client.Graphics
 	{
 		private readonly int _texture;
 
+		[Obsolete("Only use for in development stuff, should not be used in production code.")]
+		public int GlId
+		{
+			get { return _texture; }
+		}
+
+		public int Width { get; private set; }
+		public int Height { get; private set; }
+
+		public TextureOptions Options { get; private set; }
+
+		public bool UseFiltering
+		{
+			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
+		}
+
+		public bool UseBgra
+		{
+			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
+		}
+
+		#region Initialization and Cleanup
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class
 		///     using texture data from a file.
@@ -102,7 +125,25 @@ namespace SquareCubed.Client.Graphics
 
 			// Free the data since we won't need it anymore
 			bitmap.UnlockBits(textureData);
+			bitmap.Dispose();
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		/// <summary>
+		///     Deletes the texture.
+		/// </summary>
+		public void Dispose()
+		{
+			GL.DeleteTexture(_texture);
+			GC.SuppressFinalize(this);
+		}
+
+		/// <summary>
+		///     Releases the texture without deleting it.
+		/// </summary>
+		public void Release()
+		{
+			GC.SuppressFinalize(this);
 		}
 
 		~Texture2D()
@@ -110,26 +151,7 @@ namespace SquareCubed.Client.Graphics
 			Dispose();
 		}
 
-		public void Dispose()
-		{
-			GL.DeleteTexture(_texture);
-			GC.SuppressFinalize(this);
-		}
-
-		public int Width { get; private set; }
-		public int Height { get; private set; }
-
-		public TextureOptions Options { get; private set; }
-
-		public bool UseFiltering
-		{
-			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
-		}
-
-		public bool UseBgra
-		{
-			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
-		}
+		#endregion
 
 		public void MapSubImage(IntPtr pixels)
 		{
