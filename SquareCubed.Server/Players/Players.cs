@@ -91,7 +91,9 @@ namespace SquareCubed.Server.Players
 
 		public void OnPlayerPhysics(NetConnection con, Vector2 position)
 		{
-			_players[con].Unit.Position = position;
+			var player = _players[con];
+			if (player.Unit.TeleportLocked)
+				_players[con].Unit.Position = position;
 		}
 
 		private void OnLostConnection(object sender, NetIncomingMessage msg)

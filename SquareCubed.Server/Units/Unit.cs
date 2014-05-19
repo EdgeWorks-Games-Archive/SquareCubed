@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using SquareCubed.Server.Structures;
 using SquareCubed.Server.Worlds;
 
@@ -6,8 +7,8 @@ namespace SquareCubed.Server.Units
 {
 	public class Unit
 	{
-		private World _world;
 		private ServerStructure _structure;
+		private World _world;
 
 		public int Id { get; set; }
 
@@ -48,5 +49,10 @@ namespace SquareCubed.Server.Units
 		}
 
 		public Vector2 Position { get; set; }
+
+		public virtual void Teleport(ServerStructure targetStructure, Vector2 targetPosition)
+		{
+			Console.WriteLine("Teleported to structure {0}!", targetStructure.Id);
+		}
 	}
 }

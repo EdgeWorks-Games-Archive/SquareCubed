@@ -99,7 +99,7 @@ namespace SQCore.Client.Objects
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
 			msg.Write(_throttle);
 			msg.Write(angularThrottle);
-			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
+			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int) SequenceChannels.PilotUpdate);
 		}
 
 		private void OnKeyPress(object sender, KeyboardKeyEventArgs e)
@@ -112,7 +112,6 @@ namespace SQCore.Client.Objects
 
 		private void OnProximityChange(object s, ProximityEventArgs e)
 		{
-
 			if (e.NewStatus == ProximityStatus.Within)
 			{
 				_panel.Text = "Click to Interact";

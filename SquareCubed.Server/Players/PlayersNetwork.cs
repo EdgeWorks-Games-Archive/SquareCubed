@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using OpenTK;
+using SquareCubed.Common.Data;
 using SquareCubed.Network;
 
 namespace SquareCubed.Server.Players
@@ -22,9 +23,7 @@ namespace SquareCubed.Server.Players
 		private void OnPlayerPhysics(NetIncomingMessage msg)
 		{
 			// Read the data
-			var position = new Vector2(
-				msg.ReadFloat(),
-				msg.ReadFloat());
+			var position = msg.ReadVector2();
 
 			// Pass the data on
 			_callback.OnPlayerPhysics(msg.SenderConnection, position);

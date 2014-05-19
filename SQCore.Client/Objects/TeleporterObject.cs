@@ -1,20 +1,22 @@
 ﻿using System;
+using Lidgren.Network;
 using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
 using SquareCubed.Client.Structures.Objects;
+using SquareCubed.Network;
 
 namespace SQCore.Client.Objects
 {
 	internal class TeleporterObject : IClientObject
 	{
+		private const string TextPattern = "Destination: {0} (E to Change)";
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
 		private readonly UnitProximityHelper _proximity;
 
 		private string _testDest = "Dest A";
-		private const string TextPattern = "Destination: {0} (E to Change)";
 
 		public TeleporterObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
 		{
@@ -31,15 +33,19 @@ namespace SQCore.Client.Objects
 		public int Id { get; set; }
 		public Vector2 Position { get; set; }
 
+		public void OnUse()
+		{
+			// If not within use distance don't do anything
+			if (_proximity.Status != ProximityStatus.Within) return;
+
+			// Send teleport request to server
+			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
+			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
+		}
+
 		private void Update(object s, TickEventArgs e)
 		{
 			_proximity.Update(_client.Player);
-		}
-
-		public void OnUse()
-		{
-			if(_proximity.Status == ProximityStatus.Within)
-				Console.WriteLine("Teleport me!");
 		}
 
 		private void OnKeyPress(object sender, KeyboardKeyEventArgs e)

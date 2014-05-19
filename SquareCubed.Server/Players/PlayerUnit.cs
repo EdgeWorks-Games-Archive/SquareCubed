@@ -1,4 +1,6 @@
-﻿using SquareCubed.Server.Units;
+﻿using OpenTK;
+using SquareCubed.Server.Structures;
+using SquareCubed.Server.Units;
 using SquareCubed.Server.Worlds;
 
 namespace SquareCubed.Server.Players
@@ -26,6 +28,20 @@ namespace SquareCubed.Server.Players
 				if (base.World != null)
 					base.World.UpdatePlayerEntry(Player);
 			}
+		}
+
+		/// <summary>
+		///     Used on teleportation to lock the player position until
+		///     the client has confirmed it has received the teleport.
+		///		This is done to prevent player positon updates to override
+		///		the teleport, resulting in a short unit flicker.
+		/// </summary>
+		public bool TeleportLocked { get; set; }
+
+		public override void Teleport(ServerStructure targetStructure, Vector2 targetPosition)
+		{
+			TeleportLocked = true;
+			base.Teleport(targetStructure, targetPosition);
 		}
 	}
 }

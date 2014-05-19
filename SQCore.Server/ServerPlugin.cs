@@ -37,7 +37,7 @@ namespace SQCore.Server
 			// Add object types
 			_pilotSeatType = new PilotSeatObjectType(server);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
-			_teleporterType = new TeleporterObjectType();
+			_teleporterType = new TeleporterObjectType(server.Structures.ObjectsNetwork, server.Players);
 			_objectTypes.RegisterType(_teleporterType, 1);
 
 			// Add the default spawn provider
