@@ -40,7 +40,7 @@ namespace SQCore.Client.Objects
 
 			// Send teleport request to server
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
-			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableSequenced, (int)SequenceChannels.PilotUpdate);
+			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableUnordered, 0);
 		}
 
 		private void Update(object s, TickEventArgs e)

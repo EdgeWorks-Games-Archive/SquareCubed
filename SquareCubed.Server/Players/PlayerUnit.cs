@@ -7,6 +7,10 @@ namespace SquareCubed.Server.Players
 {
 	public class PlayerUnit : Unit
 	{
+		public PlayerUnit(Units.Units units) : base(units)
+		{
+		}
+
 		public Player Player { get; set; }
 
 		public override World World
@@ -35,6 +39,7 @@ namespace SquareCubed.Server.Players
 		///     the client has confirmed it has received the teleport.
 		///		This is done to prevent player positon updates to override
 		///		the teleport, resulting in a short unit flicker.
+		///		TODO: Actually make the engine use this.
 		/// </summary>
 		public bool TeleportLocked { get; set; }
 

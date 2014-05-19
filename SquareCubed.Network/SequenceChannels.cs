@@ -4,6 +4,7 @@
 	{
 		UnitPhysics,
 		UnitData,
+		UnitTeleport,
 		StructurePhysics,
 		StructureData,
 

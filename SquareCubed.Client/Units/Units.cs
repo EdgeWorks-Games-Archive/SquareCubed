@@ -11,29 +11,28 @@ namespace SquareCubed.Client.Units
 		private readonly UnitsNetwork _network;
 		private readonly UnitsRenderer _renderer = new UnitsRenderer();
 		private readonly Dictionary<int, Unit> _units = new Dictionary<int, Unit>();
+		private readonly Structures.Structures _structures;
 
-		public Units(Client client)
+		public Units(Client client, Structures.Structures structures)
 		{
+			_structures = structures;
 			_network = new UnitsNetwork(client, this);
 		}
 
 		#region Network Callbacks
 
-		public void OnUnitPhysics(int key, Vector2 position)
+		internal void OnUnitPhysics(int id, Vector2 position)
 		{
-			Unit unit;
-
 			// Try to get the unit, if we can't just ignore it
-			if (!_units.TryGetValue(key, out unit)) return;
+			Unit unit;
+			if (!_units.TryGetValue(id, out unit)) return;
 
 			// Set the data
 			unit.ProcessPhysicsPacketData(position);
 		}
 
-		public void OnUnitData(Unit unit)
+		internal void OnUnitData(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
-
 			// Try to get the unit, if we can't we need to add it, otherwise overwrite it
 			if (!_units.ContainsKey(unit.Id))
 				_units.Add(unit.Id, unit);
@@ -49,6 +48,18 @@ namespace SquareCubed.Client.Units
 				// TODO: This seriously needs improvements in how this works...
 				unit.Structure = null;
 			}
+		}
+
+		internal void OnUnitTeleport(int id, Vector2 position, int structure)
+		{
+			// Try to get the unit, if we can't just ignore it
+			Unit unit;
+			if (!_units.TryGetValue(id, out unit)) return;
+
+			// Set the data
+			unit.Position = position;
+			unit.Structure = _structures.GetOrNull(structure);
+			Console.WriteLine("Tock!");
 		}
 
 		#endregion

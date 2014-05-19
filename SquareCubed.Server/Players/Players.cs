@@ -63,7 +63,7 @@ namespace SquareCubed.Server.Players
 			var spawn = _spawnProviders[_random.Next(0, _spawnProviders.Count - 1)].GetNewSpawn();
 
 			// Create the Player and the Player Unit we'll need
-			var unit = new PlayerUnit
+			var unit = new PlayerUnit(_server.Units)
 			{
 				World = spawn.Structure.World,
 				Structure = spawn.Structure,
@@ -92,8 +92,8 @@ namespace SquareCubed.Server.Players
 		public void OnPlayerPhysics(NetConnection con, Vector2 position)
 		{
 			var player = _players[con];
-			if (player.Unit.TeleportLocked)
-				_players[con].Unit.Position = position;
+			//if (!player.Unit.TeleportLocked)
+			player.Unit.Position = position;
 		}
 
 		private void OnLostConnection(object sender, NetIncomingMessage msg)

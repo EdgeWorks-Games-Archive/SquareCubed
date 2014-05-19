@@ -1,4 +1,5 @@
-﻿using Lidgren.Network;
+﻿using System;
+using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
 
@@ -17,6 +18,7 @@ namespace SquareCubed.Client.Units
 			var network = _client.Network;
 			network.PacketHandlers.Bind(network.PacketTypes["units.physics"], OnUnitPhysics);
 			network.PacketHandlers.Bind(network.PacketTypes["units.data"], OnUnitData);
+			network.PacketHandlers.Bind(network.PacketTypes["units.teleport"], OnUnitTeleport);
 		}
 
 		private void OnUnitPhysics(NetIncomingMessage msg)
@@ -42,6 +44,16 @@ namespace SquareCubed.Client.Units
 
 			// Pass the data on
 			_callback.OnUnitData(unit);
+		}
+
+		private void OnUnitTeleport(NetIncomingMessage msg)
+		{
+			Console.WriteLine("Tack!");
+			// Pass the data on
+			_callback.OnUnitTeleport(
+				msg.ReadInt32(),
+				msg.ReadVector2(),
+				msg.ReadInt32());
 		}
 	}
 }

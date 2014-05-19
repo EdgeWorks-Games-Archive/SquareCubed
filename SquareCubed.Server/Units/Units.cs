@@ -46,6 +46,12 @@ namespace SquareCubed.Server.Units
 				_network.SendUnitData(unit, player);
 		}
 
+		public void SendTeleportFor(Unit unit)
+		{
+			Contract.Requires<ArgumentNullException>(unit != null);
+			_network.SendTeleport(unit);
+		}
+
 		public void Update(float delta)
 		{
 			// Send out physics update packets

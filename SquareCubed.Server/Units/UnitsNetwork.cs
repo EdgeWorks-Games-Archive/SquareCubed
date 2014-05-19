@@ -1,4 +1,6 @@
-﻿using Lidgren.Network;
+﻿using System;
+using Lidgren.Network;
+using SquareCubed.Common.Data;
 using SquareCubed.Network;
 using SquareCubed.Server.Players;
 
@@ -9,12 +11,14 @@ namespace SquareCubed.Server.Units
 		private readonly PacketType _dataPacketType;
 		private readonly Network.Network _network;
 		private readonly PacketType _physicsPacketType;
+		private readonly PacketType _teleportPacketType;
 
 		public UnitsNetwork(Network.Network network)
 		{
 			_network = network;
 			_physicsPacketType = _network.PacketTypes.ResolveType("units.physics");
 			_dataPacketType = _network.PacketTypes.ResolveType("units.data");
+			_teleportPacketType = _network.PacketTypes.ResolveType("units.teleport");
 		}
 
 		public void SendUnitPhysics(Unit unit)
@@ -28,8 +32,7 @@ namespace SquareCubed.Server.Units
 			msg.Write(unit.Id);
 
 			// Add data
-			msg.Write(unit.Position.X);
-			msg.Write(unit.Position.Y);
+			msg.Write(unit.Position);
 
 			// Send data to appropriate players
 			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
@@ -46,8 +49,7 @@ namespace SquareCubed.Server.Units
 			msg.Write(unit.Id);
 
 			// Add data
-			msg.Write(unit.Position.X);
-			msg.Write(unit.Position.Y);
+			msg.Write(unit.Position);
 			msg.Write(unit.Structure.Id);
 
 			if (player != null)
@@ -60,6 +62,25 @@ namespace SquareCubed.Server.Units
 				// Send the data to all players in the world the unit is in
 				unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
 			}
+		}
+
+		public void SendTeleport(Unit unit)
+		{
+			var msg = _network.Peer.CreateMessage();
+
+			// Add the packet type Id
+			msg.Write(_teleportPacketType);
+
+			// The client knows what unit to update using the Id
+			msg.Write(unit.Id);
+
+			// Add data
+			msg.Write(unit.Position);
+			msg.Write(unit.Structure.Id);
+
+			// Send data to appropriate players
+			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitTeleport);
+			Console.WriteLine("Tick!");
 		}
 	}
 }

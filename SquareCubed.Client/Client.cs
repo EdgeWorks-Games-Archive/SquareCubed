@@ -52,7 +52,7 @@ namespace SquareCubed.Client
 			PluginLoader = new PluginLoader<IClientPlugin, Client>();
 			Meta = new Meta.Meta(this);
 			Structures = new Structures.Structures(this);
-			Units = new Units.Units(this);
+			Units = new Units.Units(this, Structures);
 			Player = new Player.UnitPlayer(this);
 
 			// Hook Game Loop Events

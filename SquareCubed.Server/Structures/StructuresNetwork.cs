@@ -33,7 +33,7 @@ namespace SquareCubed.Server.Structures
 			msg.Write(structure.Rotation);
 
 			// Send data to appropriate players
-			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.UnitPhysics);
+			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.StructurePhysics);
 		}
 
 		public void SendStructureData(ServerStructure structure, TypeRegistry<IServerObjectType> types, Player player = null)
@@ -49,12 +49,12 @@ namespace SquareCubed.Server.Structures
 			if (player != null)
 			{
 				// Send the data to the player
-				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+				player.Connection.SendMessage(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.StructureData);
 			}
 			else
 			{
 				// Send the data to all players in the world the structure is in
-				structure.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitData);
+				structure.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.StructureData);
 			}
 		}
 	}

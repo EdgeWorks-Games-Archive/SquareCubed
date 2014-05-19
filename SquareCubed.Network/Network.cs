@@ -38,13 +38,14 @@ namespace SquareCubed.Network
 			// side of a mod and let the engine decide what
 			// numeric value to use, but these are used by
 			// core parts of the engine.
-			PacketTypes.RegisterType("meta", 0);
-			PacketTypes.RegisterType("units.physics", 1);
-			PacketTypes.RegisterType("units.data", 2);
-			PacketTypes.RegisterType("players.data", 3);
-			PacketTypes.RegisterType("structures.physics", 4);
-			PacketTypes.RegisterType("structures.data", 5);
-			PacketTypes.RegisterType("objects", 6);
+			PacketTypes.RegisterType("meta");
+			PacketTypes.RegisterType("units.physics");
+			PacketTypes.RegisterType("units.data");
+			PacketTypes.RegisterType("units.teleport");
+			PacketTypes.RegisterType("players.data");
+			PacketTypes.RegisterType("structures.physics");
+			PacketTypes.RegisterType("structures.data");
+			PacketTypes.RegisterType("objects");
 		}
 
 		public void Dispose()

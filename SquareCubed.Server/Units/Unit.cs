@@ -7,10 +7,16 @@ namespace SquareCubed.Server.Units
 {
 	public class Unit
 	{
+		private readonly Units _units;
 		private ServerStructure _structure;
 		private World _world;
 
 		public int Id { get; set; }
+
+		public Unit(Units units)
+		{
+			_units = units;
+		}
 
 		public virtual World World
 		{
@@ -52,7 +58,9 @@ namespace SquareCubed.Server.Units
 
 		public virtual void Teleport(ServerStructure targetStructure, Vector2 targetPosition)
 		{
-			Console.WriteLine("Teleported to structure {0}!", targetStructure.Id);
+			Structure = targetStructure;
+			Position = targetPosition;
+			_units.SendTeleportFor(this);
 		}
 	}
 }
