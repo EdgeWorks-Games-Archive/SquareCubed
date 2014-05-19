@@ -57,6 +57,8 @@ namespace SquareCubed.Common.Data
 				case Key.Down:
 					return 0x28;
 
+				case Key.Insert:
+					return 0x2D;
 				case Key.Delete:
 					return 0x2E;
 				case Key.PrintScreen:

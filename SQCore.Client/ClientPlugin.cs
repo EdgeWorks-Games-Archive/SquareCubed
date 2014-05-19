@@ -61,7 +61,7 @@ namespace SQCore.Client
 			// Add object types
 			_pilotSeatType = new PilotSeatObjectType(_client, _infoPanel);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
-			_teleporterType = new TeleporterObjectType();
+			_teleporterType = new TeleporterObjectType(_client, _infoPanel);
 			_objectTypes.RegisterType(_teleporterType, 1);
 
 			// Bind events

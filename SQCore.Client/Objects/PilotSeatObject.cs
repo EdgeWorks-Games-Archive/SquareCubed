@@ -28,7 +28,7 @@ namespace SQCore.Client.Objects
 			client.Window.KeyUp += OnKeyPress;
 
 			_proximity = new UnitProximityHelper(this);
-			_proximity.Change += OnChange;
+			_proximity.Change += OnProximityChange;
 
 			_seat = new Seat(_client.Player);
 		}
@@ -110,10 +110,16 @@ namespace SQCore.Client.Objects
 			_panel.Text = "Click to Interact";
 		}
 
-		private void OnChange(object s, ProximityEventArgs e)
+		private void OnProximityChange(object s, ProximityEventArgs e)
 		{
-			_panel.Text = "Click to Interact";
-			_panel.IsVisible = e.NewStatus == ProximityStatus.Within;
+
+			if (e.NewStatus == ProximityStatus.Within)
+			{
+				_panel.Text = "Click to Interact";
+				_panel.IsVisible = true;
+			}
+			else
+				_panel.IsVisible = false;
 		}
 	}
 }
