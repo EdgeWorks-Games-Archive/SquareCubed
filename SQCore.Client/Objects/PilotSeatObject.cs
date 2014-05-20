@@ -1,4 +1,5 @@
-﻿using Lidgren.Network;
+﻿using System;
+using Lidgren.Network;
 using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
@@ -33,6 +34,18 @@ namespace SQCore.Client.Objects
 			_proximity.Change += OnProximityChange;
 
 			_seat = new Seat(_client.Player);
+			_seat.PlayerSits += OnPlayerSits;
+			_seat.PlayerExits += OnPlayerExits;
+		}
+
+		private void OnPlayerSits(object sender, EventArgs e)
+		{
+			_client.Graphics.Camera.PilotMode = true;
+		}
+
+		private void OnPlayerExits(object sender, EventArgs e)
+		{
+			_client.Graphics.Camera.PilotMode = false;
 		}
 
 		public int Id { get; set; }
@@ -64,12 +77,7 @@ namespace SQCore.Client.Objects
 
 			// If the player isn't in the seat, we're done
 			if (!_seat.HasPlayer)
-			{
-				// TODO: Do pilot mode on events instead
-				_client.Graphics.Camera.PilotMode = false;
 				return;
-			}
-			_client.Graphics.Camera.PilotMode = true;
 
 			if (_client.Input.GetKey(Key.W) && !_client.Input.GetKey(Key.S))
 			{
