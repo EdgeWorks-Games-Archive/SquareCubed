@@ -110,10 +110,10 @@ namespace SQCore.Client.Objects
 			if (e.NewStatus == ProximityStatus.Within)
 			{
 				_panel.Text = "Click to Interact";
-				_panel.IsVisible = true;
+				_panel.VisibleCount++;
 			}
 			else
-				_panel.IsVisible = false;
+				_panel.VisibleCount--;
 		}
 	}
 }

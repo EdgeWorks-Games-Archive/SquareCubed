@@ -27,12 +27,6 @@ namespace SquareCubed.Client.Player
 			_network = new PlayerNetwork(_client.Network, this);
 		}
 
-
-		public IPositionable WorldPlayer
-		{
-			get { return _playerUnit; }
-		}
-
 		public bool LockInput { private get; set; }
 
 		public Vector2 Position
@@ -82,7 +76,7 @@ namespace SquareCubed.Client.Player
 			unit.Structure = null;
 		}
 
-		public void OnUpdate(object s, TickEventArgs args)
+		private void OnUpdate(object s, TickEventArgs args)
 		{
 			// Make sure the player is correctly set up, if not just ignore this tick
 			if (_playerUnit == null) return;
