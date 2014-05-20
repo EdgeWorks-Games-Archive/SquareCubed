@@ -6,6 +6,7 @@ namespace SquareCubed.Client.Structures.Objects
 	{
 		int Id { get; set; }
 		Vector2 Position { get; set; }
+		ClientStructure Parent { get; set; }
 
 		void OnUse();
 	}

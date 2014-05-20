@@ -80,7 +80,6 @@ namespace SquareCubed.Server.Units
 
 			// Send data to appropriate players
 			unit.World.SendToAllPlayers(msg, NetDeliveryMethod.ReliableOrdered, (int) SequenceChannels.UnitTeleport);
-			Console.WriteLine("Tick!");
 		}
 	}
 }

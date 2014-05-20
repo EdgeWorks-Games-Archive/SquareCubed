@@ -6,7 +6,7 @@ using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Units
 {
-	public class Unit : IPositionable
+	public class Unit : IParentable
 	{
 		private ClientStructure _structure;
 
@@ -34,6 +34,7 @@ namespace SquareCubed.Client.Units
 
 		public int Id { get; private set; }
 		public Vector2 Position { get; set; }
+		public IPositionable Parent { get { return _structure; } }
 
 		public virtual void ProcessPhysicsPacketData(Vector2 position)
 		{

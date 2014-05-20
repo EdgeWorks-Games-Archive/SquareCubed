@@ -59,7 +59,6 @@ namespace SquareCubed.Client.Units
 			// Set the data
 			unit.Position = position;
 			unit.Structure = _structures.GetOrNull(structure);
-			Console.WriteLine("Tock!");
 		}
 
 		#endregion

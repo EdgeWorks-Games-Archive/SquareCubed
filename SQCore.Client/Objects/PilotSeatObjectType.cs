@@ -1,10 +1,11 @@
 ﻿using OpenTK.Input;
 using SQCore.Client.Gui;
+using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	class PilotSeatObjectType : IClientObjectType
+	internal class PilotSeatObjectType : IClientObjectType
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
@@ -17,9 +18,9 @@ namespace SQCore.Client.Objects
 			_client.Input.TrackKey(Key.X);
 		}
 
-		public IClientObject CreateNew()
+		public IClientObject CreateNew(ClientStructure parent)
 		{
-			return new PilotSeatObject(_client, _panel);
+			return new PilotSeatObject(_client, _panel, parent);
 		}
 	}
 }

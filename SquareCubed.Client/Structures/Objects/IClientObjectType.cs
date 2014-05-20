@@ -2,6 +2,6 @@
 {
 	public interface IClientObjectType
 	{
-		IClientObject CreateNew();
+		IClientObject CreateNew(ClientStructure parent);
 	}
 }

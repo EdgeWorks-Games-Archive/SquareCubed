@@ -1,11 +1,10 @@
-﻿using System;
-using Lidgren.Network;
+﻿using Lidgren.Network;
 using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
+using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
-using SquareCubed.Network;
 
 namespace SQCore.Client.Objects
 {
@@ -18,10 +17,11 @@ namespace SQCore.Client.Objects
 
 		private string _testDest = "Dest A";
 
-		public TeleporterObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
+		public TeleporterObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
 		{
 			_client = client;
 			_panel = panel;
+			Parent = parent;
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
@@ -32,6 +32,7 @@ namespace SQCore.Client.Objects
 
 		public int Id { get; set; }
 		public Vector2 Position { get; set; }
+		public ClientStructure Parent { get; set; }
 
 		public void OnUse()
 		{

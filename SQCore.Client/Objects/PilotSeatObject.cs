@@ -3,6 +3,7 @@ using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
+using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Structures.Objects.Components;
 using SquareCubed.Network;
@@ -19,10 +20,11 @@ namespace SQCore.Client.Objects
 		private Vector2 _position;
 		private float _throttle;
 
-		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel)
+		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
 		{
 			_client = client;
 			_panel = panel;
+			Parent = parent;
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
@@ -44,6 +46,8 @@ namespace SQCore.Client.Objects
 				_seat.Position = value;
 			}
 		}
+
+		public ClientStructure Parent { get; set; }
 
 		public void OnUse()
 		{

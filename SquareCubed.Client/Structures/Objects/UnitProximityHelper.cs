@@ -45,11 +45,11 @@ namespace SquareCubed.Client.Structures.Objects
 		///     The object to update the detection state with.
 		///     Null resets the state to default.
 		/// </param>
-		public void Update(IPositionable obj)
+		public void Update(IParentable obj)
 		{
 			// Find the new status
 			var nStatus = ProximityStatus.Within;
-			if (obj == null || (obj.Position - _obj.Position).LengthFast > Range)
+			if (obj == null || obj.Parent != _obj.Parent || (obj.Position - _obj.Position).LengthFast > Range)
 				nStatus = ProximityStatus.NotWithin;
 
 			// If not different, don't do anything

@@ -2,7 +2,7 @@
 
 namespace SquareCubed.Client.Player
 {
-	public interface IPlayer : IPositionable
+	public interface IPlayer : IParentable
 	{
 		bool LockInput { set; }
 	}

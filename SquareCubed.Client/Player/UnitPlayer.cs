@@ -28,8 +28,12 @@ namespace SquareCubed.Client.Player
 		}
 
 
+		public IPositionable WorldPlayer
+		{
+			get { return _playerUnit; }
+		}
+
 		public bool LockInput { private get; set; }
-		public IPositionable WorldPlayer { get { return _playerUnit; } }
 
 		public Vector2 Position
 		{
@@ -39,6 +43,11 @@ namespace SquareCubed.Client.Player
 				_playerUnit.Position = value;
 				_client.Graphics.Camera.Position = _playerUnit.Position;
 			}
+		}
+
+		public IPositionable Parent
+		{
+			get { return _playerUnit.Structure; }
 		}
 
 		private void OnMouseUp(object sender, MouseButtonEventArgs e)

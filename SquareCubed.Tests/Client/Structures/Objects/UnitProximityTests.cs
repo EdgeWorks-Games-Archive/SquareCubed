@@ -1,5 +1,6 @@
 ﻿using Moq;
 using OpenTK;
+using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Units;
 using Xunit;
@@ -9,10 +10,13 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 	public class UnitProximityTests
 	{
 		private readonly UnitProximityHelper _proximity;
+		private readonly ClientStructure _structure = new ClientStructure();
 
 		public UnitProximityTests()
 		{
-			var obj = Mock.Of<IClientObject>(o => o.Position == new Vector2(2.0f, 3.5f));
+			var obj = Mock.Of<IClientObject>(o =>
+				o.Position == new Vector2(2.0f, 3.5f) &&
+				o.Parent == _structure);
 			_proximity = new UnitProximityHelper(obj);
 		}
 
@@ -35,7 +39,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			var unit = new Unit(0)
 			{
 				// Should be within 1 distance of the test object
-				Position = new Vector2(1.8f, 3.6f)
+				Position = new Vector2(1.8f, 3.6f),
+				Structure = _structure
 			};
 			_proximity.Update(unit);
 			Assert.Equal(ProximityStatus.Within, _proximity.Status);
@@ -47,7 +52,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			var unit = new Unit(0)
 			{
 				// Should be not within 1 distance of the test object
-				Position = new Vector2(1.0f, 3.7f)
+				Position = new Vector2(1.0f, 3.7f),
+				Structure = _structure
 			};
 			_proximity.Update(unit);
 			Assert.Equal(ProximityStatus.NotWithin, _proximity.Status);
@@ -59,7 +65,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			var unit = new Unit(0)
 			{
 				// Should be not within 1 distance of the test object but within 2 distance
-				Position = new Vector2(0.8f, 3.7f)
+				Position = new Vector2(0.8f, 3.7f),
+				Structure = _structure
 			};
 
 			// Initially this is outside the range, so we make sure it isn't detected as within
@@ -80,7 +87,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			var unit = new Unit(0)
 			{
 				// Should be not within 1 distance of the test object but within 2 distance
-				Position = new Vector2(0.8f, 3.7f)
+				Position = new Vector2(0.8f, 3.7f),
+				Structure = _structure
 			};
 
 			// Initially this is outside the range, so we make sure it isn't detected as within
@@ -108,7 +116,8 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 			var unit = new Unit(0)
 			{
 				// Should be not within 1 distance of the test object but within 2 distance
-				Position = new Vector2(0.8f, 3.7f)
+				Position = new Vector2(0.8f, 3.7f),
+				Structure = _structure
 			};
 
 			// Set up the Event
@@ -147,6 +156,19 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 		{
 			var helper = new UnitProximityHelper(null, 0.5f);
 			Assert.Equal(0.5f, helper.Range);
+		}
+
+		[Fact]
+		public void DoesNotDetectAcrossStructures()
+		{
+			var unit = new Unit(0)
+			{
+				// Should be within 1 distance of the test object
+				Position = new Vector2(1.8f, 3.6f),
+				Structure = new ClientStructure()
+			};
+			_proximity.Update(unit);
+			Assert.Equal(ProximityStatus.NotWithin, _proximity.Status);
 		}
 	}
 }

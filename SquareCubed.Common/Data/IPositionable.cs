@@ -7,6 +7,11 @@ namespace SquareCubed.Common.Data
 		Vector2 Position { get; set; }
 	}
 
+	public interface IParentable : IPositionable
+	{
+		IPositionable Parent { get; }
+	}
+
 	public interface IComplexPositionable : IPositionable
 	{
 		Vector2 Center { get; set; }

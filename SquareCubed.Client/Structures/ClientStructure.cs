@@ -57,14 +57,14 @@ namespace SquareCubed.Client.Structures
 
 	public static class StructureExtensions
 	{
-		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
+		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes, ClientStructure structure)
 		{
 			var amount = msg.ReadInt32();
 			var objects = new List<IClientObject>(amount);
 			for (var i = 0; i < amount; i++)
 			{
 				// Create an object of the type with the id we received assigned to it.
-				var obj = objectTypes.GetType(msg.ReadInt32()).CreateNew();
+				var obj = objectTypes.GetType(msg.ReadInt32()).CreateNew(structure);
 				obj.Id = msg.ReadInt32();
 				obj.Position = msg.ReadVector2();
 				objects.Add(obj);
@@ -93,9 +93,9 @@ namespace SquareCubed.Client.Structures
 				Position = msg.ReadVector2(),
 				Rotation = msg.ReadFloat(),
 				Center = msg.ReadVector2(),
-				Chunks = msg.ReadChunks(),
-				Objects = msg.ReadObjects(objectTypes)
+				Chunks = msg.ReadChunks()
 			};
+			structure.Objects = msg.ReadObjects(objectTypes, structure);
 
 			return structure;
 		}

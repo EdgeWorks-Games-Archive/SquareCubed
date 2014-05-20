@@ -1,10 +1,11 @@
 ﻿using OpenTK.Input;
 using SQCore.Client.Gui;
+using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	sealed class TeleporterObjectType : IClientObjectType
+	internal sealed class TeleporterObjectType : IClientObjectType
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
@@ -17,9 +18,9 @@ namespace SQCore.Client.Objects
 			_client.Input.TrackKey(Key.X);
 		}
 
-		public IClientObject CreateNew()
+		public IClientObject CreateNew(ClientStructure parent)
 		{
-			return new TeleporterObject(_client, _panel);
+			return new TeleporterObject(_client, _panel, parent);
 		}
 	}
 }

@@ -48,7 +48,6 @@ namespace SquareCubed.Client.Units
 
 		private void OnUnitTeleport(NetIncomingMessage msg)
 		{
-			Console.WriteLine("Tack!");
 			// Pass the data on
 			_callback.OnUnitTeleport(
 				msg.ReadInt32(),
