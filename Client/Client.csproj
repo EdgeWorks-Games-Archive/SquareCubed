@@ -120,6 +120,14 @@
     <None Include="GUI\Panels\EscMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="GUI\Panels\EscMenu\Script.coffee" />
+    <None Include="GUI\Panels\EscMenu\Script.js.map">
+      <DependentUpon>Script.js</DependentUpon>
+    </None>
+    <None Include="GUI\Panels\EscMenu\Style.css.map">
+      <DependentUpon>Style.css</DependentUpon>
+    </None>
+    <None Include="GUI\Panels\EscMenu\Style.scss" />
     <None Include="GUI\Panels\MainMenu\Script.coffee" />
     <None Include="GUI\Panels\MainMenu\Panel.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -211,6 +219,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\EscMenu\Panel.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GUI\Panels\EscMenu\Script.js">
+      <DependentUpon>Script.coffee</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GUI\Panels\EscMenu\Style.css">
+      <DependentUpon>Style.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GUI\Panels\Teleporter\Panel.xml">
