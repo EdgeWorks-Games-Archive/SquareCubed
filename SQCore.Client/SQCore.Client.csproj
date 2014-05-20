@@ -60,6 +60,7 @@
     <Compile Include="ClientPlugin.cs" />
     <Compile Include="Objects\PilotSeatObject.cs" />
     <Compile Include="Objects\PilotSeatObjectType.cs" />
+    <Compile Include="Objects\TeleporterPanel.cs" />
     <Compile Include="Objects\TeleporterObject.cs" />
     <Compile Include="Objects\TeleporterObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
