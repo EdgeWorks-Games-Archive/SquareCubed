@@ -1,6 +1,5 @@
 ﻿using System;
 using Lidgren.Network;
-using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
@@ -11,21 +10,19 @@ using SquareCubed.Network;
 
 namespace SQCore.Client.Objects
 {
-	internal class PilotSeatObject : IClientObject
+	internal class PilotSeatObject : ClientObjectBase
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
 		private readonly UnitProximityHelper _proximity;
 		private readonly Seat _seat;
-
-		private Vector2 _position;
 		private float _throttle;
 
 		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
+			: base(parent)
 		{
 			_client = client;
 			_panel = panel;
-			Parent = parent;
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
@@ -33,7 +30,7 @@ namespace SQCore.Client.Objects
 			_proximity = new UnitProximityHelper(this);
 			_proximity.Change += OnProximityChange;
 
-			_seat = new Seat(_client.Player);
+			_seat = new Seat(this, _client.Player);
 			_seat.PlayerSits += OnPlayerSits;
 			_seat.PlayerExits += OnPlayerExits;
 		}
@@ -48,21 +45,7 @@ namespace SQCore.Client.Objects
 			_client.Graphics.Camera.PilotMode = false;
 		}
 
-		public int Id { get; set; }
-
-		public Vector2 Position
-		{
-			get { return _position; }
-			set
-			{
-				_position = value;
-				_seat.Position = value;
-			}
-		}
-
-		public ClientStructure Parent { get; set; }
-
-		public void OnUse()
+		public override void OnUse()
 		{
 			if (_seat.HasPlayer || _proximity.Status != ProximityStatus.Within) return;
 

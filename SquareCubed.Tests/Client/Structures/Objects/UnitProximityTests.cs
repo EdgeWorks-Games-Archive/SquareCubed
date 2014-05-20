@@ -14,7 +14,7 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 
 		public UnitProximityTests()
 		{
-			var obj = Mock.Of<IClientObject>(o =>
+			var obj = Mock.Of<ClientObjectBase>(o =>
 				o.Position == new Vector2(2.0f, 3.5f) &&
 				o.Parent == _structure);
 			_proximity = new UnitProximityHelper(obj);

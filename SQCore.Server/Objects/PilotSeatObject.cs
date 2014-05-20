@@ -18,9 +18,9 @@ namespace SQCore.Server.Objects
 			server.UpdateTick += OnUpdateTick;
 		}
 
-		void OnUpdateTick(object sender, float e)
+		void OnUpdateTick(object sender, float delta)
 		{
-			var vec = new Vector2((float)Math.Sin(_parent.Rotation), (float)Math.Cos(_parent.Rotation)) * _throttle;
+			var vec = new Vector2((float)Math.Sin(_parent.Rotation), (float)Math.Cos(_parent.Rotation)) * _throttle * delta;
 			_parent.Position = _parent.Position + vec;
 			_parent.Rotation = _parent.Rotation + _angularThrottle;
 		}

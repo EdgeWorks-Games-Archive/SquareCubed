@@ -25,9 +25,9 @@ namespace SquareCubed.Client.Structures.Objects
 	/// </summary>
 	public class UnitProximityHelper
 	{
-		private readonly IClientObject _obj;
+		private readonly ClientObjectBase _obj;
 
-		public UnitProximityHelper(IClientObject obj, float range = 1.0f)
+		public UnitProximityHelper(ClientObjectBase obj, float range = 1.0f)
 		{
 			_obj = obj;
 			Status = ProximityStatus.NotWithin;

@@ -18,7 +18,7 @@ namespace SQCore.Client.Objects
 			_client.Input.TrackKey(Key.X);
 		}
 
-		public IClientObject CreateNew(ClientStructure parent)
+		public ClientObjectBase CreateNew(ClientStructure parent)
 		{
 			return new PilotSeatObject(_client, _panel, parent);
 		}

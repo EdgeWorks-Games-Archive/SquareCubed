@@ -7,16 +7,17 @@ namespace SquareCubed.Client.Structures.Objects.Components
 	public class Seat
 	{
 		public bool HasPlayer { get; private set; }
-		public Vector2 Position { get; set; }
 
+		private readonly ClientObjectBase _parent;
 		private readonly IPlayer _player;
 		private Vector2 _storedPos;
 
 		public event EventHandler PlayerSits = (s, a) => { };
 		public event EventHandler PlayerExits = (s, a) => { };
 
-		public Seat(IPlayer player)
+		public Seat(ClientObjectBase parent, IPlayer player)
 		{
+			_parent = parent;
 			_player = player;
 		}
 
@@ -27,7 +28,7 @@ namespace SquareCubed.Client.Structures.Objects.Components
 
 			HasPlayer = true;
 			_storedPos = _player.Position;
-			_player.Position = Position;
+			_player.Position = _parent.Position;
 			_player.LockInput = true;
 			PlayerSits(this, EventArgs.Empty);
 		}

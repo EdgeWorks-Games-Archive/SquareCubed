@@ -18,7 +18,7 @@ namespace SquareCubed.Client.Structures.Objects
 			_packetType = _network.PacketTypes["objects"];
 		}
 
-		public NetOutgoingMessage CreateMessageFor(IClientObject obj)
+		public NetOutgoingMessage CreateMessageFor(ClientObjectBase obj)
 		{
 			Contract.Requires<ArgumentNullException>(obj != null);
 

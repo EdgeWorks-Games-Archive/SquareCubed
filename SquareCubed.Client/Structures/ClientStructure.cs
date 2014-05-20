@@ -26,7 +26,7 @@ namespace SquareCubed.Client.Structures
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
 		public Vector2 Center { get; set; }
-		public List<IClientObject> Objects { get; set; }
+		public List<ClientObjectBase> Objects { get; set; }
 
 		private void UpdateEntry<T>(ICollection<T> list, T entry, ClientStructure newStructure)
 		{
@@ -57,10 +57,10 @@ namespace SquareCubed.Client.Structures
 
 	public static class StructureExtensions
 	{
-		private static List<IClientObject> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes, ClientStructure structure)
+		private static List<ClientObjectBase> ReadObjects(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes, ClientStructure structure)
 		{
 			var amount = msg.ReadInt32();
-			var objects = new List<IClientObject>(amount);
+			var objects = new List<ClientObjectBase>(amount);
 			for (var i = 0; i < amount; i++)
 			{
 				// Create an object of the type with the id we received assigned to it.

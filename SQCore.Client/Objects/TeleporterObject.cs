@@ -1,5 +1,4 @@
 ﻿using Lidgren.Network;
-using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
@@ -8,7 +7,7 @@ using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	internal class TeleporterObject : IClientObject
+	internal class TeleporterObject : ClientObjectBase
 	{
 		private const string TextPattern = "Destination: {0} (E to Change)";
 		private readonly SquareCubed.Client.Client _client;
@@ -18,10 +17,10 @@ namespace SQCore.Client.Objects
 		private string _testDest = "Dest A";
 
 		public TeleporterObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
+			: base(parent)
 		{
 			_client = client;
 			_panel = panel;
-			Parent = parent;
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
@@ -30,11 +29,7 @@ namespace SQCore.Client.Objects
 			_proximity.Change += OnProximityChange;
 		}
 
-		public int Id { get; set; }
-		public Vector2 Position { get; set; }
-		public ClientStructure Parent { get; set; }
-
-		public void OnUse()
+		public override void OnUse()
 		{
 			// If not within use distance don't do anything
 			if (_proximity.Status != ProximityStatus.Within) return;
