@@ -27,7 +27,7 @@ namespace SquareCubed.Client.Player
 			_network = new PlayerNetwork(_client.Network, this);
 		}
 
-		public bool LockInput { private get; set; }
+		public bool LockInput { get; set; }
 
 		public Vector2 Position
 		{

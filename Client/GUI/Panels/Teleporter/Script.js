@@ -3,12 +3,23 @@
   $("#teleporter").dialog({
     draggable: true,
     resizable: false,
+    autoOpen: false,
     width: 300,
     height: 200,
     show: {
       effect: "fadeIn",
       duration: 300
+    },
+    close: function() {
+      return engine.call("teleporter.onclose");
     }
+  });
+
+
+  /* Engine Events */
+
+  engine.on("teleporter.show", function() {
+    return $("#teleporter").dialog("open");
   });
 
 }).call(this);

@@ -9,16 +9,17 @@ namespace SQCore.Client.Objects
 {
 	internal class TeleporterObject : ClientObjectBase
 	{
-		private const string TextPattern = "Destination: {0} (E to Change)";
+		private const string Text = "Teleporter";
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
 		private readonly ProximityHelper _proximity;
+		private readonly TeleporterObjectType _type;
 
-		private string _testDest = "Dest A";
-
-		public TeleporterObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
+		public TeleporterObject(ClientStructure parent, TeleporterObjectType type, SquareCubed.Client.Client client,
+			ContextInfoPanel panel)
 			: base(parent)
 		{
+			_type = type;
 			_client = client;
 			_panel = panel;
 
@@ -34,9 +35,8 @@ namespace SQCore.Client.Objects
 			// If not within use distance don't do anything
 			if (_proximity.Status != ProximityStatus.Within) return;
 
-			// Send teleport request to server
-			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
-			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableUnordered, 0);
+			// Open the dialog for the teleporter
+			_type.OpenDialog();
 		}
 
 		private void Update(object s, TickEventArgs e)
@@ -46,19 +46,19 @@ namespace SQCore.Client.Objects
 
 		private void OnKeyPress(object sender, KeyboardKeyEventArgs e)
 		{
-			// If not within or incorrect key, don't bother anything
-			if (_proximity.Status != ProximityStatus.Within || e.Key != Key.E) return;
+			// If not within, incorrect key or input is locked, don't do anything
+			if (_proximity.Status != ProximityStatus.Within || e.Key != Key.E || _client.Player.LockInput) return;
 
-			_testDest = _testDest == "Dest A" ? "Dest B" : "Dest A";
-
-			_panel.Text = string.Format(TextPattern, _testDest);
+			// Send teleport request to server
+			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);
+			_client.Network.SendToServer(msg, NetDeliveryMethod.ReliableUnordered, 0);
 		}
 
 		private void OnProximityChange(object s, ProximityEventArgs e)
 		{
 			if (e.NewStatus == ProximityStatus.Within)
 			{
-				_panel.Text = string.Format(TextPattern, _testDest);
+				_panel.Text = Text;
 				_panel.VisibleCount++;
 			}
 			else

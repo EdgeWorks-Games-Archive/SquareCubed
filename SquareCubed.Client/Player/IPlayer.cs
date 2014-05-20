@@ -4,6 +4,6 @@ namespace SquareCubed.Client.Player
 {
 	public interface IPlayer : IParentable
 	{
-		bool LockInput { set; }
+		bool LockInput { get; set; }
 	}
 }
