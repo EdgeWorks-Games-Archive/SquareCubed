@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using SquareCubed.Client.Player;
+using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures.Objects.Components
 {
@@ -8,14 +9,14 @@ namespace SquareCubed.Client.Structures.Objects.Components
 	{
 		public bool HasPlayer { get; private set; }
 
-		private readonly ClientObjectBase _parent;
+		private readonly IPositionable _parent;
 		private readonly IPlayer _player;
 		private Vector2 _storedPos;
 
 		public event EventHandler PlayerSits = (s, a) => { };
 		public event EventHandler PlayerExits = (s, a) => { };
 
-		public Seat(ClientObjectBase parent, IPlayer player)
+		public Seat(IPositionable parent, IPlayer player)
 		{
 			_parent = parent;
 			_player = player;

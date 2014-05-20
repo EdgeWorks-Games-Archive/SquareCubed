@@ -22,12 +22,13 @@ namespace SquareCubed.Client.Structures.Objects
 	///     Helper class to detect changes on a object's proximity to an object.
 	///     Can only handle a single object at a time. Pass the object you need to
 	///     track to the Update function. Default state is not within proximity.
+	///		TODO: Move this class to common.
 	/// </summary>
-	public class UnitProximityHelper
+	public class ProximityHelper
 	{
-		private readonly ClientObjectBase _obj;
+		private readonly IParentable _obj;
 
-		public UnitProximityHelper(ClientObjectBase obj, float range = 1.0f)
+		public ProximityHelper(IParentable obj, float range = 1.0f)
 		{
 			_obj = obj;
 			Status = ProximityStatus.NotWithin;

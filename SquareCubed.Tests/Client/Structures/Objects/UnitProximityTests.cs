@@ -3,21 +3,22 @@ using OpenTK;
 using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Client.Units;
+using SquareCubed.Common.Data;
 using Xunit;
 
 namespace SquareCubed.Tests.Client.Structures.Objects
 {
 	public class UnitProximityTests
 	{
-		private readonly UnitProximityHelper _proximity;
+		private readonly ProximityHelper _proximity;
 		private readonly ClientStructure _structure = new ClientStructure();
 
 		public UnitProximityTests()
 		{
-			var obj = Mock.Of<ClientObjectBase>(o =>
+			var obj = Mock.Of<IParentable>(o =>
 				o.Position == new Vector2(2.0f, 3.5f) &&
 				o.Parent == _structure);
-			_proximity = new UnitProximityHelper(obj);
+			_proximity = new ProximityHelper(obj);
 		}
 
 		[Fact]
@@ -154,7 +155,7 @@ namespace SquareCubed.Tests.Client.Structures.Objects
 		[Fact]
 		public void ConstructorChangesRange()
 		{
-			var helper = new UnitProximityHelper(null, 0.5f);
+			var helper = new ProximityHelper(null, 0.5f);
 			Assert.Equal(0.5f, helper.Range);
 		}
 

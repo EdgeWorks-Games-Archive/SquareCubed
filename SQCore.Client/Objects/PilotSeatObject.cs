@@ -14,7 +14,7 @@ namespace SQCore.Client.Objects
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
-		private readonly UnitProximityHelper _proximity;
+		private readonly ProximityHelper _proximity;
 		private readonly Seat _seat;
 		private float _throttle;
 
@@ -27,7 +27,7 @@ namespace SQCore.Client.Objects
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
 
-			_proximity = new UnitProximityHelper(this);
+			_proximity = new ProximityHelper(this);
 			_proximity.Change += OnProximityChange;
 
 			_seat = new Seat(this, _client.Player);

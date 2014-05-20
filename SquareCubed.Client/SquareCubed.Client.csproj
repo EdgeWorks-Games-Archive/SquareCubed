@@ -160,7 +160,7 @@
     <Compile Include="Structures\Objects\ClientObjectBase.cs" />
     <Compile Include="Structures\Objects\IClientObjectType.cs" />
     <Compile Include="Structures\Objects\ObjectsNetwork.cs" />
-    <Compile Include="Structures\Objects\UnitProximityHelper.cs" />
+    <Compile Include="Structures\Objects\ProximityHelper.cs" />
     <Compile Include="Structures\ClientStructure.cs" />
     <Compile Include="Structures\Structures.cs" />
     <Compile Include="Structures\StructuresNetwork.cs" />

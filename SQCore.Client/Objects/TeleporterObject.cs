@@ -12,7 +12,7 @@ namespace SQCore.Client.Objects
 		private const string TextPattern = "Destination: {0} (E to Change)";
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
-		private readonly UnitProximityHelper _proximity;
+		private readonly ProximityHelper _proximity;
 
 		private string _testDest = "Dest A";
 
@@ -25,7 +25,7 @@ namespace SQCore.Client.Objects
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
 
-			_proximity = new UnitProximityHelper(this, 0.5f);
+			_proximity = new ProximityHelper(this, 0.5f);
 			_proximity.Change += OnProximityChange;
 		}
 
