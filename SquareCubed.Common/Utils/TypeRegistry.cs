@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 namespace SquareCubed.Common.Utils
@@ -11,6 +12,11 @@ namespace SquareCubed.Common.Utils
 		public TypeRegistry()
 		{
 			_typeList = new TType[MaxId + 1];
+		}
+
+		public IEnumerable<TType> GetAll()
+		{
+			return _typeList;
 		}
 
 		public TType GetType(int id)

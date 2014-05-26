@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -8,7 +6,7 @@ using SquareCubed.Common.Data;
 
 namespace SquareCubed.Client.Structures
 {
-	class StructuresRenderer
+	internal class StructuresRenderer
 	{
 		private readonly Client _client;
 
@@ -36,21 +34,9 @@ namespace SquareCubed.Client.Structures
 
 		private void RenderObjects(ClientStructure structure)
 		{
-			// White test squares for now
-			GL.Color3(Color.FromArgb(255, 255, 255));
 			foreach (var obj in structure.Objects)
 			{
-				GL.PushMatrix();
-				GL.Translate(obj.Position.X, obj.Position.Y, 0.0f);
-				GL.Begin(PrimitiveType.Quads);
-
-				GL.Vertex2(-0.2f, 0.2f); // Left Top
-				GL.Vertex2(-0.2f, -0.2f); // Left Bottom
-				GL.Vertex2(0.2f, -0.2f); // Right Bottom
-				GL.Vertex2(0.2f, 0.2f); // Right Top
-
-				GL.End();
-				GL.PopMatrix();
+				obj.Render();
 			}
 		}
 
@@ -72,20 +58,22 @@ namespace SquareCubed.Client.Structures
 					// Walls overlap in the corners but since they're solid grey that doesn't matter
 					GL.Color3(Color.FromArgb(64, 64, 64));
 
+					const float halfOffset = 6f/64f; // width / total
+
 					// If the wall's type is set to 0 (means no wall) or 1 (means invisible), ignore it
-					if (tile.WallTypes[(int)WallSides.Top] >= 2)
+					if (tile.WallTypes[(int) WallSides.Top] >= 2)
 					{
-						GL.Vertex2(x - 0.1f, y + 1.1f); // Left Top
-						GL.Vertex2(x - 0.1f, y + 0.9f); // Left Bottom
-						GL.Vertex2(x + 1.1f, y + 0.9f); // Right Bottom
-						GL.Vertex2(x + 1.1f, y + 1.1f); // Right Top
+						GL.Vertex2(x - halfOffset, y + 1f + halfOffset); // Left Top
+						GL.Vertex2(x - halfOffset, y + 1f - halfOffset); // Left Bottom
+						GL.Vertex2(x + 1f + halfOffset, y + 1f - halfOffset); // Right Bottom
+						GL.Vertex2(x + 1f + halfOffset, y + 1f + halfOffset); // Right Top
 					}
-					if (tile.WallTypes[(int)WallSides.Right] >= 2)
+					if (tile.WallTypes[(int) WallSides.Right] >= 2)
 					{
-						GL.Vertex2(x + 1.1f, y + 1.1f); // Left Top
-						GL.Vertex2(x + 0.9f, y + 1.1f); // Left Bottom
-						GL.Vertex2(x + 0.9f, y + 0.1f); // Right Bottom
-						GL.Vertex2(x + 1.1f, y + 0.1f); // Right Top
+						GL.Vertex2(x + 1f + halfOffset, y + 1f + halfOffset); // Left Top
+						GL.Vertex2(x + 1f - halfOffset, y + 1f + halfOffset); // Left Bottom
+						GL.Vertex2(x + 1f - halfOffset, y + halfOffset); // Right Bottom
+						GL.Vertex2(x + 1f + halfOffset, y + halfOffset); // Right Top
 					}
 
 					GL.End();
@@ -111,7 +99,7 @@ namespace SquareCubed.Client.Structures
 				{
 					// Translate to the chunk position
 					GL.PushMatrix();
-					GL.Translate(chunk.Position.X * Chunk.ChunkSize, chunk.Position.Y * Chunk.ChunkSize, 0);
+					GL.Translate(chunk.Position.X*Chunk.ChunkSize, chunk.Position.Y*Chunk.ChunkSize, 0);
 
 					RenderChunkTiles(chunk);
 
@@ -130,7 +118,7 @@ namespace SquareCubed.Client.Structures
 				{
 					// Translate to the chunk position
 					GL.PushMatrix();
-					GL.Translate(chunk.Position.X * Chunk.ChunkSize, chunk.Position.Y * Chunk.ChunkSize, 0);
+					GL.Translate(chunk.Position.X*Chunk.ChunkSize, chunk.Position.Y*Chunk.ChunkSize, 0);
 
 					RenderChunkWalls(chunk);
 

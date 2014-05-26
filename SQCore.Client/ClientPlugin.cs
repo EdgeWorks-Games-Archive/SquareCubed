@@ -88,6 +88,7 @@ namespace SQCore.Client
 			// Remove object types
 			_objectTypes.UnregisterType(_pilotSeatType);
 			_objectTypes.UnregisterType(_teleporterType);
+			_teleporterType.Dispose();
 		}
 
 		private void RenderBackground(object sender, TickEventArgs e)

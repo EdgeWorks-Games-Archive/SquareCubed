@@ -5,7 +5,7 @@ using SquareCubed.Client.Structures.Objects;
 
 namespace SQCore.Client.Objects
 {
-	internal class PilotSeatObjectType : IClientObjectType
+	internal sealed class PilotSeatObjectType : IClientObjectType
 	{
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
@@ -21,6 +21,10 @@ namespace SQCore.Client.Objects
 		public ClientObjectBase CreateNew(ClientStructure parent)
 		{
 			return new PilotSeatObject(_client, _panel, parent);
+		}
+
+		public void Dispose()
+		{
 		}
 	}
 }

@@ -1,6 +1,8 @@
-﻿namespace SquareCubed.Client.Structures.Objects
+﻿using System;
+
+namespace SquareCubed.Client.Structures.Objects
 {
-	public interface IClientObjectType
+	public interface IClientObjectType : IDisposable
 	{
 		ClientObjectBase CreateNew(ClientStructure parent);
 	}

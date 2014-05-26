@@ -50,7 +50,6 @@ namespace SquareCubed.Client.Graphics
 			// Ensure settings are set correctly
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
-			GL.Enable(EnableCap.Multisample);
 
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);

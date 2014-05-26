@@ -8,11 +8,25 @@ using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {
-	public class Structures
+	public sealed class Structures
 	{
 		private readonly StructuresNetwork _network;
 		private readonly StructuresRenderer _renderer;
 		private readonly Dictionary<int, ClientStructure> _structures = new Dictionary<int, ClientStructure>();
+
+		internal Structures(Client client)
+		{
+			Contract.Requires<ArgumentNullException>(client != null);
+
+			TileTypes = new TypeRegistry<TileType>();
+			TileTypes.RegisterType(new InvisibleTileType(), 1);
+
+			ObjectTypes = new TypeRegistry<IClientObjectType>();
+			ObjectsNetwork = new ObjectsNetwork(client.Network);
+
+			_network = new StructuresNetwork(client.Network, this);
+			_renderer = new StructuresRenderer(client);
+		}
 
 		public TypeRegistry<TileType> TileTypes { get; private set; }
 		public TypeRegistry<IClientObjectType> ObjectTypes { get; private set; }
@@ -27,20 +41,6 @@ namespace SquareCubed.Client.Structures
 		{
 			ClientStructure structure;
 			return _structures.TryGetValue(id, out structure) ? structure : null;
-		}
-
-		internal Structures(Client client)
-		{
-			Contract.Requires<ArgumentNullException>(client != null);
-
-			TileTypes = new TypeRegistry<TileType>();
-			TileTypes.RegisterType(new InvisibleTileType(), 1);
-
-			ObjectTypes = new TypeRegistry<IClientObjectType>();
-			ObjectsNetwork = new ObjectsNetwork(client.Network);
-
-			_network = new StructuresNetwork(client.Network, this);
-			_renderer = new StructuresRenderer(client);
 		}
 
 		public void OnStructureData(ClientStructure structure)

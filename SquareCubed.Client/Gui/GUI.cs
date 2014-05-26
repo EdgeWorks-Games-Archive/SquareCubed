@@ -9,7 +9,6 @@ using SquareCubed.Client.Graphics;
 using SquareCubed.Client.Graphics.Shaders;
 using SquareCubed.Client.Gui.Panels;
 using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SquareCubed.Client.Gui
 {
@@ -158,12 +157,13 @@ namespace SquareCubed.Client.Gui
 				"Shaders/CoherentUI.frag");
 
 			// Create a texture for it as well, filled with loading text
-			var bitmap = new Bitmap(_client.Window.Width, _client.Window.Height);
+			var resolution = _client.Graphics.Camera.Resolution;
+			var bitmap = new Bitmap(resolution.Width, resolution.Height);
 			using (var gfx = System.Drawing.Graphics.FromImage(bitmap))
 			{
 				using (var brush = new SolidBrush(Color.FromArgb(0, 0, 0)))
 				{
-					gfx.FillRectangle(brush, 0, 0, _client.Window.Width, _client.Window.Height);
+					gfx.FillRectangle(brush, 0, 0, resolution.Width, resolution.Height);
 				}
 				using (var brush = new SolidBrush(Color.FromArgb(255, 255, 255)))
 				{
@@ -171,8 +171,8 @@ namespace SquareCubed.Client.Gui
 					var font = new Font("Lucida Console", 10, FontStyle.Regular, GraphicsUnit.Point);
 					var textSize = gfx.MeasureString("loading", font);
 					gfx.DrawString("loading", font, brush,
-						(_client.Window.Width * 0.5f) - (textSize.Width * 0.5f),
-						(_client.Window.Height * 0.5f) - (textSize.Height * 0.5f));
+						(resolution.Width * 0.5f) - (textSize.Width * 0.5f),
+						(resolution.Height * 0.5f) - (textSize.Height * 0.5f));
 				}
 			}
 
@@ -240,8 +240,8 @@ namespace SquareCubed.Client.Gui
 				// Create a new test view
 				var viewInfo = new ViewInfo
 				{
-					Width = _client.Window.Width,
-					Height = _client.Window.Height,
+					Width = _client.Graphics.Camera.Resolution.Width,
+					Height = _client.Graphics.Camera.Resolution.Height,
 					IsTransparent = true,
 					UsesSharedMemory = true
 				};
@@ -253,7 +253,7 @@ namespace SquareCubed.Client.Gui
 
 			// Get the latest Coherent UI surfaces
 			_system.FetchSurfaces();
-
+			
 			using (_program.Activate())
 			using (_texture.Activate())
 			{

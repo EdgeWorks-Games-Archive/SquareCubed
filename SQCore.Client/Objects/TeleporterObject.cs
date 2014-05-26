@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using OpenTK;
 using OpenTK.Input;
 using SQCore.Client.Gui;
 using SquareCubed.Client;
@@ -9,7 +10,7 @@ namespace SQCore.Client.Objects
 {
 	internal class TeleporterObject : ClientObjectBase
 	{
-		private const string Text = "Teleporter";
+		private const string Text = "Press E to Teleport";
 		private readonly SquareCubed.Client.Client _client;
 		private readonly ContextInfoPanel _panel;
 		private readonly ProximityHelper _proximity;
@@ -63,6 +64,12 @@ namespace SQCore.Client.Objects
 			}
 			else
 				_panel.VisibleCount--;
+		}
+
+		public override void Render()
+		{
+			var size = _type.Texture.Width/64f*2f; // width / total * upscale
+			_type.Texture.Render(Position - new Vector2(size * 0.5f), new Vector2(size));
 		}
 	}
 }
