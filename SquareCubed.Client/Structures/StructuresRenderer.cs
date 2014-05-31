@@ -58,7 +58,7 @@ namespace SquareCubed.Client.Structures
 					// Walls overlap in the corners but since they're solid grey that doesn't matter
 					GL.Color3(Color.FromArgb(64, 64, 64));
 
-					const float halfOffset = 6f/64f; // width / total
+					const float halfOffset = 3f/32f; // width / total
 
 					// If the wall's type is set to 0 (means no wall) or 1 (means invisible), ignore it
 					if (tile.WallTypes[(int) WallSides.Top] >= 2)

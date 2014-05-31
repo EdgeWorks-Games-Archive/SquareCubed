@@ -8,7 +8,7 @@ namespace SquareCubed.Common.Data
 {
 	public class Chunk
 	{
-		public const int ChunkSize = 16;
+		public const int ChunkSize = 32;
 
 		public Chunk()
 		{

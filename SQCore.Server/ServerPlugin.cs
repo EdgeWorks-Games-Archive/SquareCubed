@@ -43,40 +43,9 @@ namespace SQCore.Server
 			// Add the default spawn provider
 			server.Players.AddSpawnProvider(new SpawnProvider(server, Logger));
 
-			// Add a little test structure
-			var str = new ServerStructure
-			{
-				World = server.Worlds.TestWorld,
-				Position = new Vector2(3, 4),
-				Rotation = 0.0f,
-				Center = new Vector2(5.5f, 5.5f)
-			};
-
-			// Add a chunk for the test structure
-			var chunk = new ServerChunk();
-			chunk.SetTile(5, 5, 3);
-			chunk.SetLeftWall(5, 5, 2);
-			chunk.SetBottomWall(5, 5, 2);
-
-			chunk.SetTile(6, 5, 3);
-			chunk.SetRightWall(6, 5, 2);
-			chunk.SetBottomWall(6, 5, 2);
-
-			chunk.SetTile(6, 6, 3);
-			chunk.SetRightWall(6, 6, 2);
-			chunk.SetTopWall(6, 6, 2);
-
-			chunk.SetTile(5, 6, 3);
-			chunk.SetLeftWall(5, 6, 2);
-
-			chunk.SetTile(5, 7, 3);
-			chunk.SetWalls(5, 7, 2, 2, 0, 2);
-			str.AddObject(5.5f, 7.5f, 1, _objectTypes);
-
-			str.Chunks.Add(chunk);
-
-			// Add the structure to the world
-			server.Structures.Add(str);
+			// Generate a new station
+			var generator = new StationGenerator(_objectTypes);
+			server.Structures.Add(generator.GenerateNew(server.Worlds.TestWorld, new Vector2(3, 4)));
 
 			Logger.LogInfo("Finished initializing Blink!");
 		}

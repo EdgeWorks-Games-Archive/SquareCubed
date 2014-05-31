@@ -68,7 +68,7 @@ namespace SQCore.Client.Objects
 
 		public override void Render()
 		{
-			var size = _type.Texture.Width/64f*2f; // width / total * upscale
+			var size = _type.Texture.Width/32f;
 			_type.Texture.Render(Position - new Vector2(size * 0.5f), new Vector2(size));
 		}
 	}
