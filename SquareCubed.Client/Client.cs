@@ -20,7 +20,7 @@ namespace SquareCubed.Client
 		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
 		public Gui.OldGui OldGui { get; private set; }
-		public SquareCubed.Gui.Gui Gui { get; private set; }
+		public Gui.Gui Gui { get; private set; }
 		public Player.IPlayer Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
@@ -55,7 +55,7 @@ namespace SquareCubed.Client
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this, Structures);
 			Player = new Player.UnitPlayer(this);
-			Gui = new SquareCubed.Gui.Gui(Window.ClientSize);
+			Gui = new Gui.Gui(Window);
 
 			// Hook Game Loop Events
 			Window.Load += Load;

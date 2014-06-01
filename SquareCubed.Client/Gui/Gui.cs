@@ -1,19 +1,20 @@
 ﻿using System.Drawing;
 using OpenTK.Graphics.OpenGL;
+using SquareCubed.Client.Window;
 
-namespace SquareCubed.Gui
+namespace SquareCubed.Client.Gui
 {
-    public class Gui
-    {
+	public class Gui
+	{
+		internal Gui(IExtGameWindow gameWindow)
+		{
+			Viewport = gameWindow.ClientSize;
+		}
+
 		public Size Viewport { get; set; }
 
-	    public Gui(Size viewport)
-	    {
-		    Viewport = viewport;
-	    }
-
-	    public void Render()
-	    {
+		public void Render()
+		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 			GL.Viewport(0, 0, Viewport.Width, Viewport.Height);
@@ -24,6 +25,6 @@ namespace SquareCubed.Gui
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
-	    }
-    }
+		}
+	}
 }
