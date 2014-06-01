@@ -131,11 +131,13 @@
     <Compile Include="Graphics\Shaders\ProgramUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Gui\Components\GuiControl.cs" />
     <Compile Include="Gui\Components\GuiForm.cs" />
     <Compile Include="Gui\Gui.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Input\MouseState.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Meta\Meta.cs" />
     <Compile Include="Player\IPlayer.cs" />
     <Compile Include="Player\UnitPlayer.cs" />

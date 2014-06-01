@@ -100,6 +100,9 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
+			// Now that everything is loaded, we can add the main menu
+			var mainMenu = new MainMenu();
+			Gui.Controls.Add(mainMenu);
 		}
 
 		/// <summary>
