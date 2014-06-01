@@ -137,7 +137,7 @@
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Input\MouseState.cs" />
-    <Compile Include="MainMenu.cs" />
+    <Compile Include="MainMenuForm.cs" />
     <Compile Include="Meta\Meta.cs" />
     <Compile Include="Player\IPlayer.cs" />
     <Compile Include="Player\UnitPlayer.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using OpenTK;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
@@ -101,7 +102,10 @@ namespace SquareCubed.Client
 		private void Load(object s, EventArgs e)
 		{
 			// Now that everything is loaded, we can add the main menu
-			var mainMenu = new MainMenu();
+			var mainMenu = new MainMenuForm();
+			mainMenu.Position = new Point(
+				(Window.ClientSize.Width - mainMenu.Size.Width) / 2,
+				(Window.ClientSize.Height - mainMenu.Size.Height) / 2);
 			Gui.Controls.Add(mainMenu);
 		}
 
