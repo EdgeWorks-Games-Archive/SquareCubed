@@ -1,4 +1,4 @@
-﻿using SquareCubed.Client.Gui.Components;
+﻿using SquareCubed.Client.Gui.Controls;
 
 namespace SquareCubed.Client
 {

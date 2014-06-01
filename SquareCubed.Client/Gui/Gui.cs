@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 using OpenTK.Graphics.OpenGL;
-using SquareCubed.Client.Gui.Components;
+using SquareCubed.Client.Gui.Controls;
 using SquareCubed.Client.Window;
 
 namespace SquareCubed.Client.Gui
 {
-	public class Gui : GuiParentControl
+	public class Gui : GuiControl.GuiParentControl
 	{
 		internal Gui(IExtGameWindow gameWindow)
 		{

@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace SquareCubed.Client.Gui.Components
+namespace SquareCubed.Client.Gui.Controls
 {
 	public abstract class GuiForm : GuiControl
 	{
