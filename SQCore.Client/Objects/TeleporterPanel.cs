@@ -7,10 +7,10 @@ namespace SQCore.Client.Objects
 	{
 		public event EventHandler DialogClose = (o, e) => { };
 
-		public TeleporterPanel(SquareCubed.Client.Gui.Gui gui)
-			: base(gui, "Teleporter")
+		public TeleporterPanel(SquareCubed.Client.Gui.OldGui oldGui)
+			: base(oldGui, "Teleporter")
 		{
-			gui.BindCall("teleporter.onclose", OnClose);
+			oldGui.BindCall("teleporter.onclose", OnClose);
 		}
 
 		private void OnClose()
@@ -20,7 +20,7 @@ namespace SQCore.Client.Objects
 
 		public void OpenDialog()
 		{
-			Gui.Trigger("teleporter.show");
+			OldGui.Trigger("teleporter.show");
 		}
 	}
 }

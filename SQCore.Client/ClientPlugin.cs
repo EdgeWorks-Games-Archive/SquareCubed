@@ -49,8 +49,8 @@ namespace SQCore.Client
 			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			_chat = new Chat.Chat(_client.Gui, _client.Network);
-			_infoPanel = new ContextInfoPanel(_client.Gui);
+			_chat = new Chat.Chat(_client.OldGui, _client.Network);
+			_infoPanel = new ContextInfoPanel(_client.OldGui);
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();
@@ -75,7 +75,7 @@ namespace SQCore.Client
 			// Unbind events
 			_client.BackgroundRenderTick -= RenderBackground;
 
-			// Clean up the Gui
+			// Clean up the OldGui
 			_chat.Dispose();
 			_infoPanel.Dispose();
 

@@ -15,20 +15,20 @@ namespace SquareCubed.Client.Gui
 		/// </summary>
 		private static int _counter;
 
-		protected readonly Gui Gui;
+		protected readonly OldGui OldGui;
 		private readonly string _id;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="GuiPanel" /> class.
 		///     The panel will be loaded from GUI/Panels/[name]/Panel.xml.
 		/// </summary>
-		/// <param name="gui">A reference to the main Gui object.</param>
+		/// <param name="oldGui reference to the main OldGui object.</param>
 		/// <param name="name">The identifier name of the panel.</param>
-		protected GuiPanel(Gui gui, string name)
+		protected GuiPanel(OldGui oldGui, string name)
 		{
-			Contract.Requires<ArgumentNullException>(gui != null);
+			Contract.Requires<ArgumentNullException>(oldGui != null);
 
-			Gui = gui;
+			OldGui = oldGui;
 
 			// Generate data about the panel before we load it in
 			_id = "panel-" + _counter;
@@ -57,13 +57,13 @@ namespace SquareCubed.Client.Gui
 
 				// Finish rendering the panel div and send it to the view
 				writer.RenderEndTag();
-				gui.AddPanel(stringWriter.ToString());
+				oldGui.AddPanel(stringWriter.ToString());
 			}
 
 			// Add the scripts and the css
 			// TODO: Prevent double loading for example with the main menu
-			panelData.Scripts.ForEach(s => gui.AddScript(urlRoot + s.Source));
-			panelData.Styles.ForEach(s => gui.AddStyle(urlRoot + s.Source));
+			panelData.Scripts.ForEach(s => oldGui.AddScript(urlRoot + s.Source));
+			panelData.Styles.ForEach(s => oldGui.AddStyle(urlRoot + s.Source));
 
 			// Increment the counter so every Id is identical
 			_counter++;
@@ -84,7 +84,7 @@ namespace SquareCubed.Client.Gui
 			// We only have managed
 			if (!managed) return;
 
-			Gui.RemovePanel("#" + _id);
+			OldGui.RemovePanel("#" + _id);
 		}
 	}
 }

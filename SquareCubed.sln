@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{2EF624F4-2F54-4B36-9762-1DEC799A674A}"
 EndProject
@@ -62,6 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		license.txt = license.txt
 		readme.md = readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareCubed.Gui", "SquareCubed.Gui\SquareCubed.Gui.csproj", "{1A55EB28-2315-4167-966F-111A2C2E07B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +195,16 @@ Global
 		{3B1C65CB-E19C-4F56-AFC4-D0C9EAE21727}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3B1C65CB-E19C-4F56-AFC4-D0C9EAE21727}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3B1C65CB-E19C-4F56-AFC4-D0C9EAE21727}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A55EB28-2315-4167-966F-111A2C2E07B6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,5 +222,6 @@ Global
 		{A0FB175C-E049-4E55-8B97-80BF9EDC606E} = {CDE1A59D-D5F1-4EFC-B621-C16FBC3D8E1F}
 		{1F3CA083-84BE-4D55-B878-D3A3BE508EF1} = {F5FBF0AE-A8C3-4BAC-BBC9-3B88F3CEDE1D}
 		{17F0BADE-60BB-4B9A-B358-26047EF85BEB} = {F5FBF0AE-A8C3-4BAC-BBC9-3B88F3CEDE1D}
+		{1A55EB28-2315-4167-966F-111A2C2E07B6} = {2EF624F4-2F54-4B36-9762-1DEC799A674A}
 	EndGlobalSection
 EndGlobal

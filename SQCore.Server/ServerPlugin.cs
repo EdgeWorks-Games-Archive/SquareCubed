@@ -3,7 +3,6 @@ using SQCore.Common;
 using SQCore.Server.Objects;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server;
-using SquareCubed.Server.Structures;
 using SquareCubed.Server.Structures.Objects;
 
 namespace SQCore.Server

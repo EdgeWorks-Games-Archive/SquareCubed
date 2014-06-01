@@ -24,7 +24,7 @@ namespace SquareCubed.Client.Graphics
 			Camera = new Camera(_window.ClientSize);
 
 			// Make sure the required texture size doesn't exceed limits
-			_upscaledSize = new Size(_window.Width * 2, _window.Height * 2);
+			_upscaledSize = new Size(Camera.Resolution.Width * 2, Camera.Resolution.Height * 2);
 			var maxSize = GL.GetInteger(GetPName.MaxTextureSize);
 			if (_upscaledSize.Width > maxSize || _upscaledSize.Height > maxSize)
 				throw new InvalidOperationException("GPU maximum texture size is not big enough to support supersampling.");
@@ -45,7 +45,7 @@ namespace SquareCubed.Client.Graphics
 
 		#region Game Loop
 
-		public void BeginRender()
+		public void BeginSceneRender()
 		{
 			// Ensure settings are set correctly
 			GL.Disable(EnableCap.DepthTest);
@@ -62,7 +62,7 @@ namespace SquareCubed.Client.Graphics
 			GL.Viewport(0, 0, _upscaledSize.Width, _upscaledSize.Height);
 		}
 
-		public void EndRender()
+		public void EndSceneRender()
 		{
 			// Set the framebuffers (read = upscaled, write = default)
 			GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, _usFrameBuffer);
@@ -71,7 +71,7 @@ namespace SquareCubed.Client.Graphics
 			// Downsample the upscaled buffer into the default buffer TODO: Do with VBO triangle instead
 			GL.BlitFramebuffer(
 				0, 0, _upscaledSize.Width, _upscaledSize.Height,
-				0, 0, _window.Width, _window.Height,
+				0, 0, Camera.Resolution.Width, Camera.Resolution.Height,
 				ClearBufferMask.ColorBufferBit, BlitFramebufferFilter.Linear);
 		}
 
@@ -79,7 +79,7 @@ namespace SquareCubed.Client.Graphics
 		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-			GL.Viewport(0, 0, _window.Width,_window.Height);
+			GL.Viewport(0, 0, Camera.Resolution.Width, Camera.Resolution.Height);
 
 			// Reset the matrices to default values
 			GL.MatrixMode(MatrixMode.Projection);

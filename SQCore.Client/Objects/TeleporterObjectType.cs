@@ -18,7 +18,7 @@ namespace SQCore.Client.Objects
 			_client = client;
 			_panel = panel;
 
-			_tpPanel = new TeleporterPanel(client.Gui);
+			_tpPanel = new TeleporterPanel(client.OldGui);
 			_tpPanel.DialogClose += OnDialogClose;
 
 			Texture = new Texture2D("./Graphics/Objects/Teleporter.png");

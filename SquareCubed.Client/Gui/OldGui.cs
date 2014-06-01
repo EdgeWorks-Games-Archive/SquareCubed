@@ -12,7 +12,7 @@ using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace SquareCubed.Client.Gui
 {
-	public sealed class Gui : IDisposable
+	public sealed class OldGui : IDisposable
 	{
 		private readonly Client _client;
 
@@ -123,7 +123,7 @@ namespace SquareCubed.Client.Gui
 
 		private readonly InputHandler _inputHandler;
 
-		public Gui(Client client)
+		public OldGui(Client client)
 		{
 			Contract.Requires<ArgumentNullException>(client != null);
 

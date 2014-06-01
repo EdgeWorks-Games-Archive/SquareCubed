@@ -19,7 +19,8 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
-		public Gui.Gui Gui { get; private set; }
+		public Gui.OldGui OldGui { get; private set; }
+		public SquareCubed.Gui.Gui Gui { get; private set; }
 		public Player.IPlayer Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
 		public Units.Units Units { get; private set; }
@@ -54,6 +55,7 @@ namespace SquareCubed.Client
 			Structures = new Structures.Structures(this);
 			Units = new Units.Units(this, Structures);
 			Player = new Player.UnitPlayer(this);
+			Gui = new SquareCubed.Gui.Gui(Window.ClientSize);
 
 			// Hook Game Loop Events
 			Window.Load += Load;
@@ -101,14 +103,14 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
-			Gui = new Gui.Gui(this);
+			OldGui = new Gui.OldGui(this);
 			
 			// Bind some default functions
-			Gui.BindCall("quit", Window.Close);
-			Gui.BindCall<string, string>("connect", (host, name) => Network.Connect(host, name));
-			Gui.BindCall("disconnect", Network.Disconnect);
+			OldGui.BindCall("quit", Window.Close);
+			OldGui.BindCall<string, string>("connect", (host, name) => Network.Connect(host, name));
+			OldGui.BindCall("disconnect", Network.Disconnect);
 #if DEBUG
-			Gui.BindCall("server.start", () =>
+			OldGui.BindCall("server.start", () =>
 			{
 				var fileInfo = new FileInfo("../../../Server/bin/Debug/Server.exe");
 				Debug.Assert(fileInfo.DirectoryName != null);
@@ -122,10 +124,10 @@ namespace SquareCubed.Client
 #endif
 
 			// Add some event triggers
-			Network.FailedConnection += (se, ev) => Gui.Trigger("Network.ConnectFailed");
+			Network.FailedConnection += (se, ev) => OldGui.Trigger("Network.ConnectFailed");
 
 			// Make the main menu hide once we connected
-			Network.NewConnection += (se, ev) => Gui.MainMenu.Hide();
+			Network.NewConnection += (se, ev) => OldGui.MainMenu.Hide();
 		}
 
 		/// <summary>
@@ -139,14 +141,14 @@ namespace SquareCubed.Client
 		{
 			PluginLoader.UnloadAllPlugins();
 
-			Gui.Dispose();
-			Gui = null;
+			OldGui.Dispose();
+			OldGui = null;
 		}
 
 		private void Update(object s, FrameEventArgs e)
 		{
-			// Gui needs to be updated as early as possible
-			Gui.Update();
+			// OldGui needs to be updated as early as possible
+			OldGui.Update();
 
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
@@ -168,17 +170,18 @@ namespace SquareCubed.Client
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 			var eventArgs = new TickEventArgs {ElapsedTime = delta};
 
-			Graphics.BeginRender();
+			Graphics.BeginSceneRender();
 
-			// Run the background render event
 			BackgroundRenderTick(this, eventArgs);
-
 			Structures.Render();
 
-			Graphics.EndRender();
+			Graphics.EndSceneRender();
+
+			// Render the OldGui
+			Graphics.BeginRenderGui();
+			OldGui.Render();
 
 			// Render the Gui
-			Graphics.BeginRenderGui();
 			Gui.Render();
 
 			Graphics.EndRenderAll();

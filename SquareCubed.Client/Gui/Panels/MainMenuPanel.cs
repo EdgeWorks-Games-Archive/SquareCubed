@@ -2,19 +2,19 @@
 {
 	public sealed class MainMenuPanel : GuiPanel
 	{
-		public MainMenuPanel(Gui gui)
-			: base(gui, "MainMenu")
+		public MainMenuPanel(OldGui oldGui)
+			: base(oldGui, "MainMenu")
 		{
 		}
 
 		public void Show()
 		{
-			Gui.Trigger("MainMenu.Show");
+			OldGui.Trigger("MainMenu.Show");
 		}
 
 		public void Hide()
 		{
-			Gui.Trigger("MainMenu.Hide");
+			OldGui.Trigger("MainMenu.Hide");
 		}
 	}
 }

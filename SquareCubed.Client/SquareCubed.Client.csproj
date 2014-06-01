@@ -140,7 +140,7 @@
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Gui\Data\Panel.cs" />
     <Compile Include="Gui\EventListener.cs" />
-    <Compile Include="Gui\Gui.cs" />
+    <Compile Include="Gui\OldGui.cs" />
     <Compile Include="Gui\GuiPanel.cs" />
     <Compile Include="Gui\InputHandler.cs" />
     <Compile Include="Gui\Panels\EscMenuPanel.cs" />
@@ -183,6 +183,10 @@
     <ProjectReference Include="..\SquareCubed.Common\SquareCubed.Common.csproj">
       <Project>{17F0BADE-60BB-4B9A-B358-26047EF85BEB}</Project>
       <Name>SquareCubed.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquareCubed.Gui\SquareCubed.Gui.csproj">
+      <Project>{1a55eb28-2315-4167-966f-111a2c2e07b6}</Project>
+      <Name>SquareCubed.Gui</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquareCubed.Network\SquareCubed.Network.csproj">
       <Project>{1F3CA083-84BE-4D55-B878-D3A3BE508EF1}</Project>

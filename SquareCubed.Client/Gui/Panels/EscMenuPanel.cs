@@ -2,8 +2,8 @@
 {
 	public sealed class EscMenuPanel : GuiPanel
 	{
-		public EscMenuPanel(Gui gui)
-			: base(gui, "EscMenu")
+		public EscMenuPanel(OldGui oldGui)
+			: base(oldGui, "EscMenu")
 		{
 		}
 	}

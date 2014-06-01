@@ -6,14 +6,14 @@ namespace SQCore.Client.Gui
 	{
 		private int _visible;
 
-		public ContextInfoPanel(SquareCubed.Client.Gui.Gui gui)
-			: base(gui, "ContextInfo")
+		public ContextInfoPanel(SquareCubed.Client.Gui.OldGui oldGui)
+			: base(oldGui, "ContextInfo")
 		{
 		}
 
 		public string Text
 		{
-			set { Gui.Trigger("contextinfo.text", value); }
+			set { OldGui.Trigger("contextinfo.text", value); }
 		}
 
 		public int VisibleCount
@@ -22,9 +22,9 @@ namespace SQCore.Client.Gui
 			set
 			{
 				if (_visible == 0 && value != 0)
-					Gui.Trigger("contextinfo.visible", true);
+					OldGui.Trigger("contextinfo.visible", true);
 				else if (_visible != 0 && value == 0)
-					Gui.Trigger("contextinfo.visible", false);
+					OldGui.Trigger("contextinfo.visible", false);
 
 				_visible = value;
 			}
