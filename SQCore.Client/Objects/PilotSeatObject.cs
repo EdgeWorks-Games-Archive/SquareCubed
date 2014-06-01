@@ -1,7 +1,6 @@
 ﻿using System;
 using Lidgren.Network;
 using OpenTK.Input;
-using SQCore.Client.Gui;
 using SquareCubed.Client;
 using SquareCubed.Client.Structures;
 using SquareCubed.Client.Structures.Objects;
@@ -13,22 +12,19 @@ namespace SQCore.Client.Objects
 	internal class PilotSeatObject : ClientObjectBase
 	{
 		private readonly SquareCubed.Client.Client _client;
-		private readonly ContextInfoPanel _panel;
 		private readonly ProximityHelper _proximity;
 		private readonly Seat _seat;
 		private float _throttle;
 
-		public PilotSeatObject(SquareCubed.Client.Client client, ContextInfoPanel panel, ClientStructure parent)
+		public PilotSeatObject(SquareCubed.Client.Client client, ClientStructure parent)
 			: base(parent)
 		{
 			_client = client;
-			_panel = panel;
 
 			client.UpdateTick += Update;
 			client.Window.KeyUp += OnKeyPress;
 
 			_proximity = new ProximityHelper(this);
-			_proximity.Change += OnProximityChange;
 
 			_seat = new Seat(this, _client.Player);
 			_seat.PlayerSits += OnPlayerSits;
@@ -50,7 +46,6 @@ namespace SQCore.Client.Objects
 			if (_seat.HasPlayer || _proximity.Status != ProximityStatus.Within) return;
 
 			_seat.Sit();
-			_panel.Text = "Press Esc to Exit";
 		}
 
 		private void Update(object s, TickEventArgs e)
@@ -102,18 +97,6 @@ namespace SQCore.Client.Objects
 			if (!_seat.HasPlayer || e.Key != Key.Escape) return;
 
 			_seat.Empty();
-			_panel.Text = "Click to Interact";
-		}
-
-		private void OnProximityChange(object s, ProximityEventArgs e)
-		{
-			if (e.NewStatus == ProximityStatus.Within)
-			{
-				_panel.Text = "Click to Interact";
-				_panel.VisibleCount++;
-			}
-			else
-				_panel.VisibleCount--;
 		}
 	}
 }

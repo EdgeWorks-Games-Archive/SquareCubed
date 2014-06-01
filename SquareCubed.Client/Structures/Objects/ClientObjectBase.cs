@@ -7,16 +7,18 @@ namespace SquareCubed.Client.Structures.Objects
 {
 	public abstract class ClientObjectBase : IParentable
 	{
-		public int Id { get; set; }
-		public Vector2 Position { get; set; }
-		public IPositionable Parent { get; private set; }
-
 		protected ClientObjectBase(ClientStructure parent)
 		{
 			Parent = parent;
 		}
 
-		public abstract void OnUse();
+		public int Id { get; set; }
+		public Vector2 Position { get; set; }
+		public IPositionable Parent { get; private set; }
+
+		public virtual void OnUse()
+		{
+		}
 
 		public virtual void Render()
 		{

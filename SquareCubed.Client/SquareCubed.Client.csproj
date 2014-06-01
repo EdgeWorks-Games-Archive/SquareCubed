@@ -128,9 +128,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CoherentUI\License.cs">
-      <Link>Gui\License.cs</Link>
-    </Compile>
     <Compile Include="Client.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Graphics.cs" />
@@ -138,15 +135,8 @@
     <Compile Include="Graphics\Shaders\ProgramUniform.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
-    <Compile Include="Gui\Data\Panel.cs" />
-    <Compile Include="Gui\EventListener.cs" />
+    <Compile Include="Gui\Components\GuiForm.cs" />
     <Compile Include="Gui\Gui.cs" />
-    <Compile Include="Gui\OldGui.cs" />
-    <Compile Include="Gui\GuiPanel.cs" />
-    <Compile Include="Gui\InputHandler.cs" />
-    <Compile Include="Gui\Panels\EscMenuPanel.cs" />
-    <Compile Include="Gui\Panels\MainMenuPanel.cs" />
-    <Compile Include="Gui\ViewListener.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Input\MouseState.cs" />

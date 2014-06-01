@@ -19,7 +19,6 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
-		public Gui.OldGui OldGui { get; private set; }
 		public Gui.Gui Gui { get; private set; }
 		public Player.IPlayer Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
@@ -103,31 +102,6 @@ namespace SquareCubed.Client
 		/// <param name="e"></param>
 		private void Load(object s, EventArgs e)
 		{
-			OldGui = new Gui.OldGui(this);
-			
-			// Bind some default functions
-			OldGui.BindCall("quit", Window.Close);
-			OldGui.BindCall<string, string>("connect", (host, name) => Network.Connect(host, name));
-			OldGui.BindCall("disconnect", Network.Disconnect);
-#if DEBUG
-			OldGui.BindCall("server.start", () =>
-			{
-				var fileInfo = new FileInfo("../../../Server/bin/Debug/Server.exe");
-				Debug.Assert(fileInfo.DirectoryName != null);
-				var processInfo = new ProcessStartInfo()
-				{
-					FileName = fileInfo.FullName,
-					WorkingDirectory = fileInfo.DirectoryName
-				};
-				Process.Start(processInfo);
-			});
-#endif
-
-			// Add some event triggers
-			Network.FailedConnection += (se, ev) => OldGui.Trigger("Network.ConnectFailed");
-
-			// Make the main menu hide once we connected
-			Network.NewConnection += (se, ev) => OldGui.MainMenu.Hide();
 		}
 
 		/// <summary>
@@ -140,16 +114,10 @@ namespace SquareCubed.Client
 		private void Unload(object s, EventArgs e)
 		{
 			PluginLoader.UnloadAllPlugins();
-
-			OldGui.Dispose();
-			OldGui = null;
 		}
 
 		private void Update(object s, FrameEventArgs e)
 		{
-			// OldGui needs to be updated as early as possible
-			OldGui.Update();
-
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 			var eventArgs = new TickEventArgs {ElapsedTime = delta};
@@ -176,10 +144,6 @@ namespace SquareCubed.Client
 			Structures.Render();
 
 			Graphics.EndSceneRender();
-
-			// Render the OldGui
-			Graphics.BeginRenderGui();
-			OldGui.Render();
 
 			// Render the Gui
 			Gui.Render();

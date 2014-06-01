@@ -75,20 +75,6 @@ namespace SquareCubed.Client.Graphics
 				ClearBufferMask.ColorBufferBit, BlitFramebufferFilter.Linear);
 		}
 
-		public void BeginRenderGui()
-		{
-			// Set framebuffer to the default one
-			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-			GL.Viewport(0, 0, Camera.Resolution.Width, Camera.Resolution.Height);
-
-			// Reset the matrices to default values
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
-		}
-
 		public void EndRenderAll()
 		{
 			_window.SwapBuffers();

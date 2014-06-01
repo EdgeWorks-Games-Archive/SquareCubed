@@ -22,7 +22,6 @@ namespace SquareCubed.Client.Gui
 			// Reset the matrices to default values
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 		}
