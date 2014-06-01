@@ -93,60 +93,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CoherentUI\bin\Win32\theme_resources_standard.pak">
-      <Link>theme_resources_standard.pak</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\CoherentUI\bin\Win32\ui_resources_100_percent.pak">
-      <Link>ui_resources_100_percent.pak</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="App.config" />
     <None Include="Graphics\Objects\Teleporter.xcf" />
     <None Include="Graphics\Tiles\Corridor.psd" />
     <None Include="Graphics\Tiles\MetalFloor.psd" />
-    <None Include="GUI\Panels\Chat\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\Chat\Script.coffee" />
-    <None Include="GUI\Panels\Chat\Style.scss" />
-    <None Include="GUI\Panels\ContextInfo\Script.coffee" />
-    <None Include="GUI\Panels\ContextInfo\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\ContextInfo\Script.js.map">
-      <DependentUpon>Script.js</DependentUpon>
-    </None>
-    <None Include="GUI\Panels\ContextInfo\Style.scss" />
-    <None Include="GUI\Panels\EscMenu\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\EscMenu\Script.coffee" />
-    <None Include="GUI\Panels\EscMenu\Script.js.map">
-      <DependentUpon>Script.js</DependentUpon>
-    </None>
-    <None Include="GUI\Panels\EscMenu\Style.css.map">
-      <DependentUpon>Style.css</DependentUpon>
-    </None>
-    <None Include="GUI\Panels\EscMenu\Style.scss" />
-    <None Include="GUI\Panels\MainMenu\Script.coffee" />
-    <None Include="GUI\Panels\MainMenu\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\MainMenu\Script.js.map">
-      <DependentUpon>Script.js</DependentUpon>
-    </None>
-    <None Include="GUI\Panels\MainMenu\Style.scss" />
-    <None Include="GUI\Panels\Teleporter\Panel.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GUI\Panels\Teleporter\Script.coffee" />
-    <None Include="GUI\Panels\Teleporter\Script.js.map">
-      <DependentUpon>Script.js</DependentUpon>
-    </None>
-    <None Include="GUI\Scripts\Base.coffee" />
-    <None Include="GUI\Styles\Base.scss" />
-    <None Include="GUI\Styles\UIStyle.scss" />
     <None Include="packages.config" />
     <None Include="Shaders\CoherentUI.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -170,38 +120,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\CoherentUI\bin\JavaScript\coherent.js">
-      <Link>GUI\Scripts\coherent.js</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\CoherentUI_Host.exe">
-      <Link>CoherentUI_Host.exe</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\CoherentUI_Native.dll">
-      <Link>CoherentUI_Native.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\D3DCompiler_43.dll">
-      <Link>D3DCompiler_43.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\ffmpegsumo.dll">
-      <Link>ffmpegsumo.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\icudt.dll">
-      <Link>icudt.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\libEGL.dll">
-      <Link>libEGL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CoherentUI\bin\Win32\libGLESv2.dll">
-      <Link>libGLESv2.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Graphics\Objects\Teleporter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -212,87 +130,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Graphics\Tiles\MetalFloor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\Chat\Style.css">
-      <DependentUpon>Style.scss</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\Chat\Script.js">
-      <DependentUpon>Script.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\Chat\Panel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\EscMenu\Panel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\EscMenu\Script.js">
-      <DependentUpon>Script.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\EscMenu\Style.css">
-      <DependentUpon>Style.scss</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\Teleporter\Panel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\Teleporter\Script.js">
-      <DependentUpon>Script.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Styles\Images\ui-icons_A3A3A3_256x240.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\ContextInfo\Style.css">
-      <DependentUpon>Style.scss</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\ContextInfo\Script.js">
-      <DependentUpon>Script.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\ContextInfo\Panel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\MainMenu\Style.css">
-      <DependentUpon>Style.scss</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\MainMenu\Script.js">
-      <DependentUpon>Script.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Panels\MainMenu\Panel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Scripts\jquery-2.1.0.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Scripts\Base.js">
-      <DependentUpon>Base.coffee</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Scripts\jquery-ui-1.10.4.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Styles\Images\ui-icons_D6D6D6_256x240.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Styles\Reset.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Styles\Base.css">
-      <DependentUpon>Base.scss</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Base.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GUI\Styles\UIStyle.css">
-      <DependentUpon>UIStyle.scss</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Plugins\Readme.txt" />

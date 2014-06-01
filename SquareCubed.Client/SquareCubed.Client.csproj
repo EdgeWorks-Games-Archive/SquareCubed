@@ -101,10 +101,6 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoherentUINet, Version=1.7.0.0, Culture=neutral, PublicKeyToken=06c400a284f0f0fd, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CoherentUI\bin\Win32\CoherentUINet.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\packages\OpenTK.1.1.1589.5941\lib\NET40\OpenTK.dll</HintPath>
       <Private>True</Private>

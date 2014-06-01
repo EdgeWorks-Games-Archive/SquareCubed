@@ -2,7 +2,7 @@
 
 namespace SquareCubed.Client.Gui.Components
 {
-	class GuiForm
+	abstract class GuiForm
 	{
 		public Vector2 Position { get; set; }
 

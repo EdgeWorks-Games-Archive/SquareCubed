@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using OpenTK;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
@@ -148,7 +146,7 @@ namespace SquareCubed.Client
 			// Render the Gui
 			Gui.Render();
 
-			Graphics.EndRenderAll();
+			Graphics.SwapBuffers();
 		}
 
 		#endregion

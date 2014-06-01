@@ -13,7 +13,7 @@ namespace SquareCubed.Client.Gui
 
 		public Size Viewport { get; set; }
 
-		public void Render()
+		internal void Render()
 		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
