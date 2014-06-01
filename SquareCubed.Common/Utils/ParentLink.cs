@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -39,7 +40,7 @@ namespace SquareCubed.Common.Utils
 			}
 		}
 
-		public sealed class ChildrenCollection
+		public sealed class ChildrenCollection : IEnumerable<TChild>
 		{
 			private readonly List<TChild> _children = new List<TChild>();
 			private readonly Func<TChild, ParentLink<TParent, TChild>> _linkLocation;
@@ -49,6 +50,16 @@ namespace SquareCubed.Common.Utils
 			{
 				_owner = owner;
 				_linkLocation = linkLocation;
+			}
+
+			public IEnumerator<TChild> GetEnumerator()
+			{
+				return _children.GetEnumerator();
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return GetEnumerator();
 			}
 
 			public void Add(TChild child)
