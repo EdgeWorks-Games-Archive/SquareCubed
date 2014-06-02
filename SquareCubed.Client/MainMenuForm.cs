@@ -9,6 +9,7 @@ namespace SquareCubed.Client
 		{
 			Title = "Connect to Server";
 			InnerSize = new Size(300, 200);
+			Controls.Add(new GuiTest());
 		}
 	}
 }

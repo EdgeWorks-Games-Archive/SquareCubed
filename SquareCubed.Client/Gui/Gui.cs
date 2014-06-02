@@ -27,10 +27,7 @@ namespace SquareCubed.Client.Gui
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 
-			foreach (var control in Controls)
-			{
-				control.Render();
-			}
+			base.Render();
 		}
 	}
 }

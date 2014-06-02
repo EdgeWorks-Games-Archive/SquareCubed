@@ -14,6 +14,11 @@ namespace SquareCubed.Client.Gui.Controls
 			_parent = new ParentLink(this, p => p.Controls);
 		}
 
+		~GuiControl()
+		{
+			Dispose(false);
+		}
+
 		public GuiParentControl Parent
 		{
 			get { return _parent.Property; }
@@ -25,7 +30,9 @@ namespace SquareCubed.Client.Gui.Controls
 			Dispose(true);
 		}
 
-		protected abstract void Dispose(bool managed);
+		protected virtual void Dispose(bool managed)
+		{
+		}
 
 		public abstract void Render();
 
@@ -38,12 +45,25 @@ namespace SquareCubed.Client.Gui.Controls
 
 			public ParentLink.ChildrenCollection Controls { get; private set; }
 
-			protected override void Dispose(bool managed)
+			public override void Render()
 			{
 				foreach (var control in Controls)
 				{
-					control.Dispose();
+					control.Render();
 				}
+			}
+
+			protected override void Dispose(bool managed)
+			{
+				if (managed)
+				{
+					foreach (var control in Controls)
+					{
+						control.Dispose();
+					}
+				}
+
+				base.Dispose(managed);
 			}
 		}
 	}
