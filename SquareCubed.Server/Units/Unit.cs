@@ -2,6 +2,7 @@
 using OpenTK;
 using SquareCubed.Server.Structures;
 using SquareCubed.Server.Worlds;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Server.Units
 {
@@ -16,24 +17,14 @@ namespace SquareCubed.Server.Units
 		public Unit(Units units)
 		{
 			_units = units;
+			WorldLink = new ParentLink<World, Unit>(this, w => w.Units);
 		}
 
+		public ParentLink<World, Unit> WorldLink { get; private set; }
 		public virtual World World
 		{
-			get { return _world; }
-			set
-			{
-				// If already this, don't do anything
-				if (value == _world) return;
-
-				// Flip around the reference and keep a copy
-				var oldWorld = _world;
-				_world = value;
-
-				// Update the entries in the worlds
-				if (oldWorld != null) oldWorld.UpdateUnitEntry(this);
-				if (_world != null) _world.UpdateUnitEntry(this);
-			}
+			get { return WorldLink.Property; }
+			set { WorldLink.Property = value; }
 		}
 
 		public ServerStructure Structure

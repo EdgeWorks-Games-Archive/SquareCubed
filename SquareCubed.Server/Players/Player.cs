@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Lidgren.Network;
+using SquareCubed.Server.Worlds;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Server.Players
 {
@@ -10,6 +12,18 @@ namespace SquareCubed.Server.Players
 		public string Name { get; set; }
 		public PlayerUnit Unit { get; set; }
 
+		public ParentLink<World, Player> WorldLink { get; private set; }
+		public World World
+		{
+			get { return WorldLink.Property; }
+			set
+			{
+				WorldLink.Property = value;
+				if (Unit.World != value)
+					Unit.World = value;
+			}
+		}
+
 		public Player(NetConnection connection, string name, PlayerUnit unit)
 		{
 			Contract.Requires<ArgumentNullException>(unit != null);
@@ -17,10 +31,11 @@ namespace SquareCubed.Server.Players
 			Connection = connection;
 			Name = name;
 
+			WorldLink = new ParentLink<World, Player>(this, w => w.Players);
+
 			// Set and Configure Unit Data
 			Unit = unit;
 			Unit.Player = this;
-			if (Unit.World != null) Unit.World.UpdatePlayerEntry(this);
 		}
 	}
 }
