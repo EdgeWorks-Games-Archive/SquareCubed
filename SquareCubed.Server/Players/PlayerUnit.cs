@@ -19,17 +19,16 @@ namespace SquareCubed.Server.Players
 			set
 			{
 				base.World = value;
-				if(Player.World != value)
-					Player.World = value;
+				Player.WorldLink.Property = value;
 			}
 		}
 
 		/// <summary>
 		///     Used on teleportation to lock the player position until
 		///     the client has confirmed it has received the teleport.
-		///		This is done to prevent player positon updates to override
-		///		the teleport, resulting in a short unit flicker.
-		///		TODO: Actually make the engine use this.
+		///     This is done to prevent player positon updates to override
+		///     the teleport, resulting in a short unit flicker.
+		///     TODO: Actually make the engine use this.
 		/// </summary>
 		public bool TeleportLocked { get; set; }
 

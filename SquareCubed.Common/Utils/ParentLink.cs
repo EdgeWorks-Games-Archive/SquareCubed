@@ -40,7 +40,7 @@ namespace SquareCubed.Common.Utils
 			}
 		}
 
-		public sealed class ChildrenCollection : IEnumerable<TChild>
+		public sealed class ChildrenCollection : ICollection<TChild>
 		{
 			private readonly List<TChild> _children = new List<TChild>();
 			private readonly Func<TChild, ParentLink<TParent, TChild>> _linkLocation;
@@ -64,7 +64,8 @@ namespace SquareCubed.Common.Utils
 
 			public void Add(TChild child)
 			{
-				Contract.Requires<ArgumentNullException>(child != null);
+				if (child == null)
+					return;
 
 				var link = _linkLocation(child);
 
@@ -75,6 +76,36 @@ namespace SquareCubed.Common.Utils
 				// Add the child and set its parent
 				_children.Add(child);
 				link._parent = _owner;
+			}
+
+			public void Clear()
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool Contains(TChild item)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void CopyTo(TChild[] array, int arrayIndex)
+			{
+				throw new NotImplementedException();
+			}
+
+			bool ICollection<TChild>.Remove(TChild item)
+			{
+				throw new NotImplementedException();
+			}
+
+			public int Count
+			{
+				get { return _children.Count; }
+			}
+
+			public bool IsReadOnly
+			{
+				get { return true; }
 			}
 
 			public void Remove(TChild child)

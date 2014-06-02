@@ -90,6 +90,11 @@ namespace SquareCubed.Common.Data
 
 		public void SetWalls(int x, int y, int top, int right, int bottom, int left)
 		{
+			Contract.Requires<ArgumentOutOfRangeException>(x - 1 >= 0);
+			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
+			Contract.Requires<ArgumentOutOfRangeException>(y - 1 >= 0);
+			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+
 			SetTopWall(x, y, top);
 			SetRightWall(x, y, right);
 			SetBottomWall(x, y, bottom);

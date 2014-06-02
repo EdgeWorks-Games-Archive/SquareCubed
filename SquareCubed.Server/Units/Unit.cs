@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using SquareCubed.Server.Structures;
 using SquareCubed.Server.Worlds;
 using SquareCubed.Common.Utils;
@@ -10,7 +9,6 @@ namespace SquareCubed.Server.Units
 	{
 		private readonly Units _units;
 		private ServerStructure _structure;
-		private World _world;
 
 		public int Id { get; set; }
 

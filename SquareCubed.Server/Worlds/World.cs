@@ -18,19 +18,15 @@ namespace SquareCubed.Server.Worlds
 		{
 			_server = server;
 			Units = new ParentLink<World, Unit>.ChildrenCollection(this, u => u.WorldLink);
+			Players = new ParentLink<World, Player>.ChildrenCollection(this, p => p.WorldLink);
 		}
 
 		public ParentLink<World, Unit>.ChildrenCollection Units { get; private set; }
+		public ParentLink<World, Player>.ChildrenCollection Players { get; private set; }
 
 		#region Quick Lookup Collections
 
-		private readonly List<Player> _players = new List<Player>();
 		private readonly List<ServerStructure> _structures = new List<ServerStructure>();
-
-		public IReadOnlyCollection<Player> Players
-		{
-			get { return _players.AsReadOnly(); }
-		}
 
 		public IReadOnlyCollection<ServerStructure> Structures
 		{
@@ -50,12 +46,6 @@ namespace SquareCubed.Server.Worlds
 				list.Remove(entry);
 		}
 
-		public void UpdatePlayerEntry(Player player)
-		{
-			Contract.Requires<ArgumentNullException>(player != null);
-			UpdateEntry(_players, player, player.Unit.World);
-		}
-
 		public void UpdateStructureEntry(ServerStructure structure)
 		{
 			Contract.Requires<ArgumentNullException>(structure != null);
@@ -67,7 +57,7 @@ namespace SquareCubed.Server.Worlds
 		public void SendToAllPlayers(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
 		{
 			// If no players, don't bother at all
-			if (_players.Count == 0) return;
+			if (Players.Count == 0) return;
 
 			// Otherwise, send the data
 			_server.Network.Peer.SendMessage(
