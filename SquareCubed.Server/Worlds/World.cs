@@ -19,40 +19,12 @@ namespace SquareCubed.Server.Worlds
 			_server = server;
 			Units = new ParentLink<World, Unit>.ChildrenCollection(this, u => u.WorldLink);
 			Players = new ParentLink<World, Player>.ChildrenCollection(this, p => p.WorldLink);
+			Structures = new ParentLink<World, ServerStructure>.ChildrenCollection(this, s => s.WorldLink);
 		}
 
 		public ParentLink<World, Unit>.ChildrenCollection Units { get; private set; }
 		public ParentLink<World, Player>.ChildrenCollection Players { get; private set; }
-
-		#region Quick Lookup Collections
-
-		private readonly List<ServerStructure> _structures = new List<ServerStructure>();
-
-		public IReadOnlyCollection<ServerStructure> Structures
-		{
-			get { return _structures.AsReadOnly(); }
-		}
-
-		private void UpdateEntry<T>(ICollection<T> list, T entry, World newWorld)
-		{
-			// If this world, add, if not, remove
-			if (newWorld == this)
-			{
-				// Make sure it's not already in this world before adding
-				if (!list.Contains(entry))
-					list.Add(entry);
-			}
-			else
-				list.Remove(entry);
-		}
-
-		public void UpdateStructureEntry(ServerStructure structure)
-		{
-			Contract.Requires<ArgumentNullException>(structure != null);
-			UpdateEntry(_structures, structure, structure.World);
-		}
-
-		#endregion
+		public ParentLink<World, ServerStructure>.ChildrenCollection Structures { get; private set; }
 
 		public void SendToAllPlayers(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
 		{

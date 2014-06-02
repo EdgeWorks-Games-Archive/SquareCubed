@@ -14,37 +14,31 @@ namespace SquareCubed.Server.Structures
 	public class ServerStructure
 	{
 		private readonly List<Unit> _units = new List<Unit>();
-		private World _world;
 
 		public ServerStructure()
 		{
 			Chunks = new List<ServerChunk>();
 			Objects = new List<ServerObjectBase>();
+			WorldLink = new ParentLink<World, ServerStructure>(this, w => w.Structures);
 		}
+
+		public ParentLink<World, ServerStructure> WorldLink { get; private set; }
 
 		public World World
 		{
-			get { return _world; }
-			set
-			{
-				var oldWorld = _world;
-				_world = value;
-
-				// Update links in worlds
-				if (oldWorld != null)
-					oldWorld.UpdateStructureEntry(this);
-				if (_world != null)
-					_world.UpdateStructureEntry(this);
-			}
+			get { return WorldLink.Property; }
+			set { WorldLink.Property = value; }
 		}
 
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
+
 		/// <summary>
-		///		Structure rotation in radians.
+		///     Structure rotation in radians.
 		/// </summary>
 		public float Rotation { get; set; }
+
 		public List<ServerObjectBase> Objects { get; set; }
 
 		/// <summary>
