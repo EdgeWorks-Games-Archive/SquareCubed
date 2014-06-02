@@ -7,7 +7,7 @@ namespace SquareCubed.Client
 	{
 		public MainMenuForm()
 		{
-			Title = "Main Menu";
+			Title = "Connect to Server";
 			InnerSize = new Size(300, 200);
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 
@@ -6,6 +7,7 @@ namespace SquareCubed.Client.Gui.Controls
 {
 	public abstract class GuiForm : GuiControl
 	{
+		private const int TitleBarSize = 20 + 4 + 2; // Text height + padding + border
 		private string _text;
 		private Texture2D _textTexture;
 
@@ -13,9 +15,9 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public Size Size
 		{
-			// Size + 1px Border (x2)
-			get { return InnerSize + new Size(2, 2); }
-			set { InnerSize = value - new Size(2, 2); }
+			// Size + 1px Border (x2) + Title Bar
+			get { return InnerSize + new Size(2, 2 + TitleBarSize); }
+			set { InnerSize = value - new Size(2, 2 + TitleBarSize); }
 		}
 
 		public string Title
@@ -25,7 +27,7 @@ namespace SquareCubed.Client.Gui.Controls
 			{
 				_text = value;
 				if (_textTexture != null) _textTexture.Dispose();
-				_textTexture = Texture2D.FromText(value, 10, new SolidBrush(Color.White)); // 210, 210, 210
+				_textTexture = Texture2D.FromText(value, 14, Color.White); // 210, 210, 210
 			}
 		}
 
@@ -48,12 +50,23 @@ namespace SquareCubed.Client.Gui.Controls
 			// Center
 			GL.Color3(Color.FromArgb(50, 50, 50));
 			GL.Vertex2(1, 1);
-			GL.Vertex2(1, 1 + InnerSize.Height);
-			GL.Vertex2(1 + InnerSize.Width, 1 + InnerSize.Height);
+			GL.Vertex2(1, 1 + InnerSize.Height + TitleBarSize);
+			GL.Vertex2(1 + InnerSize.Width, 1 + InnerSize.Height + TitleBarSize);
 			GL.Vertex2(1 + InnerSize.Width, 1);
+
+			// Title Bar Border
+			GL.Color3(Color.FromArgb(0, 114, 198));
+			GL.Vertex2(1, 1 + TitleBarSize - 2);
+			GL.Vertex2(1, 1 + TitleBarSize);
+			GL.Vertex2(1 + InnerSize.Width, 1 + TitleBarSize);
+			GL.Vertex2(1 + InnerSize.Width, 1 + TitleBarSize - 2);
 
 			GL.End();
 
+			// Title Text
+			_textTexture.Render(
+				new Vector2(1 + 3, 1 + 2 + _textTexture.Height),
+				new Vector2(_textTexture.Width, -_textTexture.Height));
 
 			GL.PopMatrix();
 		}
