@@ -14,7 +14,7 @@ namespace SquareCubed.Client.Gui
 
 		public Size Viewport { get; set; }
 
-		internal void Render()
+		public override void Render()
 		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
@@ -23,8 +23,14 @@ namespace SquareCubed.Client.Gui
 			// Reset the matrices to default values
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
+			GL.Ortho(0, Viewport.Width, Viewport.Height, 0, 1, -1);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
+
+			foreach (var control in Controls)
+			{
+				control.Render();
+			}
 		}
 	}
 }

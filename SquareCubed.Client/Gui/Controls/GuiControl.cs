@@ -1,10 +1,11 @@
-﻿using SquareCubed.Common.Utils;
+﻿using System;
+using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Gui.Controls
 {
 	using ParentLink = ParentLink<GuiControl.GuiParentControl, GuiControl>;
 
-	public abstract class GuiControl
+	public abstract class GuiControl : IDisposable
 	{
 		private readonly ParentLink _parent;
 
@@ -19,6 +20,15 @@ namespace SquareCubed.Client.Gui.Controls
 			set { _parent.Property = value; }
 		}
 
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected abstract void Dispose(bool managed);
+
+		public abstract void Render();
+
 		public abstract class GuiParentControl : GuiControl
 		{
 			protected GuiParentControl()
@@ -27,6 +37,14 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 
 			public ParentLink.ChildrenCollection Controls { get; private set; }
+
+			protected override void Dispose(bool managed)
+			{
+				foreach (var control in Controls)
+				{
+					control.Dispose();
+				}
+			}
 		}
 	}
 }

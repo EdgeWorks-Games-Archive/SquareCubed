@@ -68,6 +68,7 @@ namespace SquareCubed.Client
 		public void Dispose()
 		{
 			// We only have managed resources to dispose of
+			Gui.Dispose();
 			PluginLoader.Dispose();
 			Network.Dispose();
 			Window.Dispose();

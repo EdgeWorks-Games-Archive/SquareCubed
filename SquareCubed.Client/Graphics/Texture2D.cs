@@ -17,7 +17,7 @@ namespace SquareCubed.Client.Graphics
 		Bgra = 0x2
 	}
 
-	public sealed class Texture2D : IDisposable
+	public sealed partial class Texture2D : IDisposable
 	{
 		private readonly int _texture;
 
