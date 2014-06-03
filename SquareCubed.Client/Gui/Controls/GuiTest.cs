@@ -11,10 +11,10 @@ namespace SquareCubed.Client.Gui.Controls
 
 			// Border
 			GL.Color3(Color.White);
-			GL.Vertex2(0, 0);
-			GL.Vertex2(0, 10);
-			GL.Vertex2(10, 10);
-			GL.Vertex2(10, 0);
+			GL.Vertex2(Position.X, Position.Y);
+			GL.Vertex2(Position.X, Position.Y + 10);
+			GL.Vertex2(Position.X + 10, Position.Y + 10);
+			GL.Vertex2(Position.X + 10, Position.Y);
 
 			GL.End();
 		}

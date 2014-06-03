@@ -24,6 +24,11 @@ namespace SquareCubed.Client.Graphics
 		public int Width { get; private set; }
 		public int Height { get; private set; }
 
+		public Size Size
+		{
+			get { return new Size(Width, Height); }
+		}
+
 		public TextureOptions Options { get; private set; }
 
 		public bool UseFiltering

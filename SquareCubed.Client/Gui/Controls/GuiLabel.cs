@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Drawing;
 using OpenTK;
 using SquareCubed.Client.Graphics;
 
@@ -11,7 +12,7 @@ namespace SquareCubed.Client.Gui.Controls
 		private string _text;
 		private Texture2D _texture;
 
-		public GuiLabel(string text, int fontSize = 14)
+		public GuiLabel(string text, int fontSize = 12)
 		{
 			_fontSize = fontSize;
 			Text = text;
@@ -39,6 +40,11 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 		}
 
+		public Size Size
+		{
+			get { return _texture.Size; }
+		}
+
 		protected override void Dispose(bool managed)
 		{
 			if (managed)
@@ -59,7 +65,7 @@ namespace SquareCubed.Client.Gui.Controls
 		{
 			_texture.Render(
 				new Vector2(Position.X, Position.Y + _texture.Height),
-				new Vector2(Position.X + _texture.Width, Position.Y - _texture.Height));
+				new Vector2(_texture.Width, -_texture.Height));
 		}
 	}
 }
