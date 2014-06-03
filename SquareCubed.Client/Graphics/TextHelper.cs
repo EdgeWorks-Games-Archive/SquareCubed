@@ -1,14 +1,13 @@
 ﻿using System.Drawing;
 using System.Drawing.Text;
-using SGraphics = System.Drawing.Graphics;
 
 namespace SquareCubed.Client.Graphics
 {
-	public sealed partial class Texture2D
+	public static class TextHelper
 	{
 		private static readonly StringFormat StringFormat;
 
-		static Texture2D()
+		static TextHelper()
 		{
 			// This probably should be done better somehow at some point.
 			// GenericTypographic doesn't pad out the text at the end and start
@@ -16,23 +15,23 @@ namespace SquareCubed.Client.Graphics
 			StringFormat.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces;
 		}
 
-		private static Size MeasureString(string text, Font font)
+		public static Size MeasureString(string text, Font font)
 		{
 			using (var img = new Bitmap(1, 1))
-			using (var gfx = SGraphics.FromImage(img))
+			using (var gfx = System.Drawing.Graphics.FromImage(img))
 			{
 				gfx.TextRenderingHint = TextRenderingHint.AntiAlias;
 				return gfx.MeasureString(text, font, int.MaxValue, StringFormat).ToSize();
 			}
 		}
 
-		public static Texture2D FromText(string text, int textSize, Color textColor)
+		public static Texture2D RenderString(string text, int textSize, Color textColor)
 		{
 			var font = new Font("Segoe UI", textSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
 			var size = MeasureString(text, font);
-			var img = new Bitmap(size.Width, size.Height);
-			using (var gfx = SGraphics.FromImage(img))
+			var img = new Bitmap(size.Width + 1, size.Height); // + 1 is because anti aliasing will make it 1 off sometimes
+			using (var gfx = System.Drawing.Graphics.FromImage(img))
 			{
 				// Thanks to GWEN.NET for the following information:
 				// NOTE:    TextRenderingHint.AntiAliasGridFit looks sharper and in most cases better

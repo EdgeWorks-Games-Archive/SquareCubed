@@ -36,7 +36,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 				_text = value;
 				if (_textTexture != null) _textTexture.Dispose();
-				_textTexture = Texture2D.FromText(value, 14, EngineColors.Heading);
+				_textTexture = TextHelper.RenderString(value, 14, EngineColors.Heading);
 			}
 		}
 

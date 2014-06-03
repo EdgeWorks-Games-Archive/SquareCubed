@@ -58,7 +58,7 @@ namespace SquareCubed.Client.Gui.Controls
 		private void GenerateTexture()
 		{
 			if (_texture != null) _texture.Dispose();
-			_texture = Texture2D.FromText(_text, _fontSize, EngineColors.Heading);
+			_texture = TextHelper.RenderString(_text, _fontSize, EngineColors.Heading);
 		}
 
 		public override void Render()

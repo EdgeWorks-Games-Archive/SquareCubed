@@ -26,7 +26,7 @@ namespace SquareCubed.Client.Gui
 			GL.Ortho(0, Viewport.Width, Viewport.Height, 0, 1, -1);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
-
+			
 			base.Render();
 		}
 	}
