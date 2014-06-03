@@ -147,6 +147,7 @@ namespace SquareCubed.Client.Graphics
 
 		~Texture2D()
 		{
+			Console.WriteLine("Warning: Leaked " + typeof(Texture2D) + "!");
 			Dispose();
 		}
 

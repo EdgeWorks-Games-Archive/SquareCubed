@@ -12,13 +12,13 @@ namespace SquareCubed.Client
 
 			var playerLabel = new GuiLabel("Player Name")
 			{
-				Position = new Point(3, 3)
+				Position = new Point(6, 3)
 			};
 			Controls.Add(playerLabel);
 
 			var serverLabel = new GuiLabel("Server Address")
 			{
-				Position = new Point(3, playerLabel.Position.Y + playerLabel.Size.Height + 3)
+				Position = new Point(6, playerLabel.Position.Y + playerLabel.Size.Height + 3)
 			};
 			Controls.Add(serverLabel);
 		}

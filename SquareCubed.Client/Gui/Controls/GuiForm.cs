@@ -74,7 +74,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 			// Title Text
 			_textTexture.Render(
-				new Vector2(1 + 3, 1 + 2 + _textTexture.Height),
+				new Vector2(1 + 6, 1 + 2 + _textTexture.Height),
 				new Vector2(_textTexture.Width, -_textTexture.Height));
 
 			// Render all the children
