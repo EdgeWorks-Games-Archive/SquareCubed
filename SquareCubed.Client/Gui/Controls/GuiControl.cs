@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -14,10 +15,7 @@ namespace SquareCubed.Client.Gui.Controls
 			_parent = new ParentLink(this, p => p.Controls);
 		}
 
-		~GuiControl()
-		{
-			Dispose(false);
-		}
+		public Point Position { get; set; }
 
 		public GuiParentControl Parent
 		{
@@ -28,6 +26,11 @@ namespace SquareCubed.Client.Gui.Controls
 		public void Dispose()
 		{
 			Dispose(true);
+		}
+
+		~GuiControl()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool managed)

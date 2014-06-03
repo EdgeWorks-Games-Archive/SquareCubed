@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
@@ -11,7 +13,12 @@ namespace SquareCubed.Client.Gui.Controls
 		private string _text;
 		private Texture2D _textTexture;
 
-		public Point Position { get; set; }
+		protected GuiForm(string title)
+		{
+			Contract.Requires<ArgumentNullException>(title != null);
+
+			Title = title;
+		}
 
 		public Size Size
 		{
@@ -25,6 +32,8 @@ namespace SquareCubed.Client.Gui.Controls
 			get { return _text; }
 			set
 			{
+				Contract.Requires<ArgumentNullException>(value != null);
+
 				_text = value;
 				if (_textTexture != null) _textTexture.Dispose();
 				_textTexture = Texture2D.FromText(value, 14, EngineColors.Heading);
@@ -79,8 +88,7 @@ namespace SquareCubed.Client.Gui.Controls
 		{
 			if (managed)
 			{
-				if (_textTexture != null)
-					_textTexture.Dispose();
+				_textTexture.Dispose();
 			}
 
 			base.Dispose(managed);
