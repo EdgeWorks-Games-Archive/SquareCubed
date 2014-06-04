@@ -10,6 +10,7 @@ namespace SquareCubed.Client.Gui.Controls
 	public abstract class GuiForm : GuiControl.GuiParentControl
 	{
 		private const int TitleBarSize = 20 + 4 + 2; // Text height + padding + border
+		private readonly Size _internalOffset;
 		private string _text;
 		private Texture2D _textTexture;
 
@@ -18,6 +19,12 @@ namespace SquareCubed.Client.Gui.Controls
 			Contract.Requires<ArgumentNullException>(title != null);
 
 			Title = title;
+			_internalOffset = new Size(1, TitleBarSize + 1);
+		}
+
+		public override Size InternalOffset
+		{
+			get { return _internalOffset; }
 		}
 
 		public override Size Size

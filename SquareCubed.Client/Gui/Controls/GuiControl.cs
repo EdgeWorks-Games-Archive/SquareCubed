@@ -15,8 +15,14 @@ namespace SquareCubed.Client.Gui.Controls
 			_parent = new ParentLink(this, p => p.Controls);
 		}
 
+		public bool IsHovered { get; private set; }
 		public Point Position { get; set; }
 		public abstract Size Size { get; set; }
+
+		public Rectangle BoundingBox
+		{
+			get { return new Rectangle(Position, Size); /*TODO: Add parent position offset*/ }
+		}
 
 		public GuiParentControl Parent
 		{
@@ -29,13 +35,42 @@ namespace SquareCubed.Client.Gui.Controls
 			Dispose(true);
 		}
 
+		protected virtual void Dispose(bool managed)
+		{
+		}
+
 		~GuiControl()
 		{
 			Dispose(false);
 		}
 
-		protected virtual void Dispose(bool managed)
+		internal virtual void HandleMouseMove(MouseMoveData data)
 		{
+			if (BoundingBox.Contains(data.Position))
+			{
+				if (!IsHovered)
+					OnMouseEnter(data);
+				OnMouseMove(data);
+			}
+			else if (BoundingBox.Contains(data.PreviousPosition))
+			{
+				OnMouseExit(data);
+				OnMouseMove(data);
+			}
+		}
+
+		protected virtual void OnMouseMove(MouseMoveData data)
+		{
+		}
+
+		protected virtual void OnMouseEnter(MouseMoveData data)
+		{
+			IsHovered = true;
+		}
+
+		protected virtual void OnMouseExit(MouseMoveData data)
+		{
+			IsHovered = false;
 		}
 
 		public abstract void Render();
@@ -48,6 +83,7 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 
 			public ParentLink.ChildrenCollection Controls { get; private set; }
+			public abstract Size InternalOffset { get; }
 
 			public override void Render()
 			{
@@ -55,6 +91,18 @@ namespace SquareCubed.Client.Gui.Controls
 				{
 					control.Render();
 				}
+			}
+
+			protected override void OnMouseMove(MouseMoveData data)
+			{
+				var internalData = new MouseMoveData(
+					new Point(data.Position.X - Position.X - InternalOffset.Width, data.Position.Y - Position.Y - InternalOffset.Height),
+					new Point(data.PreviousPosition.X - Position.X - InternalOffset.Width, data.PreviousPosition.Y - Position.Y - InternalOffset.Height));
+
+				foreach (var control in Controls)
+					control.HandleMouseMove(internalData);
+
+				base.OnMouseMove(data);
 			}
 
 			protected override void Dispose(bool managed)
