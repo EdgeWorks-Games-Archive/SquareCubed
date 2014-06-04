@@ -140,6 +140,7 @@
     <Compile Include="Gui\Controls\GuiTest.cs" />
     <Compile Include="Gui\EngineColors.cs" />
     <Compile Include="Gui\Gui.cs" />
+    <Compile Include="Gui\MousePressData.cs" />
     <Compile Include="Gui\MouseMoveData.cs" />
     <Compile Include="IClientPlugin.cs" />
     <Compile Include="Input\Input.cs" />

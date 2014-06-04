@@ -9,12 +9,15 @@ namespace SquareCubed.Client.Gui
 	public class Gui : GuiControl.GuiParentControl
 	{
 		private Point _previousMousePos;
+		private MousePressData.MousePressEndEvent _previousMousePressEvent;
 		private Size _size;
 
 		internal Gui(IExtGameWindow gameWindow)
 		{
 			_size = gameWindow.ClientSize;
 			gameWindow.MouseMove += OnMouseMoveEvent;
+			gameWindow.MouseDown += OnMouseDownEvent;
+			gameWindow.MouseUp += OnMouseUpEvent;
 		}
 
 		public override Size Size
@@ -28,12 +31,21 @@ namespace SquareCubed.Client.Gui
 			get { return new Size(0, 0); }
 		}
 
+		private void OnMouseDownEvent(object sender, MouseButtonEventArgs e)
+		{
+			_previousMousePressEvent = new MousePressData.MousePressEndEvent();
+			HandleMouseDown(new MousePressData(e.Position, e.Button, _previousMousePressEvent));
+		}
+
+		private void OnMouseUpEvent(object sender, MouseButtonEventArgs e)
+		{
+			HandleMouseUp(new MousePressData(e.Position, e.Button, _previousMousePressEvent));
+			_previousMousePressEvent.Invoke();
+		}
+
 		private void OnMouseMoveEvent(object sender, MouseMoveEventArgs e)
 		{
-			var moveData = new MouseMoveData(e.Position, _previousMousePos);
-
-			HandleMouseMove(moveData);
-
+			HandleMouseMove(new MouseMoveData(e.Position, _previousMousePos));
 			_previousMousePos = e.Position;
 		}
 

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -52,6 +53,13 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 
 			base.Dispose(managed);
+		}
+
+		protected override void OnMouseClick(MousePressData data)
+		{
+			Console.WriteLine("Click!");
+
+			base.OnMouseClick(data);
 		}
 	}
 }

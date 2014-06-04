@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using SquareCubed.Common.Utils;
 
@@ -16,6 +17,7 @@ namespace SquareCubed.Client.Gui.Controls
 		}
 
 		public bool IsHovered { get; private set; }
+		public bool IsHeld { get; private set; }
 		public Point Position { get; set; }
 		public abstract Size Size { get; set; }
 
@@ -44,7 +46,7 @@ namespace SquareCubed.Client.Gui.Controls
 			Dispose(false);
 		}
 
-		internal virtual void HandleMouseMove(MouseMoveData data)
+		internal void HandleMouseMove(MouseMoveData data)
 		{
 			if (BoundingBox.Contains(data.Position))
 			{
@@ -59,6 +61,18 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 		}
 
+		internal void HandleMouseDown(MousePressData data)
+		{
+			if (BoundingBox.Contains(data.Position))
+				OnMouseDown(data);
+		}
+
+		internal void HandleMouseUp(MousePressData data)
+		{
+			if (BoundingBox.Contains(data.Position))
+				OnMouseUp(data);
+		}
+
 		protected virtual void OnMouseMove(MouseMoveData data)
 		{
 		}
@@ -71,6 +85,24 @@ namespace SquareCubed.Client.Gui.Controls
 		protected virtual void OnMouseExit(MouseMoveData data)
 		{
 			IsHovered = false;
+		}
+
+		protected virtual void OnMouseDown(MousePressData data)
+		{
+			Contract.Requires<ArgumentNullException>(data != null);
+
+			IsHeld = true;
+			data.EndEvent.Event += (s, e) => IsHeld = false;
+		}
+
+		protected virtual void OnMouseUp(MousePressData data)
+		{
+			if (IsHeld)
+				OnMouseClick(data);
+		}
+
+		protected virtual void OnMouseClick(MousePressData data)
+		{
 		}
 
 		public abstract void Render();
@@ -96,13 +128,45 @@ namespace SquareCubed.Client.Gui.Controls
 			protected override void OnMouseMove(MouseMoveData data)
 			{
 				var internalData = new MouseMoveData(
-					new Point(data.Position.X - Position.X - InternalOffset.Width, data.Position.Y - Position.Y - InternalOffset.Height),
-					new Point(data.PreviousPosition.X - Position.X - InternalOffset.Width, data.PreviousPosition.Y - Position.Y - InternalOffset.Height));
+					new Point(
+						data.Position.X - Position.X - InternalOffset.Width,
+						data.Position.Y - Position.Y - InternalOffset.Height),
+					new Point(
+						data.PreviousPosition.X - Position.X - InternalOffset.Width,
+						data.PreviousPosition.Y - Position.Y - InternalOffset.Height));
 
 				foreach (var control in Controls)
 					control.HandleMouseMove(internalData);
 
 				base.OnMouseMove(data);
+			}
+
+			protected override void OnMouseDown(MousePressData data)
+			{
+				var internalData = new MousePressData(
+					new Point(
+						data.Position.X - Position.X - InternalOffset.Width,
+						data.Position.Y - Position.Y - InternalOffset.Height),
+					data.Button, data.EndEvent);
+
+				foreach (var control in Controls)
+					control.HandleMouseDown(internalData);
+
+				base.OnMouseDown(data);
+			}
+
+			protected override void OnMouseUp(MousePressData data)
+			{
+				var internalData = new MousePressData(
+					new Point(
+						data.Position.X - Position.X - InternalOffset.Width,
+						data.Position.Y - Position.Y - InternalOffset.Height),
+					data.Button, data.EndEvent);
+
+				foreach (var control in Controls)
+					control.HandleMouseUp(internalData);
+
+				base.OnMouseUp(data);
 			}
 
 			protected override void Dispose(bool managed)
