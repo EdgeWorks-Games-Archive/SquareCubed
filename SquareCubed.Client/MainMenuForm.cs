@@ -39,6 +39,22 @@ namespace SquareCubed.Client
 				Position = new Point(0, serverLabel.Position.Y + serverLabel.Size.Height + 3)
 			};
 			Controls.Add(_serverAddress);
+
+			var connectButton = new GuiButton("Connect")
+			{
+				Position = new Point(6, _serverAddress.Position.Y + _serverAddress.Size.Height + 12),
+				Size = new Size(80, 21)
+			};
+			Controls.Add(connectButton);
+
+			var quitButton = new GuiButton("Quit")
+			{
+				Position = new Point(InnerSize.Width - 80 - 6, _serverAddress.Position.Y + _serverAddress.Size.Height + 12),
+				Size = new Size(80, 21)
+			};
+			Controls.Add(quitButton);
+
+			InnerSize = new Size(InnerSize.Width, quitButton.Position.Y + quitButton.Size.Height + 6);
 		}
 	}
 }

@@ -26,12 +26,17 @@ namespace SquareCubed.Client.Gui
 
 		public static Color InputText
 		{
-			get { return Color.FromArgb(163, 163, 163); }
+			get { return Color.FromArgb(210, 210, 210); }
 		}
 
 		public static Color Heading
 		{
 			get { return Color.White; }
+		}
+
+		public static Color ButtonBackground
+		{
+			get { return Color.FromArgb(74, 74, 74); }
 		}
 	}
 }

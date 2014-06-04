@@ -11,7 +11,7 @@ namespace SquareCubed.Client.Gui.Controls
 		{
 			GL.Begin(PrimitiveType.Quads);
 
-			// Border
+			// White Square
 			GL.Color3(Color.White);
 			GL.Vertex2(Position.X, Position.Y);
 			GL.Vertex2(Position.X, Position.Y + Size.Height);

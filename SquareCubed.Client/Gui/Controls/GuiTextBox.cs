@@ -7,12 +7,15 @@ namespace SquareCubed.Client.Gui.Controls
 {
 	internal class GuiTextBox : GuiControl
 	{
-		private const int VerticalPadding = 4, HeightBottomCorrection = 2;
+		private const int VerticalPadding = 4, HeightBottomCorrection = 0;
 		private readonly GuiLabel _internalLabel;
 
-		public GuiTextBox(string initialText = "", int fontSize = 12)
+		public GuiTextBox(string initialText = "", int fontSize = 13)
 		{
-			_internalLabel = new GuiLabel(initialText, fontSize);
+			_internalLabel = new GuiLabel(initialText, fontSize)
+			{
+				Color = EngineColors.InputText
+			};
 		}
 
 		public int CursorPosition { get; set; }
@@ -43,13 +46,16 @@ namespace SquareCubed.Client.Gui.Controls
 
 			GL.End();
 
+			// Internal Text
 			_internalLabel.Position = new Point(Position.X + Padding, Position.Y + VerticalPadding);
 			_internalLabel.Render();
 
 			GL.Begin(PrimitiveType.Quads);
 
 			// Text Cursor
-			var offset = Position.X + Padding + TextHelper.MeasureString(_internalLabel.Text.Substring(0, CursorPosition), TextHelper.GetFont(_internalLabel.FontSize)).Width;
+			var offset = Position.X + Padding + TextHelper.MeasureString(
+				_internalLabel.Text.Substring(0, CursorPosition),
+				TextHelper.GetFont(_internalLabel.FontSize)).Width;
 			GL.Color3(EngineColors.InputText);
 			GL.Vertex2(offset, Position.Y + VerticalPadding);
 			GL.Vertex2(offset, Position.Y + VerticalPadding + _internalLabel.Size.Height);

@@ -9,14 +9,26 @@ namespace SquareCubed.Client.Gui.Controls
 {
 	internal class GuiLabel : GuiControl
 	{
+		private Color _color;
 		private int _fontSize;
 		private string _text;
 		private Texture2D _texture;
 
-		public GuiLabel(string text, int fontSize = 12)
+		public GuiLabel(string text, int fontSize = 13)
 		{
+			_color = EngineColors.Text;
 			_fontSize = fontSize;
 			Text = text;
+		}
+
+		public Color Color
+		{
+			get { return _color; }
+			set
+			{
+				_color = value;
+				GenerateTexture();
+			}
 		}
 
 		public string Text
@@ -60,7 +72,7 @@ namespace SquareCubed.Client.Gui.Controls
 		private void GenerateTexture()
 		{
 			if (_texture != null) _texture.Dispose();
-			_texture = TextHelper.RenderString(_text, _fontSize, EngineColors.Heading);
+			_texture = TextHelper.RenderString(_text, _fontSize, Color);
 		}
 
 		public override void Render()
