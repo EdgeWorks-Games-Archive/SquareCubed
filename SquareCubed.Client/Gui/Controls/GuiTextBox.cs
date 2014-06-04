@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Data;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL;
+using SquareCubed.Client.Graphics;
 
 namespace SquareCubed.Client.Gui.Controls
 {
@@ -13,6 +15,7 @@ namespace SquareCubed.Client.Gui.Controls
 			_internalLabel = new GuiLabel(initialText, fontSize);
 		}
 
+		public int CursorPosition { get; set; }
 		public int Padding { get; set; }
 		public int Width { get; set; }
 
@@ -21,16 +24,17 @@ namespace SquareCubed.Client.Gui.Controls
 			get { return _internalLabel.Size.Height + (VerticalPadding*2) + HeightBottomCorrection; }
 		}
 
-		public Size Size
+		public override Size Size
 		{
 			get { return new Size(Width, Height); }
+			set { throw new ReadOnlyException(); }
 		}
 
 		public override void Render()
 		{
 			GL.Begin(PrimitiveType.Quads);
 
-			// Input box
+			// Input Box
 			GL.Color3(Color.FromArgb(45, 45, 45));
 			GL.Vertex2(Position.X, Position.Y);
 			GL.Vertex2(Position.X, Position.Y + Height);
@@ -39,8 +43,20 @@ namespace SquareCubed.Client.Gui.Controls
 
 			GL.End();
 
-			_internalLabel.Position = new Point(Padding + Position.X, Position.Y + VerticalPadding);
+			_internalLabel.Position = new Point(Position.X + Padding, Position.Y + VerticalPadding);
 			_internalLabel.Render();
+
+			GL.Begin(PrimitiveType.Quads);
+
+			// Text Cursor
+			var offset = Position.X + Padding + TextHelper.MeasureString(_internalLabel.Text.Substring(0, CursorPosition), TextHelper.GetFont(_internalLabel.FontSize)).Width;
+			GL.Color3(EngineColors.InputText);
+			GL.Vertex2(offset, Position.Y + VerticalPadding);
+			GL.Vertex2(offset, Position.Y + VerticalPadding + _internalLabel.Size.Height);
+			GL.Vertex2(offset + 1, Position.Y + VerticalPadding + _internalLabel.Size.Height);
+			GL.Vertex2(offset + 1, Position.Y + VerticalPadding);
+
+			GL.End();
 		}
 
 		protected override void Dispose(bool managed)

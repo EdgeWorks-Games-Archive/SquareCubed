@@ -15,6 +15,11 @@ namespace SquareCubed.Client.Graphics
 			StringFormat.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces;
 		}
 
+		public static Font GetFont(int size)
+		{
+			return new Font("Segoe UI", size, FontStyle.Regular, GraphicsUnit.Pixel);
+		}
+
 		public static Size MeasureString(string text, Font font)
 		{
 			using (var img = new Bitmap(1, 1))
@@ -27,7 +32,7 @@ namespace SquareCubed.Client.Graphics
 
 		public static Texture2D RenderString(string text, int textSize, Color textColor)
 		{
-			var font = new Font("Segoe UI", textSize, FontStyle.Regular, GraphicsUnit.Pixel);
+			var font = GetFont(textSize);
 
 			var size = MeasureString(text, font);
 			var img = new Bitmap(size.Width + 1, size.Height); // + 1 is because anti aliasing will make it 1 off sometimes

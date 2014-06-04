@@ -20,7 +20,7 @@ namespace SquareCubed.Client.Gui.Controls
 			Title = title;
 		}
 
-		public Size Size
+		public override Size Size
 		{
 			// Size + 1px Border (x2) + Title Bar
 			get { return InnerSize + new Size(2, 2 + TitleBarSize); }

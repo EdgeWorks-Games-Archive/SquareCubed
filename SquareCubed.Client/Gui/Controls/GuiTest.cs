@@ -5,6 +5,8 @@ namespace SquareCubed.Client.Gui.Controls
 {
 	class GuiTest : GuiControl
 	{
+		public override Size Size { get; set; }
+
 		public override void Render()
 		{
 			GL.Begin(PrimitiveType.Quads);
@@ -12,9 +14,9 @@ namespace SquareCubed.Client.Gui.Controls
 			// Border
 			GL.Color3(Color.White);
 			GL.Vertex2(Position.X, Position.Y);
-			GL.Vertex2(Position.X, Position.Y + 10);
-			GL.Vertex2(Position.X + 10, Position.Y + 10);
-			GL.Vertex2(Position.X + 10, Position.Y);
+			GL.Vertex2(Position.X, Position.Y + Size.Height);
+			GL.Vertex2(Position.X + Size.Width, Position.Y + Size.Height);
+			GL.Vertex2(Position.X + Size.Width, Position.Y);
 
 			GL.End();
 		}

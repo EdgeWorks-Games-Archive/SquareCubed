@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using OpenTK;
@@ -40,9 +41,10 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 		}
 
-		public Size Size
+		public override Size Size
 		{
 			get { return _texture.Size; }
+			set { throw new ReadOnlyException(); }
 		}
 
 		protected override void Dispose(bool managed)

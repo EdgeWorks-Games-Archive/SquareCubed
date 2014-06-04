@@ -16,6 +16,7 @@ namespace SquareCubed.Client.Gui.Controls
 		}
 
 		public Point Position { get; set; }
+		public abstract Size Size { get; set; }
 
 		public GuiParentControl Parent
 		{
