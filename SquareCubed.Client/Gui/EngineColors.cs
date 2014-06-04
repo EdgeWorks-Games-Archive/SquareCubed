@@ -41,7 +41,7 @@ namespace SquareCubed.Client.Gui
 
 		public static Color ButtonHoverBackground
 		{
-			get { return Color.FromArgb(84, 84, 84); }
+			get { return Color.FromArgb(0, 114, 198); /*Color.FromArgb(84, 84, 84);*/ }
 		}
 	}
 }

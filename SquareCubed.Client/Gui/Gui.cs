@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SquareCubed.Client.Gui.Controls;
@@ -9,8 +8,8 @@ namespace SquareCubed.Client.Gui
 {
 	public class Gui : GuiControl.GuiParentControl
 	{
-		private Size _size;
 		private Point _previousMousePos;
+		private Size _size;
 
 		internal Gui(IExtGameWindow gameWindow)
 		{
@@ -24,6 +23,11 @@ namespace SquareCubed.Client.Gui
 			set { _size = value; }
 		}
 
+		public override Size InternalOffset
+		{
+			get { return new Size(0, 0); }
+		}
+
 		private void OnMouseMoveEvent(object sender, MouseMoveEventArgs e)
 		{
 			var moveData = new MouseMoveData(e.Position, _previousMousePos);
@@ -31,11 +35,6 @@ namespace SquareCubed.Client.Gui
 			HandleMouseMove(moveData);
 
 			_previousMousePos = e.Position;
-		}
-
-		public override Size InternalOffset
-		{
-			get { return new Size(0, 0); }
 		}
 
 		public override void Render()

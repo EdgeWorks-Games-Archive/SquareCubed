@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -23,7 +22,7 @@ namespace SquareCubed.Client.Gui.Controls
 			GL.Begin(PrimitiveType.Quads);
 
 			// Background
-			GL.Color3(EngineColors.ButtonBackground);
+			GL.Color3(IsHovered ? EngineColors.ButtonHoverBackground : EngineColors.ButtonBackground);
 			GL.Vertex2(Position.X, Position.Y);
 			GL.Vertex2(Position.X, Position.Y + Size.Height);
 			GL.Vertex2(Position.X + Size.Width, Position.Y + Size.Height);
@@ -40,8 +39,8 @@ namespace SquareCubed.Client.Gui.Controls
 
 			// Internal Text
 			_internalLabel.Position = new Point(
-				Position.X + (Size.Width / 2) - (_internalLabel.Size.Width / 2),
-				Position.Y + ((Size.Height - 2) / 2) - (_internalLabel.Size.Height / 2));
+				Position.X + (Size.Width/2) - (_internalLabel.Size.Width/2),
+				Position.Y + ((Size.Height - 2)/2) - (_internalLabel.Size.Height/2));
 			_internalLabel.Render();
 		}
 
@@ -53,13 +52,6 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 
 			base.Dispose(managed);
-		}
-
-		protected override void OnMouseEnter(MouseMoveData data)
-		{
-			Console.WriteLine("Hello!");
-
-			base.OnMouseEnter(data);
 		}
 	}
 }
