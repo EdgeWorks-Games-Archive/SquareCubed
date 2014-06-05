@@ -194,7 +194,7 @@ namespace SquareCubed.Client
 			Graphics.EndSceneRender();
 
 			// Render the Gui
-			Gui.Render();
+			Gui.Render(delta);
 
 			Graphics.SwapBuffers();
 		}

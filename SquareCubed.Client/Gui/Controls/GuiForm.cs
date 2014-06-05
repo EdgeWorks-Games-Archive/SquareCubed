@@ -49,7 +49,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public Size InnerSize { get; set; }
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			GL.PushMatrix();
 			GL.Translate(Position.X, Position.Y, 0);
@@ -86,7 +86,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 			// Render all the children
 			GL.Translate(1, 1 + TitleBarSize, 0);
-			base.Render();
+			base.Render(delta);
 
 			GL.PopMatrix();
 		}

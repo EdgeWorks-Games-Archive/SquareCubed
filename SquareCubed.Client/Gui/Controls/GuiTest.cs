@@ -7,7 +7,7 @@ namespace SquareCubed.Client.Gui.Controls
 	{
 		public override Size Size { get; set; }
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			GL.Begin(PrimitiveType.Quads);
 

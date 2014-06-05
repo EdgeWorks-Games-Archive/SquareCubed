@@ -9,6 +9,7 @@ namespace SquareCubed.Client.Gui.Controls
 	{
 		private const int VerticalPadding = 4, HeightBottomCorrection = 0;
 		private readonly GuiLabel _internalLabel;
+		private float _cursorTimer;
 
 		public GuiTextBox(string initialText = "", int fontSize = 13)
 		{
@@ -38,7 +39,7 @@ namespace SquareCubed.Client.Gui.Controls
 			get { return _internalLabel.Text; }
 		}
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			GL.Begin(PrimitiveType.Quads);
 
@@ -53,21 +54,37 @@ namespace SquareCubed.Client.Gui.Controls
 
 			// Internal Text
 			_internalLabel.Position = new Point(Position.X + Padding, Position.Y + VerticalPadding);
-			_internalLabel.Render();
+			_internalLabel.Render(delta);
 
-			GL.Begin(PrimitiveType.Quads);
+			// Only display the cursor half of a second
+			if (_cursorTimer%1.0f < 0.5f)
+			{
+				GL.Begin(PrimitiveType.Quads);
 
-			// Text Cursor
-			var offset = Position.X + Padding + TextHelper.MeasureString(
-				_internalLabel.Text.Substring(0, CursorPosition),
-				TextHelper.GetFont(_internalLabel.FontSize)).Width;
-			GL.Color3(EngineColors.InputText);
-			GL.Vertex2(offset, Position.Y + VerticalPadding);
-			GL.Vertex2(offset, Position.Y + VerticalPadding + _internalLabel.Size.Height);
-			GL.Vertex2(offset + 1, Position.Y + VerticalPadding + _internalLabel.Size.Height);
-			GL.Vertex2(offset + 1, Position.Y + VerticalPadding);
+				// Text Cursor
+				var offset = Position.X + Padding + TextHelper.MeasureString(
+					_internalLabel.Text.Substring(0, CursorPosition),
+					_internalLabel.FontSize).Width;
+				GL.Color3(EngineColors.InputText);
+				GL.Vertex2(offset, Position.Y + VerticalPadding);
+				GL.Vertex2(offset, Position.Y + VerticalPadding + _internalLabel.Size.Height);
+				GL.Vertex2(offset + 1, Position.Y + VerticalPadding + _internalLabel.Size.Height);
+				GL.Vertex2(offset + 1, Position.Y + VerticalPadding);
 
-			GL.End();
+				GL.End();
+			}
+			_cursorTimer += delta;
+		}
+
+		protected override void OnMouseDown(MousePressData data)
+		{
+			CursorPosition = TextHelper.GetClosestPosition(
+				_internalLabel.Text,
+				_internalLabel.FontSize,
+				data.Position.X - Padding);
+			_cursorTimer = 0;
+
+			base.OnMouseDown(data);
 		}
 
 		protected override void Dispose(bool managed)

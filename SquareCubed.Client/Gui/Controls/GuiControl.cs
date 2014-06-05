@@ -108,7 +108,7 @@ namespace SquareCubed.Client.Gui.Controls
 			Click(this, EventArgs.Empty);
 		}
 
-		public abstract void Render();
+		internal abstract void Render(float delta);
 
 		public abstract class GuiParentControl : GuiControl
 		{
@@ -120,11 +120,11 @@ namespace SquareCubed.Client.Gui.Controls
 			public ParentLink.ChildrenCollection Controls { get; private set; }
 			public abstract Size InternalOffset { get; }
 
-			public override void Render()
+			internal override void Render(float delta)
 			{
 				foreach (var control in Controls)
 				{
-					control.Render();
+					control.Render(delta);
 				}
 			}
 

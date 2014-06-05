@@ -17,7 +17,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public override Size Size { get; set; }
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			GL.Begin(PrimitiveType.Quads);
 
@@ -41,7 +41,7 @@ namespace SquareCubed.Client.Gui.Controls
 			_internalLabel.Position = new Point(
 				Position.X + (Size.Width/2) - (_internalLabel.Size.Width/2),
 				Position.Y + ((Size.Height - 2)/2) - (_internalLabel.Size.Height/2));
-			_internalLabel.Render();
+			_internalLabel.Render(delta);
 		}
 
 		protected override void Dispose(bool managed)

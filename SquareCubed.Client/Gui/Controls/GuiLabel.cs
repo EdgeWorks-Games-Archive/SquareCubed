@@ -75,7 +75,7 @@ namespace SquareCubed.Client.Gui.Controls
 			_texture = TextHelper.RenderString(_text, _fontSize, Color);
 		}
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			_texture.Render(
 				new Vector2(Position.X, Position.Y + _texture.Height),

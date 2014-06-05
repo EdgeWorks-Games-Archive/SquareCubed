@@ -49,7 +49,7 @@ namespace SquareCubed.Client.Gui
 			_previousMousePos = e.Position;
 		}
 
-		public override void Render()
+		internal override void Render(float delta)
 		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
@@ -62,7 +62,7 @@ namespace SquareCubed.Client.Gui
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 
-			base.Render();
+			base.Render(delta);
 		}
 	}
 }

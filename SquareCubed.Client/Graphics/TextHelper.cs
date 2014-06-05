@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 
 namespace SquareCubed.Client.Graphics
 {
@@ -20,21 +22,33 @@ namespace SquareCubed.Client.Graphics
 			return new Font("Segoe UI", size, FontStyle.Regular, GraphicsUnit.Pixel);
 		}
 
-		public static Size MeasureString(string text, Font font)
+		public static Size MeasureString(string text, int textSize)
 		{
+			// TODO: Overall improve this entire class so it's a bit better designed
 			using (var img = new Bitmap(1, 1))
 			using (var gfx = System.Drawing.Graphics.FromImage(img))
 			{
 				gfx.TextRenderingHint = TextRenderingHint.AntiAlias;
-				return gfx.MeasureString(text, font, int.MaxValue, StringFormat).ToSize();
+				return gfx.MeasureString(text, GetFont(textSize), int.MaxValue, StringFormat).ToSize();
 			}
+		}
+
+		public static int GetClosestPosition(string text, int textSize, int mousePosition)
+		{
+			for (var i = 1; i < text.Length + 1; i++)
+			{
+				// -1 to make clicking in text just a bit easier
+				// TODO: Perhaps calculate the offset on a letter by letter basis instead of just -1?
+				if (mousePosition < MeasureString(text.Substring(0, i), textSize).Width - 1)
+					return i - 1;
+			}
+			return text.Length;
 		}
 
 		public static Texture2D RenderString(string text, int textSize, Color textColor)
 		{
 			var font = GetFont(textSize);
-
-			var size = MeasureString(text, font);
+			var size = MeasureString(text, textSize);
 			var img = new Bitmap(size.Width + 1, size.Height); // + 1 is because anti aliasing will make it 1 off sometimes
 			using (var gfx = System.Drawing.Graphics.FromImage(img))
 			{
