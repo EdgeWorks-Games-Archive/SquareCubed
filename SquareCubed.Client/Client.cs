@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Diagnostics;
 using OpenTK;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
@@ -118,6 +120,27 @@ namespace SquareCubed.Client
 			};
 			mainMenu.Quit += (s, e) => Window.Close();
 			Gui.Controls.Add(mainMenu);
+
+#if DEBUG
+			// If we're in the Debug target, add a start server button for convenience
+			var startServer = new Gui.Controls.GuiButton("Start Server")
+			{
+				Position = new Point(Gui.Size.Width - 80, 0),
+				Size = new Size(80, 21)
+			};
+			startServer.Click += (s, e) =>
+			{
+				var fileInfo = new FileInfo("../../../Server/bin/Debug/Server.exe");
+				Debug.Assert(fileInfo.DirectoryName != null);
+				var processInfo = new ProcessStartInfo
+				{
+					FileName = fileInfo.FullName,
+					WorkingDirectory = fileInfo.DirectoryName
+				};
+				Process.Start(processInfo);
+			};
+			Gui.Controls.Add(startServer);
+#endif
 		}
 
 		/// <summary>
