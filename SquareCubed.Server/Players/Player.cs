@@ -20,6 +20,9 @@ namespace SquareCubed.Server.Players
 			// Set and Configure Unit Data
 			Unit = unit;
 			Unit.Player = this;
+
+			// Sync player and unit data
+			World = Unit.World;
 		}
 
 		public NetConnection Connection { get; private set; }

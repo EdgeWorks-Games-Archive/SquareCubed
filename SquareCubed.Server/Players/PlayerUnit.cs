@@ -19,7 +19,8 @@ namespace SquareCubed.Server.Players
 			set
 			{
 				base.World = value;
-				Player.WorldLink.Property = value;
+				if(Player != null) // < Prevents a crash when the playerunit is created but the player not yet
+					Player.WorldLink.Property = value;
 			}
 		}
 

@@ -110,6 +110,7 @@ namespace SquareCubed.Common.Utils
 
 			public void Remove(TChild child)
 			{
+				// TODO: Add custom exception for removing or adding during enumerating
 				Contract.Requires<ArgumentNullException>(child != null);
 
 				// Remove the child and reset its parent

@@ -6,7 +6,8 @@ namespace SquareCubed.Client
 {
 	internal sealed class MainMenuForm : GuiForm
 	{
-		private GuiTextBox _playerName, _serverAddress;
+		private readonly GuiTextBox _playerName;
+		private readonly GuiTextBox _serverAddress;
 
 		public MainMenuForm()
 			: base("Connect to Server")
@@ -46,7 +47,7 @@ namespace SquareCubed.Client
 				Position = new Point(6, _serverAddress.Position.Y + _serverAddress.Size.Height + 12),
 				Size = new Size(80, 21)
 			};
-			connectButton.Click += (s, e) => Connect.Invoke(this, EventArgs.Empty);
+			connectButton.Click += (s, e) => Connect.Invoke(this, new ConnectEventArgs(_playerName.Text, _serverAddress.Text));
 			Controls.Add(connectButton);
 
 			var quitButton = new GuiButton("Quit")
@@ -60,7 +61,19 @@ namespace SquareCubed.Client
 			InnerSize = new Size(InnerSize.Width, quitButton.Position.Y + quitButton.Size.Height + 6);
 		}
 
-		public event EventHandler Connect = (s, e) => { };
+		public event EventHandler<ConnectEventArgs> Connect = (s, e) => { };
 		public event EventHandler Quit = (s, e) => { };
+
+		public class ConnectEventArgs : EventArgs
+		{
+			public ConnectEventArgs(string playerName, string hostName)
+			{
+				PlayerName = playerName;
+				HostAddress = hostName;
+			}
+
+			public string PlayerName { get; private set; }
+			public string HostAddress { get; private set; }
+		}
 	}
 }

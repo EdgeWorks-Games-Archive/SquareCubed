@@ -107,6 +107,15 @@ namespace SquareCubed.Client
 			mainMenu.Position = new Point(
 				(Window.ClientSize.Width - mainMenu.Size.Width) / 2,
 				(Window.ClientSize.Height - mainMenu.Size.Height) / 2);
+			mainMenu.Connect += (s, e) =>
+			{
+				Network.Connect(e.HostAddress, e.PlayerName);
+				ScheduledActions += () =>
+				{
+					Gui.Controls.Remove(mainMenu);
+					mainMenu.Dispose();
+				};
+			};
 			mainMenu.Quit += (s, e) => Window.Close();
 			Gui.Controls.Add(mainMenu);
 		}
@@ -123,8 +132,13 @@ namespace SquareCubed.Client
 			PluginLoader.UnloadAllPlugins();
 		}
 
+		public event Action ScheduledActions = () => { }; // TODO: Improve this?
+
 		private void Update(object s, FrameEventArgs e)
 		{
+			ScheduledActions();
+			ScheduledActions = () => { };
+
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
 			var eventArgs = new TickEventArgs {ElapsedTime = delta};

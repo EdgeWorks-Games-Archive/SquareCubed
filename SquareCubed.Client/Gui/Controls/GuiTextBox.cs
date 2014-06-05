@@ -33,6 +33,11 @@ namespace SquareCubed.Client.Gui.Controls
 			set { throw new ReadOnlyException(); }
 		}
 
+		public string Text
+		{
+			get { return _internalLabel.Text; }
+		}
+
 		public override void Render()
 		{
 			GL.Begin(PrimitiveType.Quads);
