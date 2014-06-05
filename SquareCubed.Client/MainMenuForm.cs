@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using SquareCubed.Client.Gui.Controls;
 
 namespace SquareCubed.Client
@@ -45,6 +46,7 @@ namespace SquareCubed.Client
 				Position = new Point(6, _serverAddress.Position.Y + _serverAddress.Size.Height + 12),
 				Size = new Size(80, 21)
 			};
+			connectButton.Click += (s, e) => Connect.Invoke(this, EventArgs.Empty);
 			Controls.Add(connectButton);
 
 			var quitButton = new GuiButton("Quit")
@@ -52,9 +54,13 @@ namespace SquareCubed.Client
 				Position = new Point(InnerSize.Width - 80 - 6, _serverAddress.Position.Y + _serverAddress.Size.Height + 12),
 				Size = new Size(80, 21)
 			};
+			quitButton.Click += (s, e) => Quit.Invoke(this, EventArgs.Empty);
 			Controls.Add(quitButton);
 
 			InnerSize = new Size(InnerSize.Width, quitButton.Position.Y + quitButton.Size.Height + 6);
 		}
+
+		public event EventHandler Connect = (s, e) => { };
+		public event EventHandler Quit = (s, e) => { };
 	}
 }

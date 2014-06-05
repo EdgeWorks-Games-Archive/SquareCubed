@@ -46,6 +46,8 @@ namespace SquareCubed.Client.Gui.Controls
 			Dispose(false);
 		}
 
+		public event EventHandler Click = (s, e) => { };
+
 		internal void HandleMouseMove(MouseMoveData data)
 		{
 			if (BoundingBox.Contains(data.Position))
@@ -103,6 +105,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		protected virtual void OnMouseClick(MousePressData data)
 		{
+			Click(this, EventArgs.Empty);
 		}
 
 		public abstract void Render();
