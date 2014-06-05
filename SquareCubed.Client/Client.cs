@@ -104,23 +104,6 @@ namespace SquareCubed.Client
 		/// <param name="eventArgs"></param>
 		private void Load(object sender, EventArgs eventArgs)
 		{
-			// Now that everything is loaded, we can add the main menu
-			var mainMenu = new MainMenuForm();
-			mainMenu.Position = new Point(
-				(Window.ClientSize.Width - mainMenu.Size.Width) / 2,
-				(Window.ClientSize.Height - mainMenu.Size.Height) / 2);
-			mainMenu.Connect += (s, e) =>
-			{
-				Network.Connect(e.HostAddress, e.PlayerName);
-				ScheduledActions += () =>
-				{
-					Gui.Controls.Remove(mainMenu);
-					mainMenu.Dispose();
-				};
-			};
-			mainMenu.Quit += (s, e) => Window.Close();
-			Gui.Controls.Add(mainMenu);
-
 #if DEBUG
 			// If we're in the Debug target, add a start server button for convenience
 			var startServer = new Gui.Controls.GuiButton("Start Server")
@@ -141,6 +124,27 @@ namespace SquareCubed.Client
 			};
 			Gui.Controls.Add(startServer);
 #endif
+
+			// Now that everything is loaded, we can add the main menu
+			var mainMenu = new MainMenuForm();
+			mainMenu.Position = new Point(
+				(Window.ClientSize.Width - mainMenu.Size.Width) / 2,
+				(Window.ClientSize.Height - mainMenu.Size.Height) / 2);
+			mainMenu.Connect += (s, e) =>
+			{
+				Network.Connect(e.HostAddress, e.PlayerName);
+				ScheduledActions += () =>
+				{
+					Gui.Controls.Remove(mainMenu);
+					mainMenu.Dispose();
+#if DEBUG
+					Gui.Controls.Remove(startServer);
+					startServer.Dispose();
+#endif
+				};
+			};
+			mainMenu.Quit += (s, e) => Window.Close();
+			Gui.Controls.Add(mainMenu);
 		}
 
 		/// <summary>

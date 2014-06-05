@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using OpenTK;
 using SquareCubed.Client.Graphics;
@@ -36,7 +36,7 @@ namespace SquareCubed.Client.Gui.Controls
 			get { return _text; }
 			set
 			{
-				Contract.Requires<ArgumentNullException>(value != null);
+				Debug.Assert(value != null);
 
 				_text = value;
 				GenerateTexture();

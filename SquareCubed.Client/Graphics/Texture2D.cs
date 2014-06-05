@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK;
@@ -86,7 +86,7 @@ namespace SquareCubed.Client.Graphics
 		/// <param name="options">The option flags to use for this texture.</param>
 		public Texture2D(Bitmap bitmap, TextureOptions options = TextureOptions.None)
 		{
-			Contract.Requires<ArgumentNullException>(bitmap != null);
+			Debug.Assert(bitmap != null);
 
 			// Save some metadata
 			Options = options;
@@ -177,7 +177,6 @@ namespace SquareCubed.Client.Graphics
 		///     object to deactivate the texture once done.
 		/// </summary>
 		/// <returns>A new texture lifetime object that should be disposed when done.</returns>
-		[Pure]
 		public ActivationLifetime Activate()
 		{
 			return new ActivationLifetime(_texture);

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -16,7 +16,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		protected GuiForm(string title)
 		{
-			Contract.Requires<ArgumentNullException>(title != null);
+			Debug.Assert(title != null);
 
 			Title = title;
 			_internalOffset = new Size(1, TitleBarSize + 1);
@@ -39,7 +39,7 @@ namespace SquareCubed.Client.Gui.Controls
 			get { return _text; }
 			set
 			{
-				Contract.Requires<ArgumentNullException>(value != null);
+				Debug.Assert(value != null);
 
 				_text = value;
 				if (_textTexture != null) _textTexture.Dispose();

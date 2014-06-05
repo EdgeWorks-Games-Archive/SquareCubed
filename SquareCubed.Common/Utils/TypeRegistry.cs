@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 
 namespace SquareCubed.Common.Utils
 {
@@ -21,8 +21,8 @@ namespace SquareCubed.Common.Utils
 
 		public TType GetType(int id)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(
+			Debug.Assert(id >= 0);
+			Debug.Assert(
 				id <= MaxId,
 				"Object TypeId is bigger than the maximum TypeId allowed.");
 
@@ -39,8 +39,8 @@ namespace SquareCubed.Common.Utils
 
 		public void RegisterType(TType type, int id)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(
+			Debug.Assert(id >= 0);
+			Debug.Assert(
 				id <= MaxId,
 				"Object TypeId is bigger than the maximum TypeId allowed.");
 

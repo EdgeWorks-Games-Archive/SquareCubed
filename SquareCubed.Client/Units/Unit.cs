@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using OpenTK;
 using SquareCubed.Client.Structures;
 using SquareCubed.Common.Data;
@@ -49,7 +49,7 @@ namespace SquareCubed.Client.Units
 
 		protected Unit(Unit oldUnit)
 		{
-			Contract.Requires<ArgumentNullException>(oldUnit != null);
+			Debug.Assert(oldUnit != null);
 
 			Id = oldUnit.Id;
 			Position = oldUnit.Position;

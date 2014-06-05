@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using SquareCubed.Common.Data;
 
@@ -13,8 +13,8 @@ namespace SquareCubed.Server.Structures
 	{
 		public static void Write(this NetOutgoingMessage msg, ServerChunk chunk)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(chunk != null);
+			Debug.Assert(msg != null);
+			Debug.Assert(chunk != null);
 
 			// Write all the tiles to the message
 			for (var x = 0; x < Chunk.ChunkSize; x++)

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using OpenTK;
 using SquareCubed.Client.Units;
 using SquareCubed.Common.Data;
@@ -11,7 +11,7 @@ namespace SquareCubed.Client.Player
 		internal PlayerUnit(Unit oldUnit)
 			: base(oldUnit)
 		{
-			Contract.Requires<ArgumentNullException>(oldUnit != null);
+			Debug.Assert(oldUnit != null);
 		}
 
 		public AaBb AaBb

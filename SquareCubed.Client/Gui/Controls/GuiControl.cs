@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using SquareCubed.Common.Utils;
 
@@ -91,7 +91,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		protected virtual void OnMouseDown(MousePressData data)
 		{
-			Contract.Requires<ArgumentNullException>(data != null);
+			Debug.Assert(data != null);
 
 			IsHeld = true;
 			data.EndEvent.Event += (s, e) => IsHeld = false;

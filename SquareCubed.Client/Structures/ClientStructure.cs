@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Lidgren.Network;
 using OpenTK;
@@ -43,7 +43,7 @@ namespace SquareCubed.Client.Structures
 
 		public void UpdateUnitEntry(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 			UpdateEntry(_units, unit, unit.Structure);
 		}
 
@@ -85,7 +85,7 @@ namespace SquareCubed.Client.Structures
 
 		public static ClientStructure ReadStructure(this NetIncomingMessage msg, TypeRegistry<IClientObjectType> objectTypes)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
+			Debug.Assert(msg != null);
 
 			var structure = new ClientStructure
 			{

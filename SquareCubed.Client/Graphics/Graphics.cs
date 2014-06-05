@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
@@ -18,7 +18,7 @@ namespace SquareCubed.Client.Graphics
 
 		public Graphics(IGameWindow window)
 		{
-			Contract.Requires<ArgumentNullException>(window != null);
+			Debug.Assert(window != null);
 			
 			_window = window;
 			Camera = new Camera(_window.ClientSize);

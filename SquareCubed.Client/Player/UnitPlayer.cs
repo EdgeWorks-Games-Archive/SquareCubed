@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using OpenTK;
 using OpenTK.Input;
@@ -17,7 +17,7 @@ namespace SquareCubed.Client.Player
 
 		public UnitPlayer(Client client)
 		{
-			Contract.Requires<ArgumentNullException>(client != null);
+			Debug.Assert(client != null);
 
 			_client = client;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Worlds;
@@ -10,7 +10,7 @@ namespace SquareCubed.Server.Players
 	{
 		public Player(NetConnection connection, string name, PlayerUnit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 
 			Connection = connection;
 			Name = name;

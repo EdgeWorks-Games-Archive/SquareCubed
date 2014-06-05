@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using OpenTK;
 using OpenTK.Input;
 using SquareCubed.Client.Graphics;
@@ -16,8 +16,8 @@ namespace SquareCubed.Client.Input
 
 		public Input(IExtGameWindow window, Camera camera)
 		{
-			Contract.Requires<ArgumentNullException>(window != null);
-			Contract.Requires<ArgumentNullException>(camera != null);
+			Debug.Assert(window != null);
+			Debug.Assert(camera != null);
 
 			_camera = camera;
 

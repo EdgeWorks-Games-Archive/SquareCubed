@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 
 namespace SquareCubed.Common.Utils
 {
@@ -111,7 +111,7 @@ namespace SquareCubed.Common.Utils
 			public void Remove(TChild child)
 			{
 				// TODO: Add custom exception for removing or adding during enumerating
-				Contract.Requires<ArgumentNullException>(child != null);
+				Debug.Assert(child != null);
 
 				// Remove the child and reset its parent
 				_children.Remove(child);

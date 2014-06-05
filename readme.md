@@ -14,18 +14,12 @@ If you want to make a mod for this engine or games built on it, you
 do not need to download the entire engine source and build it. We
 are working on a separate guide for modding.
 
-## Getting Started ##
-To use this engine you need to get and set up a few dependencies.
-While we tried to use NuGet as much as possible, not everything was
-available through it.
-
-1. Download and install the [Code Contracts](http://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970)
-   extension for Visual Studio.
+## Building ##
+1. Download the version of SquareCubed you want to build.
 2. Download the latest version of [Lidgren.Network](https://code.google.com/p/lidgren-network-gen3/) using [Download SVN](http://downloadsvn.codeplex.com/).
 3. Place Lidgren.Network in the root solution directory under the folder "Lidgren.Network".
-4. Set Lidgren.Network code contract settings to "Custom Parameter Validation" and "Build".
-5. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
-6. Build the engine from Visual Studio.
+4. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
+5. Build the engine from Visual Studio.
 
 ## Branches ##
 This project uses [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/).

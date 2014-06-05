@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
 
@@ -12,14 +12,14 @@ namespace SquareCubed.Server.Units
 
 		public Units(Network.Network network)
 		{
-			Contract.Requires<ArgumentNullException>(network != null);
+			Debug.Assert(network != null);
 
 			_network = new UnitsNetwork(network);
 		}
 
 		public void Add(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 
 			unit.Id = _units.Add(unit);
 			_network.SendUnitData(unit);
@@ -27,7 +27,7 @@ namespace SquareCubed.Server.Units
 
 		public void Remove(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 			
 			// Clean up the linked stuff
 			unit.Structure = null;
@@ -39,7 +39,7 @@ namespace SquareCubed.Server.Units
 
 		public void SendUnitDataFor(Player player)
 		{
-			Contract.Requires<ArgumentNullException>(player != null);
+			Debug.Assert(player != null);
 
 			// Send unit data for all units to the player
 			foreach (var unit in player.Unit.World.Units)
@@ -48,7 +48,7 @@ namespace SquareCubed.Server.Units
 
 		public void SendTeleportFor(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 			_network.SendTeleport(unit);
 		}
 

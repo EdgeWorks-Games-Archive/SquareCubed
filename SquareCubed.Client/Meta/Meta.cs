@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
@@ -15,7 +15,7 @@ namespace SquareCubed.Client.Meta
 
 		public Meta(Client client)
 		{
-			Contract.Requires<ArgumentNullException>(client != null);
+			Debug.Assert(client != null);
 			_client = client;
 
 			// Resolve packet type num and bind handler

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 
@@ -24,7 +24,7 @@ namespace SquareCubed.Server.Structures.Objects
 	{
 		protected NetworkServerObjectBase(IServerObjectType type, ObjectsNetwork network) : base(type)
 		{
-			Contract.Requires<ArgumentNullException>(network != null);
+			Debug.Assert(network != null);
 
 			// TODO: Unregister on dispose
 			network.Register(this);

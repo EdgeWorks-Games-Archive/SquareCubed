@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
@@ -67,16 +67,16 @@ namespace SquareCubed.Server.Structures
 
 		public void UpdateUnitEntry(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 			UpdateEntry(_units, unit, unit.Structure);
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
 		public void AddObject(float x, float y, int id, TypeRegistry<IServerObjectType> types)
 		{
-			Contract.Requires<ArgumentNullException>(types != null);
-			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(id <= 20);
+			Debug.Assert(types != null);
+			Debug.Assert(id >= 0);
+			Debug.Assert(id <= 20);
 
 			var obj = types.GetType(id).CreateNew(this);
 			obj.Position = new Vector2(x, y);
@@ -88,8 +88,8 @@ namespace SquareCubed.Server.Structures
 	{
 		public static void Write(this NetOutgoingMessage msg, ServerStructure structure, TypeRegistry<IServerObjectType> types)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(structure != null);
+			Debug.Assert(msg != null);
+			Debug.Assert(structure != null);
 
 			// Add metadata and position
 			msg.Write(structure.Id);

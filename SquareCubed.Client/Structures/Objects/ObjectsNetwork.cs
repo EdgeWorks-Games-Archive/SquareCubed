@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using SquareCubed.Network;
 
@@ -12,7 +12,7 @@ namespace SquareCubed.Client.Structures.Objects
 
 		internal ObjectsNetwork(Network.Network network)
 		{
-			Contract.Requires<ArgumentNullException>(network != null);
+			Debug.Assert(network != null);
 
 			_network = network;
 			_packetType = _network.PacketTypes["objects"];
@@ -20,7 +20,7 @@ namespace SquareCubed.Client.Structures.Objects
 
 		public NetOutgoingMessage CreateMessageFor(ClientObjectBase obj)
 		{
-			Contract.Requires<ArgumentNullException>(obj != null);
+			Debug.Assert(obj != null);
 
 			var msg = _network.Peer.CreateMessage();
 			msg.Write(_packetType);

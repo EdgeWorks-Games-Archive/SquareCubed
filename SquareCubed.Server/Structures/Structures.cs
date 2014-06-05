@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Players;
 using SquareCubed.Server.Structures.Objects;
@@ -24,7 +24,7 @@ namespace SquareCubed.Server.Structures
 
 		public void Add(ServerStructure structure)
 		{
-			Contract.Requires<ArgumentNullException>(structure != null);
+			Debug.Assert(structure != null);
 
 			structure.Id = _structures.Add(structure);
 			_network.SendStructureData(structure, ObjectTypes);
@@ -32,7 +32,7 @@ namespace SquareCubed.Server.Structures
 
 		public void SendStructureDataFor(Player player)
 		{
-			Contract.Requires<ArgumentNullException>(player != null);
+			Debug.Assert(player != null);
 
 			// Send structure data for all structures to the player
 			foreach (var structure in player.Unit.World.Structures)

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Common.Data;
@@ -16,8 +16,7 @@ namespace SquareCubed.Client.Structures
 	{
 		public static ClientChunk ReadChunk(this NetIncomingMessage msg)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Ensures(Contract.Result<ClientChunk>() != null);
+			Debug.Assert(msg != null);
 
 			var chunk = new ClientChunk();
 
@@ -36,6 +35,7 @@ namespace SquareCubed.Client.Structures
 			msg.ReadPadBits();
 			chunk.UpdateColliders();
 
+			Debug.Assert(chunk != null);
 			return chunk;
 		}
 	}
