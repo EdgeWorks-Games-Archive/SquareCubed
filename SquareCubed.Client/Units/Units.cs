@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using OpenTK;
 using SquareCubed.Client.Structures;
 
@@ -67,7 +67,7 @@ namespace SquareCubed.Client.Units
 
 		public void Add(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 
 			_units.Add(unit.Id, unit);
 		}
@@ -91,7 +91,7 @@ namespace SquareCubed.Client.Units
 
 		public void RenderFor(ClientStructure structure)
 		{
-			Contract.Requires<ArgumentNullException>(structure != null);
+			Debug.Assert(structure != null);
 
 			_renderer.RenderUnits(structure.Units);
 		}

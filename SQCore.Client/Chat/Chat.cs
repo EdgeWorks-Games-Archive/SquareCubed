@@ -1,20 +1,17 @@
-﻿using SquareCubed.Client.Gui;
+﻿using System;
 using SquareCubed.Common.Utils;
 using SquareCubed.Network;
 
 namespace SQCore.Client.Chat
 {
-	internal class Chat : GuiPanel
+	internal sealed class Chat : IDisposable
 	{
 		private readonly ChatNetwork _network;
 		private readonly Logger _logger = new Logger("Chat");
 
-		public Chat(SquareCubed.Client.Gui.OldGui oldGui, Network network)
-			: base(oldGui, "Chat")
+		public Chat(Network network)
 		{
 			_network = new ChatNetwork(network, this);
-
-			OldGui.BindCall<string>("chat.send", Send);
 		}
 
 		public void Send(string message)
@@ -34,15 +31,11 @@ namespace SQCore.Client.Chat
 		public void OnChatMessage(string player, string message)
 		{
 			_logger.LogInfo("{0}: {1}", player, message);
-			OldGui.Trigger("chat.message", player, message);
+			//OldGui.Trigger("chat.message", player, message);
 		}
 
-		protected override void Dispose(bool managed)
+		public void Dispose()
 		{
-			if (managed)
-				_network.Dispose();
-
-			base.Dispose(managed);
 		}
 	}
 }

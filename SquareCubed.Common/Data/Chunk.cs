@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using OpenTK;
 
@@ -25,10 +25,10 @@ namespace SquareCubed.Common.Data
 
 		public void SetTile(int x, int y, int type)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
-			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+			Debug.Assert(x >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y >= 0);
+			Debug.Assert(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = type};
@@ -38,10 +38,10 @@ namespace SquareCubed.Common.Data
 
 		public void SetTopWall(int x, int y, int type)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
-			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+			Debug.Assert(x >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y >= 0);
+			Debug.Assert(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = 0};
@@ -51,10 +51,10 @@ namespace SquareCubed.Common.Data
 
 		public void SetRightWall(int x, int y, int type)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
-			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+			Debug.Assert(x >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y >= 0);
+			Debug.Assert(y < Tiles[x].Length);
 
 			if (Tiles[x][y] == null)
 				Tiles[x][y] = new Tile {Type = 0};
@@ -64,10 +64,10 @@ namespace SquareCubed.Common.Data
 
 		public void SetBottomWall(int x, int y, int type)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(x >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
-			Contract.Requires<ArgumentOutOfRangeException>(y-1 >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+			Debug.Assert(x >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y-1 >= 0);
+			Debug.Assert(y < Tiles[x].Length);
 
 			if (Tiles[x][y - 1] == null)
 				Tiles[x][y - 1] = new Tile {Type = 0};
@@ -77,10 +77,10 @@ namespace SquareCubed.Common.Data
 
 		public void SetLeftWall(int x, int y, int type)
 		{
-			Contract.Requires<ArgumentOutOfRangeException>(x-1 >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(x < Tiles.Length);
-			Contract.Requires<ArgumentOutOfRangeException>(y >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(y < Tiles[x].Length);
+			Debug.Assert(x-1 >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y >= 0);
+			Debug.Assert(y < Tiles[x].Length);
 
 			if (Tiles[x - 1][y] == null)
 				Tiles[x - 1][y] = new Tile {Type = 0};
@@ -90,6 +90,11 @@ namespace SquareCubed.Common.Data
 
 		public void SetWalls(int x, int y, int top, int right, int bottom, int left)
 		{
+			Debug.Assert(x - 1 >= 0);
+			Debug.Assert(x < Tiles.Length);
+			Debug.Assert(y - 1 >= 0);
+			Debug.Assert(y < Tiles[x].Length);
+
 			SetTopWall(x, y, top);
 			SetRightWall(x, y, right);
 			SetBottomWall(x, y, bottom);

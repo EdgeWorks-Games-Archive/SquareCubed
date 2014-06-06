@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 
@@ -62,8 +62,8 @@ namespace SquareCubed.Common.Data
 	{
 		public static void Write(this NetOutgoingMessage msg, Tile tile)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(tile != null);
+			Debug.Assert(msg != null);
+			Debug.Assert(tile != null);
 
 			msg.Write(tile.Type);
 			foreach (var type in tile.WallTypes)
@@ -72,13 +72,13 @@ namespace SquareCubed.Common.Data
 
 		public static Tile ReadTile(this NetIncomingMessage msg)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Ensures(Contract.Result<Tile>() != null);
+			Debug.Assert(msg != null);
 
 			var tile = new Tile {Type = msg.ReadInt32()};
 			for (var i = 0; i < tile.WallTypes.Length; i++)
 				tile.WallTypes[i] = msg.ReadInt32();
 
+			Debug.Assert(tile != null);
 			return tile;
 		}
 	}

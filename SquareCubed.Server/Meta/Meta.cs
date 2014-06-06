@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Lidgren.Network;
 using SquareCubed.Common.Utils;
@@ -19,8 +19,8 @@ namespace SquareCubed.Server.Meta
 
 		public Meta(Network.Network network, PluginLoader<IServerPlugin, Server> pluginLoader)
 		{
-			Contract.Requires<ArgumentNullException>(network != null);
-			Contract.Requires<ArgumentNullException>(pluginLoader != null);
+			Debug.Assert(network != null);
+			Debug.Assert(pluginLoader != null);
 
 			_network = network;
 			_pluginLoader = pluginLoader;

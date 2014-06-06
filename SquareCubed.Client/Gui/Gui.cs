@@ -1,30 +1,68 @@
 ﻿using System.Drawing;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
+using SquareCubed.Client.Gui.Controls;
 using SquareCubed.Client.Window;
 
 namespace SquareCubed.Client.Gui
 {
-	public class Gui
+	public class Gui : GuiControl.GuiParentControl
 	{
+		private Point _previousMousePos;
+		private MousePressData.MousePressEndEvent _previousMousePressEvent;
+		private Size _size;
+
 		internal Gui(IExtGameWindow gameWindow)
 		{
-			Viewport = gameWindow.ClientSize;
+			_size = gameWindow.ClientSize;
+			gameWindow.MouseMove += OnMouseMoveEvent;
+			gameWindow.MouseDown += OnMouseDownEvent;
+			gameWindow.MouseUp += OnMouseUpEvent;
 		}
 
-		public Size Viewport { get; set; }
+		public override Size Size
+		{
+			get { return _size; }
+			set { _size = value; }
+		}
 
-		public void Render()
+		public override Size InternalOffset
+		{
+			get { return new Size(0, 0); }
+		}
+
+		private void OnMouseDownEvent(object sender, MouseButtonEventArgs e)
+		{
+			_previousMousePressEvent = new MousePressData.MousePressEndEvent();
+			HandleMouseDown(new MousePressData(e.Position, e.Button, _previousMousePressEvent));
+		}
+
+		private void OnMouseUpEvent(object sender, MouseButtonEventArgs e)
+		{
+			HandleMouseUp(new MousePressData(e.Position, e.Button, _previousMousePressEvent));
+			_previousMousePressEvent.Invoke();
+		}
+
+		private void OnMouseMoveEvent(object sender, MouseMoveEventArgs e)
+		{
+			HandleMouseMove(new MouseMoveData(e.Position, _previousMousePos));
+			_previousMousePos = e.Position;
+		}
+
+		internal override void Render(float delta)
 		{
 			// Set framebuffer to the default one
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-			GL.Viewport(0, 0, Viewport.Width, Viewport.Height);
+			GL.Viewport(0, 0, _size.Width, _size.Height);
 
 			// Reset the matrices to default values
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-
+			GL.Ortho(0, _size.Width, _size.Height, 0, 1, -1);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
+
+			base.Render(delta);
 		}
 	}
 }

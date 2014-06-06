@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.IO;
 
 namespace SquareCubed.Common.Utils
@@ -17,8 +17,8 @@ namespace SquareCubed.Common.Utils
 
 		public void LogInfo(string format, params object[] args)
 		{
-			Contract.Requires<ArgumentNullException>(format != null);
-			Contract.Requires<ArgumentNullException>(args != null);
+			Debug.Assert(format != null);
+			Debug.Assert(args != null);
 
 			var text = string.Format(format, args);
 			LogInfo(text);

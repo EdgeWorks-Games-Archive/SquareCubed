@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 
@@ -9,8 +9,8 @@ namespace SquareCubed.Common.Data
 	{
 		public static void Write(this NetOutgoingMessage msg, Vector2 vector)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(vector != null);
+			Debug.Assert(msg != null);
+			Debug.Assert(vector != null);
 
 			msg.Write(vector.X);
 			msg.Write(vector.Y);
@@ -18,7 +18,7 @@ namespace SquareCubed.Common.Data
 
 		public static Vector2 ReadVector2(this NetIncomingMessage msg)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
+			Debug.Assert(msg != null);
 
 			return new Vector2
 			{

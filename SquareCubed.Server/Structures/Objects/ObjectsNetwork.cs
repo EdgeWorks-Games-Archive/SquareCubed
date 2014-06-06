@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 
 namespace SquareCubed.Server.Structures.Objects
@@ -16,7 +16,7 @@ namespace SquareCubed.Server.Structures.Objects
 
 		public void Register(NetworkServerObjectBase obj)
 		{
-			Contract.Requires<ArgumentNullException>(obj != null);
+			Debug.Assert(obj != null);
 
 			_objects.Add(obj.Id, obj);
 		}

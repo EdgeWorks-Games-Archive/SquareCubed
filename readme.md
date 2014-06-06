@@ -1,8 +1,14 @@
 # SquareCubed Engine #
 SquareCubed Engine is an open source 2D game engine. Its focus is on
 multiplayer and modding. It is available for free via github under
-GPLv3 for non-commercial. Contact EdgeWorks Games(TM) for commercial
-licensing.
+GPLv3.
+
+## Building ##
+1. Download the version of SquareCubed you want to build.
+2. Download the latest version of [Lidgren.Network](https://code.google.com/p/lidgren-network-gen3/) using [Download SVN](http://downloadsvn.codeplex.com/).
+3. Place Lidgren.Network in the root solution directory under the folder "Lidgren.Network".
+4. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
+5. Build the engine from Visual Studio.
 
 ## Blink ##
 Blink is the game this engine was started for. Currently the source
@@ -14,31 +20,19 @@ If you want to make a mod for this engine or games built on it, you
 do not need to download the entire engine source and build it. We
 are working on a separate guide for modding.
 
-## Getting Started ##
-To use this engine you need to get and set up a few dependencies.
-While we tried to use NuGet as much as possible, not everything was
-available through it.
-
-1. Download and install the [Code Contracts](http://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970)
-   extension for Visual Studio.
-2. Download [Coherent UI .NET](http://coherent-labs.com/download-dotnet/).
-   Evaluation version works.
-3. Place Coherent UI in the root solution directory under the folder "CoherentUI".
-4. Download [Lidgren.Network](https://code.google.com/p/lidgren-network-gen3/).
-5. Place Lidgren.Network in the root solution directory under the folder "Lidgren.Network".
-6. Set Lidgren.Network code contract settings to "Custom Parameter Validation" and "Build".
-7. [Allow NuGet to download missing packages during build.](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages)
-8. _(Optional) Install [Web Essentials](http://vswebessentials.com/) extension for Visual Studio._
-9. Build the engine from Visual Studio.
-
 ## Branches ##
 This project uses [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/).
 If you are looking for the latest develop version, look at the develop branch.
 The latest stable version is the master branch.
 
+## Contributing ##
+When contributing to this project, you pass over the rights to your contributed work
+to EdgeWorks Games(TM), transferring full rights to the contributions. You can not attach
+a license to work you contribute.
+
 ## Code License ##
 This license covers the all the code in this project (.cs, .cshtml, .html, .js, .coffee, .scss, etc...)
-unless specifically stated otherwise in the file.
+unless specifically stated otherwise in the file or folder.
 <div align="center">
     <p>
         SquareCubed Engine - A 2D multiplayer modding focused game engine.<br />

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
@@ -18,7 +18,7 @@ namespace SquareCubed.Client.Graphics
 
 		public Graphics(IGameWindow window)
 		{
-			Contract.Requires<ArgumentNullException>(window != null);
+			Debug.Assert(window != null);
 			
 			_window = window;
 			Camera = new Camera(_window.ClientSize);
@@ -47,12 +47,11 @@ namespace SquareCubed.Client.Graphics
 
 		public void BeginSceneRender()
 		{
-			// Ensure settings are set correctly
+			// Ensure OpenGL settings are set correctly
 			GL.Disable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Texture2D);
-
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			// Initialize Camera
 			Camera.SetMatrices();
@@ -75,21 +74,7 @@ namespace SquareCubed.Client.Graphics
 				ClearBufferMask.ColorBufferBit, BlitFramebufferFilter.Linear);
 		}
 
-		public void BeginRenderGui()
-		{
-			// Set framebuffer to the default one
-			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-			GL.Viewport(0, 0, Camera.Resolution.Width, Camera.Resolution.Height);
-
-			// Reset the matrices to default values
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
-		}
-
-		public void EndRenderAll()
+		public void SwapBuffers()
 		{
 			_window.SwapBuffers();
 		}

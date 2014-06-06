@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -40,12 +40,8 @@ namespace SquareCubed.Client.Graphics.Shaders
 
 		public ShaderProgram(string vertPath, string fragPath)
 		{
-			Contract.Requires<ArgumentNullException>(
-				vertPath != null,
-				"ShaderProgram requires a vertex shader path!");
-			Contract.Requires<ArgumentNullException>(
-				vertPath != null,
-				"ShaderProgram requires a fragment shader path!");
+			Debug.Assert(vertPath != null);
+			Debug.Assert(fragPath != null);
 
 			// Create the shaders in OpenGL
 			var vertexShader = GL.CreateShader(ShaderType.VertexShader);
@@ -139,7 +135,6 @@ namespace SquareCubed.Client.Graphics.Shaders
 		///     object to deactivate the shader once done.
 		/// </summary>
 		/// <returns>A new shader lifetime object that should be disposed when done.</returns>
-		[Pure]
 		public ActivationLifetime Activate()
 		{
 			return new ActivationLifetime(_program);

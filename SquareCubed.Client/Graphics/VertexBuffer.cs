@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using OpenTK.Graphics.OpenGL;
 
 namespace SquareCubed.Client.Graphics
@@ -40,7 +40,6 @@ namespace SquareCubed.Client.Graphics
 		///     object to unbind the buffer once done.
 		/// </summary>
 		/// <returns>A new buffer lifetime object that should be disposed when done.</returns>
-		[Pure]
 		public ActivationLifetime Activate()
 		{
 			return new ActivationLifetime(_vertexBuffer);

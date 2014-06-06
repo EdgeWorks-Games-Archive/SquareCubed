@@ -1,5 +1,4 @@
 ﻿using SQCore.Client.Background;
-using SQCore.Client.Gui;
 using SQCore.Client.Objects;
 using SQCore.Client.Tiles;
 using SQCore.Common;
@@ -34,7 +33,6 @@ namespace SQCore.Client
 
 		#endregion
 
-		private readonly ContextInfoPanel _infoPanel;
 		private readonly Chat.Chat _chat;
 		private readonly Space _stars;
 
@@ -49,8 +47,7 @@ namespace SQCore.Client
 			_stars = new Space(_client.Graphics.Camera.Resolution, new SpaceRenderer(_client.Graphics.Camera));
 			_stars.GenerateStars();
 
-			_chat = new Chat.Chat(_client.OldGui, _client.Network);
-			_infoPanel = new ContextInfoPanel(_client.OldGui);
+			_chat = new Chat.Chat(_client.Network);
 
 			// Add tile types
 			_corridorTile = new CorridorTileType();
@@ -59,9 +56,9 @@ namespace SQCore.Client
 			_tileTypes.RegisterType(_metalFloorTile, 3);
 
 			// Add object types
-			_pilotSeatType = new PilotSeatObjectType(_client, _infoPanel);
+			_pilotSeatType = new PilotSeatObjectType(_client);
 			_objectTypes.RegisterType(_pilotSeatType, 0);
-			_teleporterType = new TeleporterObjectType(_client, _infoPanel);
+			_teleporterType = new TeleporterObjectType(_client);
 			_objectTypes.RegisterType(_teleporterType, 1);
 
 			// Bind events
@@ -75,9 +72,8 @@ namespace SQCore.Client
 			// Unbind events
 			_client.BackgroundRenderTick -= RenderBackground;
 
-			// Clean up the OldGui
+			// Clean up the Gui
 			_chat.Dispose();
-			_infoPanel.Dispose();
 
 			// Remove tile types
 			_tileTypes.UnregisterType(_corridorTile);

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 using OpenTK;
 using SquareCubed.Client.Window;
 using SquareCubed.Common.Utils;
@@ -19,7 +20,6 @@ namespace SquareCubed.Client
 		public PluginLoader<IClientPlugin, Client> PluginLoader { get; private set; }
 		public IExtGameWindow Window { get; private set; }
 		public Input.Input Input { get; private set; }
-		public Gui.OldGui OldGui { get; private set; }
 		public Gui.Gui Gui { get; private set; }
 		public Player.IPlayer Player { get; private set; }
 		public Meta.Meta Meta { get; private set; }
@@ -70,6 +70,7 @@ namespace SquareCubed.Client
 		public void Dispose()
 		{
 			// We only have managed resources to dispose of
+			Gui.Dispose();
 			PluginLoader.Dispose();
 			Network.Dispose();
 			Window.Dispose();
@@ -99,35 +100,58 @@ namespace SquareCubed.Client
 		///     Stuff that needs to be initialized after opengl is set
 		///     up should be called in here.
 		/// </summary>
-		/// <param name="s"></param>
-		/// <param name="e"></param>
-		private void Load(object s, EventArgs e)
+		/// <param name="sender"></param>
+		/// <param name="eventArgs"></param>
+		private void Load(object sender, EventArgs eventArgs)
 		{
-			OldGui = new Gui.OldGui(this);
-			
-			// Bind some default functions
-			OldGui.BindCall("quit", Window.Close);
-			OldGui.BindCall<string, string>("connect", (host, name) => Network.Connect(host, name));
-			OldGui.BindCall("disconnect", Network.Disconnect);
 #if DEBUG
-			OldGui.BindCall("server.start", () =>
+			// If we're in the Debug target, add a start server button for convenience
+			var startServer = new Gui.Controls.GuiButton("Start Server")
+			{
+				Position = new Point(Gui.Size.Width - 80, 0),
+				Size = new Size(80, 21)
+			};
+			startServer.Click += (s, e) =>
 			{
 				var fileInfo = new FileInfo("../../../Server/bin/Debug/Server.exe");
 				Debug.Assert(fileInfo.DirectoryName != null);
-				var processInfo = new ProcessStartInfo()
+				var processInfo = new ProcessStartInfo
 				{
 					FileName = fileInfo.FullName,
 					WorkingDirectory = fileInfo.DirectoryName
 				};
 				Process.Start(processInfo);
-			});
+			};
+			Gui.Controls.Add(startServer);
 #endif
 
-			// Add some event triggers
-			Network.FailedConnection += (se, ev) => OldGui.Trigger("Network.ConnectFailed");
+			// Now that everything is loaded, we can add the main menu
+			var mainMenu = new MainMenuForm();
+			mainMenu.Position = new Point(
+				(Window.ClientSize.Width - mainMenu.Size.Width) / 2,
+				(Window.ClientSize.Height - mainMenu.Size.Height) / 2);
+			mainMenu.Connect += (s, e) =>
+			{
+				Network.Connect(e.HostAddress, e.PlayerName);
+				ScheduledActions += () =>
+				{
+					Gui.Controls.Remove(mainMenu);
+					mainMenu.Dispose();
+#if DEBUG
+					Gui.Controls.Remove(startServer);
+					startServer.Dispose();
+#endif
+				};
+			};
+			mainMenu.Quit += (s, e) => Window.Close();
+			Gui.Controls.Add(mainMenu);
 
-			// Make the main menu hide once we connected
-			Network.NewConnection += (se, ev) => OldGui.MainMenu.Hide();
+			// Add a little label because why not
+			var infoLabel = new Gui.Controls.GuiLabel("SquareCubed Engine")
+			{
+				Color = Color.White
+			};
+			Gui.Controls.Add(infoLabel);
 		}
 
 		/// <summary>
@@ -140,15 +164,14 @@ namespace SquareCubed.Client
 		private void Unload(object s, EventArgs e)
 		{
 			PluginLoader.UnloadAllPlugins();
-
-			OldGui.Dispose();
-			OldGui = null;
 		}
+
+		public event Action ScheduledActions = () => { }; // TODO: Improve this?
 
 		private void Update(object s, FrameEventArgs e)
 		{
-			// OldGui needs to be updated as early as possible
-			OldGui.Update();
+			ScheduledActions();
+			ScheduledActions = () => { };
 
 			// Clamp tick data to prevent long frame stutters from messing stuff up
 			var delta = e.Time > 0.1f ? 0.1f : (float) e.Time;
@@ -177,14 +200,10 @@ namespace SquareCubed.Client
 
 			Graphics.EndSceneRender();
 
-			// Render the OldGui
-			Graphics.BeginRenderGui();
-			OldGui.Render();
-
 			// Render the Gui
-			Gui.Render();
+			Gui.Render(delta);
 
-			Graphics.EndRenderAll();
+			Graphics.SwapBuffers();
 		}
 
 		#endregion

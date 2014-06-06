@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
@@ -14,37 +14,31 @@ namespace SquareCubed.Server.Structures
 	public class ServerStructure
 	{
 		private readonly List<Unit> _units = new List<Unit>();
-		private World _world;
 
 		public ServerStructure()
 		{
 			Chunks = new List<ServerChunk>();
 			Objects = new List<ServerObjectBase>();
+			WorldLink = new ParentLink<World, ServerStructure>(this, w => w.Structures);
 		}
+
+		public ParentLink<World, ServerStructure> WorldLink { get; private set; }
 
 		public World World
 		{
-			get { return _world; }
-			set
-			{
-				var oldWorld = _world;
-				_world = value;
-
-				// Update links in worlds
-				if (oldWorld != null)
-					oldWorld.UpdateStructureEntry(this);
-				if (_world != null)
-					_world.UpdateStructureEntry(this);
-			}
+			get { return WorldLink.Property; }
+			set { WorldLink.Property = value; }
 		}
 
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
 		public Vector2 Position { get; set; }
+
 		/// <summary>
-		///		Structure rotation in radians.
+		///     Structure rotation in radians.
 		/// </summary>
 		public float Rotation { get; set; }
+
 		public List<ServerObjectBase> Objects { get; set; }
 
 		/// <summary>
@@ -73,16 +67,16 @@ namespace SquareCubed.Server.Structures
 
 		public void UpdateUnitEntry(Unit unit)
 		{
-			Contract.Requires<ArgumentNullException>(unit != null);
+			Debug.Assert(unit != null);
 			UpdateEntry(_units, unit, unit.Structure);
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
 		public void AddObject(float x, float y, int id, TypeRegistry<IServerObjectType> types)
 		{
-			Contract.Requires<ArgumentNullException>(types != null);
-			Contract.Requires<ArgumentOutOfRangeException>(id >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(id <= 20);
+			Debug.Assert(types != null);
+			Debug.Assert(id >= 0);
+			Debug.Assert(id <= 20);
 
 			var obj = types.GetType(id).CreateNew(this);
 			obj.Position = new Vector2(x, y);
@@ -94,8 +88,8 @@ namespace SquareCubed.Server.Structures
 	{
 		public static void Write(this NetOutgoingMessage msg, ServerStructure structure, TypeRegistry<IServerObjectType> types)
 		{
-			Contract.Requires<ArgumentNullException>(msg != null);
-			Contract.Requires<ArgumentNullException>(structure != null);
+			Debug.Assert(msg != null);
+			Debug.Assert(structure != null);
 
 			// Add metadata and position
 			msg.Write(structure.Id);

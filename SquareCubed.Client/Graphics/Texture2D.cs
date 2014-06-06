@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK;
@@ -17,12 +17,17 @@ namespace SquareCubed.Client.Graphics
 		Bgra = 0x2
 	}
 
-	public sealed class Texture2D : IDisposable
+	public sealed partial class Texture2D : IDisposable
 	{
 		private readonly int _texture;
 
 		public int Width { get; private set; }
 		public int Height { get; private set; }
+
+		public Size Size
+		{
+			get { return new Size(Width, Height); }
+		}
 
 		public TextureOptions Options { get; private set; }
 
@@ -81,7 +86,7 @@ namespace SquareCubed.Client.Graphics
 		/// <param name="options">The option flags to use for this texture.</param>
 		public Texture2D(Bitmap bitmap, TextureOptions options = TextureOptions.None)
 		{
-			Contract.Requires<ArgumentNullException>(bitmap != null);
+			Debug.Assert(bitmap != null);
 
 			// Save some metadata
 			Options = options;
@@ -142,6 +147,7 @@ namespace SquareCubed.Client.Graphics
 
 		~Texture2D()
 		{
+			Console.WriteLine("Warning: Leaked " + typeof(Texture2D) + "!");
 			Dispose();
 		}
 
@@ -171,7 +177,6 @@ namespace SquareCubed.Client.Graphics
 		///     object to deactivate the texture once done.
 		/// </summary>
 		/// <returns>A new texture lifetime object that should be disposed when done.</returns>
-		[Pure]
 		public ActivationLifetime Activate()
 		{
 			return new ActivationLifetime(_texture);

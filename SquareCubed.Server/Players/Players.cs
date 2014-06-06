@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Lidgren.Network;
@@ -22,7 +22,7 @@ namespace SquareCubed.Server.Players
 
 		public Players(Server server)
 		{
-			Contract.Requires<ArgumentNullException>(server != null);
+			Debug.Assert(server != null);
 
 			_server = server;
 			_network = new PlayersNetwork(_server.Network, this);
