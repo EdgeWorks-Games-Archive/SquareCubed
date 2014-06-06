@@ -10,6 +10,7 @@ namespace SquareCubed.Client.Gui.Controls
 	public abstract class GuiControl : IDisposable
 	{
 		private readonly ParentLink _parent;
+		private bool _isFocused;
 
 		protected GuiControl()
 		{
@@ -18,12 +19,23 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public bool IsHovered { get; private set; }
 		public bool IsHeld { get; private set; }
+		public bool IsFocused
+		{
+			get { return _isFocused; }
+			set
+			{
+				if (value == _isFocused) return;
+
+				if (Parent != null)
+					Parent.FocusedChild = value ? this : null;
+			}
+		}
 		public Point Position { get; set; }
 		public abstract Size Size { get; set; }
 
 		public Rectangle BoundingBox
 		{
-			get { return new Rectangle(Position, Size); /*TODO: Add parent position offset*/ }
+			get { return new Rectangle(Position, Size); }
 		}
 
 		public GuiParentControl Parent
@@ -105,6 +117,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		protected virtual void OnMouseClick(MousePressData data)
 		{
+			IsFocused = true;
 			Click(this, EventArgs.Empty);
 		}
 
@@ -112,6 +125,8 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public abstract class GuiParentControl : GuiControl
 		{
+			private GuiControl _focusedChild;
+
 			protected GuiParentControl()
 			{
 				Controls = new ParentLink.ChildrenCollection(this, c => c._parent);
@@ -119,6 +134,21 @@ namespace SquareCubed.Client.Gui.Controls
 
 			public ParentLink.ChildrenCollection Controls { get; private set; }
 			public abstract Size InternalOffset { get; }
+			public GuiControl FocusedChild
+			{
+				get { return _focusedChild; }
+				set
+				{
+					if (value == _focusedChild) return;
+
+					if (_focusedChild != null)
+						_focusedChild._isFocused = false;
+					if (value != null)
+						value._isFocused = true;
+
+					_focusedChild = value;
+				}
+			}
 
 			internal override void Render(float delta)
 			{

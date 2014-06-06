@@ -57,7 +57,7 @@ namespace SquareCubed.Client.Gui.Controls
 			_internalLabel.Render(delta);
 
 			// Only display the cursor half of a second
-			if (_cursorTimer%1.0f < 0.5f)
+			if (_cursorTimer%1.0f < 0.5f && IsFocused)
 			{
 				GL.Begin(PrimitiveType.Quads);
 
@@ -83,6 +83,8 @@ namespace SquareCubed.Client.Gui.Controls
 				_internalLabel.FontSize,
 				data.Position.X - Padding);
 			_cursorTimer = 0;
+
+			IsFocused = true;
 
 			base.OnMouseDown(data);
 		}
