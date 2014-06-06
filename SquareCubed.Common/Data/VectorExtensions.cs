@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Lidgren.Network;
 using OpenTK;
 
@@ -10,7 +9,6 @@ namespace SquareCubed.Common.Data
 		public static void Write(this NetOutgoingMessage msg, Vector2 vector)
 		{
 			Debug.Assert(msg != null);
-			Debug.Assert(vector != null);
 
 			msg.Write(vector.X);
 			msg.Write(vector.Y);
