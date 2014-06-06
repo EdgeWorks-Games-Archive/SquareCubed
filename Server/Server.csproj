@@ -63,11 +63,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-  	<Content Include="..\SQCore.Server\bin\$(ConfigurationName)\SQCore.Server.dll">
+    <Content Include="..\SQCore.Server\bin\$(ConfigurationName)\SQCore.Server.dll">
       <Link>Plugins\Core\SQCore.Server.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\SQCore.Server\bin\$(ConfigurationName)\SQCore.Common.dll">
       <Link>Plugins\Core\SQCore.Common.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
