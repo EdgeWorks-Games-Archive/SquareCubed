@@ -120,6 +120,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		protected override void OnMouseDown(MousePressData data)
 		{
+			// TODO: Add selecting
 			CursorPosition = TextHelper.GetClosestPosition(
 				_internalLabel.Text,
 				_internalLabel.FontSize,
