@@ -1,5 +1,12 @@
 language: objective-c
 
+# whitelist
+branches:
+ only:
+  - master
+  - develop
+  - /^release\/.*$/
+
 env:
  global:
   - EnableNuGetPackageRestore=true 
