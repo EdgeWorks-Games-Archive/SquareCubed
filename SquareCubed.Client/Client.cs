@@ -145,6 +145,13 @@ namespace SquareCubed.Client
 			};
 			mainMenu.Quit += (s, e) => Window.Close();
 			Gui.Controls.Add(mainMenu);
+
+			// Add a little label because why not
+			var infoLabel = new Gui.Controls.GuiLabel("SquareCubed Engine")
+			{
+				Color = Color.White
+			};
+			Gui.Controls.Add(infoLabel);
 		}
 
 		/// <summary>

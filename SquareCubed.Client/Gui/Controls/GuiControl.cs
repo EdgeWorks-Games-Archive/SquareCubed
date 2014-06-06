@@ -19,6 +19,7 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public bool IsHovered { get; private set; }
 		public bool IsHeld { get; private set; }
+		
 		public bool IsFocused
 		{
 			get { return _isFocused; }
@@ -30,6 +31,7 @@ namespace SquareCubed.Client.Gui.Controls
 					Parent.FocusedChild = value ? this : null;
 			}
 		}
+
 		public Point Position { get; set; }
 		public abstract Size Size { get; set; }
 

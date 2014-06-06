@@ -47,6 +47,10 @@ namespace SquareCubed.Client.Graphics
 
 		public static Texture2D RenderString(string text, int textSize, Color textColor)
 		{
+			// Prevents crash or incorrect rendering in case of empty string
+			if (text == "")
+				text = " ";
+
 			var font = GetFont(textSize);
 			var size = MeasureString(text, textSize);
 			var img = new Bitmap(size.Width + 1, size.Height); // + 1 is because anti aliasing will make it 1 off sometimes
