@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Drawing;
+using System.Globalization;
 using OpenTK.Graphics.OpenGL;
 using SquareCubed.Client.Graphics;
 
@@ -74,6 +75,14 @@ namespace SquareCubed.Client.Gui.Controls
 				GL.End();
 			}
 			_cursorTimer += delta;
+		}
+
+		protected override void OnKeyChar(char key)
+		{
+			_internalLabel.Text = _internalLabel.Text.Insert(CursorPosition, key.ToString(CultureInfo.InvariantCulture));
+			CursorPosition++;
+
+			base.OnKeyChar(key);
 		}
 
 		protected override void OnMouseDown(MousePressData data)

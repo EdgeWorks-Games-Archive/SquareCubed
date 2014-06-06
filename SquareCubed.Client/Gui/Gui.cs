@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SquareCubed.Client.Gui.Controls;
@@ -15,6 +16,9 @@ namespace SquareCubed.Client.Gui
 		internal Gui(IExtGameWindow gameWindow)
 		{
 			_size = gameWindow.ClientSize;
+
+			gameWindow.KeyPress += OnKeyPressEvent;
+
 			gameWindow.MouseMove += OnMouseMoveEvent;
 			gameWindow.MouseDown += OnMouseDownEvent;
 			gameWindow.MouseUp += OnMouseUpEvent;
@@ -29,6 +33,11 @@ namespace SquareCubed.Client.Gui
 		public override Size InternalOffset
 		{
 			get { return new Size(0, 0); }
+		}
+
+		private void OnKeyPressEvent(object sender, KeyPressEventArgs e)
+		{
+			HandleKeyChar(e.KeyChar);
 		}
 
 		private void OnMouseDownEvent(object sender, MouseButtonEventArgs e)
