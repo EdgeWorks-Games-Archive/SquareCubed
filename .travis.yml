@@ -17,4 +17,3 @@ before_install:
 
 script:
  - xbuild .travis.proj
- - find -D tree ./Client/bin/
