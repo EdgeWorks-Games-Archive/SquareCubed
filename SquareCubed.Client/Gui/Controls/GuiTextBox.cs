@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using SquareCubed.Client.Graphics;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -83,6 +85,37 @@ namespace SquareCubed.Client.Gui.Controls
 			CursorPosition++;
 
 			base.OnKeyChar(key);
+		}
+
+		protected override void OnKeyDown(Key key)
+		{
+			switch (key)
+			{
+				case Key.BackSpace:
+					if (CursorPosition > 0)
+					{
+						_internalLabel.Text = _internalLabel.Text.Remove(CursorPosition - 1, 1);
+						CursorPosition--;
+					}
+					break;
+				case Key.Delete:
+					if (CursorPosition < _internalLabel.Text.Length)
+						_internalLabel.Text = _internalLabel.Text.Remove(CursorPosition, 1);
+					break;
+
+				case Key.Left:
+					if(CursorPosition > 0)
+						CursorPosition--;
+					_cursorTimer = 0;
+					break;
+				case Key.Right:
+					if (CursorPosition < _internalLabel.Text.Length)
+						CursorPosition++;
+					_cursorTimer = 0;
+					break;
+			}
+
+			base.OnKeyDown(key);
 		}
 
 		protected override void OnMouseDown(MousePressData data)

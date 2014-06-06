@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK.Input;
 using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -45,10 +46,18 @@ namespace SquareCubed.Client.Gui.Controls
 
 			protected override void OnKeyChar(char key)
 			{
-				if(FocusedChild != null)
+				if (FocusedChild != null)
 					FocusedChild.HandleKeyChar(key);
 
 				base.OnKeyChar(key);
+			}
+
+			protected override void OnKeyDown(Key key)
+			{
+				if (FocusedChild != null)
+					FocusedChild.HandleKeyDown(key);
+
+				base.OnKeyDown(key);
 			}
 
 			protected override void OnMouseMove(MouseMoveData data)

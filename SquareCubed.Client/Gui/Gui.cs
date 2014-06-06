@@ -18,6 +18,7 @@ namespace SquareCubed.Client.Gui
 			_size = gameWindow.ClientSize;
 
 			gameWindow.KeyPress += OnKeyPressEvent;
+			gameWindow.KeyDown += OnKeyDownEvent;
 
 			gameWindow.MouseMove += OnMouseMoveEvent;
 			gameWindow.MouseDown += OnMouseDownEvent;
@@ -38,6 +39,11 @@ namespace SquareCubed.Client.Gui
 		private void OnKeyPressEvent(object sender, KeyPressEventArgs e)
 		{
 			HandleKeyChar(e.KeyChar);
+		}
+
+		private void OnKeyDownEvent(object sender, KeyboardKeyEventArgs e)
+		{
+			HandleKeyDown(e.Key);
 		}
 
 		private void OnMouseDownEvent(object sender, MouseButtonEventArgs e)

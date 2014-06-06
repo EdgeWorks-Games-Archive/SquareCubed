@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using OpenTK.Input;
 using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Gui.Controls
@@ -19,9 +20,9 @@ namespace SquareCubed.Client.Gui.Controls
 
 		public bool IsHovered { get; private set; }
 		public bool IsHeld { get; private set; }
-		
+
 		/// <summary>
-		/// True if this control is the focused child of the parent control.
+		///     True if this control is the focused child of the parent control.
 		/// </summary>
 		public bool IsFocused
 		{
@@ -67,7 +68,16 @@ namespace SquareCubed.Client.Gui.Controls
 
 		internal void HandleKeyChar(char key)
 		{
+			// The parent sends the key down only to the focused child
+			// so we don't have to check that here.
 			OnKeyChar(key);
+		}
+
+		internal void HandleKeyDown(Key key)
+		{
+			// The parent sends the key down only to the focused child
+			// so we don't have to check that here.
+			OnKeyDown(key);
 		}
 
 		internal void HandleMouseMove(MouseMoveData data)
@@ -98,6 +108,10 @@ namespace SquareCubed.Client.Gui.Controls
 		}
 
 		protected virtual void OnKeyChar(char key)
+		{
+		}
+
+		protected virtual void OnKeyDown(Key key)
 		{
 		}
 
