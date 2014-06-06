@@ -8,8 +8,6 @@ branches:
   - /^release\/.*$/
 
 env:
- global:
-  - EnableNuGetPackageRestore=true 
  matrix:
   - MONO_VERSION="3.4.0"
 
@@ -18,4 +16,5 @@ before_install:
  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
 
 script:
+ - nuget restore "SquareCubed.sln"
  - xbuild .travis.proj
