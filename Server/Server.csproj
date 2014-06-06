@@ -62,6 +62,14 @@
       <Name>SquareCubed.Server</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+  	<Content Include="..\SQCore.Server\bin\$(ConfigurationName)\SQCore.Server.dll">
+      <Link>Plugins\Core\SQCore.Server.dll</Link>
+    </Content>
+    <Content Include="..\SQCore.Server\bin\$(ConfigurationName)\SQCore.Common.dll">
+      <Link>Plugins\Core\SQCore.Common.dll</Link>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

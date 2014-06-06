@@ -112,6 +112,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\SQCore.Client\bin\$(ConfigurationName)\SQCore.Client.dll">
+      <Link>Plugins\Core\SQCore.Client.dll</Link>
+    </Content>
+    <Content Include="..\SQCore.Client\bin\$(ConfigurationName)\SQCore.Common.dll">
+      <Link>Plugins\Core\SQCore.Common.dll</Link>
+    </Content>
     <Content Include="Graphics\Objects\Teleporter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
