@@ -17,8 +17,8 @@ before_install:
 
 script:
  - xbuild .travis.proj
- - zip -r Client.zip ./Client/bin/Release/
- - zip -r Server.zip ./Server/bin/Release/
+ - sh -c "cd ./Client/bin/Release/ && zip -r ../../../Client.zip ./*"
+ - sh -c "cd ./Server/bin/Release/ && zip -r ../../../Server.zip ./*"
 
 deploy:
  provider: releases
