@@ -17,3 +17,5 @@ before_install:
 
 script:
  - xbuild .travis.proj
+ - zip -r Client.zip ./Client/bin/Release/
+ - zip -r Server.zip ./Server/bin/Release/

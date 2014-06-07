@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareCubed.Tests", "Square
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{36D87A5E-D7F5-40AA-BB6F-10C746AC8197}"
 	ProjectSection(SolutionItems) = preProject
+		.travis.proj = .travis.proj
+		.travis.yml = .travis.yml
 		license.txt = license.txt
 		readme.md = readme.md
 	EndProjectSection
