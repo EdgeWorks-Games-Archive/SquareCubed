@@ -17,16 +17,16 @@ before_install:
 
 script:
  - xbuild .travis.proj
- - sh -c "cd ./Client/bin/Release/ && zip -r ../../../Client.zip ./*"
- - sh -c "cd ./Server/bin/Release/ && zip -r ../../../Server.zip ./*"
+ - sh -c "cd ./Client/bin/Release/ && zip -r ../../../SquareCubed_Client.zip ./*"
+ - sh -c "cd ./Server/bin/Release/ && zip -r ../../../SquareCubed_Server.zip ./*"
 
 deploy:
  provider: releases
  api_key:
   secure: Ku6t99tTTPjXCKtyIoYH+W8vxnUKVQ/F/PRVcxsZndxMTWW2vgO9fncFixqGwmYXrI0EPTVUQElfNnOZfLbefARHzFf3huJX97IuTqoKOmQeeyq5aMKcqG7h2QRlvVMNHKFhJugdwRi2PAcQoMq1bByYiO8Uia8fsipWjDP1I+A=
  file:
-  - "Client.zip"
-  - "Server.zip"
+  - "SquareCubed_Client.zip"
+  - "SquareCubed_Server.zip"
  skip_cleanup: true
  on:
   repo: EdgeWorks-Games/SquareCubed
