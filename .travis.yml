@@ -25,7 +25,7 @@ deploy:
  api_key:
   secure: Ku6t99tTTPjXCKtyIoYH+W8vxnUKVQ/F/PRVcxsZndxMTWW2vgO9fncFixqGwmYXrI0EPTVUQElfNnOZfLbefARHzFf3huJX97IuTqoKOmQeeyq5aMKcqG7h2QRlvVMNHKFhJugdwRi2PAcQoMq1bByYiO8Uia8fsipWjDP1I+A=
  file:
-  - "Client.zip""
+  - "Client.zip"
   - "Server.zip"
  skip_cleanup: true
  on:
