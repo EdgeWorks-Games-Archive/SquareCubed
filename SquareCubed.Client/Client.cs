@@ -147,7 +147,7 @@ namespace SquareCubed.Client
 			Gui.Controls.Add(mainMenu);
 
 			// Add a little label because why not
-			var infoLabel = new Gui.Controls.GuiLabel("SquareCubed Engine")
+			var infoLabel = new Gui.Controls.GuiLabel("SquareCubed v0.1 pre1")
 			{
 				Color = Color.White
 			};
