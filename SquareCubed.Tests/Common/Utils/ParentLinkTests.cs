@@ -46,6 +46,24 @@ namespace SquareCubed.Tests.Common.Utils
 			Assert.DoesNotContain(_childObj, _parentObj.Children);
 		}
 
+		[Fact]
+		public void AddingTriggersEvents()
+		{
+			var set = false;
+			_parentObj.Children.ChildAdd += (s, e) => set = true;
+			_parentObj.Children.Add(_childObj);
+			Assert.True(set);
+		}
+
+		[Fact]
+		public void RemovingTriggersEvents()
+		{
+			var set = false;
+			_parentObj.Children.ChildAdd += (s, e) => set = true;
+			_parentObj.Children.Add(_childObj);
+			Assert.True(set);
+		}
+
 		public sealed class ChildObj
 		{
 			private readonly ParentLink _parent;
