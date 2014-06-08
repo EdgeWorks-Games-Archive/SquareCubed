@@ -3,12 +3,12 @@ using Xunit;
 
 namespace SquareCubed.Tests.Common.Utils
 {
-	using ParentLink = ParentLink<ParentLinkTests.ChildObj.ParentObj, ParentLinkTests.ChildObj>;
+	using ParentLink = ParentLink<ParentLinkTests.ParentObj, ParentLinkTests.ChildObj>;
 
 	public class ParentLinkTests
 	{
 		private readonly ChildObj _childObj = new ChildObj();
-		private readonly ChildObj.ParentObj _parentObj = new ChildObj.ParentObj();
+		private readonly ParentObj _parentObj = new ParentObj();
 
 		[Fact]
 		public void SettingParentParents()
@@ -49,45 +49,55 @@ namespace SquareCubed.Tests.Common.Utils
 		[Fact]
 		public void AddingTriggersEvents()
 		{
-			var set = false;
-			_parentObj.Children.ChildAdd += (s, e) => set = true;
+			var setParent = false;
+			_parentObj.Children.ChildAdd += (s, e) => setParent = true;
+			var setChild = false;
+			_childObj.ParentLink.ParentSet += (s, e) => setChild = true;
+
 			_parentObj.Children.Add(_childObj);
-			Assert.True(set);
+
+			Assert.True(setParent, "setParent was not set to true!");
+			Assert.True(setChild, "setChild was not set to true!");
 		}
 
 		[Fact]
 		public void RemovingTriggersEvents()
 		{
-			var set = false;
-			_parentObj.Children.ChildAdd += (s, e) => set = true;
+			var setParent = false;
+			_parentObj.Children.ChildRemove += (s, e) => setParent = true;
+			var setChild = false;
+			_childObj.ParentLink.ParentRemove += (s, e) => setChild = true;
+
 			_parentObj.Children.Add(_childObj);
-			Assert.True(set);
+			_parentObj.Children.Remove(_childObj);
+
+			Assert.True(setParent, "setParent was not set to true!");
+			Assert.True(setChild, "setChild was not set to true!");
 		}
 
 		public sealed class ChildObj
 		{
-			private readonly ParentLink _parent;
-
 			public ChildObj()
 			{
-				_parent = new ParentLink(this, p => p.Children);
+				ParentLink = new ParentLink(this, p => p.Children);
 			}
 
+			public ParentLink ParentLink { get; private set; }
 			public ParentObj Parent
 			{
-				get { return _parent.Property; }
-				set { _parent.Property = value; }
+				get { return ParentLink.Property; }
+				set { ParentLink.Property = value; }
 			}
+		}
 
-			public sealed class ParentObj
+		public sealed class ParentObj
+		{
+			public ParentObj()
 			{
-				public ParentObj()
-				{
-					Children = new ParentLink.ChildrenCollection(this, c => c._parent);
-				}
-
-				public ParentLink.ChildrenCollection Children { get; private set; }
+				Children = new ParentLink.ChildrenCollection(this, c => c.ParentLink);
 			}
+
+			public ParentLink.ChildrenCollection Children { get; private set; }
 		}
 	}
 }

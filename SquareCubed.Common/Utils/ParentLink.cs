@@ -40,6 +40,9 @@ namespace SquareCubed.Common.Utils
 			}
 		}
 
+		public event EventHandler<ParentLinkEventArgs> ParentSet = (s, e) => { };
+		public event EventHandler<ParentLinkEventArgs> ParentRemove = (s, e) => { };
+
 		public sealed class ChildrenCollection : ICollection<TChild>
 		{
 			private readonly List<TChild> _children = new List<TChild>();
@@ -78,6 +81,7 @@ namespace SquareCubed.Common.Utils
 				link._parent = _owner;
 
 				ChildAdd(this, new ParentLinkEventArgs(child, _owner));
+				link.ParentSet(this, new ParentLinkEventArgs(child, _owner));
 			}
 
 			public void Clear()
@@ -100,11 +104,14 @@ namespace SquareCubed.Common.Utils
 				// TODO: Add custom exception for removing or adding during enumerating
 				Debug.Assert(child != null);
 
+				var link = _linkLocation(child);
+
 				// Remove the child and reset its parent
 				var ret = _children.Remove(child);
-				_linkLocation(child)._parent = null;
+				link._parent = null;
 
 				ChildRemove(this, new ParentLinkEventArgs(child, _owner));
+				link.ParentRemove(this, new ParentLinkEventArgs(child, _owner));
 
 				return ret;
 			}

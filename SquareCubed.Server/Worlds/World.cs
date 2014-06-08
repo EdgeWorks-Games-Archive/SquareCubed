@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using SquareCubed.Common.Utils;
@@ -25,6 +26,7 @@ namespace SquareCubed.Server.Worlds
 		public ParentLink<World, Player>.ChildrenCollection Players { get; private set; }
 		public ParentLink<World, ServerStructure>.ChildrenCollection Structures { get; private set; }
 
+		[CLSCompliant(false)]
 		public FarseerPhysics.Dynamics.World PhysicsWorld { get; private set; }
 
 		public void SendToAllPlayers(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
