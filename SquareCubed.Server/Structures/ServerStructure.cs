@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using Lidgren.Network;
 using OpenTK;
@@ -29,10 +30,14 @@ namespace SquareCubed.Server.Structures
 					BodyType = BodyType.Dynamic,
 					AngularDamping = 0.5f
 				};
-				var shape = new CircleShape(1.0f, 1.0f)
+				var vertices = new Vertices
 				{
-					Position = new Microsoft.Xna.Framework.Vector2(tempCenter.X, tempCenter.Y)
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y + 1), // Left Top
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y - 1), // Left Bottom
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y - 1), // Right Bottom
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y + 1), // Right Top
 				};
+				var shape = new PolygonShape(vertices, 1.0f);
 				Body.CreateFixture(shape);
 			};
 			WorldLink.ParentRemove += (s, e) =>
@@ -110,11 +115,8 @@ namespace SquareCubed.Server.Structures
 
 		internal void ApplyForces()
 		{
-			// TODO: This works for now but:
-			// It seems the structure on the client side is rotating in exactly the wrong direction of what it should.
-			// I don't know really if this is true and how to fix it.
-			Body.ApplyTorque(-Torque);
-			Body.ApplyForce(new Microsoft.Xna.Framework.Vector2(-Force.X, Force.Y), Body.WorldCenter);
+			Body.ApplyTorque(Torque);
+			Body.ApplyForce(new Microsoft.Xna.Framework.Vector2(Force.X, Force.Y), Body.WorldCenter);
 		}
 	}
 

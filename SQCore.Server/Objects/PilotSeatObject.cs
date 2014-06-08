@@ -22,7 +22,8 @@ namespace SQCore.Server.Objects
 		void OnUpdateTick(object sender, float delta)
 		{
 			_parent.Torque = _angularThrottle * AngularSpeed;
-			var force = new Vector2((float)Math.Sin(_parent.Body.Rotation), (float)Math.Cos(_parent.Body.Rotation)) * _throttle * Speed;
+			// Math uses clockwise rotation, OpenGL, Farseer and the engine use counterclockwise
+			var force = new Vector2(-(float)Math.Sin(_parent.Body.Rotation), (float)Math.Cos(_parent.Body.Rotation)) * _throttle * Speed;
 			_parent.Force = force;
 		}
 
