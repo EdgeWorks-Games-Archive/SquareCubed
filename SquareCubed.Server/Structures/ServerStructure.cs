@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Dynamics;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Structures.Objects;
 using SquareCubed.Server.Units;
-using SquareCubed.Server.Worlds;
+using World = SquareCubed.Server.Worlds.World;
 
 namespace SquareCubed.Server.Structures
 {
@@ -19,7 +22,25 @@ namespace SquareCubed.Server.Structures
 			Chunks = new List<ServerChunk>();
 			Objects = new List<ServerObjectBase>();
 			WorldLink = new ParentLink<World, ServerStructure>(this, w => w.Structures);
+			WorldLink.ParentSet += (s, e) =>
+			{
+				Body = new Body(e.Parent.Physics)
+				{
+					BodyType = BodyType.Dynamic,
+					AngularDamping = 1.0f
+				};
+				var shape = new CircleShape(1.0f, 1.0f);
+				Body.CreateFixture(shape);
+			};
+			WorldLink.ParentRemove += (s, e) =>
+			{
+				Body.Dispose();
+				Body = null;
+			};
 		}
+
+		[CLSCompliant(false)]
+		public Body Body { get; private set; }
 
 		public ParentLink<World, ServerStructure> WorldLink { get; private set; }
 
@@ -31,12 +52,23 @@ namespace SquareCubed.Server.Structures
 
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
-		public Vector2 Position { get; set; }
+
+		public Vector2 Position
+		{
+			// TODO: Remove this property and fully replace it with the Body property
+			get { return new Vector2(Body.Position.X, Body.Position.Y); }
+			set { Body.Position = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
+		}
 
 		/// <summary>
 		///     Structure rotation in radians.
 		/// </summary>
-		public float Rotation { get; set; }
+		public float Rotation
+		{
+			// TODO: Remove this property and fully replace it with the Body property
+			get { return Body.Rotation; }
+			set { Body.Rotation = value; }
+		}
 
 		public List<ServerObjectBase> Objects { get; set; }
 

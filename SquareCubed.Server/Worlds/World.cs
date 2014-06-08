@@ -19,7 +19,7 @@ namespace SquareCubed.Server.Worlds
 			Units = new ParentLink<World, Unit>.ChildrenCollection(this, u => u.WorldLink);
 			Players = new ParentLink<World, Player>.ChildrenCollection(this, p => p.WorldLink);
 			Structures = new ParentLink<World, ServerStructure>.ChildrenCollection(this, s => s.WorldLink);
-			PhysicsWorld = new FarseerPhysics.Dynamics.World(new Vector2(0));
+			Physics = new FarseerPhysics.Dynamics.World(new Vector2(0));
 		}
 
 		public ParentLink<World, Unit>.ChildrenCollection Units { get; private set; }
@@ -27,7 +27,7 @@ namespace SquareCubed.Server.Worlds
 		public ParentLink<World, ServerStructure>.ChildrenCollection Structures { get; private set; }
 
 		[CLSCompliant(false)]
-		public FarseerPhysics.Dynamics.World PhysicsWorld { get; private set; }
+		public FarseerPhysics.Dynamics.World Physics { get; private set; }
 
 		public void SendToAllPlayers(NetOutgoingMessage msg, NetDeliveryMethod method, int sequenceChannel = -1)
 		{
@@ -40,6 +40,11 @@ namespace SquareCubed.Server.Worlds
 				Players.Select(p => p.Connection).ToList(),
 				method,
 				sequenceChannel);
+		}
+
+		internal void Update(float delta)
+		{
+			Physics.Step(delta);
 		}
 	}
 }

@@ -9,26 +9,6 @@ namespace SquareCubed.Server
 	{
 		private readonly Logger _logger = new Logger("Server");
 
-		#region Engine Modules
-
-		public Network.Network Network { get; private set; }
-		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
-		public Worlds.Worlds Worlds { get; private set; }
-		public Structures.Structures Structures { get; private set; }
-		public Players.Players Players { get; private set; }
-		public Units.Units Units { get; private set; }
-		public Meta.Meta Meta { get; private set; }
-
-		#endregion
-
-		#region Events
-
-		public event EventHandler<float> UpdateTick = (o, p) => { };
-
-		#endregion
-
-		#region Initialization and Cleanup
-
 		public Server()
 		{
 			// Log the start of Initialization
@@ -46,6 +26,15 @@ namespace SquareCubed.Server
 			_logger.LogInfo("Finished initializing engine!");
 		}
 
+		public Network.Network Network { get; private set; }
+		public PluginLoader<IServerPlugin, Server> PluginLoader { get; private set; }
+		public Worlds.Worlds Worlds { get; private set; }
+		public Structures.Structures Structures { get; private set; }
+		public Players.Players Players { get; private set; }
+		public Units.Units Units { get; private set; }
+		public Meta.Meta Meta { get; private set; }
+		public bool KeepRunning { get; set; }
+
 		public void Dispose()
 		{
 			// We only have managed resources to dispose of
@@ -53,11 +42,7 @@ namespace SquareCubed.Server
 			Network.Dispose();
 		}
 
-		#endregion
-
-		#region Game Loop
-
-		public bool KeepRunning { get; set; }
+		public event EventHandler<float> UpdateTick = (o, p) => { };
 
 		public void Run()
 		{
@@ -79,7 +64,11 @@ namespace SquareCubed.Server
 				// Handle all queued up packets
 				Network.HandlePackets();
 
+				// Update all worlds (physics)
+				Worlds.Update(delta);
+
 				// Update all structures (objects and send packets)
+				// TODO: Turn Structures and Units into just network management objects, update should be done through World.
 				Structures.Update(delta);
 
 				// Update all units (AI and send packets)
@@ -93,7 +82,5 @@ namespace SquareCubed.Server
 			}
 			_logger.LogInfo("Finished running!");
 		}
-
-		#endregion
 	}
 }
