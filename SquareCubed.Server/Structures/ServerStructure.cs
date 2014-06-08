@@ -17,7 +17,7 @@ namespace SquareCubed.Server.Structures
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 
-		public ServerStructure()
+		public ServerStructure(Vector2 tempCenter)
 		{
 			Chunks = new List<ServerChunk>();
 			Objects = new List<ServerObjectBase>();
@@ -27,9 +27,12 @@ namespace SquareCubed.Server.Structures
 				Body = new Body(e.Parent.Physics)
 				{
 					BodyType = BodyType.Dynamic,
-					AngularDamping = 1.0f
+					AngularDamping = 0.5f
 				};
-				var shape = new CircleShape(1.0f, 1.0f);
+				var shape = new CircleShape(1.0f, 1.0f)
+				{
+					Position = new Microsoft.Xna.Framework.Vector2(tempCenter.X, tempCenter.Y)
+				};
 				Body.CreateFixture(shape);
 			};
 			WorldLink.ParentRemove += (s, e) =>
@@ -42,6 +45,21 @@ namespace SquareCubed.Server.Structures
 		[CLSCompliant(false)]
 		public Body Body { get; private set; }
 
+		public Vector2 Position
+		{
+			get { return new Vector2(Body.Position.X, Body.Position.Y); }
+			set { Body.Position = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
+		}
+
+		public Vector2 Force { get; set; }
+		public float Torque { get; set; }
+
+		public Vector2 LocalCenter
+		{
+			get { return new Vector2(Body.LocalCenter.X, Body.LocalCenter.Y); }
+			set { Body.LocalCenter = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
+		}
+
 		public ParentLink<World, ServerStructure> WorldLink { get; private set; }
 
 		public World World
@@ -52,31 +70,7 @@ namespace SquareCubed.Server.Structures
 
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
-
-		public Vector2 Position
-		{
-			// TODO: Remove this property and fully replace it with the Body property
-			get { return new Vector2(Body.Position.X, Body.Position.Y); }
-			set { Body.Position = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
-		}
-
-		/// <summary>
-		///     Structure rotation in radians.
-		/// </summary>
-		public float Rotation
-		{
-			// TODO: Remove this property and fully replace it with the Body property
-			get { return Body.Rotation; }
-			set { Body.Rotation = value; }
-		}
-
 		public List<ServerObjectBase> Objects { get; set; }
-
-		/// <summary>
-		///     The location in the chunk data where the center of the structure is.
-		///     This is the axis the structure rotates around and thus is the center of mass.
-		/// </summary>
-		public Vector2 Center { get; set; }
 
 		public IReadOnlyCollection<Unit> Units
 		{
@@ -113,6 +107,15 @@ namespace SquareCubed.Server.Structures
 			obj.Position = new Vector2(x, y);
 			Objects.Add(obj);
 		}
+
+		internal void ApplyForces()
+		{
+			// TODO: This works for now but:
+			// It seems the structure on the client side is rotating in exactly the wrong direction of what it should.
+			// I don't know really if this is true and how to fix it.
+			Body.ApplyTorque(-Torque);
+			Body.ApplyForce(new Microsoft.Xna.Framework.Vector2(-Force.X, Force.Y), Body.WorldCenter);
+		}
 	}
 
 	public static class StructureExtensions
@@ -125,8 +128,10 @@ namespace SquareCubed.Server.Structures
 			// Add metadata and position
 			msg.Write(structure.Id);
 			msg.Write(structure.Position);
-			msg.Write(structure.Rotation);
-			msg.Write(structure.Center);
+			/*msg.Write(structure.Force);
+			msg.Write(structure.Torque);*/
+			msg.Write(structure.Body.Rotation);
+			msg.Write(structure.LocalCenter);
 
 			// Add structure chunk data
 			msg.Write(structure.Chunks.Count);

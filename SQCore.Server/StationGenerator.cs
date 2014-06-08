@@ -20,12 +20,10 @@ namespace SQCore.Server
 		public ServerStructure GenerateNew(World world, Vector2 position)
 		{
 			// Add a little test structure
-			var str = new ServerStructure
+			var str = new ServerStructure(new Vector2(6, 6))
 			{
 				World = world,
-				Position = position,
-				Rotation = (float) (_random.NextDouble()*Math.PI*2),
-				Center = new Vector2(6f, 6f)
+				Position = position
 			};
 
 			// Add a chunk for the test structure

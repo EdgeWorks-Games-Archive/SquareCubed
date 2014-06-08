@@ -20,12 +20,10 @@ namespace SQCore.Server
 		public SpawnPoint GetNewSpawn()
 		{
 			// Create a test ship
-			var str = new ServerStructure
+			var str = new ServerStructure(new Vector2(6, 6))
 			{
 				World = _server.Worlds.TestWorld,
-				Position = new Vector2(_nextPosition, 0),
-				Rotation = MathHelper.DegreesToRadians(20.0f),
-				Center = new Vector2(6.0f, 6.0f)
+				Position = new Vector2(_nextPosition, 0)
 			};
 			_nextPosition += 4.0f;
 

@@ -81,9 +81,9 @@ namespace SQCore.Client.Objects
 			// A and D are angular throttle, this will later be replaced with RCS
 			var angularThrottle = 0.0f;
 			if (_client.Input.GetKey(Key.A) && ! _client.Input.GetKey(Key.D))
-				angularThrottle = -0.1f;
+				angularThrottle = -1.0f;
 			else if (_client.Input.GetKey(Key.D))
-				angularThrottle = 0.1f;
+				angularThrottle = 1.0f;
 
 			// Send throttle update to the server
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);

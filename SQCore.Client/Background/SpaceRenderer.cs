@@ -32,7 +32,8 @@ namespace SQCore.Client.Background
 				0.0, 4.0);
 
 			// Offset it so it's in the middle of the field
-			if (_camera.Parent != null && !_camera.PilotMode) GL.Rotate(MathHelper.RadiansToDegrees(_camera.Parent.Rotation), 0, 0, 1);
+			if (_camera.Parent != null && !_camera.PilotMode)
+				GL.Rotate(-MathHelper.RadiansToDegrees(_camera.Parent.Rotation), 0, 0, 1);
 			GL.Translate(
 				-(fieldSize * 0.5f),
 				-(fieldSize * 0.5f),

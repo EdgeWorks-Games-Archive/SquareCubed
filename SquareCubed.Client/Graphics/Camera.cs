@@ -75,28 +75,37 @@ namespace SquareCubed.Client.Graphics
 			// to EVER touch this EVER again unless I get a really really good
 			// explanation of what the frigging frack I'm looking at.
 
-			// Move to camera position
 			if (!PilotMode)
 			{
+				// If we're not in pilot mode, we need to listen to the position set to the camera
+
+				// Offset to camera position
 				GL.Translate(
 					-Position.X,
 					-Position.Y,
 					0.0f);
+			}
+			else
+			{
+				// If we are in pilot mode, we need to lock to the parent's center and rotate back
 
-				// If no parent, we're done here
-				if (Parent == null) return;
-
-				// Then Move to the Parent's Local 0,0
-				GL.Translate(
-					Parent.Center.X,
-					Parent.Center.Y,
-					0.0f);
-
-				// Rotate around the Parent's Center
+				// Rotate back to 0 rotation
 				GL.Rotate(MathHelper.RadiansToDegrees(Parent.Rotation), 0, 0, 1);
+
+				// Move to local center of parent
+				GL.Translate(
+					-Parent.LocalCenter.X,
+					-Parent.LocalCenter.Y,
+					0.0f);
 			}
 
-			// Move to Parent Center
+			// If no parent, we can't do anything more
+			if (Parent == null) return;
+
+			// Rotate around the Parent's 0,0
+			GL.Rotate(-MathHelper.RadiansToDegrees(Parent.Rotation), 0, 0, 1);
+
+			// Move to Parent Local 0,0
 			GL.Translate(
 				-Parent.Position.X,
 				-Parent.Position.Y,

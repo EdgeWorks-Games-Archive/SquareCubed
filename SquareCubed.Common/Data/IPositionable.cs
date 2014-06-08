@@ -14,7 +14,7 @@ namespace SquareCubed.Common.Data
 
 	public interface IComplexPositionable : IPositionable
 	{
-		Vector2 Center { get; set; }
+		Vector2 LocalCenter { get; set; }
 		float Rotation { get; set; }
 	}
 }

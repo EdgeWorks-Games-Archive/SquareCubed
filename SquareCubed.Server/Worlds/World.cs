@@ -44,6 +44,8 @@ namespace SquareCubed.Server.Worlds
 
 		internal void Update(float delta)
 		{
+			foreach(var structure in Structures)
+				structure.ApplyForces();
 			Physics.Step(delta);
 		}
 	}
