@@ -15,5 +15,11 @@ namespace SquareCubed.Server.Worlds
 			TestWorld = new World(server);
 			WorldList.Add(TestWorld);
 		}
+
+		public void Update(float delta)
+		{
+			foreach (var world in WorldList.Values)
+				world.Update(delta);
+		}
 	}
 }

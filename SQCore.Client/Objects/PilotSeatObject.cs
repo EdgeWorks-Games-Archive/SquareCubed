@@ -61,7 +61,7 @@ namespace SQCore.Client.Objects
 			{
 				// Shift increases throttle
 				if (_throttle < 1.0f)
-					_throttle += 0.5f*e.ElapsedTime;
+					_throttle += 0.8f*e.ElapsedTime;
 				if (_throttle > 1.0f)
 					_throttle = 1.0f;
 			}
@@ -69,7 +69,7 @@ namespace SQCore.Client.Objects
 			{
 				// Control decreases throttle
 				if (_throttle > 0.0f)
-					_throttle -= 0.5f*e.ElapsedTime;
+					_throttle -= 0.8f*e.ElapsedTime;
 				if (_throttle < 0.0f)
 					_throttle = 0.0f;
 			}
@@ -81,9 +81,9 @@ namespace SQCore.Client.Objects
 			// A and D are angular throttle, this will later be replaced with RCS
 			var angularThrottle = 0.0f;
 			if (_client.Input.GetKey(Key.A) && ! _client.Input.GetKey(Key.D))
-				angularThrottle = -0.08f;
+				angularThrottle = 1.0f;
 			else if (_client.Input.GetKey(Key.D))
-				angularThrottle = 0.08f;
+				angularThrottle = -1.0f;
 
 			// Send throttle update to the server
 			var msg = _client.Structures.ObjectsNetwork.CreateMessageFor(this);

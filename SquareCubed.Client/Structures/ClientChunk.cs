@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Lidgren.Network;
-using SquareCubed.Client.Structures.Objects;
 using SquareCubed.Common.Data;
-using SquareCubed.Common.Utils;
 
 namespace SquareCubed.Client.Structures
 {

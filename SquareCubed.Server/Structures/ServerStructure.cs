@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Common;
+using FarseerPhysics.Dynamics;
 using Lidgren.Network;
 using OpenTK;
 using SquareCubed.Common.Data;
 using SquareCubed.Common.Utils;
 using SquareCubed.Server.Structures.Objects;
 using SquareCubed.Server.Units;
-using SquareCubed.Server.Worlds;
+using World = SquareCubed.Server.Worlds.World;
 
 namespace SquareCubed.Server.Structures
 {
@@ -15,11 +18,51 @@ namespace SquareCubed.Server.Structures
 	{
 		private readonly List<Unit> _units = new List<Unit>();
 
-		public ServerStructure()
+		public ServerStructure(Vector2 tempCenter)
 		{
 			Chunks = new List<ServerChunk>();
 			Objects = new List<ServerObjectBase>();
 			WorldLink = new ParentLink<World, ServerStructure>(this, w => w.Structures);
+			WorldLink.ParentSet += (s, e) =>
+			{
+				Body = new Body(e.Parent.Physics)
+				{
+					BodyType = BodyType.Dynamic,
+					AngularDamping = 0.5f
+				};
+				var vertices = new Vertices
+				{
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y + 1), // Left Top
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y - 1), // Left Bottom
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y - 1), // Right Bottom
+					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y + 1), // Right Top
+				};
+				var shape = new PolygonShape(vertices, 1.0f);
+				Body.CreateFixture(shape);
+			};
+			WorldLink.ParentRemove += (s, e) =>
+			{
+				Body.Dispose();
+				Body = null;
+			};
+		}
+
+		[CLSCompliant(false)]
+		public Body Body { get; private set; }
+
+		public Vector2 Position
+		{
+			get { return new Vector2(Body.Position.X, Body.Position.Y); }
+			set { Body.Position = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
+		}
+
+		public Vector2 Force { get; set; }
+		public float Torque { get; set; }
+
+		public Vector2 LocalCenter
+		{
+			get { return new Vector2(Body.LocalCenter.X, Body.LocalCenter.Y); }
+			set { Body.LocalCenter = new Microsoft.Xna.Framework.Vector2(value.X, value.Y); }
 		}
 
 		public ParentLink<World, ServerStructure> WorldLink { get; private set; }
@@ -32,20 +75,7 @@ namespace SquareCubed.Server.Structures
 
 		public int Id { get; set; }
 		public List<ServerChunk> Chunks { get; set; }
-		public Vector2 Position { get; set; }
-
-		/// <summary>
-		///     Structure rotation in radians.
-		/// </summary>
-		public float Rotation { get; set; }
-
 		public List<ServerObjectBase> Objects { get; set; }
-
-		/// <summary>
-		///     The location in the chunk data where the center of the structure is.
-		///     This is the axis the structure rotates around and thus is the center of mass.
-		/// </summary>
-		public Vector2 Center { get; set; }
 
 		public IReadOnlyCollection<Unit> Units
 		{
@@ -82,6 +112,12 @@ namespace SquareCubed.Server.Structures
 			obj.Position = new Vector2(x, y);
 			Objects.Add(obj);
 		}
+
+		internal void ApplyForces()
+		{
+			Body.ApplyTorque(Torque);
+			Body.ApplyForce(new Microsoft.Xna.Framework.Vector2(Force.X, Force.Y), Body.WorldCenter);
+		}
 	}
 
 	public static class StructureExtensions
@@ -94,8 +130,10 @@ namespace SquareCubed.Server.Structures
 			// Add metadata and position
 			msg.Write(structure.Id);
 			msg.Write(structure.Position);
-			msg.Write(structure.Rotation);
-			msg.Write(structure.Center);
+			/*msg.Write(structure.Force);
+			msg.Write(structure.Torque);*/
+			msg.Write(structure.Body.Rotation);
+			msg.Write(structure.LocalCenter);
 
 			// Add structure chunk data
 			msg.Write(structure.Chunks.Count);

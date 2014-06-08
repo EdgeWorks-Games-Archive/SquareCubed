@@ -16,7 +16,10 @@ namespace SquareCubed.Client.Structures
 
 		private void OnStructurePhysics(NetIncomingMessage msg)
 		{
-			_callback.OnStructurePhysics(msg.ReadInt32(), msg.ReadVector2(), msg.ReadFloat());
+			_callback.OnStructurePhysics(
+				msg.ReadInt32(),
+				msg.ReadVector2(),
+				msg.ReadFloat());
 		}
 
 		private void OnStructureData(NetIncomingMessage msg)

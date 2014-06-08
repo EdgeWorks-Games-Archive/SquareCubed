@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Lidgren.Network;
@@ -25,7 +24,7 @@ namespace SquareCubed.Client.Structures
 
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
-		public Vector2 Center { get; set; }
+		public Vector2 LocalCenter { get; set; }
 		public List<ClientObjectBase> Objects { get; set; }
 
 		private void UpdateEntry<T>(ICollection<T> list, T entry, ClientStructure newStructure)
@@ -92,7 +91,8 @@ namespace SquareCubed.Client.Structures
 				Id = msg.ReadInt32(),
 				Position = msg.ReadVector2(),
 				Rotation = msg.ReadFloat(),
-				Center = msg.ReadVector2(),
+				LocalCenter = msg.ReadVector2(),
+
 				Chunks = msg.ReadChunks()
 			};
 			structure.Objects = msg.ReadObjects(objectTypes, structure);

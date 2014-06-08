@@ -30,7 +30,7 @@ namespace SquareCubed.Server.Structures
 			// Add data
 			msg.Write(structure.Id);
 			msg.Write(structure.Position);
-			msg.Write(structure.Rotation);
+			msg.Write(structure.Body.Rotation);
 
 			// Send data to appropriate players
 			structure.World.SendToAllPlayers(msg, NetDeliveryMethod.UnreliableSequenced, (int) SequenceChannels.StructurePhysics);

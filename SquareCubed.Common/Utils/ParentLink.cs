@@ -40,6 +40,9 @@ namespace SquareCubed.Common.Utils
 			}
 		}
 
+		public event EventHandler<ParentLinkEventArgs> ParentSet = (s, e) => { };
+		public event EventHandler<ParentLinkEventArgs> ParentRemove = (s, e) => { };
+
 		public sealed class ChildrenCollection : ICollection<TChild>
 		{
 			private readonly List<TChild> _children = new List<TChild>();
@@ -76,6 +79,9 @@ namespace SquareCubed.Common.Utils
 				// Add the child and set its parent
 				_children.Add(child);
 				link._parent = _owner;
+
+				ChildAdd(this, new ParentLinkEventArgs(child, _owner));
+				link.ParentSet(this, new ParentLinkEventArgs(child, _owner));
 			}
 
 			public void Clear()
@@ -93,9 +99,21 @@ namespace SquareCubed.Common.Utils
 				throw new NotImplementedException();
 			}
 
-			bool ICollection<TChild>.Remove(TChild item)
+			public bool Remove(TChild child)
 			{
-				throw new NotImplementedException();
+				// TODO: Add custom exception for removing or adding during enumerating
+				Debug.Assert(child != null);
+
+				var link = _linkLocation(child);
+
+				// Remove the child and reset its parent
+				var ret = _children.Remove(child);
+				link._parent = null;
+
+				ChildRemove(this, new ParentLinkEventArgs(child, _owner));
+				link.ParentRemove(this, new ParentLinkEventArgs(child, _owner));
+
+				return ret;
 			}
 
 			public int Count
@@ -108,15 +126,20 @@ namespace SquareCubed.Common.Utils
 				get { return true; }
 			}
 
-			public void Remove(TChild child)
-			{
-				// TODO: Add custom exception for removing or adding during enumerating
-				Debug.Assert(child != null);
+			public event EventHandler<ParentLinkEventArgs> ChildAdd = (s, e) => { };
+			public event EventHandler<ParentLinkEventArgs> ChildRemove = (s, e) => { };
+		}
 
-				// Remove the child and reset its parent
-				_children.Remove(child);
-				_linkLocation(child)._parent = null;
+		public sealed class ParentLinkEventArgs : EventArgs
+		{
+			public ParentLinkEventArgs(TChild child, TParent parent)
+			{
+				Child = child;
+				Parent = parent;
 			}
+
+			public TChild Child { get; private set; }
+			public TParent Parent { get; private set; }
 		}
 	}
 }
