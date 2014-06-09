@@ -49,6 +49,8 @@ namespace SQCore.Server
 			chunk.SetWalls(5, 7, 2, 2, 0, 2);
 			str.AddObject(5.5f, 7.5f, 1, _objTypes);
 
+			str.RegenerateShapes();
+
 			return str;
 		}
 	}

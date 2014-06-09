@@ -64,6 +64,8 @@ namespace SQCore.Server
 			chunk.SetBottomWall(5, 4, 2);
 			chunk.SetRightWall(5, 4, 2);
 
+			str.RegenerateShapes();
+
 			_logger.LogInfo("Spawned beginner ship at {0}, {1}!", str.Position.X, str.Position.Y);
 
 			// Add the structure, this sends over the structure data

@@ -30,15 +30,6 @@ namespace SquareCubed.Server.Structures
 					BodyType = BodyType.Dynamic,
 					AngularDamping = 0.5f
 				};
-				var vertices = new Vertices
-				{
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y + 1), // Left Top
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y - 1), // Left Bottom
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y - 1), // Right Bottom
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y + 1), // Right Top
-				};
-				var shape = new PolygonShape(vertices, 1.0f);
-				Body.CreateFixture(shape);
 			};
 			WorldLink.ParentRemove += (s, e) =>
 			{
@@ -83,6 +74,11 @@ namespace SquareCubed.Server.Structures
 
 		public void RegenerateShapes()
 		{
+			// TODO: Automatically regenerate when needed just before a physics update
+			foreach (var chunk in Chunks)
+			{
+				chunk.AddShapesTo(Body);
+			}
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
