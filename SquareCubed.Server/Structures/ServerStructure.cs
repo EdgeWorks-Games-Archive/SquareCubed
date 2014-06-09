@@ -30,21 +30,14 @@ namespace SquareCubed.Server.Structures
 					BodyType = BodyType.Dynamic,
 					AngularDamping = 0.5f
 				};
-				var vertices = new Vertices
-				{
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y + 1), // Left Top
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X - 1, tempCenter.Y - 1), // Left Bottom
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y - 1), // Right Bottom
-					new Microsoft.Xna.Framework.Vector2(tempCenter.X + 1, tempCenter.Y + 1), // Right Top
-				};
-				var shape = new PolygonShape(vertices, 1.0f);
-				Body.CreateFixture(shape);
 			};
 			WorldLink.ParentRemove += (s, e) =>
 			{
 				Body.Dispose();
 				Body = null;
 			};
+
+			Units = new ParentLink<ServerStructure, Unit>.ChildrenCollection(this, u => u.StructureLink);
 		}
 
 		[CLSCompliant(false)]
@@ -77,28 +70,15 @@ namespace SquareCubed.Server.Structures
 		public List<ServerChunk> Chunks { get; set; }
 		public List<ServerObjectBase> Objects { get; set; }
 
-		public IReadOnlyCollection<Unit> Units
-		{
-			get { return _units.AsReadOnly(); }
-		}
+		public ParentLink<ServerStructure, Unit>.ChildrenCollection Units { get; private set; }
 
-		private void UpdateEntry<T>(ICollection<T> list, T entry, ServerStructure newStructure)
+		public void RegenerateShapes()
 		{
-			// If this world, add, if not, remove
-			if (newStructure == this)
+			// TODO: Automatically regenerate when needed just before a physics update
+			foreach (var chunk in Chunks)
 			{
-				// Make sure it's not already in this world before adding
-				if (!list.Contains(entry))
-					list.Add(entry);
+				chunk.AddShapesTo(Body);
 			}
-			else
-				list.Remove(entry);
-		}
-
-		public void UpdateUnitEntry(Unit unit)
-		{
-			Debug.Assert(unit != null);
-			UpdateEntry(_units, unit, unit.Structure);
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now

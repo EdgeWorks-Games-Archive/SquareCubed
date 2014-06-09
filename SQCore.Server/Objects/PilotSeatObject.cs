@@ -10,7 +10,7 @@ namespace SQCore.Server.Objects
 	{
 		private readonly ServerStructure _parent;
 		private float _throttle, _angularThrottle;
-		private const float Speed = 1.0f, AngularSpeed = 1.6f;
+		private const float Speed = 2.0f, AngularSpeed = 4.0f;
 
 		public PilotSeatObject(IServerObjectType type, SquareCubed.Server.Server server, ServerStructure parent)
 			: base(type, server.Structures.ObjectsNetwork)

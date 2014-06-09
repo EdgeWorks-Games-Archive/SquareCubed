@@ -12,39 +12,20 @@ namespace SquareCubed.Client.Structures
 {
 	public class ClientStructure : IComplexPositionable
 	{
-		private readonly List<Unit> _units = new List<Unit>();
+		public ClientStructure()
+		{
+			Units = new ParentLink<ClientStructure, Unit>.ChildrenCollection(this, u => u.StructureLink);
+		}
 
 		public int Id { get; set; }
 		public List<ClientChunk> Chunks { get; set; }
 
-		public IEnumerable<Unit> Units
-		{
-			get { return _units.AsReadOnly(); }
-		}
+		public ParentLink<ClientStructure, Unit>.ChildrenCollection Units { get; private set; }
 
 		public Vector2 Position { get; set; }
 		public float Rotation { get; set; }
 		public Vector2 LocalCenter { get; set; }
 		public List<ClientObjectBase> Objects { get; set; }
-
-		private void UpdateEntry<T>(ICollection<T> list, T entry, ClientStructure newStructure)
-		{
-			// If this world, add, if not, remove
-			if (newStructure == this)
-			{
-				// Make sure it's not already in this world before adding
-				if (!list.Contains(entry))
-					list.Add(entry);
-			}
-			else
-				list.Remove(entry);
-		}
-
-		public void UpdateUnitEntry(Unit unit)
-		{
-			Debug.Assert(unit != null);
-			UpdateEntry(_units, unit, unit.Structure);
-		}
 
 		public IEnumerable<Chunk> GetChunksWithin(Vector2i centerChunkPos, int maxDistance)
 		{

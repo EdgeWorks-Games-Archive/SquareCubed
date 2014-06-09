@@ -8,7 +8,6 @@ namespace SquareCubed.Server.Units
 	public class Unit
 	{
 		private readonly Units _units;
-		private ServerStructure _structure;
 
 		public int Id { get; set; }
 
@@ -16,31 +15,23 @@ namespace SquareCubed.Server.Units
 		{
 			_units = units;
 			WorldLink = new ParentLink<World, Unit>(this, w => w.Units);
+			StructureLink = new ParentLink<ServerStructure, Unit>(this, s => s.Units);
 		}
 
 		public ParentLink<World, Unit> WorldLink { get; private set; }
+
 		public virtual World World
 		{
 			get { return WorldLink.Property; }
 			set { WorldLink.Property = value; }
 		}
 
+		public ParentLink<ServerStructure, Unit> StructureLink { get; private set; }
+
 		public ServerStructure Structure
 		{
-			get { return _structure; }
-			set
-			{
-				// If already this, don't do anything
-				if (value == _structure) return;
-
-				// Flip around the reference and keep a copy
-				var oldStructure = _structure;
-				_structure = value;
-
-				// Update the entries in the worlds
-				if (oldStructure != null) oldStructure.UpdateUnitEntry(this);
-				if (_structure != null) _structure.UpdateUnitEntry(this);
-			}
+			get { return StructureLink.Property; }
+			set { StructureLink.Property = value; }
 		}
 
 		public Vector2 Position { get; set; }
