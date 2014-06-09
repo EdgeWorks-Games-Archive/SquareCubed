@@ -45,6 +45,8 @@ namespace SquareCubed.Server.Structures
 				Body.Dispose();
 				Body = null;
 			};
+
+			Units = new ParentLink<ServerStructure, Unit>.ChildrenCollection(this, u => u.StructureLink);
 		}
 
 		[CLSCompliant(false)]
@@ -77,28 +79,10 @@ namespace SquareCubed.Server.Structures
 		public List<ServerChunk> Chunks { get; set; }
 		public List<ServerObjectBase> Objects { get; set; }
 
-		public IReadOnlyCollection<Unit> Units
-		{
-			get { return _units.AsReadOnly(); }
-		}
+		public ParentLink<ServerStructure, Unit>.ChildrenCollection Units { get; private set; }
 
-		private void UpdateEntry<T>(ICollection<T> list, T entry, ServerStructure newStructure)
+		public void RegenerateShapes()
 		{
-			// If this world, add, if not, remove
-			if (newStructure == this)
-			{
-				// Make sure it's not already in this world before adding
-				if (!list.Contains(entry))
-					list.Add(entry);
-			}
-			else
-				list.Remove(entry);
-		}
-
-		public void UpdateUnitEntry(Unit unit)
-		{
-			Debug.Assert(unit != null);
-			UpdateEntry(_units, unit, unit.Structure);
 		}
 
 		// TODO: This basically should just be done through the Objects property, I'm leaving this while I'm refactoring for now
