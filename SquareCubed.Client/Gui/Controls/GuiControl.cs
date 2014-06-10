@@ -37,6 +37,16 @@ namespace SquareCubed.Client.Gui.Controls
 		}
 
 		public Point Position { get; set; }
+
+		public Point AbsolutePosition
+		{
+			get
+			{
+				return Parent == null ? Position : new Point(
+					Parent.Position.X + Parent.InnerOffset.Width + Position.X,
+					Parent.Position.Y + Parent.InnerOffset.Height + Position.Y);
+			}
+		}
 		public abstract Size Size { get; set; }
 
 		public Rectangle BoundingBox

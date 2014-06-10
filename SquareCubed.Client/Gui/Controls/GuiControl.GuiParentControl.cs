@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SquareCubed.Common.Utils;
 
@@ -18,7 +20,8 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 
 			public ParentLink.ChildrenCollection Controls { get; private set; }
-			public abstract Size InternalOffset { get; }
+			public abstract Size InnerOffset { get; }
+			public abstract Size InnerSize { get; set; }
 
 			public GuiControl FocusedChild
 			{
@@ -38,6 +41,11 @@ namespace SquareCubed.Client.Gui.Controls
 
 			internal override void Render(float delta)
 			{
+				// Limit rendering to within the control
+				/*GL.Scissor(
+					AbsolutePosition.X + InnerOffset.Width, -(AbsolutePosition.Y + InnerOffset.Height),
+					InnerSize.Width, -InnerSize.Height - 50);*/
+
 				foreach (var control in Controls)
 				{
 					control.Render(delta);
@@ -64,11 +72,11 @@ namespace SquareCubed.Client.Gui.Controls
 			{
 				var internalData = new MouseMoveData(
 					new Point(
-						data.Position.X - Position.X - InternalOffset.Width,
-						data.Position.Y - Position.Y - InternalOffset.Height),
+						data.Position.X - Position.X - InnerOffset.Width,
+						data.Position.Y - Position.Y - InnerOffset.Height),
 					new Point(
-						data.PreviousPosition.X - Position.X - InternalOffset.Width,
-						data.PreviousPosition.Y - Position.Y - InternalOffset.Height));
+						data.PreviousPosition.X - Position.X - InnerOffset.Width,
+						data.PreviousPosition.Y - Position.Y - InnerOffset.Height));
 
 				foreach (var control in Controls)
 					control.HandleMouseMove(internalData);
@@ -80,8 +88,8 @@ namespace SquareCubed.Client.Gui.Controls
 			{
 				var internalData = new MousePressData(
 					new Point(
-						data.Position.X - Position.X - InternalOffset.Width,
-						data.Position.Y - Position.Y - InternalOffset.Height),
+						data.Position.X - Position.X - InnerOffset.Width,
+						data.Position.Y - Position.Y - InnerOffset.Height),
 					data.Button, data.EndEvent);
 
 				foreach (var control in Controls)
@@ -94,8 +102,8 @@ namespace SquareCubed.Client.Gui.Controls
 			{
 				var internalData = new MousePressData(
 					new Point(
-						data.Position.X - Position.X - InternalOffset.Width,
-						data.Position.Y - Position.Y - InternalOffset.Height),
+						data.Position.X - Position.X - InnerOffset.Width,
+						data.Position.Y - Position.Y - InnerOffset.Height),
 					data.Button, data.EndEvent);
 
 				foreach (var control in Controls)

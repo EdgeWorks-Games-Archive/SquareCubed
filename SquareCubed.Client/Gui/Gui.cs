@@ -31,9 +31,15 @@ namespace SquareCubed.Client.Gui
 			set { _size = value; }
 		}
 
-		public override Size InternalOffset
+		public override Size InnerOffset
 		{
 			get { return new Size(0, 0); }
+		}
+
+		public override Size InnerSize
+		{
+			get { return _size; }
+			set { _size = value; }
 		}
 
 		private void OnKeyPressEvent(object sender, KeyPressEventArgs e)
@@ -77,7 +83,11 @@ namespace SquareCubed.Client.Gui
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 
+			GL.Enable(EnableCap.ScissorTest);
+			
 			base.Render(delta);
+
+			GL.Disable(EnableCap.ScissorTest);
 		}
 	}
 }

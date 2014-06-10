@@ -10,7 +10,7 @@ namespace SquareCubed.Client.Gui.Controls
 	public abstract class GuiForm : GuiControl.GuiParentControl
 	{
 		private const int TitleBarSize = 20 + 4 + 2; // Text height + padding + border
-		private readonly Size _internalOffset;
+		private readonly Size _innerOffset;
 		private string _text;
 		private Texture2D _textTexture;
 
@@ -18,13 +18,19 @@ namespace SquareCubed.Client.Gui.Controls
 		{
 			Debug.Assert(title != null);
 
+			Controls.Add(new GuiTest
+			{
+				Position = new Point(-100, -100),
+				Size = new Size(500, 500)
+			});
+
 			Title = title;
-			_internalOffset = new Size(1, TitleBarSize + 1);
+			_innerOffset = new Size(1, TitleBarSize + 1);
 		}
 
-		public override Size InternalOffset
+		public override Size InnerOffset
 		{
-			get { return _internalOffset; }
+			get { return _innerOffset; }
 		}
 
 		public override Size Size
@@ -47,7 +53,7 @@ namespace SquareCubed.Client.Gui.Controls
 			}
 		}
 
-		public Size InnerSize { get; set; }
+		public override Size InnerSize { get; set; }
 
 		internal override void Render(float delta)
 		{
@@ -83,6 +89,11 @@ namespace SquareCubed.Client.Gui.Controls
 			_textTexture.Render(
 				new Vector2(1 + 6, 1 + 2 + _textTexture.Height),
 				new Vector2(_textTexture.Width, -_textTexture.Height));
+
+			// Limit rendering to within the control
+			GL.Scissor(
+				AbsolutePosition.X + InnerOffset.Width, 720 -(AbsolutePosition.Y + InnerOffset.Height + InnerSize.Height),
+				InnerSize.Width, InnerSize.Height);
 
 			// Render all the children
 			GL.Translate(1, 1 + TitleBarSize, 0);
