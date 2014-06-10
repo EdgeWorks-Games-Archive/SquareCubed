@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -17,12 +16,6 @@ namespace SquareCubed.Client.Gui.Controls
 		protected GuiForm(string title)
 		{
 			Debug.Assert(title != null);
-
-			Controls.Add(new GuiTest
-			{
-				Position = new Point(-100, -100),
-				Size = new Size(500, 500)
-			});
 
 			Title = title;
 			_innerOffset = new Size(1, TitleBarSize + 1);
@@ -89,11 +82,6 @@ namespace SquareCubed.Client.Gui.Controls
 			_textTexture.Render(
 				new Vector2(1 + 6, 1 + 2 + _textTexture.Height),
 				new Vector2(_textTexture.Width, -_textTexture.Height));
-
-			// Limit rendering to within the control
-			GL.Scissor(
-				AbsolutePosition.X + InnerOffset.Width, 720 -(AbsolutePosition.Y + InnerOffset.Height + InnerSize.Height),
-				InnerSize.Width, InnerSize.Height);
 
 			// Render all the children
 			GL.Translate(1, 1 + TitleBarSize, 0);

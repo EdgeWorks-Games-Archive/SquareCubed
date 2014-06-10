@@ -60,6 +60,11 @@ namespace SquareCubed.Client.Gui.Controls
 			set { _parent.Property = value; }
 		}
 
+		public GuiControl MasterParent
+		{
+			get { return Parent == null ? this : Parent.MasterParent; }
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);

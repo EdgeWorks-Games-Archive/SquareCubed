@@ -42,9 +42,10 @@ namespace SquareCubed.Client.Gui.Controls
 			internal override void Render(float delta)
 			{
 				// Limit rendering to within the control
-				/*GL.Scissor(
-					AbsolutePosition.X + InnerOffset.Width, -(AbsolutePosition.Y + InnerOffset.Height),
-					InnerSize.Width, -InnerSize.Height - 50);*/
+				// Limit rendering to within the control
+				GL.Scissor(
+					AbsolutePosition.X + InnerOffset.Width, MasterParent.Size.Height - (AbsolutePosition.Y + InnerOffset.Height + InnerSize.Height),
+					InnerSize.Width, InnerSize.Height);
 
 				foreach (var control in Controls)
 				{
